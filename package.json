@@ -9,7 +9,7 @@
         "commit": "git-cz",
         "electron:build": "vue-cli-service electron:build",
         "electron:serve": "vue-cli-service electron:serve",
-        "eslint": "eslint \"./src/**.{js,vue}\" --fix",
+        "eslint": "eslint . --fix",
         "postinstall": "electron-builder install-app-deps",
         "postuninstall": "electron-builder install-app-deps"
     },
@@ -65,15 +65,9 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged",
+            "pre-commit": "eslint .",
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
-    },
-    "lint-staged": {
-        "*.{js,vue}": [
-            "eslint --fix",
-            "git add"
-        ]
     },
     "standard-version": {
         "changelogHeader": "# Changelog\n\n所有项目的变更记录会记录在如下文件.\n",
