@@ -1,0 +1,82 @@
+{
+    "name": "ficus",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "test": "mocha",
+        "commit": "git-cz",
+        "electron:build": "vue-cli-service electron:build",
+        "electron:serve": "vue-cli-service electron:serve",
+        "eslint": "eslint \"./src/**.{js,vue}\" --fix",
+        "postinstall": "electron-builder install-app-deps",
+        "postuninstall": "electron-builder install-app-deps"
+    },
+    "main": "background.js",
+    "dependencies": {
+        "chai": "^4.3.7",
+        "commitizen": "^4.3.0",
+        "commitlint": "^17.5.1",
+        "core-js": "^3.8.3",
+        "cz-conventional-changelog": "^3.3.0",
+        "husky": "^8.0.3",
+        "standard": "^17.0.0",
+        "vue": "^3.2.13"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.16",
+        "@babel/eslint-parser": "^7.12.16",
+        "@vue/cli-plugin-babel": "~5.0.0",
+        "@vue/cli-plugin-eslint": "~5.0.0",
+        "@vue/cli-service": "~5.0.0",
+        "electron": "^13.0.0",
+        "electron-devtools-installer": "^3.1.0",
+        "eslint": "^8.37.0",
+        "eslint-plugin-vue": "^8.0.3",
+        "mocha": "^10.2.0",
+        "vue-cli-plugin-electron-builder": "~2.1.1",
+        "wdio-chromedriver-service": "^8.1.1"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/vue3-essential",
+            "eslint:recommended"
+        ],
+        "parserOptions": {
+            "parser": "@babel/eslint-parser"
+        },
+        "rules": {}
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead",
+        "not ie 11"
+    ],
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "*.{js,vue}": [
+            "eslint --fix",
+            "git add"
+        ]
+    },
+    "standard-version": {
+        "changelogHeader": "# Changelog\n\n所有项目的变更记录会记录在如下文件.\n",
+        "dryRun": true
+    }
+}
