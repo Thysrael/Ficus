@@ -1,0 +1,8 @@
+export const TitleTypeName = 'ficus::title'
+export const ParagraphTypeName = 'ficus::paragraph'
+export const OrderedListTypeName = 'ficus::ordered-list'
+export const OrderedListItemTypeName = 'ficus::ordered-list-item'
+export const UnorderedListTypeName = 'ficus::unordered-list'
+export const UnorderedListItemTypeName = 'ficus::unordered-list-item'
+export const TaskListTypeName = 'ficus::task-list'
+export const TaskListItemTypeName = 'ficus::task-list-item'
