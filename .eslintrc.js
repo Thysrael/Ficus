@@ -7,15 +7,21 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    'standard'
+    'standard',
+    // 启用eslint推荐的规则
+    'eslint:recommended',
+    // typescript-eslint插件的检验规则
+    'plugin:@typescript-eslint/recommended'
   ],
+  parser: '@typescript-eslint/parser',
   overrides: [
   ],
   parserOptions: {
     ecmaVersion: 'latest'
   },
   plugins: [
-    'vue'
+    'vue',
+    '@typescript-eslint'
   ],
   rules: {
   }

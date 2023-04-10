@@ -1,2 +1,4 @@
 node_modules
 dist_electron
+test
+vue.config.js
