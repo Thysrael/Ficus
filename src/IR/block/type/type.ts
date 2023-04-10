@@ -1,4 +1,4 @@
-import { orderedListItemTypeName, orderedListTypeName, paragraphTypeName, taskListItemTypeName, taskListTypeName, headingTypeName, unorderedListItemTypeName, unorderedListTypeName } from './constant'
+import { orderedListItemTypeName, orderedListTypeName, paragraphTypeName, taskListItemTypeName, taskListTypeName, headingTypeName, unorderedListItemTypeName, unorderedListTypeName, rootTypeName } from './constant'
 
 export class BaseNodeType {
   private leaf: boolean
