@@ -34,6 +34,12 @@ class LinkedList {
     return false
   }
 
+  /**
+   * 这个函数来源muya，refNode为null时会插入到List尾
+   * @param {*} node 
+   * @param {*} refNode 
+   * @returns 
+   */
   insertBefore (node, refNode = null) {
     if (!node) return
     node.next = refNode
