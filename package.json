@@ -23,6 +23,7 @@
         "core-js": "^3.8.3",
         "cz-conventional-changelog": "^3.3.0",
         "ficus-editor": "^1.0.0",
+        "fs-extra": "^11.1.1",
         "husky": "^8.0.3",
         "standard": "^17.0.0",
         "vue": "^3.2.13",
