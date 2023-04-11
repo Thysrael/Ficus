@@ -16,7 +16,7 @@ class TreeNode extends LinkedNode {
     this.datasets = {}
   }
 
-  public isLeafNode(): boolean {
+  public isLeafNode (): boolean {
     return this.nodeType.isLeaf()
   }
 }
