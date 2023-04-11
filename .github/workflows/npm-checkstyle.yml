@@ -14,5 +14,5 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-      - run: npm i eslint
+      - run: npm install eslint --force
       - run: node_modules/eslint/bin/eslint.js .
