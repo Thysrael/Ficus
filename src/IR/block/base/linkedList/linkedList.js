@@ -36,9 +36,9 @@ class LinkedList {
 
   /**
    * 这个函数来源muya，refNode为null时会插入到List尾
-   * @param {*} node 
-   * @param {*} refNode 
-   * @returns 
+   * @param {*} node
+   * @param {*} refNode
+   * @returns
    */
   insertBefore (node, refNode = null) {
     if (!node) return

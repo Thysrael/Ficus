@@ -1,10 +1,10 @@
 import LinkedList from './linkedList'
 
 class LinkedNode {
-  private prev: LinkedNode
-  private next: LinkedNode
-  private parent: LinkedNode
-  private children: LinkedList
+  public prev: LinkedNode
+  public next: LinkedNode
+  public parent: LinkedNode
+  public children: LinkedList
   constructor () {
     this.prev = this.next = null
     this.parent = null
@@ -23,7 +23,7 @@ class LinkedNode {
   }
 
   insertAtLast (newNode: LinkedNode) {
-    this.insertAfter(newNode, this.children.tail)
+    this.insertBefore(newNode, null)
   }
 }
 
