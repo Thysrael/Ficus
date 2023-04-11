@@ -1,10 +1,8 @@
-export const rootTypeName = 'ficus::root'
+export const rootTypeName = 'root'
 
-export const headingTypeName = 'ficus::heading'
-export const paragraphTypeName = 'ficus::paragraph'
-export const orderedListTypeName = 'ficus::ordered-list'
-export const orderedListItemTypeName = 'ficus::ordered-list-item'
-export const unorderedListTypeName = 'ficus::unordered-list'
-export const unorderedListItemTypeName = 'ficus::unordered-list-item'
-export const taskListTypeName = 'ficus::task-list'
-export const taskListItemTypeName = 'ficus::task-list-item'
+export const headingTypeName = 'heading'
+export const paragraphTypeName = 'paragraph'
+export const listTypeName = 'list'
+export const listItemTypeName = 'list-item'
+
+export const quoteTypeName = 'quote'

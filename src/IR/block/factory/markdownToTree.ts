@@ -1,5 +1,6 @@
 import { Lexer } from '@/IR/utils/marked'
 import TreeNode from '../base/treeNode'
+import { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildThematicBreak } from './buildNode'
 
 const restoreTableEscapeCharacters = text => {
   // NOTE: markedjs replaces all escaped "|" ("\|") characters inside a cell with "|".
@@ -7,8 +8,8 @@ const restoreTableEscapeCharacters = text => {
   return text.replace(/\|/g, '\\|')
 }
 
-export function markdownToTree (markdown: string): TreeNode[] {
-  const root: TreeNode[] = []
+export function markdownToTree (markdown: string): TreeNode {
+  const root: TreeNode = buildRootNode()
   const tokens = new Lexer({
     disableInline: true,
     footnote: false,
@@ -18,101 +19,74 @@ export function markdownToTree (markdown: string): TreeNode[] {
   }).lex(markdown)
 
   let token: any
-  let state: any
   let value: string
-  let parent: TreeNode
+  let parentStack = [{node: root, level: 0}]
   while ((token = tokens.shift())) {
     switch (token.type) {
       case 'frontmatter': {
-        const { lang, style, text } = token
+        // const { lang, style, text } = token
+        const { text } = token
         value = text
           .replace(/^\s+/, '')
           .replace(/\s$/, '')
 
-        state = {
-          name: 'frontmatter',
-          meta: {
-            lang,
-            style
-          },
-          text: value
-        }
-
-        // FIXME: 增加frontmatter节点
+        parentStack[0]['node'].insertAtLast(buildFrontMatter(value))
         break
       }
 
       case 'hr': {
-        state = {
-          name: 'thematic-break',
-          text: token.marker
-        }
-
-        // parentList[0].push(state)
+        parentStack[0]['node'].insertAtLast(buildThematicBreak(token.marker))
         break
       }
 
       case 'heading': {
-        const { headingStyle, depth, text, marker } = token
-        const name = headingStyle === 'atx' ? 'atx-heading' : 'setext-heading'
-        const meta = {
-          level: depth,
-          underline: undefined
-        }
-        if (name === 'setext-heading') {
-          meta.underline = marker
-        }
-        value = name === 'atx-heading' ? '#'.repeat(+depth) + ` ${text}` : text
+        const { depth, text } = token
+        value = '#'.repeat(+depth) + ` ${text}`
 
-        state = {
-          name,
-          meta,
-          text: value
-        }
+        let newNode = buildHeading(value, depth)
 
-        // parentList[0].push(state)
+        // 标题节点作为接下来的父节点
+        if (depth <= 3 && parentStack[0]['level'] !=undefined) {
+          while(depth >= parentStack[0]['level']) {
+            parentStack.shift()
+          }
+          parentStack[0]['node'].insertAtLast(newNode)
+          parentStack.unshift({node: newNode, level: depth})
+        } else {
+          parentStack[0]['node'].insertAtLast(newNode)
+        }
         break
       }
 
       case 'code': {
         const { codeBlockStyle, text, lang: infostring = '' } = token
 
-        // GH#697, markedjs#1387
+        // // GH#697, markedjs#1387
         const lang = (infostring || '').match(/\S*/)[0]
 
         value = text
         // FIXME: 考虑去除不必要的换行
         // marktext#1265.
-        // if (trimUnnecessaryCodeBlockEmptyLines && (value.endsWith('\n') || value.startsWith('\n'))) {
-        //   value = value
-        //     .replace(/\n+$/, '')
-        //     .replace(/^\n+/, '')
-        // }
+        if ((value.endsWith('\n') || value.startsWith('\n'))) {
+          value = value
+            .replace(/\n+$/, '')
+            .replace(/^\n+/, '')
+        }
 
         if (/mermaid|flowchart|vega-lite|sequence|plantuml/.test(lang)) {
-          state = {
-            name: 'diagram',
-            text: value,
-            meta: {
-              type: lang,
-              lang: lang === 'vega-lite' ? 'json' : 'yaml'
-            }
-          }
+          let codeType = lang
+          let codeLang = 'vega-lite' ? 'json' : 'yaml'
+          parentStack[0]['node'].insertAtLast(buildDiagramBlock(value, codeType, codeLang))
         } else {
-          state = {
-            name: 'code-block',
-            meta: {
-              type: codeBlockStyle === 'fenced' ? 'fenced' : 'indented',
-              lang
-            },
-            text: value
-          }
+          let codeType = codeBlockStyle === 'fenced' ? 'fenced' : 'indented'
+          let codeLang = lang
+          parentStack[0]['node'].insertAtLast(buildCodeBlock(token.text, codeType, codeLang))
         }
-        // parentList[0].push(state)
         break
       }
 
       case 'table': {
+        let state
         const { header, align, cells } = token
         state = {
           name: 'table',
@@ -143,20 +117,12 @@ export function markdownToTree (markdown: string): TreeNode[] {
 
       case 'html': {
         const text = token.text.trim()
-        // TODO: Treat html state which only contains one img as paragraph, we maybe add image state in the future.
+        // Muya TODO: Treat html state which only contains one img as paragraph, we maybe add image state in the future.
         const isSingleImage = /^<img[^<>]+>$/.test(text)
         if (isSingleImage) {
-          state = {
-            name: 'paragraph',
-            text
-          }
-          // parentList[0].push(state)
+          parentStack[0]['node'].insertAtLast(buildParagraph(text))
         } else {
-          state = {
-            name: 'html-block',
-            text
-          }
-          // parentList[0].push(state)
+          parentStack[0]['node'].insertAtLast(buildHtmlBlock(text))
         }
         break
       }
@@ -164,12 +130,7 @@ export function markdownToTree (markdown: string): TreeNode[] {
       case 'multiplemath': {
         const text = token.text.trim()
         const { mathStyle = '' } = token
-        const state = {
-          name: 'math-block',
-          text,
-          meta: { mathStyle }
-        }
-        // parentList[0].push(state)
+        parentStack[0]['node'].insertAtLast(buildMathBlock(text, mathStyle))
         break
       }
 
@@ -179,76 +140,50 @@ export function markdownToTree (markdown: string): TreeNode[] {
           token = tokens.shift()
           value += `\n${token.text}`
         }
-        state = {
-          name: 'paragraph',
-          text: value
-        }
-        // parentList[0].push(state)
+        parentStack[0]['node'].insertAtLast(buildParagraph(value))
         break
       }
 
       case 'paragraph': {
         value = token.text
-        state = {
-          name: 'paragraph',
-          text: value
-        }
-        // parentList[0].push(state)
+        parentStack[0]['node'].insertAtLast(buildParagraph(value))
         break
       }
 
       case 'blockquote_start': {
-        state = {
-          name: 'block-quote',
-          children: []
-        }
-        // parentList[0].push(state)
-        // parentList.unshift(state.children)
+        let newNode = buildQuoteBlock()
+        parentStack[0]['node'].insertAtLast(newNode)
+        parentStack.unshift({node: newNode, level: undefined})
         break
       }
 
       case 'blockquote_end': {
-        // Fix #1735 the blockquote maybe empty.
-        // if (parentList[0].length === 0) {
-        //   state = {
-        //     name: 'paragraph',
-        //     text: ''
-        //   }
-        //   parentList[0].push(state)
-        // }
-        // parentList.shift()
+        parentStack.shift()
         break
       }
 
       case 'list_start': {
         const { listType, start } = token
         const { bulletMarkerOrDelimiter, type } = tokens.find(t => t.type === 'loose_item_start' || t.type === 'list_item_start')
-        const meta = {
-          loose: type === 'loose_item_start',
-          start: undefined,
-          delimiter: undefined,
-          marker: undefined
-        }
+        
+        let loose = type === 'loose_item_start'
+        let listStart = undefined
+        let delimiter = undefined
+        let marker = undefined
         if (listType === 'order') {
-          meta.start = /^\d+$/.test(start) ? start : 1
-          meta.delimiter = bulletMarkerOrDelimiter || '.'
+          listStart = /^\d+$/.test(start) ? start : 1
+          delimiter = bulletMarkerOrDelimiter || '.'
         } else {
-          meta.marker = bulletMarkerOrDelimiter || '-'
+          marker = bulletMarkerOrDelimiter || '-'
         }
-
-        state = {
-          name: `${listType}-list`,
-          meta,
-          children: []
-        }
-
-        // parentList[0].push(state)
-        // parentList.unshift(state.children)
+        let newNode = buildListBlock(`${listType}-list`, loose, listStart, delimiter, marker)
+        parentStack[0]['node'].insertAtLast(newNode)
+        parentStack.unshift({node: newNode, level: undefined})
         break
       }
 
       case 'list_end': {
-        // parentList.shift()
+        parentStack.shift()
         break
       }
 
@@ -256,23 +191,16 @@ export function markdownToTree (markdown: string): TreeNode[] {
 
       case 'list_item_start': {
         const { checked } = token
+        let name = checked !== undefined ? 'task-list-item' : 'list-item'
 
-        state = {
-          name: checked !== undefined ? 'task-list-item' : 'list-item',
-          children: []
-        }
-
-        if (checked !== undefined) {
-          state.meta = { checked }
-        }
-
-        // parentList[0].push(state)
-        // parentList.unshift(state.children)
+        let newNode = buildListItemBlock(name, checked)
+        parentStack[0]['node'].insertAtLast(newNode)
+        parentStack.unshift({node: newNode, level: undefined})
         break
       }
 
       case 'list_item_end': {
-        // parentList.shift()
+        parentStack.shift()
         break
       }
 
@@ -280,9 +208,10 @@ export function markdownToTree (markdown: string): TreeNode[] {
         break
       }
 
-      default:
+      default: {
         // FIXME: 日志记录异常情况
         break
+      }
     }
   }
   return root

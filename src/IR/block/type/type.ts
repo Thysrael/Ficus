@@ -1,4 +1,4 @@
-import { orderedListItemTypeName, orderedListTypeName, paragraphTypeName, taskListItemTypeName, taskListTypeName, headingTypeName, unorderedListItemTypeName, unorderedListTypeName, rootTypeName } from './constant'
+import { listItemTypeName, listTypeName, paragraphTypeName, headingTypeName, rootTypeName, quoteTypeName } from './constant'
 
 export class BaseNodeType {
   private leaf: boolean
@@ -18,12 +18,11 @@ export class BaseNodeType {
 }
 
 // 对外暴露已经定义好的类型
-export const RootNodeType = new BaseNodeType(true, rootTypeName)
+export const rootNodeType = new BaseNodeType(true, rootTypeName)
+
 export const headingNodeType = new BaseNodeType(true, headingTypeName)
 export const paragraphNodeType = new BaseNodeType(false, paragraphTypeName)
-export const orderedListNodeType = new BaseNodeType(true, orderedListTypeName)
-export const orderedListItemNodeType = new BaseNodeType(false, orderedListItemTypeName)
-export const unorderedListNodeType = new BaseNodeType(true, unorderedListTypeName)
-export const unorderedListItemNodeType = new BaseNodeType(false, unorderedListItemTypeName)
-export const taskListNodeType = new BaseNodeType(true, taskListTypeName)
-export const taskListItemNodeType = new BaseNodeType(false, taskListItemTypeName)
+export const listNodeType = new BaseNodeType(true, listTypeName)
+export const listItemNodeType = new BaseNodeType(false, listItemTypeName)
+
+export const quoteNodeType = new BaseNodeType(true, quoteTypeName)
