@@ -1,5 +1,5 @@
-import plugin from 'tailwindcss/plugin'
-import colors from 'tailwindcss/colors'
+const plugin = require('tailwindcss/plugin')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   purge: {
