@@ -1,10 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import { getFileFromUser, initFromEmptyFolder } from './main/filesystem/fileManipulate'
+// import { initFromEmptyFolder } from './main/filesystem/database'
+// import { initFromEmptyFolder } from '@/main/filesystem/database'
+// const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -65,6 +68,21 @@ app.on('ready', async () => {
     }
   }
   createWindow()
+  initFromEmptyFolder('test') // 功能测试
+  // getFileFromUser()
+})
+
+ipcMain.handle('ficus::open-file', async (event) => {
+  try {
+    // if (files) {
+    //   event.reply('file-opened', files.fileNames, files.filePaths, files.contents)
+    // }
+    return await getFileFromUser(
+      // BrowserWindow.fromWebContents(event.sender)
+    )
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 // Exit cleanly on request from parent process in development mode.
