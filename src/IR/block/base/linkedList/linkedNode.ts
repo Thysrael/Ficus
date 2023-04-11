@@ -1,9 +1,9 @@
 import LinkedList from './linkedList'
 
 class LinkedNode {
-  public prev: LinkedNode
-  public next: LinkedNode
-  public parent: LinkedNode
+  public prev: any
+  public next: any
+  public parent: any
   public children: LinkedList
   constructor () {
     this.prev = this.next = null

@@ -1,6 +1,6 @@
 import { Lexer } from '@/IR/utils/marked'
 import TreeNode from '../base/treeNode'
-import { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildThematicBreak } from './buildNode'
+import { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildTable, buildThematicBreak } from './buildNode'
 
 const restoreTableEscapeCharacters = text => {
   // NOTE: markedjs replaces all escaped "|" ("\|") characters inside a cell with "|".
@@ -20,7 +20,7 @@ export function markdownToTree (markdown: string): TreeNode {
 
   let token: any
   let value: string
-  let parentStack = [{node: root, level: 0}]
+  const parentStack = [{ node: root, level: 0 }]
   while ((token = tokens.shift())) {
     switch (token.type) {
       case 'frontmatter': {
@@ -30,12 +30,12 @@ export function markdownToTree (markdown: string): TreeNode {
           .replace(/^\s+/, '')
           .replace(/\s$/, '')
 
-        parentStack[0]['node'].insertAtLast(buildFrontMatter(value))
+        parentStack[0].node.insertAtLast(buildFrontMatter(value))
         break
       }
 
       case 'hr': {
-        parentStack[0]['node'].insertAtLast(buildThematicBreak(token.marker))
+        parentStack[0].node.insertAtLast(buildThematicBreak(token.marker))
         break
       }
 
@@ -43,17 +43,17 @@ export function markdownToTree (markdown: string): TreeNode {
         const { depth, text } = token
         value = '#'.repeat(+depth) + ` ${text}`
 
-        let newNode = buildHeading(value, depth)
+        const newNode = buildHeading(value, depth)
 
         // 标题节点作为接下来的父节点
-        if (depth <= 3 && parentStack[0]['level'] !=undefined) {
-          while(depth >= parentStack[0]['level']) {
+        if (depth <= 3 && parentStack[0].level !== undefined) {
+          while (depth >= parentStack[0].level) {
             parentStack.shift()
           }
-          parentStack[0]['node'].insertAtLast(newNode)
-          parentStack.unshift({node: newNode, level: depth})
+          parentStack[0].node.insertAtLast(newNode)
+          parentStack.unshift({ node: newNode, level: depth })
         } else {
-          parentStack[0]['node'].insertAtLast(newNode)
+          parentStack[0].node.insertAtLast(newNode)
         }
         break
       }
@@ -74,26 +74,22 @@ export function markdownToTree (markdown: string): TreeNode {
         }
 
         if (/mermaid|flowchart|vega-lite|sequence|plantuml/.test(lang)) {
-          let codeType = lang
-          let codeLang = 'vega-lite' ? 'json' : 'yaml'
-          parentStack[0]['node'].insertAtLast(buildDiagramBlock(value, codeType, codeLang))
+          const codeType = lang
+          const codeLang = lang === 'vega-lite' ? 'json' : 'yaml'
+          parentStack[0].node.insertAtLast(buildDiagramBlock(value, codeType, codeLang))
         } else {
-          let codeType = codeBlockStyle === 'fenced' ? 'fenced' : 'indented'
-          let codeLang = lang
-          parentStack[0]['node'].insertAtLast(buildCodeBlock(token.text, codeType, codeLang))
+          const codeType = codeBlockStyle === 'fenced' ? 'fenced' : 'indented'
+          const codeLang = lang
+          parentStack[0].node.insertAtLast(buildCodeBlock(token.text, codeType, codeLang))
         }
         break
       }
 
       case 'table': {
-        let state
+        const tableCells: any = []
         const { header, align, cells } = token
-        state = {
-          name: 'table',
-          children: []
-        }
 
-        state.children.push({
+        tableCells.push({
           name: 'table.row',
           children: header.map((h: any, i: string | number) => ({
             name: 'table.cell',
@@ -102,7 +98,7 @@ export function markdownToTree (markdown: string): TreeNode {
           }))
         })
 
-        state.children.push(...cells.map((row: any[]) => ({
+        tableCells.children.push(...cells.map((row: any[]) => ({
           name: 'table.row',
           children: row.map((c: any, i: string | number) => ({
             name: 'table.cell',
@@ -111,7 +107,7 @@ export function markdownToTree (markdown: string): TreeNode {
           }))
         })))
 
-        // parentList[0].push(state)
+        parentStack[0].node.insertAtLast(buildTable(tableCells))
         break
       }
 
@@ -120,9 +116,9 @@ export function markdownToTree (markdown: string): TreeNode {
         // Muya TODO: Treat html state which only contains one img as paragraph, we maybe add image state in the future.
         const isSingleImage = /^<img[^<>]+>$/.test(text)
         if (isSingleImage) {
-          parentStack[0]['node'].insertAtLast(buildParagraph(text))
+          parentStack[0].node.insertAtLast(buildParagraph(text))
         } else {
-          parentStack[0]['node'].insertAtLast(buildHtmlBlock(text))
+          parentStack[0].node.insertAtLast(buildHtmlBlock(text))
         }
         break
       }
@@ -130,7 +126,7 @@ export function markdownToTree (markdown: string): TreeNode {
       case 'multiplemath': {
         const text = token.text.trim()
         const { mathStyle = '' } = token
-        parentStack[0]['node'].insertAtLast(buildMathBlock(text, mathStyle))
+        parentStack[0].node.insertAtLast(buildMathBlock(text, mathStyle))
         break
       }
 
@@ -140,20 +136,20 @@ export function markdownToTree (markdown: string): TreeNode {
           token = tokens.shift()
           value += `\n${token.text}`
         }
-        parentStack[0]['node'].insertAtLast(buildParagraph(value))
+        parentStack[0].node.insertAtLast(buildParagraph(value))
         break
       }
 
       case 'paragraph': {
         value = token.text
-        parentStack[0]['node'].insertAtLast(buildParagraph(value))
+        parentStack[0].node.insertAtLast(buildParagraph(value))
         break
       }
 
       case 'blockquote_start': {
-        let newNode = buildQuoteBlock()
-        parentStack[0]['node'].insertAtLast(newNode)
-        parentStack.unshift({node: newNode, level: undefined})
+        const newNode = buildQuoteBlock()
+        parentStack[0].node.insertAtLast(newNode)
+        parentStack.unshift({ node: newNode, level: undefined })
         break
       }
 
@@ -165,20 +161,20 @@ export function markdownToTree (markdown: string): TreeNode {
       case 'list_start': {
         const { listType, start } = token
         const { bulletMarkerOrDelimiter, type } = tokens.find(t => t.type === 'loose_item_start' || t.type === 'list_item_start')
-        
-        let loose = type === 'loose_item_start'
-        let listStart = undefined
-        let delimiter = undefined
-        let marker = undefined
+
+        const loose = type === 'loose_item_start'
+        let listStart
+        let delimiter
+        let marker
         if (listType === 'order') {
           listStart = /^\d+$/.test(start) ? start : 1
           delimiter = bulletMarkerOrDelimiter || '.'
         } else {
           marker = bulletMarkerOrDelimiter || '-'
         }
-        let newNode = buildListBlock(`${listType}-list`, loose, listStart, delimiter, marker)
-        parentStack[0]['node'].insertAtLast(newNode)
-        parentStack.unshift({node: newNode, level: undefined})
+        const newNode = buildListBlock(`${listType}-list`, loose, listStart, delimiter, marker)
+        parentStack[0].node.insertAtLast(newNode)
+        parentStack.unshift({ node: newNode, level: undefined })
         break
       }
 
@@ -187,15 +183,23 @@ export function markdownToTree (markdown: string): TreeNode {
         break
       }
 
-      case 'loose_item_start':
+      case 'loose_item_start': {
+        const { checked } = token
+        const name = checked !== undefined ? 'task-list-item' : 'list-item'
+
+        const newNode = buildListItemBlock(name, checked)
+        parentStack[0].node.insertAtLast(newNode)
+        parentStack.unshift({ node: newNode, level: undefined })
+        break
+      }
 
       case 'list_item_start': {
         const { checked } = token
-        let name = checked !== undefined ? 'task-list-item' : 'list-item'
+        const name = checked !== undefined ? 'task-list-item' : 'list-item'
 
-        let newNode = buildListItemBlock(name, checked)
-        parentStack[0]['node'].insertAtLast(newNode)
-        parentStack.unshift({node: newNode, level: undefined})
+        const newNode = buildListItemBlock(name, checked)
+        parentStack[0].node.insertAtLast(newNode)
+        parentStack.unshift({ node: newNode, level: undefined })
         break
       }
 

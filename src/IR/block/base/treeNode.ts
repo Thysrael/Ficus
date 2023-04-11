@@ -6,8 +6,8 @@ class TreeNode extends LinkedNode {
   private nodeType: BaseNodeType
   private content: Content
   private classList: string[]
-  private attributes: {}
-  private datasets: {}
+  private attributes: any
+  private datasets: any
 
   constructor (nodeType: BaseNodeType, content: Content) {
     super()
