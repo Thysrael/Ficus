@@ -1,15 +1,18 @@
 import { BaseNodeType } from '../type/type'
+import { Content } from './content'
 import LinkedNode from './linkedList/linkedNode'
 
 class TreeNode extends LinkedNode {
   private nodeType: BaseNodeType
+  private content: Content
   private classList: string[]
   private attributes: {}
   private datasets: {}
 
-  constructor (nodeType: BaseNodeType) {
+  constructor (nodeType: BaseNodeType, content: Content) {
     super()
     this.nodeType = nodeType
+    this.content = content
     // DOM相关
     this.classList = []
     this.attributes = {}
@@ -18,6 +21,14 @@ class TreeNode extends LinkedNode {
 
   public isLeafNode (): boolean {
     return this.nodeType.isLeaf()
+  }
+
+  public toMarkdown (): string {
+    let res = this.content.toMarkdown()
+    this.children.forEach((ch: TreeNode) => {
+      res += ch.toMarkdown()
+    })
+    return res
   }
 }
 
