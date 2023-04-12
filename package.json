@@ -24,7 +24,8 @@
         "husky": "^8.0.3",
         "standard": "^17.0.0",
         "tailwindcss": "2.x",
-        "vue": "^3.2.13"
+        "vue": "^3.2.13",
+        "ficus-editor": "^1.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.12.16",
