@@ -1,0 +1,95 @@
+<template>
+  <div>
+    <div id="vditor" class="vditor" />
+  </div>
+</template>
+
+<script>
+import { onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+import Vditor from 'ficus-editor'
+import 'ficus-editor/dist/index.css'
+
+export default {
+  name: 'TextUI',
+  props: {
+    content: {
+      type: String,
+      default: ''
+    }
+  },
+  setup (props) {
+    let vditor
+
+    // 初始化
+    function init () {
+      // options
+      const options =
+      {
+        // 编辑器高度
+        height: 480,
+        // 初始模式（所见即所得）
+        mode: 'wysiwyg',
+        // 缓存设置
+        cache: {
+          enable: false
+        },
+        // 创建实例后，将props中传入的内容展示出来
+        after: () => {
+          vditor.setValue(props.content)
+        },
+        // 预览模式选项
+        preview: {
+          // 预览时间间隔(毫秒)
+          delay: 500,
+          // 设备适配选项（暂时为空）
+          actions: [],
+          // 数学公式渲染选项
+          math: {
+            engine: 'KaTeX'
+          }
+        },
+        // 字数统计
+        counter: {
+          enable: false,
+          after (count) { /* todo */ } // 字数统计回调
+        },
+        // 设置tab键渲染
+        tab: '\t',
+        // 打字机模式（类似与typora）
+        typewriterMode: false,
+        // 内容为空时的提示
+        placeholder: '请输入...'
+      }
+      // 根据options和默认设置创建vditor实例
+      vditor = new Vditor('vditor', options)
+    }
+    // 监听传进来的值,set到编辑器里
+    watch(
+      () => props.content,
+      (content) => {
+        if (vditor) {
+          vditor.setValue(content)
+        }
+      },
+      {
+        immediate: true
+      }
+    )
+    // 初始化编辑器
+    onMounted(() => {
+      nextTick(() => {
+        init()
+      })
+    })
+    // 销毁
+    onBeforeUnmount(() => {
+      vditor.destroy()
+      vditor = null
+    })
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
