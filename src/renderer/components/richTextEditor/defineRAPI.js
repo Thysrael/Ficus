@@ -20,9 +20,9 @@ export default function defineRAPI (vditor) {
   /** 修改内容主题 **/
   bus.on('changeContentTheme', ({ theme }) => {
     if (theme === 'classic') {
-      vditor.setTheme('classic', 'classic', 'github', '/css')
+      vditor.setTheme('classic', 'classic', 'github', '/css/content-theme')
     } else if (theme === 'modern') {
-      vditor.setTheme('classic', 'modern', 'github', '/css')
+      vditor.setTheme('classic', 'modern', 'github', '/css/content-theme')
     } else {
       console.log('no match theme!')
     }
