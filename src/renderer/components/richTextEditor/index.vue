@@ -49,6 +49,11 @@ export default {
           // 数学公式渲染选项
           math: {
             engine: 'KaTeX'
+          },
+          // 设置默认主题
+          theme: {
+            current: 'classic',
+            path: 'css/content-theme'
           }
         },
         // 设置tab键渲染
