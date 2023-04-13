@@ -32,7 +32,7 @@ function initFun (dirPath, folderName) {
  */
 function getFileJson (res, arr, dir) {
   res.map(item => {
-    const tempDir = `${dir}/${item}`
+    const tempDir = `${dir}\\${item}`
     // console.log(tempDir)
     const obj = newObj(tempDir, item)
     arr.push(obj)
