@@ -13,7 +13,7 @@ export default {
   name: 'ModeChoose',
   setup () {
     function changeEditMode (mode) {
-      bus.emit('changeEditMode', mode)
+      bus.emit('changeEditMode', { mode })
     }
     return {
       changeEditMode

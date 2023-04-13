@@ -42,7 +42,7 @@ export default {
   },
   setup (props) {
     const isFocused = computed(() => {
-      return props.item === props.curObj
+      return props.item.path === props.curObj.path
     })
 
     function getTab () {

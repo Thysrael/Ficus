@@ -6,6 +6,7 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
 // import { initFromEmptyFolder } from './main/filesystem/database'
 import { initFromEmptyFolder } from '@/main/filesystem/database'
+import path from 'path'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 // Scheme must be registered before the app is ready
@@ -19,7 +20,7 @@ async function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-
+      preload: path.join(__dirname, '../src/main/filesystem/preload.js'),
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,

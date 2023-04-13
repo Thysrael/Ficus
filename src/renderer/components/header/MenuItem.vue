@@ -2,7 +2,7 @@
   <li>
     <div
         :class="(hover) ? `flex items-center cursor-pointer bg-gray-100` : `flex items-center cursor-pointer bg-white`"
-        style="width: 100px;height: 20px;"
+        style="width: 200px;height: 20px;"
         @mouseenter="hover = true"
         @mouseout="hover = false"
     >
