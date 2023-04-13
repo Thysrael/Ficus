@@ -4,9 +4,9 @@
 
 let uniqueIdCounter = 0
 
-export const getUniqueId = () => ++uniqueIdCounter
+const getUniqueId = () => ++uniqueIdCounter
 
-export const escape = function escape (html, encode) {
+const escape = function escape (html, encode) {
   if (encode) {
     if (escape.escapeTest.test(html)) {
       return html.replace(escape.escapeReplace, function (ch) { return escape.replacements[ch] })
@@ -33,7 +33,7 @@ escape.replacements = {
 escape.escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/
 escape.escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g
 
-export const unescape = function unescape (html) {
+const unescape = function unescape (html) {
   // explicitly match decimal, hex, and named HTML entities
   return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, function (_, n) {
     n = n.toLowerCase()
@@ -48,7 +48,7 @@ export const unescape = function unescape (html) {
   })
 }
 
-export const edit = function edit (regex, opt) {
+const edit = function edit (regex, opt) {
   regex = regex.source || regex
   opt = opt || ''
 
@@ -66,7 +66,7 @@ export const edit = function edit (regex, opt) {
   }
 }
 
-export const cleanUrl = function cleanUrl (sanitize, base, href) {
+const cleanUrl = function cleanUrl (sanitize, base, href) {
   if (sanitize) {
     let prot = ''
 
@@ -129,10 +129,10 @@ const resolveUrl = function resolveUrl (base, href) {
 const baseUrls = {}
 const originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i
 
-export const noop = function noop () {}
+const noop = function noop () {}
 noop.exec = noop
 
-export const splitCells = function splitCells (tableRow, count) {
+const splitCells = function splitCells (tableRow, count) {
   // ensure that every cell-delimiting pipe has a space
   // before it to distinguish it from an escaped pipe
   const row = tableRow.replace(/\|/g, function (match, offset, str) {
@@ -168,7 +168,7 @@ export const splitCells = function splitCells (tableRow, count) {
 // Remove trailing 'c's. Equivalent to str.replace(/c*$/, '').
 // /c*$/ is vulnerable to REDOS.
 // invert: Remove suffix of non-c chars instead. Default falsey.
-export const rtrim = function rtrim (str, c, invert) {
+const rtrim = function rtrim (str, c, invert) {
   if (str.length === 0) {
     return ''
   }
@@ -191,7 +191,7 @@ export const rtrim = function rtrim (str, c, invert) {
   return str.substr(0, str.length - suffLen)
 }
 
-export const findClosingBracket = function findClosingBracket (str, b) {
+const findClosingBracket = function findClosingBracket (str, b) {
   if (str.indexOf(b[1]) === -1) {
     return -1
   }
@@ -211,4 +211,16 @@ export const findClosingBracket = function findClosingBracket (str, b) {
   }
 
   return -1
+}
+
+module.exports = {
+  getUniqueId,
+  escape,
+  unescape,
+  edit,
+  cleanUrl,
+  findClosingBracket,
+  rtrim,
+  splitCells,
+  noop
 }

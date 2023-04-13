@@ -1,30 +1,28 @@
-import LinkedList from './linkedList'
-
+const LinkedList = require('./linkedList')
 class LinkedNode {
-  public prev: any
-  public next: any
-  public parent: any
-  public children: LinkedList
+  // public prev: any
+  // public next: any
+  // public parent: any
+  // public children: LinkedList
   constructor () {
     this.prev = this.next = null
     this.parent = null
     this.children = new LinkedList()
   }
 
-  insertBefore (newNode: LinkedNode, refNode: LinkedNode) {
+  insertBefore (newNode, refNode) {
     newNode.parent = this
     this.children.insertBefore(newNode, refNode)
     return newNode
   }
 
-  insertAfter (newNode: LinkedNode, refNode: LinkedNode) {
+  insertAfter (newNode, refNode) {
     this.insertBefore(newNode, refNode.next)
     return newNode
   }
 
-  insertAtLast (newNode: LinkedNode) {
+  insertAtLast (newNode) {
     this.insertBefore(newNode, null)
   }
 }
-
-export default LinkedNode
+module.exports = LinkedNode

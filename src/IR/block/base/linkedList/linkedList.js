@@ -6,7 +6,6 @@ class LinkedList {
 
   * iterator (curNode = this.head, length = this.length) {
     let count = 0
-
     while (count < length && curNode) {
       yield curNode
       count++
@@ -23,14 +22,14 @@ class LinkedList {
   contains (node) {
     const it = this.iterator()
     let data = null
-
     while ((data = it.next()).done !== true) {
-      const { value } = data
+      const {
+        value
+      } = data
       if (value === node) {
         return true
       }
     }
-
     return false
   }
 
@@ -73,15 +72,12 @@ class LinkedList {
     if (node.prev) {
       node.prev.next = node.next
     }
-
     if (node.next) {
       node.next.prev = node.prev
     }
-
     if (this.head === node) {
       this.head = node.next
     }
-
     if (this.tail === node) {
       this.tail = node.prev
     }
@@ -92,7 +88,6 @@ class LinkedList {
     if (index < 0 || index >= this.length) {
       return null
     }
-
     return [...this.iterator()][index]
   }
 
@@ -102,7 +97,6 @@ class LinkedList {
 
   forEachAt (index, length, callback) {
     const curNode = this.find(index)
-
     return [...this.iterator(curNode, length)].forEach((node, i) => {
       callback(node, i + index)
     })
@@ -118,5 +112,4 @@ class LinkedList {
     return [...this.iterator()].reduce(callback, initialValue)
   }
 }
-
-export default LinkedList
+module.exports = LinkedList
