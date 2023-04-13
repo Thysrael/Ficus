@@ -1,26 +1,31 @@
 <template>
   <div class="flex">
     <ol class="flex">
-      <tab-item
+      <TabItem
+          :cur-obj="curObj"
           :item="item"
           v-for="(item, index) in openFiles"
           :key="index"
           style="margin-left: 10px"
       >
-      </tab-item>
+      </TabItem>
     </ol>
   </div>
 </template>
 
 <script>
-import TabItem from '@/renderer/components/header/TabItem'
 
+import TabItem from '@/renderer/components/header/TabItem'
 export default {
   name: 'TabList',
   components: { TabItem },
   props: {
     openFiles: {
       type: Array,
+      require: true
+    },
+    curObj: {
+      type: Object,
       require: true
     }
   }

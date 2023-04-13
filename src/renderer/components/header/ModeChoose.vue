@@ -1,0 +1,17 @@
+<template>
+  <div>
+    <button style="position: absolute;margin-left: 7.5px;margin-top: 2.5px;width: 48px;height: 15px;opacity: 1;font-size: 1px">文本模式</button>
+    <button style="position: absolute;margin-left: 60px;margin-top: 2.5px;width: 58px;height: 15px;opacity: 1;font-size: 1px">Ficus模式</button>
+    <button style="position: absolute;margin-left: 118.5px;margin-top: 2.5px;width: 48px;height: 15px;opacity: 1;font-size: 10px">源码模式</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ModeChoose'
+}
+</script>
+
+<style scoped>
+
+</style>

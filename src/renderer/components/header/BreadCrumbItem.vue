@@ -1,31 +1,21 @@
 <template>
   <li style="display: flex">
     <div
-        class="flex items-center cursor-pointer"
+        class="flex items-center cursor-pointer bg-blue-300"
         @dblclick="doubleEvent"
         @click="toggle"
     >
-      {{ item.path }}
+      {{ item.name }}
     </div>
     <div v-if="hasChildren && item.curChild !== -1" class="flex">
       >>>
       <ul>
         <BreadCrumbItem
-            :show="show"
             :item="item.children[item.curChild]"
         />
       </ul>
     </div>
-
   </li>
-  <div v-if="menu" class="bg-blue-400">
-    <ol>
-      <li v-for="(child, index) in item.children" :key="index"
-          @click="changeTab(item, child, index)"
-      >{{ child.path }}
-      </li>
-    </ol>
-  </div>
 </template>
 
 <script>
@@ -38,15 +28,11 @@ export default {
     item: {
       type: Object,
       required: true
-    },
-    show: {
-      type: Boolean,
-      required: true
     }
   },
   setup (props) {
     const selected = ref('default')
-    const menu = ref(false)
+    const isFocused = ref(false)
     const curItem = ref(props.item)
     let time = null
 
@@ -55,41 +41,40 @@ export default {
       return props.item.children && props.item.children.length
     })
 
-    function changeTab (item, child, index) {
-      item.curChild = index
-      child.curChild = -1
-      bus.emit('changeShow')
-      menu.value = false
-      //
-      if (!(child.children && child.children.length)) {
-        bus.emit('openNewTab', child)
+    bus.on('changeTab', (obj) => {
+      obj.item.curChild = obj.index
+      obj.child.curChild = -1
+      if (!(obj.child.children && obj.child.children.length)) {
+        bus.emit('openNewTab', obj.child)
       }
     }
+    )
 
     function doubleEvent () {
       clearTimeout(time)
+      bus.emit('wantShow', {}) // 传递空对象
       curItem.value.curChild = -1
     }
 
     function toggle () {
       clearTimeout(time)
       time = setTimeout(() => {
-        if (hasChildren.value && !props.show) {
-          menu.value = true
-          bus.emit('changeShow')
-        }
+        bus.emit('wantShow', props.item)
       }, 200)
     }
 
-    // 返回 reactive 对象和方法
+    function lossFocus () {
+      bus.emit('wantShow', {}) // 传递空对象
+    }
+
     return {
       hasChildren,
       toggle,
-      changeTab,
       doubleEvent,
+      lossFocus,
       curItem,
       selected,
-      menu
+      isFocused
     }
   }
 }
