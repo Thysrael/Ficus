@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import FileNav from '@/renderer/components/sideBar/FileNav'
 
+import FileNav from '@/renderer/components/sideBar/FileNav'
 export default {
   name: 'SideBar',
   components: { FileNav },

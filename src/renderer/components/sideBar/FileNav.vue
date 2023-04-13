@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import FileNavItem from './FileNavItem.vue'
 
+import FileNavItem from '@/renderer/components/sideBar/FileNavItem'
 export default {
   name: 'FileNav',
   components: { FileNavItem },
