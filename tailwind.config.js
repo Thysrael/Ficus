@@ -5,11 +5,11 @@ module.exports = {
   purge: {
     enabled: true,
     content: [
-      './**/*.html',
+      './src/*.html',
       './*.html',
-      './**/*.js',
+      './src/*.js',
       './*.js',
-      './**/*.vue',
+      './src/*.vue',
       './*.vue'
     ],
     options: {
