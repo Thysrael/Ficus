@@ -8,6 +8,7 @@
 import { onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import Vditor from 'ficus-editor'
 import 'ficus-editor/dist/index.css'
+import defineRAPI from './defineRAPI.js'
 
 export default {
   name: 'TextUI',
@@ -21,7 +22,7 @@ export default {
     let vditor
 
     // 初始化
-    function init () {
+    function initVditor () {
       // options
       const options =
       {
@@ -78,7 +79,10 @@ export default {
     // 初始化编辑器
     onMounted(() => {
       nextTick(() => {
-        init()
+        // 初始化vditor
+        initVditor()
+        // 定义和vditor相关的API, 使用全局事件总线实现
+        defineRAPI(vditor)
       })
     })
     // 销毁
