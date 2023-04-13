@@ -14,10 +14,21 @@
   --SwissCoffee-500: #F4F4F3;
 }
 
+.vditor {
+  border: none;
+}
+
 .vditor-reset {
   font-family: "Noto Serif SC";
   font-weight: 400px;
 }
+
+.vditor-wysiwyg pre.vditor-reset:focus,
+.vditor-ir pre.vditor-reset:focus,
+pre.vditor-sv:focus {
+  background: var(--White);
+}
+
 
 /* 段落 */
 
