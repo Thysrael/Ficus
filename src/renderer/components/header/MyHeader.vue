@@ -79,11 +79,11 @@
         </svg>
       </button>
       <input
-          type="text"
-          class="area-search-tab"
-          placeholder="全局搜索"
-      >
-      <div style="margin-top: 8px;margin-left: 21px;z-index: 1000">
+            type="text"
+            class="area-search-tab"
+            placeholder="全局搜索"
+        >
+      <div style="margin-top: 8px;margin-left: 10px;z-index: 1000">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="10" height="10" viewBox="0 0 10 10">
           <defs>
@@ -100,8 +100,8 @@
           </g>
         </svg>
       </div>
-      <TabList :open-files="openFiles" :cur-obj="curObj" style="margin-left: 100px;"></TabList>
-      <button style="position: absolute; margin-left: 1110px;margin-top: 5px">
+      <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
+      <button style="position: absolute; margin-left: 1480px;margin-top: 5px">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <defs>
@@ -118,7 +118,7 @@
           </g>
         </svg>
       </button>
-      <button style="position: absolute; margin-left: 1130px;margin-top: 5px">
+      <button style="position: absolute; margin-left: 1500px;margin-top: 5px">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <g style="mix-blend-mode:passthrough">
@@ -138,10 +138,11 @@ import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
+import TabList from '@/renderer/components/header/TabList'
 
 export default {
   name: 'MyHeader',
-  components: { ModeChoose, BreadCrumb, MenuList },
+  components: { TabList, ModeChoose, BreadCrumb, MenuList },
   props: {
     data: {
       type: Array,
