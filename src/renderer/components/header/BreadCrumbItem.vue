@@ -1,7 +1,7 @@
 <template>
   <li style="display: flex">
     <div
-        class="flex items-center cursor-pointer bg-blue-300"
+        class="flex items-center cursor-pointer"
         @dblclick="doubleEvent"
         @click="toggle"
     >

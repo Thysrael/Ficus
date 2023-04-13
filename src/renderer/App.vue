@@ -1,7 +1,9 @@
 <template>
   <MyHeader :data="data"></MyHeader>
-  <SideBar :data="data"></SideBar>
-  <TextArea></TextArea>
+  <div style="display:flex;height: 400px">
+    <SideBar :data="data"></SideBar>
+    <TextArea></TextArea>
+  </div>
 </template>
 
 <script>
@@ -105,13 +107,10 @@ export default {
 </script>
 
 <style>
-
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
+  position: relative;
+  height: 100%;
+  opacity: 1;
+  background: #FFFFFF;
 }
-
 </style>

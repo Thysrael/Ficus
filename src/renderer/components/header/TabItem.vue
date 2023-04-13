@@ -1,5 +1,5 @@
 <template>
-  <div :class="(isFocused) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex"
+  <div :class="(isFocused) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex;"
        @click="getTab"
   >
     {{ name }}
