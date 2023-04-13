@@ -1,0 +1,32 @@
+<template>
+  <div class="flex">
+    <ol class="flex">
+      <tab-item
+          :item="item"
+          v-for="(item, index) in openFiles"
+          :key="index"
+          style="margin-left: 10px"
+      >
+      </tab-item>
+    </ol>
+  </div>
+</template>
+
+<script>
+import TabItem from '@/renderer/components/header/TabItem'
+
+export default {
+  name: 'TabList',
+  components: { TabItem },
+  props: {
+    openFiles: {
+      type: Array,
+      require: true
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
