@@ -1,7 +1,7 @@
 <template>
   <li>
     <div
-        :class="(hover) ? `flex items-center cursor-pointer bg-red-300` : `flex items-center cursor-pointer bg-red-400`"
+        :class="(hover) ? `flex items-center cursor-pointer bg-gray-100` : `flex items-center cursor-pointer bg-white`"
         style="width: 100px;height: 20px;"
         @mouseenter="hover = true"
         @mouseout="hover = false"
@@ -11,6 +11,7 @@
           v-if="hasChildren"
           :class="[(hover) ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
           fill="currentColor"
+          style="height: 10px;width: 10px"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
       >

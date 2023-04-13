@@ -1,12 +1,11 @@
 <template>
-  <div class="flex">
+  <div class="flex;flex-direction: row;" style="margin-left: 100px;">
     <ol class="flex">
       <TabItem
           :cur-obj="curObj"
           :item="item"
           v-for="(item, index) in openFiles"
           :key="index"
-          style="margin-left: 10px"
       >
       </TabItem>
     </ol>

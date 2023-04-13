@@ -12,6 +12,7 @@
           :class="[expanded ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
           fill="currentColor"
           viewBox="0 0 20 20"
+          style="height: 10px;width: 10px"
           xmlns="http://www.w3.org/2000/svg"
       >
         <path

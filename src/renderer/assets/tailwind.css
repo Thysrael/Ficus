@@ -2727,7 +2727,7 @@ select {
     height: 100%;
     margin-top: 65px;
     margin-left: 0px;
-    position: absolute;
+    position: relative;
     background-color: #f4f4f3;
 }
 
@@ -2774,9 +2774,9 @@ select {
 
 .area-header-mode {
     position: absolute;
-    margin-left: 601px;
+    margin-left: 651px;
     margin-top: 10px;
-    width: 150px;
+    width: 170px;
     height: 20px;
     border-radius: 5px;
     background-color: #D3DCD9;
@@ -2812,16 +2812,14 @@ select {
     width: 100px;
     height: 15px;
     border-radius: 3px;
-    margin-top: 40px;
-    margin-left: 0px;
+    margin-top: 5px;
+    margin-left: 88px;
     position: absolute;
     background-color: #ffffff;
 }
 
 .area-tab-bg-1 {
-    position: absolute;
-    margin-left: 200px;
-    margin-top: 0px;
+    position: relative;
     width: 200px;
     height: 25px;
     border-radius: 0px 0px 10px 0px;
@@ -2830,9 +2828,7 @@ select {
 }
 
 .area-tab-bg-2 {
-    position: absolute;
-    margin-left: 200px;
-    margin-top: 0px;
+    position: relative;
     width: 200px;
     height: 25px;
     border-radius: 0px 0px 10px 0px;
