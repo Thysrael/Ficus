@@ -1,144 +1,153 @@
 /*!
- * Classic content theme of ficus-editor
- *
- */
- @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@100;300;400;500;700;900&display=swap');
- @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap');
- 
- :root {
-   --White: #FFFFFF;
-   --TextMedium: #3D3D3D;
-   --TextRegular: #5E5E5E;
-   --TextLight: #D8D8D8;
-   --TextQuote: #AAAAAA;
-   --SwissCoffee-500: #F4F4F3;
- }
- 
- .vditor-reset {
-   font-family: "Noto Sans SC";
-   font-weight: 400px;
- }
- 
- /* 段落 */
- 
- .vditor-reset p {
-   font-weight: 400; /* Regular */
-   font-size: 12px;
-   line-height: 18px;
-   color: var(--TextMedium);
-   text-align: justify;
-   vertical-align: center;
-   margin-bottom: 12px;
- }
- 
- .vditor-reset p b, 
- .vditor-reset p strong {
-   font-weight: 900;
- } 
- 
- /* 标题 */
- 
- .vditor-reset h1 {
-   font-weight: 900;
-   font-size: 28px;
-   line-height: 32px;
-   color: var(--TextMedium);
-   text-align: justify;
-   display: flex;
-   align-items: center;
-   border-bottom: 1px solid var(--TextLight);
- }
- 
- .vditor-reset h2 {
-   font-weight: 900;
-   font-size: 24px;
-   line-height: 28px;
-   color: var(--TextMedium);
-   text-align: justify;
-   display: flex;
-   align-items: center;
-   border-bottom: 1px solid var(--TextLight);
- }
- 
- .vditor-reset h3 {
-   font-weight: 900;
-   font-size: 20px;
-   line-height: 24px;
-   color: var(--TextMedium);
-   text-align: justify;
-   display: flex;
-   align-items: center;
-   border-bottom: 1px solid var(--TextLight);
- }
- 
- .vditor-reset h4 {
-   font-weight: 900;
-   font-size: 18px;
-   line-height: 22px;
-   color: var(--TextMedium);
-   text-align: justify;
-   display: flex;
-   align-items: center;
- }
- 
- .vditor-reset h5 {
-   font-weight: 900;
-   font-size: 16px;
-   line-height: 20px;
-   color: var(--TextMedium);
-   text-align: justify;
-   display: flex;
-   align-items: center;
- }
- 
- .vditor-reset h6 {
-   font-weight: 900;
-   font-size: 14px;
-   line-height: 18px;
-   color: var(--TextRegular);
-   text-align: justify;
-   display: flex;
-   align-items: center;
- }
- 
- .vditor-reset h1,
- .vditor-reset h2,
- .vditor-reset h3,
- .vditor-reset h4,
- .vditor-reset h5,
- .vditor-reset h6 {
-   margin-bottom: 12px;
- }
- 
- 
- /* 分割线 */
- 
- .vditor-reset hr {
-   border-bottom: 1px solid var(--TextLight);
-   transform-origin: 0 0;
-   transform: scale(1, 0.5);
-   height: 0;
- }
- 
- /* 引用块 */
- 
- .vditor-reset blockquote p{
-   font-weight: 200; /* ExtraLight */
-   font-size: 12px;
-   line-height: 18px;
-   color: var(--TextQuote);
-   text-align: justify;
-   display: flex;
-   align-items: center;
- }
- 
- .vditor-reset blockquote p b,
- .vditor-reset blockquote p strong{
-   font-weight: 400; /* Regular */
- }
- 
- /* 代码块 */
- 
- .vditor-reset pre > code {
-   background-color: var(--SwissCoffee-500);
- }
+* Modern content theme of ficus-editor
+*
+*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap');
+
+:root {
+    --White: #FFFFFF;
+    --TextMedium: #3D3D3D;
+    --TextRegular: #5E5E5E;
+    --TextLight: #D8D8D8;
+    --TextQuote: #AAAAAA;
+    --SwissCoffee-500: #F4F4F3;
+}
+.vditor {
+    border: none;
+}
+
+.vditor-reset {
+    font-family: "Noto Sans SC";
+    font-weight: 400px;
+}
+
+.vditor-wysiwyg pre.vditor-reset:focus,
+.vditor-ir pre.vditor-reset:focus,
+pre.vditor-sv:focus {
+    background: var(--White);
+}
+
+/* 段落 */
+
+.vditor-reset p {
+    font-weight: 400; /* Regular */
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--TextMedium);
+    text-align: justify;
+    vertical-align: center;
+    margin-bottom: 12px;
+}
+
+.vditor-reset p b,
+.vditor-reset p strong {
+    font-weight: 900;
+}
+
+/* 标题 */
+
+.vditor-reset h1 {
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 32px;
+    color: var(--TextMedium);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--TextLight);
+}
+
+.vditor-reset h2 {
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 28px;
+    color: var(--TextMedium);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--TextLight);
+}
+
+.vditor-reset h3 {
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 24px;
+    color: var(--TextMedium);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--TextLight);
+}
+
+.vditor-reset h4 {
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 22px;
+    color: var(--TextMedium);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+}
+
+.vditor-reset h5 {
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--TextMedium);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+}
+
+.vditor-reset h6 {
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--TextRegular);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+}
+
+.vditor-reset h1,
+.vditor-reset h2,
+.vditor-reset h3,
+.vditor-reset h4,
+.vditor-reset h5,
+.vditor-reset h6 {
+    margin-bottom: 12px;
+}
+
+
+/* 分割线 */
+
+.vditor-reset hr {
+    border-bottom: 1px solid var(--TextLight);
+    transform-origin: 0 0;
+    transform: scale(1, 0.5);
+    height: 0;
+}
+
+/* 引用块 */
+
+.vditor-reset blockquote p{
+    font-weight: 200; /* ExtraLight */
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--TextQuote);
+    text-align: justify;
+    display: flex;
+    align-items: center;
+}
+
+.vditor-reset blockquote p b,
+.vditor-reset blockquote p strong{
+    font-weight: 400; /* Regular */
+}
+
+/* 代码块 */
+
+.vditor-reset pre > code {
+    background-color: var(--SwissCoffee-500);
+}
