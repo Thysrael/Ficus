@@ -3,9 +3,9 @@
 import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-import { getFileFromUser, initFromEmptyFolder } from './main/filesystem/fileManipulate'
+import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
 // import { initFromEmptyFolder } from './main/filesystem/database'
-// import { initFromEmptyFolder } from '@/main/filesystem/database'
+import { initFromEmptyFolder } from '@/main/filesystem/database'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 // Scheme must be registered before the app is ready
@@ -67,22 +67,29 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+  ipcMain.handle('newProject', async (e, data) => {
+    const relation = await initFromEmptyFolder('test')
+    console.log(relation)
+    return relation
+  })
+  ipcMain.handle('dialog:openFile', async (e) => {
+    const fileObjs = await getFileFromUser()
+    // console.log(fileObjs)
+    return fileObjs
+  })
+  ipcMain.handle('dialog:openFolder', async (e) => {
+    const folderObj = await getFolderFromUser()
+    // console.log(folderObj.children.children[0])
+    // console.log(folderObj)
+    return folderObj
+  })
+  ipcMain.handle('save_file', (e, path, content) => {
+    saveFile(path, content)
+  })
+  ipcMain.handle('saveToTarget', (e, content) => {
+    saveToTarget(content)
+  })
   createWindow()
-  initFromEmptyFolder('test') // 功能测试
-  // getFileFromUser()
-})
-
-ipcMain.handle('ficus::open-file', async (event) => {
-  try {
-    // if (files) {
-    //   event.reply('file-opened', files.fileNames, files.filePaths, files.contents)
-    // }
-    return await getFileFromUser(
-      // BrowserWindow.fromWebContents(event.sender)
-    )
-  } catch (e) {
-    console.error(e)
-  }
 })
 
 // Exit cleanly on request from parent process in development mode.
