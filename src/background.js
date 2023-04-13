@@ -33,6 +33,8 @@ async function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://.de/index.html')
   }
+
+  win.removeMenu()
 }
 
 // Quit when all windows are closed.
