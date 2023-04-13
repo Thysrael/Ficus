@@ -35,9 +35,10 @@ export default {
         cache: {
           enable: false
         },
-        // 创建实例后，将props中传入的内容展示出来
+        // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
         after: () => {
           vditor.setValue(props.content)
+          vditor.hideToorBar()
         },
         // 预览模式选项
         preview: {
