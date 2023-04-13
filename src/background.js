@@ -69,7 +69,7 @@ app.on('ready', async () => {
     }
   }
   ipcMain.handle('newProject', async (e, data) => {
-    const relation = await initFromEmptyFolder('test')
+    const relation = await initFromEmptyFolder(data)
     console.log(relation)
     return relation
   })
