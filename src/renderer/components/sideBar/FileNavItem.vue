@@ -20,7 +20,7 @@
             clip-rule="evenodd"
         ></path>
       </svg>
-      {{ item.path }}
+      {{ item.name }}
     </div>
     <ul v-if="hasChildren && expanded" class="pl-4">
       <FileNavItem
@@ -68,7 +68,6 @@ export default {
       item.curChild = index
     }
 
-    // 返回 reactive 对象和方法
     return {
       expanded,
       hasChildren,
