@@ -23,14 +23,14 @@ export default {
       path: 'app2',
       absolutePath: ['app2'],
       offset: -1,
-      content: '1',
+      content: '# 1',
       children: [{
         name: 'src',
         curChild: -1,
         path: 'app2\\src',
         absolutePath: ['app2', 'src'],
         offset: -1,
-        content: '2',
+        content: '- 2',
         children: [{
           name: 'components',
           curChild: -1,
@@ -93,7 +93,19 @@ export default {
           path: 'app2\\src\\FileNav.vue',
           absolutePath: ['app2', 'src', 'FileNav.vue'],
           offset: -1,
-          content: '10',
+          content: '```vue\n' +
+              'setup() {\n' +
+              '\tlet name = \'xxx\',\n' +
+              '\tlet age = 18\n' +
+              '\t\n' +
+              '\n' +
+              '\treturn {\n' +
+              '\t\tname,\n' +
+              '\t\tage,\n' +
+              '\t\tsayHello\n' +
+              '\t}\t\n' +
+              '}\n' +
+              '```',
           children: []
         }]
       }]
