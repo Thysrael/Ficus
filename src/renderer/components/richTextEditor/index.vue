@@ -9,6 +9,7 @@ import { onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import Vditor from 'ficus-editor'
 import 'ficus-editor/dist/index.css'
 import defineRAPI from './defineRAPI.js'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'TextUI',
@@ -49,17 +50,19 @@ export default {
             engine: 'KaTeX'
           }
         },
-        // 字数统计
-        counter: {
-          enable: false,
-          after (count) { /* todo */ } // 字数统计回调
-        },
         // 设置tab键渲染
         tab: '\t',
         // 打字机模式（类似与typora）
         typewriterMode: false,
         // 内容为空时的提示
-        placeholder: '请输入...'
+        placeholder: '请输入...',
+        // 用户输入回调函数，将最新的md字符串返回
+        input: (content) => {
+          bus.emit('saveChange', {
+            content: content,
+            wordCnt: content.length
+          })
+        }
       }
       // 根据options和默认设置创建vditor实例
       vditor = new Vditor('vditor', options)
