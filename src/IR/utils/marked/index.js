@@ -1,7 +1,7 @@
-import Renderer from './renderer'
-import Lexer from './lexer'
-import Parser from './parser'
-import options from './options'
+const Renderer = require('./renderer')
+const Lexer = require('./lexer')
+const Parser = require('./parser')
+const options = require('./options')
 
 /**
  * Marked
