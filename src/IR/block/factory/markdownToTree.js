@@ -1,6 +1,5 @@
-import { Lexer } from '@/IR/utils/marked'
-import TreeNode from '../base/treeNode'
-import { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildTable, buildThematicBreak } from './buildNode'
+const { Lexer } = require('../../utils/marked/lexer.js')
+const { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildTable, buildThematicBreak } = require('./buildNode.js')
 
 const restoreTableEscapeCharacters = text => {
   // NOTE: markedjs replaces all escaped "|" ("\|") characters inside a cell with "|".
@@ -8,8 +7,8 @@ const restoreTableEscapeCharacters = text => {
   return text.replace(/\|/g, '\\|')
 }
 
-export function markdownToTree (markdown: string): TreeNode {
-  const root: TreeNode = buildRootNode()
+exports.markdownToTree = function (markdown) {
+  const root = buildRootNode()
   const tokens = new Lexer({
     disableInline: true,
     footnote: false,
@@ -18,8 +17,8 @@ export function markdownToTree (markdown: string): TreeNode {
     frontMatter: true
   }).lex(markdown)
 
-  let token: any
-  let value: string
+  let token
+  let value
   const parentStack = [{ node: root, level: 0 }]
   while ((token = tokens.shift())) {
     switch (token.type) {
@@ -86,21 +85,21 @@ export function markdownToTree (markdown: string): TreeNode {
       }
 
       case 'table': {
-        const tableCells: any = []
+        const tableCells = []
         const { header, align, cells } = token
 
         tableCells.push({
           name: 'table.row',
-          children: header.map((h: any, i: string | number) => ({
+          children: header.map((h, i) => ({
             name: 'table.cell',
             meta: { align: align[i] },
             text: restoreTableEscapeCharacters(h)
           }))
         })
 
-        tableCells.children.push(...cells.map((row: any[]) => ({
+        tableCells.children.push(...cells.map((row) => ({
           name: 'table.row',
-          children: row.map((c: any, i: string | number) => ({
+          children: row.map((c, i) => ({
             name: 'table.cell',
             meta: { align: align[i] },
             text: restoreTableEscapeCharacters(c)

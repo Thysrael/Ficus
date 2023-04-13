@@ -1,6 +1,6 @@
-import { normal, gfm, pedantic } from './blockRules'
-import options from './options'
-import { splitCells, rtrim, getUniqueId } from './utils'
+const { normal, gfm, pedantic } = require('./blockRules')
+const options = require('./options')
+const { splitCells, rtrim, getUniqueId } = require('./utils')
 
 /**
  * Block Lexer
@@ -670,4 +670,6 @@ function indentCodeCompensation (raw, text) {
     .join('\n')
 }
 
-export default Lexer
+module.exports = {
+  Lexer
+}

@@ -1,5 +1,3 @@
-import FicusTree from '../component/FicusTreeIR'
-
 class DataManager {
   /**
      * 从markdown生成FicusTree
@@ -7,7 +5,7 @@ class DataManager {
      * @param replaced 是否替换当前DM中的tree
      * @returns
      */
-  markdownToTree (markdown, replaced = false): FicusTree {
+  markdownToTree (markdown, replaced = false) {
     return null
   }
 
@@ -15,7 +13,7 @@ class DataManager {
      * 由当前FicusTree生成md
      * @returns markdown字符串
      */
-  getTreeMarkdown (): string {
+  getTreeMarkdown () {
     return null
   }
 
