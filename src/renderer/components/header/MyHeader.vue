@@ -241,12 +241,14 @@ export default {
       }
 
       curObj.value = obj
-
+      console.log(curObj.value.content)
+      content.value = curObj.value.content
+      console.log(content.value)
       // 传参给textUI
       /*
       TODO
        */
-      // bus.emit('setEditorContent', content)
+      bus.emit('setEditorContent', content.value)
     })
 
     function showMenu () {
