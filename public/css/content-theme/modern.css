@@ -28,6 +28,10 @@ pre.vditor-sv:focus {
     background: var(--White);
 }
 
+.vditor-reset pre.vditor-wysiwyg__pre > code{
+    background: var(--TextLight);
+}
+
 /* 段落 */
 
 .vditor-reset p {

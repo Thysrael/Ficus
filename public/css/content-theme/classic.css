@@ -45,7 +45,12 @@ pre.vditor-sv:focus {
 .vditor-reset p b, 
 .vditor-reset p strong {
   font-weight: 900;
-} 
+}
+
+.vditor-reset pre.vditor-wysiwyg__pre > code{
+  background: var(--TextLight);
+}
+
 
 /* 标题 */
 
