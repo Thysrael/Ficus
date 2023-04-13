@@ -2,7 +2,7 @@
   <li>
     <div
         :class="isFocused ? `flex items-center cursor-pointer bg-red-300` : `flex items-center cursor-pointer bg-fuchsia-300`"
-        @dblclick="toggle"
+        @click="toggle"
         tabindex="0"
         @focus="isFocused = true; curItem.curChild = -1"
         @blur="isFocused = false"
