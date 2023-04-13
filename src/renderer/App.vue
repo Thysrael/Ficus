@@ -12,6 +12,7 @@ import { ref } from 'vue'
 import MyHeader from '@/renderer/components/header/MyHeader'
 import SideBar from '@/renderer/components/sideBar/SideBar'
 import TextArea from '@/renderer/components/textArea/TextArea'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'App',
@@ -111,6 +112,9 @@ export default {
       }]
     }])
 
+    bus.on('openDir', (obj) => {
+      data.value = [obj]
+    })
     return {
       data
     }
