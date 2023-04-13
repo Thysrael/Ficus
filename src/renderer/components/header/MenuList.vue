@@ -51,20 +51,103 @@ export default {
       }, {
         name: '新建窗口'
       }, {
+        name: '新建项目'
+      }, {
         name: '打开本地文件'
       }, {
         name: '打开工作区'
+      }, {
+        name: '打开最近文件'
+      }, {
+        name: '选择编码重新打开'
+      }, {
+        name: '保存'
+      }, {
+        name: '另存为'
+      }, {
+        name: '保存全部打开的文件'
+      }, {
+        name: '关闭当前标签页'
+      }, {
+        name: '关闭当前窗口'
+      }, {
+        name: '重命名'
+      }, {
+        name: '导出文件'
+      }, {
+        name: '打印文件'
+      }, {
+        name: '打开控制台'
+      }, {
+        name: '退出程序'
       }]
     }, {
       name: '编辑',
       children: [{
         name: '撤销'
+      }, {
+        name: '重做'
+      }, {
+        name: '剪切'
+      }, {
+        name: '复制为纯文本'
+      }, {
+        name: '复制为 Markdown Text'
+      }, {
+        name: '复制为 HTML 代码'
+      }, {
+        name: '粘贴'
+      }, {
+        name: '粘贴为纯文本'
+      }, {
+        name: '搜索'
       }]
     }, {
       name: '段落'
     }, {
+      name: '格式',
+      children: [{
+        name: '加粗'
+      }, {
+        name: '下划线'
+      }, {
+        name: '斜体'
+      }, {
+        name: '删除线'
+      }, {
+        name: '行内代码'
+      }, {
+        name: '代码块'
+      }, {
+        name: '行内数学公式'
+      }, {
+        name: '数学公式块'
+      }, {
+        name: '高亮'
+      }, {
+        name: '上标'
+      }, {
+        name: '下标'
+      }, {
+        name: '注释'
+      }, {
+        name: '引用文件'
+      }, {
+        name: '超链接'
+      }, {
+        name: '图像'
+      }, {
+        name: '清楚样式'
+      }]
+    }, {
       name: '视图和布局',
       children: [{
+        name: '进入 Ficus 视图'
+      }, {
+        name: '源代码模式'
+      }, {
+        name: '文本编辑模式'
+      }, {
         name: '主题偏好',
         children: [{
           name: '经典主题'
@@ -116,7 +199,7 @@ export default {
       }
     }
 
-    function show (layer, index) {
+    async function show (layer, index) {
       // 导航
       mouseIn(layer, index)
 
@@ -130,6 +213,26 @@ export default {
           //
         } else if (layer === 2) {
           //
+          if (index === 2) {
+            const root = await window.electronAPI.newFicusVault('newTest')
+            console.log(root.root)
+            bus.emit('openDir', {
+              name: root.root.name,
+              path: root.root.name,
+              children: root.root.tree,
+              curChild: -1,
+              content: '',
+              absolutePath: [root.root.name],
+              offset: -1
+            })
+          }
+          if (index === 3) {
+            const files = await window.electronAPI.openFile()
+            console.log(files)
+            for (let i = 0; i < files.length; i++) {
+              bus.emit('openNewTab', files[i])
+            }
+          }
         } else {
           //
         }

@@ -226,6 +226,7 @@ export default {
     bus.on('saveChange', (obj) => {
       content.value = obj.content
       wordCnt.value = obj.wordCnt
+      console.log('get change: ', content.value, wordCnt.value)
     })
 
     bus.on('sendToTextUI', (obj) => {
@@ -234,20 +235,13 @@ export default {
       }
       // 写回content，是有可能路径不存在的
       if (curObj.value.path) {
-        /*
-        TODO
-         */
         // electron.saveFile(curObj.value.path) // 接口
+        window.electronAPI.saveFile(curObj.value.path, content.value)
+        curObj.value.content = content.value
       }
-
       curObj.value = obj
-      console.log(curObj.value.content)
       content.value = curObj.value.content
-      console.log(content.value)
       // 传参给textUI
-      /*
-      TODO
-       */
       bus.emit('setEditorContent', content.value)
     })
 
@@ -271,7 +265,11 @@ export default {
         if (index === openFiles.value.length) {
           index = 0
         }
-        bus.emit('sendToTextUI', openFiles.value[index])
+        if (openFiles.value.length !== 0) {
+          bus.emit('sendToTextUI', openFiles.value[index])
+        } else {
+          bus.emit('setEditorContent', '未打开任何文件')
+        }
       }
       update()
     })
