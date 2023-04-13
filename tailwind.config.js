@@ -5,12 +5,10 @@ module.exports = {
   purge: {
     enabled: true,
     content: [
-      './src/*.html',
-      './*.html',
-      './src/*.js',
-      './*.js',
-      './src/*.vue',
-      './*.vue'
+      './public/*.html',
+      './src/renderer/*.js',
+      './src/renderer/*.vue',
+      './src/renderer/**/*.vue'
     ],
     options: {
       safelist: []
