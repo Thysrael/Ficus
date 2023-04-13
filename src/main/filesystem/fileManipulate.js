@@ -1,52 +1,10 @@
 const { app, dialog } = require('electron')
-const fs = require('fs')
+const fs = require('fs-extra')
+const { getTree } = require('./getFileTree')
 
-exports.initFromEmptyFolder = async (projName) => {
-  dialog.showOpenDialog({
-    buttonLabel: '选择',
-    defaultPath: app.getPath('desktop'),
-    properties: ['createDirectory', 'openDirectory'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
-  }).then((result) => {
-    console.log(result)
-    return result
-    // const basePath = path.join(result.filePaths[0], '.ficus')
-    // console.log(basePath)
-    // fs.mkdir(basePath, { recursive: true }, err => {
-    //   if (err) console.log(`mkdir path: ${basePath} err`)
-    // })
-    // const relationJSONFilePath = path.join(basePath, 'relation.json')
-    // const relation = {
-    //   version: 1,
-    //   root: {
-    //     name: projName,
-    //     path: result.filePaths[0],
-    //     children: [],
-    //     tags: [],
-    //     links: []
-    //   }
-    // }
-    // getTree()
-    // fs.writeFile(relationJSONFilePath, JSON.stringify(relation), (error) => {
-    //   // 创建失败
-    //   if (error) {
-    //     console.log(`创建失败：${error}`)
-    //   }
-    //   // 创建成功
-    //   console.log('创建成功！')
-    // })
-    // const str = JSON.stringify(relation)
-    // return str
-  })
-}
-// 引入Node fs库
 // 打开文件：
 exports.getFileFromUser = async () => {
-  dialog.showOpenDialog({
+  return await dialog.showOpenDialog({
     buttonLabel: '选择',
     defaultPath: app.getPath('desktop'),
     properties: ['multiSelections', 'createDirectory', 'openFile'],
@@ -56,21 +14,60 @@ exports.getFileFromUser = async () => {
       { name: 'images', extensions: ['jpg', 'png'] }
     ]
   }).then((result) => {
+    if (result.canceled === true) {
+      return []
+    }
     const filePaths = result.filePaths
-    const contents = []
-    const fileNames = []
+    const fileObjs = []
     for (const filePath of filePaths) {
       const content = fs.readFileSync(filePath).toString()
-      // console.log(content);
       const pathSplit = filePath.split('\\')
       const fileName = pathSplit[pathSplit.length - 1]
-      contents.push(content)
-      fileNames.push(fileName)
+      const file = {
+        name: fileName, // 文件名
+        curChild: -1, // 直接填充-1即可
+        path: filePath, // 绝对路径
+        absolutePath: pathSplit, // 希望将绝对路径分割成数组
+        offset: -1, // 直接填充-1即可
+        children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+        content // 文件内容
+      }
+      fileObjs.push(file)
     }
-    const obj = { fileNames, filePaths, contents }
-    const str = JSON.stringify(obj)
-    console.log(str)
-    return str
+    return fileObjs
+  })
+}
+// 打开文件夹：
+exports.getFolderFromUser = async () => {
+  return await dialog.showOpenDialog({
+    buttonLabel: '选择',
+    defaultPath: app.getPath('desktop'),
+    properties: ['createDirectory', 'openDirectory'],
+    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+      { name: 'images', extensions: ['jpg', 'png'] }
+    ]
+  }).then(async (result) => {
+    if (result.canceled === true) {
+      return []
+    }
+    const folderPath = result.filePaths[0]
+    const pathSplit = folderPath.split('\\')
+    const folderName = pathSplit[pathSplit.length - 1]
+    const tree = await getTree(folderPath, folderName)
+    // console.log(tree.children[0].absolutePath[2])
+    const folder = {
+      name: folderName, // 文件名
+      curChild: -1, // 直接填充-1即可
+      path: folderPath, // 绝对路径
+      absolutePath: pathSplit, // 希望将绝对路径分割成数组
+      offset: -1, // 直接填充-1即可
+      children: tree.children, // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+      content: '' // 文件内容
+    }
+    // console.log(folder)
+    return folder
   })
 }
 
@@ -81,7 +78,16 @@ exports.readFile = (filePath) => {
 
 // 保存文件：
 exports.saveFile = (filePath, fileContent) => {
-  fs.writeFileSync(filePath, fileContent)
+  console.log(filePath)
+  console.log(fileContent)
+  fs.writeFile(filePath, fileContent, (err) => {
+    // 写入失败
+    if (err) {
+      console.log(`Fail:(${err})`)
+    }
+    // 写入成功
+    console.log('Success!')
+  })
 }
 
 // 文件另存为：

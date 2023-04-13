@@ -5,19 +5,22 @@ const path = require('path')
  * 函数作用: 初始化
  * @returns 处理完的对象
  */
-function initFun (dirPath) {
+function initFun (dirPath, folderName) {
   const all = {
-    name: 'test',
+    name: folderName,
     children: [],
     type: 'folder',
-    dirPath
+    path: dirPath
   }
   // 文件数组
   const res = fs.readdirSync(dirPath)
+  // console.log(res)
   // all里的children数组
   // console.log(res)
   const temp = getFileJson(res, all.children, dirPath)
+  // console.log(temp)
   all.children = temp
+  // console.log(all)
   return all
 }
 
@@ -30,12 +33,13 @@ function initFun (dirPath) {
 function getFileJson (res, arr, dir) {
   res.map(item => {
     const tempDir = `${dir}/${item}`
+    // console.log(tempDir)
     const obj = newObj(tempDir, item)
     arr.push(obj)
     // console.log(obj.children === undefined)
     if (obj.children !== undefined && obj.children.length === 0) {
       const dirValArr = fs.readdirSync(tempDir)
-      return getFileJson(dirValArr, obj.children, obj.dirPath)
+      return getFileJson(dirValArr, obj.children, obj.path)
     }
     return null
   })
@@ -51,15 +55,28 @@ function getFileJson (res, arr, dir) {
  * @returns 返回处理好的对象
  */
 function newObj (tempDir, item) {
+  const pathSplit = tempDir.split('\\')
   const obj = {
     name: item,
-    dirPath: tempDir
+    path: tempDir,
+    curChild: -1, // 直接填充-1即可
+    offset: -1, // 直接填充-1即可
+    // children: [],
+    content: '',
+    absolutePath: pathSplit
+  }
+  // console.log(tempDir)
+  if (fs.statSync(tempDir).isFile()) {
+    const content = fs.readFileSync(tempDir).toString()
+    obj.content = content
+    obj.type = 'file'
   }
   // 判断路径是否为文件夹
   if (!fs.statSync(tempDir).isFile()) {
     obj.children = []
     obj.type = 'folder'
   }
+  // console.log(obj)
   return obj
 }
 
@@ -68,11 +85,12 @@ function newObj (tempDir, item) {
 //     // 将对象转成JSON格式
 //     res.send(JSON.stringify(fileJson))
 // })
-exports.getTree = async () => {
-  const dirPath = path.resolve(__dirname, '../src/main/filesystem')
+exports.getTree = async (folderPath, folderName) => {
+  const dirPath = path.resolve(folderPath)
   // console.log(dirPath)
-  const fileJson = await initFun(dirPath)
+  const fileJson = await initFun(dirPath, folderName)
   // //     // 将对象转成JSON格式
-  const tree = JSON.stringify(fileJson)
-  console.log(tree)
+  // console.log(fileJson)
+  // console.log(tree)
+  return fileJson
 }
