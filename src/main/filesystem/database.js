@@ -31,6 +31,7 @@ exports.initFromEmptyFolder = async (projName) => {
     const tree = await getTree(result.filePaths[0], folderName)
     // console.log(tree)
     relation.root.tree = tree.children.filter(item => item.name !== '.ficus')
+    relation.root.foldername = folderName
     // console.log(result)
     const basePath = path.join(result.filePaths[0], '.ficus')
     // console.log(basePath)
