@@ -5,7 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "test": "mocha",
+        "test": "mocha --recursive --exit --colors",
         "commit": "git-cz",
         "electron:build": "vue-cli-service electron:build",
         "electron:serve": "vue-cli-service electron:serve",
