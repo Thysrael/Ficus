@@ -161,7 +161,7 @@ export default {
     const secondShow = ref(false)
     const thirdItems = ref([{}])
     const thirdShow = ref(false)
-
+    const openDir = ref([])
     const menu = ref(false)
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
@@ -199,6 +199,25 @@ export default {
       }
     }
 
+    function contain (file, arr) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].path === file.path) {
+          return {
+            has: true,
+            res: arr[i]
+          }
+        }
+        const obj = contain(file, arr[i].children)
+        if (obj.has) {
+          return obj
+        }
+      }
+      return {
+        has: false,
+        res: file
+      }
+    }
+
     async function show (layer, index) {
       // 导航
       mouseIn(layer, index)
@@ -214,9 +233,10 @@ export default {
         } else if (layer === 2) {
           //
           if (index === 2) {
+            // 新建项目
             const root = await window.electronAPI.newFicusVault('newTest')
             console.log(root.root)
-            bus.emit('openDir', {
+            openDir.value = [{
               name: root.root.foldername,
               path: root.root.path,
               children: root.root.tree,
@@ -224,13 +244,19 @@ export default {
               content: '',
               absolutePath: [root.root.foldername],
               offset: -1
-            })
+            }]
+            bus.emit('openDir', openDir.value[0])
           }
           if (index === 3) {
+            // 打开文件
             const files = await window.electronAPI.openFile()
             console.log(files)
             for (let i = 0; i < files.length; i++) {
-              bus.emit('openNewTab', files[i])
+              // 特殊场景：打开文件夹，再次从本地打开文件夹中已有的文件
+              // 策略：如果在文件夹中已经打开，则使用文件夹内的对象，否则使用files[i]
+              // 必要性：确保前端对每一个文件只维护一个缓存，避免内容更新复杂
+              const obj = contain(files[i], openDir.value)
+              bus.emit('openNewTab', obj.res)
             }
           }
         } else {
