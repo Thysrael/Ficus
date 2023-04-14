@@ -79,10 +79,10 @@
         </svg>
       </button>
       <input
-            type="text"
-            class="area-search-tab"
-            placeholder="全局搜索"
-        >
+          type="text"
+          class="area-search-tab"
+          placeholder="全局搜索"
+      >
       <div style="margin-top: 8px;margin-left: 10px;z-index: 1000">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="10" height="10" viewBox="0 0 10 10">
@@ -150,11 +150,15 @@ export default {
     }
   },
   setup () {
-    const openFiles = ref([]) // 存对象，浅比较（ === 引用相同），深比较（值相同）
-    const curObj = ref({}) // 维护现在打开的文件对象
+    const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
+    const curObj = ref({
+      path: '',
+      content: '未打开任何文件'
+    }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
     const wordCnt = ref(0) // 当前工作区字符数
 
+    // 对于一个待打开的文件，判断是否已经包含在已打开的文件中
     function contain (file) {
       for (let i = 0; i < openFiles.value.length; i++) {
         if (openFiles.value[i].path === file.path) {
@@ -164,7 +168,7 @@ export default {
       return false
     }
 
-    // 每次修改openSet（主要是增加和删除）计算特异路径
+    // 每次对于openFiles的增加和删除，都需要重新计算特异路径
     function update () {
       // 第一步，将所有对象按名字分组
       const sameNameArrays = []
@@ -223,32 +227,36 @@ export default {
       }
     }
 
+    // TextUI接口，TextUI实时将工作区修改保存到content和wordCnt中
     bus.on('saveChange', (obj) => {
       content.value = obj.content
       wordCnt.value = obj.wordCnt
       console.log('get change: ', content.value, wordCnt.value)
     })
 
-    bus.on('sendToTextUI', (obj) => {
-      if (curObj.value.path === obj.path) {
-        return // 不更新工作区
-      }
-      // 写回content，是有可能路径不存在的
+    // 后端接口，将前端的content写回后端文件中，并且更新前端容器
+    function writeBack () {
       if (curObj.value.path) {
         // electron.saveFile(curObj.value.path) // 接口
         window.electronAPI.saveFile(curObj.value.path, content.value)
         curObj.value.content = content.value
       }
+    }
+
+    // TextUI接口，更新textUI的展示内容
+    bus.on('sendToTextUI', (obj) => {
+      if (curObj.value.path === obj.path) {
+        return // 不更新工作区
+      }
+      // 写回content，有可能路径不存在的
+      writeBack()
       curObj.value = obj
       content.value = curObj.value.content
       // 传参给textUI
       bus.emit('setEditorContent', content.value)
     })
 
-    function showMenu () {
-      bus.emit('showMenu')
-    }
-
+    // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
     bus.on('deleteTab', (obj) => {
       obj.offset = -1
       let index = -1
@@ -268,12 +276,13 @@ export default {
         if (openFiles.value.length !== 0) {
           bus.emit('sendToTextUI', openFiles.value[index])
         } else {
-          bus.emit('setEditorContent', '未打开任何文件')
+          bus.emit('sendToTextUI', { path: '', content: '未打开任何文件' })
         }
       }
       update()
     })
 
+    // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', (obj) => {
       if (contain(obj)) {
         console.log('already open!')
@@ -283,6 +292,10 @@ export default {
       }
       bus.emit('sendToTextUI', obj)
     })
+
+    function showMenu () {
+      bus.emit('showMenu')
+    }
 
     return { openFiles, update, curObj, content, wordCnt, showMenu }
   }
