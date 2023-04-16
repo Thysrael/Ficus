@@ -133,12 +133,13 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
 import TabList from '@/renderer/components/header/TabList'
+import DataManager from '@/IR/manager'
 
 export default {
   name: 'MyHeader',
@@ -150,6 +151,7 @@ export default {
     }
   },
   setup () {
+    const dataManager = new DataManager()
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       path: '',
@@ -238,6 +240,7 @@ export default {
     function writeBack () {
       if (curObj.value.path) {
         // electron.saveFile(curObj.value.path) // 接口
+        console.log('我要保存文件了', content.value)
         window.electronAPI.saveFile(curObj.value.path, content.value)
         curObj.value.content = content.value
       }
@@ -296,6 +299,15 @@ export default {
     function showMenu () {
       bus.emit('showMenu')
     }
+
+    // 监听content变化
+    watch(content, (newValue, oldValue) => {
+      // 调用得到children，传递给sidebar
+      dataManager.buildTreeFromMarkdown(newValue, true)
+      const obj = dataManager.getTreeOutline()
+      console.log('得到了outLine', obj)
+      bus.emit('openOutLine', obj.children)
+    })
 
     return { openFiles, update, curObj, content, wordCnt, showMenu }
   }
