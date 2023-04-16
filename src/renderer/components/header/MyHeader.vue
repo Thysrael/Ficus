@@ -3,7 +3,7 @@
   >
     <div class="area-header-top" style="z-index: 10000;display: flex">
       <MenuList style="z-index: 100;margin-left: 5px"></MenuList>
-      <img alt="logo" src="../../assets/bg_white.png"
+      <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
            style="position: absolute; left: 5px; top: 0; width: 40px; height: 40px; opacity: 1;"/>
       <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;"></BreadCrumb>

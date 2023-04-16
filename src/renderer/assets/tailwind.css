@@ -313,9 +313,12 @@ button {
  * results in a loss of the default `button` focus styles.
  */
 
+/* outline: 1px dotted;
+   outline: 5px auto -webkit-focus-ring-color;
+
+ */
+
 button:focus {
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
 }
 
 fieldset {
@@ -559,8 +562,6 @@ select
     -moz-appearance: none;
     appearance: none;
     background-color: #fff;
-    border-color: #71717a;
-    border-width: 1px;
     border-radius: 0px;
     padding-top: 0.5rem;
     padding-right: 0.75rem;
@@ -576,12 +577,12 @@ select
     --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
     --tw-ring-offset-width: 0px;
     --tw-ring-offset-color: #fff;
-    --tw-ring-color: #2563eb;
+    --tw-ring-color: #d3dcd9;
     --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
     --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
     -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
     box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-    border-color: #2563eb;
+    border-color: #d3dcd9;
 }
 
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
@@ -736,8 +737,11 @@ select {
     line-height: inherit;
 }
 
+/* outline: 1px auto -webkit-focus-ring-color;
+
+ */
 [type='file']:focus {
-    outline: 1px auto -webkit-focus-ring-color;
+
 }
 
 .container {
@@ -1223,6 +1227,10 @@ select {
 
 .bg-fixed {
     background-attachment: fixed;
+}
+
+.bg-transparent {
+    background-color: transparent;
 }
 
 .bg-local {
@@ -2186,6 +2194,10 @@ select {
     height: 0.5rem;
 }
 
+.h-3 {
+    height: 0.75rem;
+}
+
 .h-8 {
     height: 2rem;
 }
@@ -2416,6 +2428,11 @@ select {
 
 .-m-24 {
     margin: -6rem;
+}
+
+.my-1 {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 
 .my-2 {
@@ -3187,6 +3204,10 @@ select {
     padding-right: 1rem;
 }
 
+.pr-6 {
+    padding-right: 1.5rem;
+}
+
 .pb-4 {
     padding-bottom: 1rem;
 }
@@ -3274,6 +3295,18 @@ select {
     color: rgba(203, 213, 225, var(--tw-placeholder-opacity));
 }
 
+.placeholder-gray::-webkit-input-placeholder {
+    color: #f4f4f3;
+}
+
+.placeholder-gray::-moz-placeholder {
+    color: #f4f4f3;
+}
+
+.placeholder-gray:-ms-input-placeholder {
+    color: #f4f4f3;
+}
+
 .placeholder-blueGray-300::-ms-input-placeholder {
     --tw-placeholder-opacity: 1;
     color: rgba(203, 213, 225, var(--tw-placeholder-opacity));
@@ -3343,6 +3376,14 @@ select {
 
 .right-0 {
     right: 0px;
+}
+
+.right-2 {
+    right: 2px;
+}
+
+.right-3 {
+    right: 3px;
 }
 
 .bottom-0 {
@@ -3499,6 +3540,12 @@ select {
 
 .hover\:shadow-lg:hover {
     --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:shadow-sm:hover {
+    --tw-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
@@ -3663,6 +3710,11 @@ select {
     color: rgba(113, 113, 122, var(--tw-text-opacity));
 }
 
+.text-gray-300 {
+    --tw-text-opacity: 1;
+    color: rgba(212, 212, 216, var(--tw-text-opacity));
+}
+
 .text-gray-600 {
     --tw-text-opacity: 1;
     color: rgba(82, 82, 91, var(--tw-text-opacity));
@@ -3797,6 +3849,11 @@ select {
     --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:bg-gray-200:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgba(228, 228, 231, var(--tw-bg-opacity));
 }
 
 .hover\:bg-emerald-500:hover {
@@ -4012,6 +4069,18 @@ select {
     width: 0.25rem;
 }
 
+.w-2 {
+    width: 0.5rem;
+}
+
+.w-3 {
+    width: 0.75rem;
+}
+
+.w-5 {
+    width: 1.25rem;
+}
+
 .w-8 {
     width: 2rem;
 }
@@ -4098,6 +4167,10 @@ select {
 
 .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .transform {
