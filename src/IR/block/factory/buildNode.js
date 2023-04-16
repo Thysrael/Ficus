@@ -1,4 +1,4 @@
-const { CodeContent, HeadingContent, ListContent, ListItemContent, MathContent, Content, QuoteContent, RootContent, TableContent } = require('../base/content')
+const { CodeContent, HeadingContent, ListContent, ListItemContent, MathContent, QuoteContent, RootContent, TableContent, ParagraphContent } = require('../base/content')
 const TreeNode = require('../base/treeNode.js')
 const { headingNodeType, listItemNodeType, listNodeType, paragraphNodeType, quoteNodeType, rootNodeType } = require('../type/type')
 
@@ -7,11 +7,11 @@ function buildRootNode () {
 }
 
 function buildFrontMatter (text) {
-  return new TreeNode(paragraphNodeType, new Content('frontmatter', text))
+  return new TreeNode(paragraphNodeType, new ParagraphContent('frontmatter', text))
 }
 
 function buildThematicBreak (text) {
-  return new TreeNode(paragraphNodeType, new Content('thematic-break', text))
+  return new TreeNode(paragraphNodeType, new ParagraphContent('thematic-break', text))
 }
 
 function buildHeading (text, depth) {
@@ -27,11 +27,11 @@ function buildDiagramBlock (text, type, lang) {
 }
 
 function buildParagraph (text) {
-  return new TreeNode(paragraphNodeType, new Content('paragraph', text))
+  return new TreeNode(paragraphNodeType, new ParagraphContent('paragraph', text))
 }
 
 function buildHtmlBlock (text) {
-  return new TreeNode(paragraphNodeType, new Content('html-block', text))
+  return new TreeNode(paragraphNodeType, new ParagraphContent('html-block', text))
 }
 
 function buildMathBlock (text, style) {
