@@ -1,3 +1,4 @@
+const { headingNodeType, listNodeType } = require('../type/type.js')
 const LinkedNode = require('./linkedList/linkedNode.js')
 class TreeNode extends LinkedNode {
   // private nodeType: BaseNodeType
@@ -32,10 +33,47 @@ class TreeNode extends LinkedNode {
    *
    * @returns string
    */
-  toMarkdown () {
-    let res = this.content.toMarkdown()
+  toMarkdown (pre = '', SpacePre = '') {
+    this.content.pre = pre
+    this.content.spacePre = SpacePre
+    let res = this.content.toMarkdown(pre, SpacePre)
+    if (this.nodeType === listNodeType) {
+      let off = 0
+      this.children.forEach(ch => {
+        res += ch.toMarkdown(pre + this.content.getSinglePre(off), SpacePre + this.content.getSingleSpacePre())
+        off += 1
+      })
+    } else {
+      this.children.forEach(ch => {
+        res += ch.toMarkdown(pre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
+      })
+    }
+    return res
+  }
+
+  /**
+   *
+   * @returns json
+   */
+  toJson () {
+    const res = this.content.toJson()
+    res.children = []
     this.children.forEach(ch => {
-      res += ch.toMarkdown()
+      res.children.push(ch.toJson())
+    })
+    return res
+  }
+
+  /**
+   *
+   * @returns outlineJson
+   */
+  toOutlineJson () {
+    const res = this.content.getOutlineJson()
+    this.children.forEach(ch => {
+      if (ch.nodeType === headingNodeType) {
+        res.children.push(ch.toOutlineJson())
+      }
     })
     return res
   }

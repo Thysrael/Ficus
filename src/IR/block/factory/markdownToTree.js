@@ -40,13 +40,13 @@ exports.markdownToTree = function (markdown) {
 
       case 'heading': {
         const { depth, text } = token
-        value = '#'.repeat(+depth) + ` ${text}`
+        value = text
 
         const newNode = buildHeading(value, depth)
 
         // 标题节点作为接下来的父节点
         if (depth <= 3 && parentStack[0].level !== undefined) {
-          while (depth >= parentStack[0].level) {
+          while (depth <= parentStack[0].level) {
             parentStack.shift()
           }
           parentStack[0].node.insertAtLast(newNode)
@@ -85,9 +85,9 @@ exports.markdownToTree = function (markdown) {
       }
 
       case 'table': {
-        const tableCells = []
         const { header, align, cells } = token
 
+        const tableCells = []
         tableCells.push({
           name: 'table.row',
           children: header.map((h, i) => ({
@@ -97,7 +97,7 @@ exports.markdownToTree = function (markdown) {
           }))
         })
 
-        tableCells.children.push(...cells.map((row) => ({
+        tableCells.push(...cells.map((row) => ({
           name: 'table.row',
           children: row.map((c, i) => ({
             name: 'table.cell',
