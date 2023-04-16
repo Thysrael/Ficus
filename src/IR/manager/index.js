@@ -26,7 +26,7 @@ class DataManager {
      * @returns markdown字符串
      */
   getTreeMarkdown () {
-    if (this.tree = undefined) {
+    if (this.tree === undefined) {
       return ''
     }
     return this.tree.toMarkdown()

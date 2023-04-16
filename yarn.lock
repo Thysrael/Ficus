@@ -3594,8 +3594,13 @@ case-sensitive-paths-webpack-plugin@^2.3.0:
 
 caseless@~0.12.0:
   version "0.12.0"
-  resolved "https://mirrors.cloud.tencent.com/npm/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
-  integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
+  resolved "https://registry.npmmirror.com/caseless/-/caseless-0.12.0.tgz"
+  integrity sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==
+
+chai-json-schema-ajv@^5.2.4:
+  version "5.2.4"
+  resolved "https://mirrors.cloud.tencent.com/npm/chai-json-schema-ajv/-/chai-json-schema-ajv-5.2.4.tgz#2b183ba07d64001460fbc132a1e37b3fe5614bad"
+  integrity sha512-KjbsSQUZDT4ed/TYmxgoMXU+qTv6KtI+QTzkjVQNNBEc5DAmmKoYwexCOxxTW15tt33muqRwvuq79v52piZZbw==
 
 chai@^4.3.7:
   version "4.3.7"
@@ -4695,11 +4700,6 @@ didyoumean@^1.2.1, didyoumean@^1.2.2:
   resolved "https://mirrors.cloud.tencent.com/npm/didyoumean/-/didyoumean-1.2.2.tgz#989346ffe9e839b4555ecf5666edea0d3e8ad037"
   integrity sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==
 
-diff-match-patch@^1.0.5:
-  version "1.0.5"
-  resolved "https://mirrors.cloud.tencent.com/npm/diff-match-patch/-/diff-match-patch-1.0.5.tgz#abb584d5f10cd1196dfc55aa03701592ae3f7b37"
-  integrity sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==
-
 diff@5.0.0:
   version "5.0.0"
   resolved "https://mirrors.cloud.tencent.com/npm/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
@@ -5674,9 +5674,9 @@ fd-slicer@~1.1.0:
     pend "~1.2.0"
 
 ficus-editor@^1.0.0:
-  version "1.0.3"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.0.3.tgz#bedd18da9ce7c6053da8e5072841abea8f8034fc"
-  integrity sha512-b6LrkDuncoPMm4LH565JtxNPv+NTvX2SEjr1EvojU6qIG37wBLSAEnrm6G5JClqTAafutvh55IXjV8R+nM3ZeQ==
+  version "1.0.4"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.0.4.tgz#50fb7f27489630355b1643cb56f344ee41a4ff93"
+  integrity sha512-qgM3aFLuUUlPqFUXjTzVDAwuur0t3Gd1gMZHr9nb93qGbRph7K9iRlPQjT0EYpkknKovEgddtWwpTgpzXLGcgw==
   dependencies:
     diff-match-patch "^1.0.5"
 
