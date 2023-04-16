@@ -148,8 +148,8 @@ class ListContent extends Content {
     return ''
   }
 
-  getSinglePre () {
-    return this.marker + ' '
+  getSinglePre (off = 0) {
+    return (this.marker || `${this.start + off}${this.delimiter}`) + ' '
   }
 }
 
@@ -162,6 +162,13 @@ class ListItemContent extends Content {
 
   toMarkdown () {
     return ''
+  }
+
+  getSinglePre () {
+    if (this.checked === undefined) {
+      return ''
+    } else
+    return  `[${this.checked ? 'x' : ' '}] `
   }
 }
 
