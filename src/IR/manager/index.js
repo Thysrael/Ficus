@@ -1,11 +1,12 @@
 const { markdownToTree } = require('../block/factory/markdownToTree')
 
 class DataManager {
-  constructor() {
+  constructor () {
     this.tree = undefined
     this.forest = undefined
     this.graph = undefined
   }
+
   /**
      * 从markdown生成FicusTree
      * @param markdown md文本
@@ -13,7 +14,7 @@ class DataManager {
      * @returns
      */
   buildTreeFromMarkdown (markdown, replaced = false) {
-    let newTree = markdownToTree(markdown)
+    const newTree = markdownToTree(markdown)
     if (replaced) {
       this.tree = newTree
     }
@@ -25,18 +26,18 @@ class DataManager {
      * @returns markdown字符串
      */
   getTreeMarkdown () {
-    if (this.tree == undefined) {
+    if (this.tree = undefined) {
       return ''
     }
     return this.tree.toMarkdown()
   }
 
   /**
-   * 
+   *
    * @returns 大纲json
    */
   getTreeOutline () {
-    if (this.tree == undefined) {
+    if (this.tree === undefined) {
       return {}
     }
     return this.tree.toOutlineJson()

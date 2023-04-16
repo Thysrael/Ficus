@@ -40,7 +40,7 @@ exports.markdownToTree = function (markdown) {
 
       case 'heading': {
         const { depth, text } = token
-        value =  text
+        value = text
 
         const newNode = buildHeading(value, depth)
 

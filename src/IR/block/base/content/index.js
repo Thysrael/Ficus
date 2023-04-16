@@ -167,8 +167,7 @@ class ListItemContent extends Content {
   getSinglePre () {
     if (this.checked === undefined) {
       return ''
-    } else
-    return  `[${this.checked ? 'x' : ' '}] `
+    } else { return `[${this.checked ? 'x' : ' '}] ` }
   }
 }
 

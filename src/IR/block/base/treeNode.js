@@ -43,8 +43,7 @@ class TreeNode extends LinkedNode {
         res += ch.toMarkdown(pre + this.content.getSinglePre(off), SpacePre + this.content.getSingleSpacePre())
         off += 1
       })
-    }
-    else {
+    } else {
       this.children.forEach(ch => {
         res += ch.toMarkdown(pre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
       })
