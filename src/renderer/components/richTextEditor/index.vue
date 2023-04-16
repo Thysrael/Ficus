@@ -54,6 +54,10 @@ export default {
           theme: {
             current: 'classic',
             path: 'css/content-theme'
+          },
+          // 设置markdown渲染选项
+          markdown: {
+            mark: true
           }
         },
         // 设置tab键渲染
