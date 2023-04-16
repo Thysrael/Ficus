@@ -1,4 +1,4 @@
-const { headingNodeType, listNodeType } = require('../type/type.js')
+const { headingNodeType, listNodeType, listItemNodeType } = require('../type/type.js')
 const LinkedNode = require('./linkedList/linkedNode.js')
 class TreeNode extends LinkedNode {
   // private nodeType: BaseNodeType
@@ -43,24 +43,21 @@ class TreeNode extends LinkedNode {
         res += ch.toMarkdown(pre + this.content.getSinglePre(off), SpacePre + this.content.getSingleSpacePre())
         off += 1
       })
+    } else if (this.nodeType === listItemNodeType) {
+      let first = true
+      this.children.forEach(ch => {
+        if (first) {
+          res += ch.toMarkdown(pre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
+          first = false
+        } else {
+          res += ch.toMarkdown(SpacePre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
+        }
+      })
     } else {
       this.children.forEach(ch => {
         res += ch.toMarkdown(pre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
       })
     }
-    return res
-  }
-
-  /**
-   *
-   * @returns json
-   */
-  toJson () {
-    const res = this.content.toJson()
-    res.children = []
-    this.children.forEach(ch => {
-      res.children.push(ch.toJson())
-    })
     return res
   }
 
@@ -74,6 +71,18 @@ class TreeNode extends LinkedNode {
       if (ch.nodeType === headingNodeType) {
         res.children.push(ch.toOutlineJson())
       }
+    })
+    return res
+  }
+
+  /**
+   *
+   * @returns
+   */
+  toMindJson () {
+    const res = this.content.getMindJson()
+    this.children.forEach(ch => {
+      res.children.push(ch.toMindJson())
     })
     return res
   }
