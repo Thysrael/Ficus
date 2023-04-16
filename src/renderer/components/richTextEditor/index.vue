@@ -35,6 +35,8 @@ export default {
         cache: {
           enable: false
         },
+        // 设置回调延迟
+        undoDelay: 50,
         // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
         after: () => {
           vditor.setValue(props.content)
