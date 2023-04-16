@@ -85,9 +85,9 @@ exports.markdownToTree = function (markdown) {
       }
 
       case 'table': {
-        const tableCells = []
         const { header, align, cells } = token
 
+        const tableCells = []
         tableCells.push({
           name: 'table.row',
           children: header.map((h, i) => ({
@@ -97,7 +97,7 @@ exports.markdownToTree = function (markdown) {
           }))
         })
 
-        tableCells.children.push(...cells.map((row) => ({
+        tableCells.push(...cells.map((row) => ({
           name: 'table.row',
           children: row.map((c, i) => ({
             name: 'table.cell',

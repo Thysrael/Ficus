@@ -171,11 +171,73 @@ class ListItemContent extends Content {
   }
 }
 
+const escapeText = str => {
+  return str.replace(/([^\\])\|/g, '$1\\|')
+}
+
 class TableContent extends Content {
   // private cells: any
   constructor (cells) {
     super('table', '')
     this.cells = cells
+  }
+
+  toMarkdown (state) {
+    const indent = this.pre
+    const result = []
+    const row = this.cells.length
+    const column = this.cells[0].children.length
+    const tableData = []
+
+    for (const rowState of this.cells) {
+      tableData.push(rowState.children.map(cell => escapeText(cell.text.trim())))
+    }
+
+    const columnWidth = this.cells[0].children.map(th => ({ width: 5, align: th.meta.align }))
+
+    let i
+    let j
+
+    for (i = 0; i < row; i++) {
+      for (j = 0; j < column; j++) {
+        columnWidth[j].width = Math.max(columnWidth[j].width, tableData[i][j].length + 2) // add 2, because have two space around text
+      }
+    }
+
+    tableData.forEach((r, i) => {
+      const rs = indent + '|' + r.map((cell, j) => {
+        const raw = ` ${cell + ' '.repeat(columnWidth[j].width)}`
+
+        return raw.substring(0, columnWidth[j].width)
+      }).join('|') + '|'
+      result.push(rs)
+      if (i === 0) {
+        const cutOff = indent + '|' + columnWidth.map(({ width, align }) => {
+          let raw = '-'.repeat(width - 2)
+          switch (align) {
+            case 'left':
+              raw = `:${raw} `
+              break
+
+            case 'center':
+              raw = `:${raw}:`
+              break
+
+            case 'right':
+              raw = ` ${raw}:`
+              break
+            default:
+              raw = ` ${raw} `
+              break
+          }
+
+          return raw
+        }).join('|') + '|'
+        result.push(cutOff)
+      }
+    })
+
+    return result.join('\n') + '\n'
   }
 }
 
