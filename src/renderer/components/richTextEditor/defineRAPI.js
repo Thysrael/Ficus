@@ -45,4 +45,14 @@ export default function defineRAPI (vditor) {
   bus.on('insertText', ({ content }) => {
     vditor.insertValue(content)
   })
+
+  /** 增加block **/
+  bus.on('addBlock', ({ type }) => {
+    vditor.addBlock(type)
+  })
+
+  /** 增加format **/
+  bus.on('addFormat', ({ type }) => {
+    vditor.addFormat(type)
+  })
 }
