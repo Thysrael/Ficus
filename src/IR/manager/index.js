@@ -42,15 +42,6 @@ class DataManager {
     }
     return this.tree.toOutlineJson()
   }
-
-  // /**
-  //    *
-  //    * @param srcNode 原NODE
-  //    * @param dstNode 插入到目标NODE前
-  //    */
-  // copy (srcNode, dstNode) {
-
-  // }
 }
 
 export default DataManager
