@@ -45,7 +45,7 @@ exports.markdownToTree = function (markdown) {
         const newNode = buildHeading(value, depth)
 
         // 标题节点作为接下来的父节点
-        if (depth <= 3 && parentStack[0].level !== undefined) {
+        if (parentStack[0].level !== undefined) {
           while (depth <= parentStack[0].level) {
             parentStack.shift()
           }
@@ -74,7 +74,7 @@ exports.markdownToTree = function (markdown) {
 
         if (/mermaid|flowchart|vega-lite|sequence|plantuml/.test(lang)) {
           const codeType = lang
-          const codeLang = lang === 'vega-lite' ? 'json' : 'yaml'
+          const codeLang = lang
           parentStack[0].node.insertAtLast(buildDiagramBlock(value, codeType, codeLang))
         } else {
           const codeType = codeBlockStyle === 'fenced' ? 'fenced' : 'indented'

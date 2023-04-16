@@ -1,11 +1,11 @@
-const { rootTypeName } = require('../../type/constant.js')
+const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName } = require('../../type/constant.js')
 
 class Content {
   // private text
-  // private name
+  // private typename
 
-  constructor (name, text) {
-    this.name = name
+  constructor (typename, text) {
+    this.typename = typename
     this.text = text
     this.pre = '' // 非空白前缀
     this.spacePre = '' // 空白行前缀
@@ -15,10 +15,12 @@ class Content {
     return this.pre + this.text + '\n'
   }
 
-  toJson () {
+  getMindJson () {
     return {
-      name: this.name,
-      text: this.text
+      name: this.text,
+      text: this.text,
+      type: this.typename,
+      children: []
     }
   }
 
@@ -51,8 +53,8 @@ class RootContent extends Content {
 }
 
 class ParagraphContent extends Content {
-  // constructor (name, text) {
-  //   super(name, text)
+  // constructor (typename, text) {
+  //   super(typename, text)
   // }
 
   toMarkdown () {
@@ -62,8 +64,8 @@ class ParagraphContent extends Content {
 
 class HeadingContent extends Content {
   // private depth
-  constructor (name, text, depth) {
-    super(name, text)
+  constructor (text, depth) {
+    super(headingTypeName, text)
     this.depth = depth
   }
 
@@ -79,13 +81,19 @@ class HeadingContent extends Content {
       children: []
     }
   }
+
+  getMindJson () {
+    const graphJson = super.getMindJson()
+    graphJson.level = this.depth
+    return graphJson
+  }
 }
 
 class CodeContent extends Content {
   // private type
   // private lang
-  constructor (name, text, type, lang) {
-    super(name, text)
+  constructor (typename, text, type, lang) {
+    super(typename, text)
     this.type = type
     this.lang = lang
   }
@@ -98,23 +106,36 @@ class CodeContent extends Content {
     res += '\n' + super.toMarkdown() + this.spacePre + '```\n' + this.spacePre + '\n'
     return res
   }
+
+  getMindJson () {
+    const graphJson = super.getMindJson()
+    graphJson.type = this.type
+    graphJson.lang = this.lang
+    return graphJson
+  }
 }
 
 class MathContent extends Content {
   // private style
-  constructor (name, text, style) {
-    super(name, text)
+  constructor (text, style) {
+    super(mathblockTypeName, text)
     this.style = style
   }
 
   toMarkdown () {
-    return super.toMarkdown() + '\n' + this.spacePre + '\n'
+    return this.spacePre + '$$\n' + super.toMarkdown() + this.spacePre + '$$\n' + this.spacePre + '\n'
+  }
+
+  getMindJson () {
+    const graphJson = super.getMindJson()
+    graphJson.style = this.style
+    return graphJson
   }
 }
 
 class QuoteContent extends Content {
-  constructor (name) {
-    super(name, '')
+  constructor () {
+    super(quoteTypeName, '')
   }
 
   toMarkdown () {
@@ -136,8 +157,8 @@ class ListContent extends Content {
   // private start
   // private delimiter
   // private marker
-  constructor (name, loose, start, delimiter, marker) {
-    super(name, '')
+  constructor (typename, loose, start, delimiter, marker) {
+    super(typename, '')
     this.loose = loose
     this.start = start
     this.delimiter = delimiter
@@ -151,12 +172,16 @@ class ListContent extends Content {
   getSinglePre (off = 0) {
     return (this.marker || `${this.start + off}${this.delimiter}`) + ' '
   }
+
+  getSingleSpacePre () {
+    return this.marker === undefined ? '   ' : '  '
+  }
 }
 
 class ListItemContent extends Content {
   // private checked: boolean
-  constructor (name, checked) {
-    super(name, '')
+  constructor (typename, checked) {
+    super(typename, '')
     this.checked = checked
   }
 
@@ -169,6 +194,12 @@ class ListItemContent extends Content {
       return ''
     } else { return `[${this.checked ? 'x' : ' '}] ` }
   }
+
+  getMindJson () {
+    const graphJson = super.getMindJson()
+    graphJson.checked = this.checked
+    return graphJson
+  }
 }
 
 const escapeText = str => {
@@ -178,11 +209,11 @@ const escapeText = str => {
 class TableContent extends Content {
   // private cells: any
   constructor (cells) {
-    super('table', '')
+    super(tableTypeName, 'table')
     this.cells = cells
   }
 
-  toMarkdown (state) {
+  toMarkdown () {
     const indent = this.pre
     const result = []
     const row = this.cells.length
