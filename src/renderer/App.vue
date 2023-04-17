@@ -111,6 +111,55 @@ export default {
         }]
       }]
     }])
+    const source = ref({}) // 源对象
+
+    bus.on('getSource', (obj) => {
+      source.value = obj
+    })
+
+    function removeFrom (obj, arr) {
+      let index = -1
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].path === obj.path) {
+          index = i
+          break
+        }
+      }
+      if (index !== -1) {
+        arr.splice(index, 1)
+      }
+    }
+
+    bus.on('toDst', (obj) => {
+      if (obj.children && obj.children.length) {
+        const father = findFather(source.value, data.value[0]).res
+        if (father.path !== obj.path) {
+          removeFrom(source.value, father.children)
+          // 拖拽会改变文件的路径，删除一个文件，改变source的path
+          obj.children.push(source.value)
+        }
+      }
+    })
+
+    // 返回父对象
+    function findFather (file, father) {
+      for (let i = 0; i < father.children.length; i++) {
+        if (file.path === father.children[i].path) {
+          return {
+            has: true,
+            res: father
+          }
+        }
+        const obj = findFather(file, father.children[i])
+        if (obj.has) {
+          return obj
+        }
+      }
+      return {
+        has: false,
+        res: file
+      }
+    }
 
     bus.on('openDir', (obj) => {
       data.value = [obj]

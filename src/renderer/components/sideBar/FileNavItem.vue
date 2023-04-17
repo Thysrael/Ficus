@@ -1,11 +1,15 @@
 <template>
-  <li>
+  <li
+      @contextmenu.stop.prevent="handleRightClick($event)"
+      v-contextmenu:contextmenu
+      @dragenter.stop="dragenter($event)"
+      @dragover.stop="dragover($event)"
+      @dragstart.stop="dragstart()"
+      draggable="true">
     <div
-        :class="isFocused ? `flex items-center cursor-pointer bg-red-300` : `flex items-center cursor-pointer bg-fuchsia-300`"
-        @click="toggle"
-        tabindex="0"
-        @focus="isFocused = true; curItem.curChild = -1"
-        @blur="isFocused = false"
+        :style="isSelected ? `display: flex;color: #42b983` : `display: flex;color: #2563eb`"
+        @click.exact="toggle(1)"
+        @click.ctrl="toggle(2)"
     >
       <svg
           v-if="hasChildren"
@@ -23,8 +27,16 @@
       </svg>
       {{ item.name }}
     </div>
+    <div>
+      <v-contextmenu ref="contextmenu">
+        <v-contextmenu-item>新建文件</v-contextmenu-item>
+        <v-contextmenu-item>新建文件夹</v-contextmenu-item>
+        <v-contextmenu-item>复制</v-contextmenu-item>
+      </v-contextmenu>
+    </div>
     <ul v-if="hasChildren && expanded" class="pl-4">
       <FileNavItem
+          :selected="selected"
           v-for="(child, index) in item.children"
           :key="index"
           :item="child"
@@ -35,12 +47,26 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, getCurrentInstance, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
+import { directive, Contextmenu, ContextmenuItem } from 'v-contextmenu'
+import 'v-contextmenu/dist/themes/default.css'
+import { useStore } from 'vuex'
 
 export default {
   name: 'FileNavItem',
+  directives: {
+    contextmenu: directive
+  },
+  components: {
+    [Contextmenu.name]: Contextmenu,
+    [ContextmenuItem.name]: ContextmenuItem
+  },
   props: {
+    selected: {
+      type: Array,
+      required: true
+    },
     item: {
       type: Object,
       required: true
@@ -48,20 +74,63 @@ export default {
   },
   setup (props) {
     const expanded = ref(false) // 控制是否显示孩子节点
-    const isFocused = ref(false)
     const curItem = ref(props.item)
+    const selectedList = ref(props.selected)
+    const store = useStore()
+    const TabXY = ref({ x: -1, y: -1 })
+    const { proxy, ctx } = getCurrentInstance()
+    const _this = ctx
+
+    console.log(proxy, _this)
+
+    watch(() => store.state.xy, (newValue, oldValue) => {
+      const temp = TabXY.value.x + '+' + TabXY.value.y
+      if (store.getters.getXY !== temp) {
+        _this.$refs.contextmenu.hide()
+      }
+    })
 
     // 创建一个计算属性，用于判断当前项是否有子节点
     const hasChildren = computed(() => {
       return props.item.children && props.item.children.length
     })
 
+    const isSelected = computed(() => {
+      // console.log('selected is ', selectedList.value)
+      for (let i = 0; i < selectedList.value.length; i++) {
+        if (props.item.path === selectedList.value[i].path) {
+          return true
+        }
+      }
+      return false
+    })
+
     // 创建一个方法，用于切换节点的展开状态
-    function toggle () {
-      if (hasChildren.value) {
-        expanded.value = !expanded.value
-      } else {
-        bus.emit('openNewTab', props.item)
+    function toggle (index) {
+      if (index === 1) {
+        curItem.value.curChild = -1
+        if (hasChildren.value) {
+          expanded.value = !expanded.value
+        } else {
+          bus.emit('openNewTab', props.item)
+        }
+        // 单击会新建一个列表
+        bus.emit('newSelected', props.item)
+      } else if (index === 2) {
+        // isFocused.value = !isFocused.value
+        // ctrl + 单击 不会新建列表，会往里添加，如果里面已经有则是删除
+        let index = -1
+        for (let i = 0; i < selectedList.value.length; i++) {
+          if (props.item.path === selectedList.value[i].path) {
+            index = i
+            break
+          }
+        }
+        if (index !== -1) {
+          selectedList.value.splice(index, 1)
+        } else {
+          selectedList.value.push(props.item)
+        }
       }
     }
 
@@ -69,13 +138,38 @@ export default {
       item.curChild = index
     }
 
+    function dragstart (index) {
+      // 源对象
+      bus.emit('getSource', props.item)
+    }
+
+    function dragenter (e) {
+      e.preventDefault()
+      // 避免源对象触发自身的dragenter事件
+    }
+
+    function dragover (e) {
+      e.preventDefault()
+      bus.emit('toDst', props.item)
+    }
+
+    function handleRightClick (e) {
+      console.log('i am clicked')
+      TabXY.value = { x: e.clientX, y: e.clientY }
+      store.dispatch('updateXY', TabXY.value)
+    }
+
     return {
+      dragstart,
+      dragenter,
+      dragover,
       expanded,
       hasChildren,
-      isFocused,
+      isSelected,
       toggle,
       curItem,
-      getCurChild
+      getCurChild,
+      handleRightClick
     }
   }
 }
