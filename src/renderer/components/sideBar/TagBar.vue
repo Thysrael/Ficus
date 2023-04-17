@@ -1,10 +1,12 @@
 <template>
-$END$
+<div>
+  我是TagBar
+</div>
 </template>
 
 <script>
 export default {
-name: "TagBar"
+  name: 'TagBar'
 }
 </script>
 
