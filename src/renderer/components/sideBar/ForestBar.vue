@@ -1,10 +1,12 @@
 <template>
-$END$
+<div>
+  我是ForestBar
+</div>
 </template>
 
 <script>
 export default {
-name: "ForestBar"
+  name: 'ForestBar'
 }
 </script>
 

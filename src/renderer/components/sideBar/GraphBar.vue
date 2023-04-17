@@ -1,10 +1,12 @@
 <template>
-$END$
+<div>
+  我是GraphBar
+</div>
 </template>
 
 <script>
 export default {
-name: "GraphBar"
+  name: 'GraphBar'
 }
 </script>
 
