@@ -103,7 +103,36 @@ export default {
         name: '搜索'
       }]
     }, {
-      name: '段落'
+      name: '段落',
+      children: [{
+        name: '一级标题'
+      }, {
+        name: '二级标题'
+      }, {
+        name: '三级标题'
+      }, {
+        name: '四级标题'
+      }, {
+        name: '五级标题'
+      }, {
+        name: '六级标题'
+      }, {
+        name: '表格'
+      }, {
+        name: '数学公式块'
+      }, {
+        name: '代码块'
+      }, {
+        name: '引用'
+      }, {
+        name: '有序列表'
+      }, {
+        name: '无序列表'
+      }, {
+        name: '任务清单'
+      }, {
+        name: '水平线'
+      }]
     }, {
       name: '格式',
       children: [{
@@ -260,20 +289,82 @@ export default {
       if (!(op.children && op.children.length)) {
         closeMenu() // 点击叶节点关闭菜单
         // 根据index找相应的函数执行
-        if (layer === 1) {
-          //
-        } else if (layer === 2) {
-          //
-          if (index === 2) {
-            // 新建项目
+        switch (op.name) {
+          case '新建项目':
             await newMyProject()
-          }
-          if (index === 3) {
-            // 打开文件
+            break
+          case '打开本地文件':
             await openMyFile()
-          }
-        } else {
-          //
+            break
+          case '一级标题':
+            bus.emit('addBlock', { type: 'heading-1' })
+            break
+          case '二级标题':
+            bus.emit('addBlock', { type: 'heading-2' })
+            break
+          case '三级标题':
+            bus.emit('addBlock', { type: 'heading-3' })
+            break
+          case '四级标题':
+            bus.emit('addBlock', { type: 'heading-4' })
+            break
+          case '五级标题':
+            bus.emit('addBlock', { type: 'heading-5' })
+            break
+          case '六级标题':
+            bus.emit('addBlock', { type: 'heading-6' })
+            break
+          case '表格':
+            bus.emit('addBlock', { type: 'table' })
+            break
+          case '数学公式块':
+            bus.emit('addBlock', { type: 'math-block' })
+            break
+          case '代码块':
+            bus.emit('addBlock', { type: 'code-block' })
+            break
+          case '引用':
+            bus.emit('addBlock', { type: 'quote' })
+            break
+          case '有序列表':
+            bus.emit('addBlock', { type: 'ordered-list' })
+            break
+          case '无序列表':
+            bus.emit('addBlock', { type: 'unordered-list' })
+            break
+          case '任务清单':
+            bus.emit('addBlock', { type: 'task-list' })
+            break
+          case '水平线':
+            bus.emit('addBlock', { type: 'horizontal-line' })
+            break
+          case '加粗':
+            bus.emit('addFormat', { type: 'bold' })
+            break
+          case '斜体':
+            bus.emit('addFormat', { type: 'italic' })
+            break
+          case '删除线':
+            bus.emit('addFormat', { type: 'strike' })
+            break
+          case '行内代码':
+            bus.emit('addFormat', { type: 'inline-code' })
+            break
+          case '行内数学公式':
+            bus.emit('addFormat', { type: 'inline-math' })
+            break
+          case '高亮':
+            bus.emit('addFormat', { type: 'highlight' })
+            break
+          case '超链接':
+            bus.emit('addFormat', { type: 'link' })
+            break
+          case '图片':
+            bus.emit('addFormat', { type: 'img-link' })
+            break
+          case '文件引用':
+            bus.emit('addFormat', { type: 'file-link' })
+            break
         }
       }
     }

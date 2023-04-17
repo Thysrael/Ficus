@@ -19,6 +19,7 @@ async function createWindow () {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, '../src/main/filesystem/preload.js'),
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -37,7 +38,7 @@ async function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://.de/index.html')
   }
-
+  win.setMeu(null)
   win.removeMenu()
 }
 
@@ -91,6 +92,20 @@ app.on('ready', async () => {
     saveToTarget(content)
   })
   createWindow()
+  const win = BrowserWindow.getFocusedWindow()
+  ipcMain.handle('window-min', () => {
+    win.minimize()
+  })
+  ipcMain.handle('window-max', () => {
+    if (win.isMaximized()) {
+      win.restore()
+    } else {
+      win.maximize()
+    }
+  })
+  ipcMain.handle('window-close', () => {
+    win.close()
+  })
 })
 
 // Exit cleanly on request from parent process in development mode.
