@@ -1,15 +1,24 @@
 <template>
   <div class="area-header"
   >
-    <div class="area-header-top" style="z-index: 10000;display: flex">
-      <MenuList style="z-index: 100;margin-left: 5px"></MenuList>
+    <div class="area-header-top" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
+      <MenuList style="z-index: 100;margin-left: 5px;-webkit-app-region: no-drag"></MenuList>
       <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
-           style="position: absolute; left: 5px; top: 0; width: 40px; height: 40px; opacity: 1;"/>
-      <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;"></BreadCrumb>
-      <ModeChoose class="area-header-mode"></ModeChoose>
+           style="position: absolute; left: 5px; top: 0; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
+      <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;-webkit-app-region: no-drag"></BreadCrumb>
+      <ModeChoose class="area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
+      <button @click="myMin" style="margin-left: 900px;-webkit-app-region: no-drag">
+        -
+      </button>
+      <button @click="myMax" style="margin-left: 10px;-webkit-app-region: no-drag">
+        []
+      </button>
+      <button @click="myClose" style="margin-left: 10px;-webkit-app-region: no-drag">
+        x
+      </button>
     </div>
-    <div class="area-header-bot" style="z-index: 10;display: flex">
+    <div class="area-header-bot" style="z-index: 10;display: flex;">
       <button style="margin-left: 10px">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="10" height="10" viewBox="0 0 10 10">
@@ -101,7 +110,7 @@
         </svg>
       </div>
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
-      <button style="position: absolute; margin-left: 1480px;margin-top: 5px">
+      <button style="position: absolute; margin-left: 1300px;margin-top: 5px;">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <defs>
@@ -118,7 +127,8 @@
           </g>
         </svg>
       </button>
-      <button style="position: absolute; margin-left: 1500px;margin-top: 5px">
+      <button @click="changeTheme"
+              style="position: absolute; margin-left: 1320px;margin-top: 5px;-webkit-app-region: no-drag">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <g style="mix-blend-mode:passthrough">
@@ -159,6 +169,7 @@ export default {
     }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
     const wordCnt = ref(0) // 当前工作区字符数
+    const theme = ref('classic') // 当前主题
 
     // 对于一个待打开的文件，判断是否已经包含在已打开的文件中
     function contain (file) {
@@ -309,7 +320,28 @@ export default {
       bus.emit('openOutLine', obj.children)
     })
 
-    return { openFiles, update, curObj, content, wordCnt, showMenu }
+    function myMin () {
+      console.log('min')
+      window.electronAPI.minWindow()
+    }
+
+    function myMax () {
+      console.log('max')
+      window.electronAPI.maxWindow()
+    }
+
+    function myClose () {
+      console.log('close')
+      // 需要关闭开发者窗口
+      window.electronAPI.closeWindow()
+    }
+
+    function changeTheme () {
+      theme.value = (theme.value === 'classic' ? 'modern' : 'classic')
+      bus.emit('changeContentTheme', { theme: theme.value })
+    }
+
+    return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }
   }
 }
 </script>
