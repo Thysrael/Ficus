@@ -2759,19 +2759,18 @@ select {
 .area-header-top {
     width: 100%;
     height: 40px;
-    margin-top: 0px;
-    margin-left: 0px;
-    position: absolute;
+    margin-top: 0;
+    margin-left: 0;
+    position: relative;
     background-color: #727B85;
 }
 
 .area-header-bot {
     width: 100%;
     height: 25px;
-    margin-top: 40px;
     margin-left: 0px;
-    position: absolute;
-    background-color: #D3DCD9;
+    position: relative;
+    background: #F4F4F3;
 }
 
 .area-header-downtab {
@@ -2791,8 +2790,10 @@ select {
 
 .area-header-mode {
     position: absolute;
-    margin-left: 651px;
+    margin: 0 auto;
     margin-top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 170px;
     height: 20px;
     border-radius: 5px;
@@ -2829,8 +2830,8 @@ select {
     width: 100px;
     height: 15px;
     border-radius: 3px;
-    margin-top: 5px;
-    margin-left: 88px;
+    margin-top: 0px;
+    margin-left: 20px;
     position: absolute;
     background-color: #ffffff;
 }

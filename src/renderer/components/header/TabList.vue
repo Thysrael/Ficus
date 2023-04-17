@@ -1,5 +1,5 @@
 <template>
-  <div class="flex;flex-direction: row;" style="margin-left: 100px;">
+  <div class="flexStyle" style="margin-left: 200px;">
     <ol class="flex">
       <li
           :class="(item.path === curObj.path) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex;"
@@ -14,7 +14,7 @@
           v-contextmenu:contextmenu
       >
         {{ getName(item) }}
-        <div style="margin-top: 5px" @click.stop="closeTab">
+        <div style="margin-top: 5px" @click.stop="closeTabByItem(item)">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                width="12" height="12" viewBox="0 0 12 12">
             <defs>
@@ -128,6 +128,10 @@ export default {
       bus.emit('sendToTextUI', item)
     }
 
+    function closeTabByItem (item) {
+      bus.emit('deleteTab', item)
+    }
+
     function closeTab () {
       bus.emit('deleteTab', rightClickItem.value)
     }
@@ -146,6 +150,7 @@ export default {
       dragover,
       getName,
       getTab,
+      closeTabByItem,
       closeTab,
       closeOtherTab,
       lockTab,
@@ -156,5 +161,15 @@ export default {
 </script>
 
 <style scoped>
-
+.flexStyle{
+  height:100px;
+  display:flex;
+  justify-content:space-between;
+  /* 设置超出滚动 */
+  overflow-x:auto;
+}
+::-webkit-scrollbar {
+  /* 隐藏滚动条 */
+  display: none;
+}
 </style>

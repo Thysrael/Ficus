@@ -1,14 +1,16 @@
 <template>
-  <MyHeader :data="data"></MyHeader>
-  <div style="display:flex;height: 400px">
-    <SideBar :data="data"></SideBar>
-    <TextArea></TextArea>
+  <div id="app" :style="{ height: windowHeight }">
+    <MyHeader :data="data"></MyHeader>
+    <div style="display:flex;height: 100%;width:100%;position: relative">
+      <SideBar :data="data"></SideBar>
+      <TextArea class="myTextArea"></TextArea>
+    </div>
   </div>
 </template>
 
 <script>
 
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import MyHeader from '@/renderer/components/header/MyHeader'
 import SideBar from '@/renderer/components/sideBar/SideBar'
 import TextArea from '@/renderer/components/textArea/TextArea'
@@ -112,6 +114,13 @@ export default {
       }]
     }])
     const source = ref({}) // 源对象
+    const windowHeight = ref(window.innerHeight + 'px')
+
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        windowHeight.value = window.innerHeight + 'px'
+      })
+    })
 
     bus.on('getSource', (obj) => {
       source.value = obj
@@ -165,7 +174,8 @@ export default {
       data.value = [obj]
     })
     return {
-      data
+      data,
+      windowHeight
     }
   }
 }
@@ -174,8 +184,20 @@ export default {
 <style>
 #app {
   position: relative;
-  height: 100%;
   opacity: 1;
   background: #FFFFFF;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.myTextArea {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-left: 200px;
+  margin-top: 60px;
+  width: calc(100% - 200px);
+  height: 100%;
+  opacity: 1;
 }
 </style>
