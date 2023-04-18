@@ -35,7 +35,7 @@ class DataManager {
   }
 
   /**
-   * 
+   *
    * @param {*} markdown md文本
    */
   updateTreeFromMarkdown (markdown) {
