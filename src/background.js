@@ -4,8 +4,7 @@ import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
-// import { initFromEmptyFolder } from './main/filesystem/database'
-import { initFromEmptyFolder } from '@/main/filesystem/database'
+import { addTag2File, findTags, initFromFolder } from '@/main/filesystem/database'
 import path from 'path'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -69,9 +68,18 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+  ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
+    const tags = await findTags(tagName, folderPath)
+    // console.log(fileObjs)
+    return tags
+  })
+
+  ipcMain.handle('addTagToFile', async (e, filePath, tagName, isNewTag, folderPath) => {
+    addTag2File(filePath, tagName, isNewTag, folderPath)
+  })
+
   ipcMain.handle('newProject', async (e, data) => {
-    const relation = await initFromEmptyFolder(data)
-    console.log(relation)
+    const relation = await initFromFolder(data)
     return relation
   })
   ipcMain.handle('dialog:openFile', async (e) => {
@@ -92,6 +100,7 @@ app.on('ready', async () => {
     saveToTarget(content)
   })
   createWindow()
+
   const win = BrowserWindow.getFocusedWindow()
   ipcMain.handle('window-min', () => {
     win.minimize()
