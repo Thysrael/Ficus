@@ -83,7 +83,7 @@ export default {
               const path = aElement.getAttribute('href')
               bus.emit('openRefFile', { name, path })
             } else {
-              window.open(event.target.getAttribute("href"));
+              window.open(event.target.getAttribute('href'))
             }
           }
         }
