@@ -15,17 +15,17 @@ class DataManager {
 
   /**
    * 从markdown生成FicusTree
-   * @param markdown md文本
+   * @param info {content: md文本, path: 绝对路径}
    * @param replaced 是否替换当前tree
    * @returns
    */
-  buildTreeFromMarkdown (markdown, options = {}) {
+  buildTreeFromMarkdown (info, options = {}) {
     const treeOptions = Object.assign({}, DEFAULT_OPTIONS, options)
     let newTree
-    if (this.treeSet[markdown.absolutePath] !== undefined) {
-      newTree = this.treeSet[markdown.absolutePath]
+    if (this.treeSet[info.path] !== undefined) {
+      newTree = this.treeSet[info.path]
     } else {
-      newTree = new IRTree({ markdown })
+      newTree = new IRTree({ markdown: info.content })
     }
 
     if (treeOptions.replaced) {
@@ -34,6 +34,10 @@ class DataManager {
     return newTree.tree
   }
 
+  /**
+   * 
+   * @param {*} markdown md文本
+   */
   updateTreeFromMarkdown (markdown) {
     if (this.tree === undefined) {
       console.log('不存在当前文件')
@@ -66,17 +70,17 @@ class DataManager {
 
   /**
    * 从mindJson生成FicusTree
-   * @param mindJson md文本
+   * @param info md文本
    * @param replaced 是否替换当前tree
    * @returns
    */
-  buildTreeFromMindJson (mindJson, options = {}) {
+  buildTreeFromMindJson (info, options = {}) {
     const treeOptions = Object.assign({}, DEFAULT_OPTIONS, options)
     let newTree
-    if (this.treeSet[mindJson.absolutePath] !== undefined) {
-      newTree = this.treeSet[mindJson.absolutePath]
+    if (this.treeSet[info.path] !== undefined) {
+      newTree = this.treeSet[info.path]
     } else {
-      newTree = new IRTree({ mindJson })
+      newTree = new IRTree({ mindJson: info.content })
     }
 
     if (treeOptions.replaced) {
