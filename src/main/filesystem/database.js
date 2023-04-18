@@ -33,6 +33,37 @@ exports.findTags = (tagName, folderPath) => {
   return res
 }
 
+// 根据用户输入的tag模糊匹配所有前缀相同的tag， 后端返回的对 [tag] 进行模糊匹配的结果 + 一个以 [tag] 为名称的新标签（如果模糊匹配结果中不包含名称 === [tag] 的标签）
+exports.findTags = (tagName, folderPath) => {
+  const res = []
+  const basePath = path.join(folderPath, '.ficus')
+  // const relationJSONFilePath = path.join(basePath, 'relation.json')
+  const tagsJSONFilePath = path.join(basePath, 'tags.json')
+  const rawData = fs.readFileSync(tagsJSONFilePath)
+  const data = JSON.parse(rawData)
+  const tags = data.tag2Files
+  const len = tagName.length
+  const lowTagName = tagName.toLowerCase()
+  let hasTag = false
+  console.log(tagName)
+  for (const tag of tags) {
+    const pureTag = tag.tagName.replace(/[\r\n]/g, '')
+    console.log(pureTag)
+    if (pureTag === tagName) {
+      hasTag = true
+    } else {
+      const lowTag = pureTag.toLowerCase()
+      if (lowTag.length >= len && lowTag.substring(0, len) === lowTagName) {
+        res.push(pureTag)
+      }
+    }
+  }
+  if (hasTag) {
+    res.push(tagName)
+  }
+  return res
+}
+
 // 对一个文件添加tag:
 exports.addTag2File = (filePath, tagName, isNewTag, folderPath) => {
   const basePath = path.join(folderPath, '.ficus')
@@ -76,7 +107,6 @@ exports.addTag2File = (filePath, tagName, isNewTag, folderPath) => {
   })
 }
 
-// 新建项目：
 exports.initFromFolder = async () => {
   return await dialog.showOpenDialog({
     buttonLabel: '选择',
