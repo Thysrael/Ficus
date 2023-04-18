@@ -210,7 +210,6 @@ export default {
       // 调用得到children，传递给sidebar
       dataManager.buildTreeFromMarkdown(newValue, true)
       const obj = dataManager.getTreeOutline()
-      console.log('得到了outLine', obj)
       bus.emit('openOutLine', obj.children)
     })
 
