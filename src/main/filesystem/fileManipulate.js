@@ -1,6 +1,155 @@
 const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const { getTree } = require('./getFileTree')
+const path = require('path')
+const os = require('os')
+const { changeRelation, clearDir } = require('./general')
+// 跳转到引用：
+exports.linkToFile = async (filePath) => {
+  if (fs.existsSync(filePath) === false) return null
+  const content = fs.readFileSync(filePath).toString()
+  let pathSplit = ''
+  if (os.platform().toString() === 'win32') {
+    pathSplit = filePath.split('\\')
+  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+    pathSplit = filePath.split('/')
+  }
+  const fileName = pathSplit[pathSplit.length - 1]
+  const file = {
+    name: fileName, // 文件名
+    curChild: -1, // 直接填充-1即可
+    path: filePath, // 绝对路径
+    absolutePath: pathSplit, // 希望将绝对路径分割成数组
+    offset: -1, // 直接填充-1即可
+    children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+    content // 文件内容
+  }
+  file.type = 'file'
+  const index = filePath.lastIndexOf('.')
+  const ext = filePath.substring(index + 1)
+  const isMd = (ext === 'md')
+  file.isMd = isMd
+  return file
+}
+// 删除文件
+exports.deleteFile = (filePath, projPath) => {
+  fs.unlink(filePath, async function (err) {
+    if (err) throw err
+    // 如果没有错误，则文件已成功删除
+    console.log('File deleted!')
+    await changeRelation(projPath)
+  })
+}
+// 重命名文件或文件夹
+exports.renameFileOrFolder = async (newPath, oldPath, projPath) => {
+  fs.rename(oldPath, newPath, function (err) {
+    if (err) {
+      console.log('no such file or directory')
+    } else {
+      console.log('File Renamed.')
+    }
+  })
+  await changeRelation(projPath)
+}
+
+// 删除文件夹
+exports.deleteFolder = async (folderPath, projPath) => {
+  clearDir(folderPath)
+  await changeRelation(projPath)
+}
+// 新建文件1
+exports.newFileFromDialog = async (projPath) => {
+  return await dialog.showSaveDialog({
+    buttonLabel: '新建',
+    defaultPath: app.getPath('desktop'),
+    properties: ['showHiddenFiles'],
+    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+      { name: 'images', extensions: ['jpg', 'png'] }
+    ]
+  }).then(async (result) => {
+    if (result.canceled === true) {
+      return []
+    }
+    const fd = fs.openSync(result.filePath, 'w')
+    if (result.filePath.startsWith(projPath)) {
+      let pathSplit = ''
+      if (os.platform().toString() === 'win32') {
+        pathSplit = projPath.split('\\')
+      } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+        pathSplit = projPath.split('/')
+      }
+      const folderName = pathSplit[pathSplit.length - 1]
+      // console.log(result.filePaths[0])
+      const tree = await getTree(projPath, folderName)
+      await changeRelation(projPath)
+      fs.close(fd, (err) => {
+        if (err) { console.error('Failed to close file', err) }
+      })
+      return tree.children.filter(item => item.name !== '.ficus')
+    } else {
+      fs.close(fd, (err) => {
+        if (err) { console.error('Failed to close file', err) }
+      })
+      return []
+    }
+  })
+}
+// 新建文件2
+exports.newFileFromSidebar = async (filePath, fileName, projPath) => {
+  const pos = path.join(filePath, fileName)
+  const fd = fs.openSync(pos, 'w')
+  await changeRelation(projPath)
+  fs.close(fd, (err) => {
+    if (err) { console.error('Failed to close file', err) }
+  })
+}
+
+// 新建文件夹1
+exports.newFolderFromDialog = async (projPath) => {
+  return await dialog.showOpenDialog({
+    buttonLabel: '新建',
+    defaultPath: app.getPath('desktop'),
+    properties: ['showHiddenFiles', 'createDirectory', 'openDirectory'],
+    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+      { name: 'images', extensions: ['jpg', 'png'] }
+    ]
+  }).then(async (result) => {
+    // fs.mkdir(result, { recursive: true }, err => {
+    //   if (err) console.log(`mkdir path: ${basePath} err`)
+    // })
+    if (result.canceled === true) {
+      return []
+    }
+    if (result.filePaths[0].startsWith(projPath)) {
+      let pathSplit = ''
+      if (os.platform().toString() === 'win32') {
+        pathSplit = projPath.split('\\')
+      } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+        pathSplit = projPath.split('/')
+      }
+      const folderName = pathSplit[pathSplit.length - 1]
+      // console.log(result.filePaths[0])
+      const tree = await getTree(projPath, folderName)
+      // console.log(tree)
+      await changeRelation(projPath)
+      return tree.children.filter(item => item.name !== '.ficus')
+    } else {
+      return []
+    }
+  })
+}
+// 新建文件夹2
+exports.newFolderFromSidebar = async (folderPath, folderName, projPath) => {
+  const basePath = path.join(folderPath, folderName)
+  fs.mkdir(basePath, { recursive: true }, err => {
+    if (err) console.log(`mkdir path: ${basePath} err`)
+  })
+  await changeRelation(projPath)
+}
 
 // 打开文件：
 exports.getFileFromUser = async () => {
@@ -21,7 +170,12 @@ exports.getFileFromUser = async () => {
     const fileObjs = []
     for (const filePath of filePaths) {
       const content = fs.readFileSync(filePath).toString()
-      const pathSplit = filePath.split('\\')
+      let pathSplit = ''
+      if (os.platform().toString() === 'win32') {
+        pathSplit = filePath.split('\\')
+      } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+        pathSplit = filePath.split('/')
+      }
       const fileName = pathSplit[pathSplit.length - 1]
       const file = {
         name: fileName, // 文件名
@@ -58,7 +212,12 @@ exports.getFolderFromUser = async () => {
       return []
     }
     const folderPath = result.filePaths[0]
-    const pathSplit = folderPath.split('\\')
+    let pathSplit = ''
+    if (os.platform().toString() === 'win32') {
+      pathSplit = folderPath.split('\\')
+    } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+      pathSplit = folderPath.split('/')
+    }
     const folderName = pathSplit[pathSplit.length - 1]
     const tree = await getTree(folderPath, folderName)
     // console.log(tree.children[0].absolutePath[2])
@@ -84,8 +243,6 @@ exports.readFile = (filePath) => {
 
 // 保存文件：
 exports.saveFile = (filePath, fileContent) => {
-  console.log(filePath)
-  console.log(fileContent)
   fs.writeFile(filePath, fileContent, (err) => {
     // 写入失败
     if (err) {
@@ -97,7 +254,7 @@ exports.saveFile = (filePath, fileContent) => {
 }
 
 // 文件另存为：
-exports.saveToTarget = (fileContent) => {
+exports.saveToTarget = async (fileContent, projPath) => {
   dialog.showSaveDialog({
     buttonLabel: '保存',
     defaultPath: app.getPath('desktop'),
@@ -107,9 +264,27 @@ exports.saveToTarget = (fileContent) => {
       { name: 'Markdown Files', extensions: ['md', 'markdown'] },
       { name: 'images', extensions: ['jpg', 'png'] }
     ]
-  }).then((result) => {
-    console.log(result)
-    fs.writeFileSync(result.filePath, fileContent)
+  }).then(async (result) => {
+    if (result.canceled === true) {
+      return []
+    } else {
+      fs.writeFileSync(result.filePath, fileContent)
+      if (result.filePath.startsWith(projPath)) {
+        let pathSplit = ''
+        if (os.platform().toString() === 'win32') {
+          pathSplit = projPath.split('\\')
+        } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+          pathSplit = projPath.split('/')
+        }
+        const folderName = pathSplit[pathSplit.length - 1]
+        // console.log(result.filePaths[0])
+        const tree = await getTree(projPath, folderName)
+        await changeRelation(projPath)
+        return tree.children.filter(item => item.name !== '.ficus')
+      } else {
+        return []
+      }
+    }
   })
 }
 

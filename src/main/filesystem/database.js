@@ -2,6 +2,15 @@ const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
 const { getTree } = require('./getFileTree')
+const os = require('os')
+
+exports.sendTags = async (projPath) => {
+  const basePath = path.join(projPath, '.ficus')
+  const tagsJSONFilePath = path.join(basePath, 'tags.json')
+  const rawData = fs.readFileSync(tagsJSONFilePath)
+  const tags = JSON.parse(rawData)
+  return tags
+}
 
 exports.deleteTag = (tagName, folderPath, filePath) => {
   const basePath = path.join(folderPath, '.ficus')
@@ -129,7 +138,12 @@ exports.addTag2File = (filePath, tagName, isNewTag, folderPath) => {
     tags.tag2Files.push({ tagName, attach: [filePath] })
   }
   if (!hasFile) {
-    const pathSplit = filePath.split('\\')
+    let pathSplit = ''
+    if (os.platform().toString() === 'win32') {
+      pathSplit = filePath.split('\\')
+    } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+      pathSplit = filePath.split('/')
+    }
     const fName = pathSplit[pathSplit.length - 1]
     const file = { fileName: fName, path: filePath, fileTags: [tagName] }
     tags.file2Tags.push(file)
@@ -162,7 +176,12 @@ exports.initFromFolder = async () => {
         tree: {}
       }
     }
-    const pathSplit = result.filePaths[0].split('\\')
+    let pathSplit = ''
+    if (os.platform().toString() === 'win32') {
+      pathSplit = result.filePaths[0].split('\\')
+    } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+      pathSplit = result.filePaths[0].split('/')
+    }
     const folderName = pathSplit[pathSplit.length - 1]
     // console.log(result.filePaths[0])
     const tree = await getTree(result.filePaths[0], folderName)
