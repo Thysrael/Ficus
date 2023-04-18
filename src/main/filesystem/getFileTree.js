@@ -70,6 +70,10 @@ function newObj (tempDir, item) {
     const content = fs.readFileSync(tempDir).toString()
     obj.content = content
     obj.type = 'file'
+    const index = tempDir.lastIndexOf('.')
+    const ext = tempDir.substring(index + 1)
+    const isMd = (ext === 'md')
+    obj.isMd = isMd
   }
   // 判断路径是否为文件夹
   if (!fs.statSync(tempDir).isFile()) {
@@ -80,17 +84,9 @@ function newObj (tempDir, item) {
   return obj
 }
 
-// app.get('/getFileTree', async (req, res) => {
-//     const fileJson = await initFun()
-//     // 将对象转成JSON格式
-//     res.send(JSON.stringify(fileJson))
-// })
 exports.getTree = async (folderPath, folderName) => {
   const dirPath = path.resolve(folderPath)
   // console.log(dirPath)
   const fileJson = await initFun(dirPath, folderName)
-  // //     // 将对象转成JSON格式
-  // console.log(fileJson)
-  // console.log(tree)
   return fileJson
 }
