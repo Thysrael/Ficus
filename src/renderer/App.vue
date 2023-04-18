@@ -5,6 +5,18 @@
       <SideBar :data="data"></SideBar>
       <TextArea class="myTextArea"></TextArea>
     </div>
+    <div class="dialog" v-if="showDialog">
+      <div style="width: 300px; height: 30px; background-color: #71717a; text-align: center"> {{ dialogName }} </div>
+      <input v-model="fileName" style="width: 300px; height: 30px; background-color: #ffffff" placeholder="请输入..." @keyup.enter="handleNew"/>
+      <div style="display: flex; position: relative">
+        <button style="position:absolute; left: 20px;" @click="handleNew">
+          确认
+        </button>
+        <button style="position:absolute; right: 20px;" @click="fileName = ''; showDialog = false">
+          取消
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -127,6 +139,9 @@ export default {
     const data = ref([])
     const source = ref({}) // 源对象
     const windowHeight = ref(window.innerHeight + 'px')
+    const showDialog = ref(false)
+    const dialogName = ref('')
+    const fileName = ref('')
 
     onMounted(() => {
       window.addEventListener('resize', () => {
@@ -185,9 +200,33 @@ export default {
     bus.on('openDir', (obj) => {
       data.value = [obj]
     })
+
+    bus.on('showDialog', (type) => {
+      showDialog.value = true
+      dialogName.value = (type === 'file') ? '新建文件' : '新建文件夹'
+    })
+
+    function handleNew () {
+      if (fileName.value === '') {
+        alert('必须输入文件名或文件夹名')
+        showDialog.value = false
+      } else {
+        bus.emit('handleNewFromApp', {
+          name: fileName.value,
+          type: (dialogName.value === '新建文件') ? 'file' : 'folder'
+        })
+        fileName.value = ''
+        showDialog.value = false
+      }
+    }
+
     return {
       data,
-      windowHeight
+      windowHeight,
+      showDialog,
+      dialogName,
+      fileName,
+      handleNew
     }
   }
 }
@@ -211,5 +250,13 @@ export default {
   width: calc(100% - 200px);
   height: 100%;
   opacity: 1;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
 }
 </style>
