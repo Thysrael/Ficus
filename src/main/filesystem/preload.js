@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openFolder: () => ipcRenderer.invoke('dialog:openFolder'),
   saveFile: (path, content) => ipcRenderer.invoke('save_file', path, content),
   saveToAnotherFile: (content) => ipcRenderer.invoke('saveToTarget', content),
+
   minWindow: () => ipcRenderer.invoke('window-min'),
   maxWindow: () => ipcRenderer.invoke('window-max'),
   closeWindow: () => ipcRenderer.invoke('window-close'),
