@@ -1,5 +1,4 @@
 const { markdownToTree } = require('../../src/IR/block/factory/markdownToTree.js')
-const chai = require('chai')
 const assert = require('assert');
 
 describe('markdown生成树到大纲视图测试', function () {

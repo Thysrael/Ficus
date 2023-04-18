@@ -1,5 +1,5 @@
 const { markdownToTree } = require('../../src/IR/block/factory/markdownToTree.js')
-const chai = require('chai')
+const assert = require('assert');
 
 describe('IR到MindJson测试', function () {
   let root = markdownToTree('# aa')
