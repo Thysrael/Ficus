@@ -4,10 +4,15 @@ import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
+
 import { addTag2File, findTags, initFromFolder } from '@/main/filesystem/database'
+
+// import { initFromEmptyFolder } from './main/filesystem/database''
+
 import path from 'path'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -27,7 +32,7 @@ async function createWindow () {
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     }
   })
-
+  console.log(path.join(__dirname, '../src/main/filesystem/preload.js'))
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
