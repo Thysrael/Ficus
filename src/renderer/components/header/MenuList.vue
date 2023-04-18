@@ -260,7 +260,8 @@ export default {
         curChild: -1,
         content: '',
         absolutePath: [root.root.foldername],
-        offset: -1
+        offset: -1,
+        type: 'folder'
       }]
       bus.emit('openDir', openDir.value[0])
     }
