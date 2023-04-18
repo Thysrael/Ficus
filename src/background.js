@@ -3,8 +3,16 @@
 import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget, saveToPDFTarget } from './main/filesystem/fileManipulate'
-import { addTag2File, deleteTag, findTags, initFromFolder } from '@/main/filesystem/database'
+import {
+  deleteFile, deleteFolder,
+  getFileFromUser,
+  getFolderFromUser, linkToFile, newFileFromDialog,
+  newFileFromSidebar, newFolderFromDialog, newFolderFromSidebar, renameFileOrFolder,
+  saveFile,
+  saveToTarget,
+  saveToPDFTarget
+} from './main/filesystem/fileManipulate'
+import { addTag2File, deleteTag, findTags, initFromFolder, sendTags } from '@/main/filesystem/database'
 
 import path from 'path'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
@@ -97,6 +105,45 @@ app.on('ready', async () => {
     })
   })
 
+  ipcMain.handle('sendTags', async (e, projPath) => {
+    const tags = await sendTags(projPath)
+    return tags
+  })
+
+  ipcMain.handle('linkToFile', async (e, filePath) => {
+    const file = await linkToFile(filePath)
+    return file
+  })
+  ipcMain.handle('deleteFile', (e, filePath, projPath) => {
+    deleteFile(filePath, projPath)
+  })
+  ipcMain.handle('deleteFolder', async (e, folderPath, projPath) => {
+    await deleteFolder(folderPath, projPath)
+  })
+  ipcMain.handle('renameFileOrFolder', async (e, newPath, oldPath, projPath) => {
+    await renameFileOrFolder(newPath, oldPath, projPath)
+  })
+
+  ipcMain.handle('newFileFromSidebar', async (e, filePath, fileName, projPath) => {
+    await newFileFromSidebar(filePath, fileName, projPath)
+  })
+
+  ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName, projPath) => {
+    newFolderFromSidebar(filePath, fileName, projPath)
+  })
+
+  ipcMain.handle('newFileFromDialog', async (e, projPath) => {
+    const tree = await newFileFromDialog(projPath)
+    // console.log(fileObjs)
+    return tree
+  })
+
+  ipcMain.handle('newFolderFromDialog', async (e, projPath) => {
+    const tree = await newFolderFromDialog(projPath)
+    // console.log(fileObjs)
+    return tree
+  })
+
   ipcMain.handle('delete_tag', async (e, filePath, tagName, folderPath) => {
     deleteTag(tagName, folderPath, filePath)
   })
@@ -129,8 +176,8 @@ app.on('ready', async () => {
   ipcMain.handle('save_file', (e, path, content) => {
     saveFile(path, content)
   })
-  ipcMain.handle('saveToTarget', (e, content) => {
-    saveToTarget(content)
+  ipcMain.handle('saveToTarget', (e, content, projPath) => {
+    saveToTarget(content, projPath)
   })
   createWindow()
 

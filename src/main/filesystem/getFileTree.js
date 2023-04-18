@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const os = require('os')
 
 /**
  * 函数作用: 初始化
@@ -14,13 +15,8 @@ function initFun (dirPath, folderName) {
   }
   // 文件数组
   const res = fs.readdirSync(dirPath)
-  // console.log(res)
-  // all里的children数组
-  // console.log(res)
   const temp = getFileJson(res, all.children, dirPath)
-  // console.log(temp)
   all.children = temp
-  // console.log(all)
   return all
 }
 
@@ -32,11 +28,12 @@ function initFun (dirPath, folderName) {
  */
 function getFileJson (res, arr, dir) {
   res.map(item => {
-    const tempDir = `${dir}\\${item}`
-    // console.log(tempDir)
+    let tempDir = `${dir}/${item}`
+    if (os.platform().toString() === 'win32') {
+      tempDir = `${dir}\\${item}`
+    }
     const obj = newObj(tempDir, item)
     arr.push(obj)
-    // console.log(obj.children === undefined)
     if (obj.children !== undefined && obj.children.length === 0) {
       const dirValArr = fs.readdirSync(tempDir)
       return getFileJson(dirValArr, obj.children, obj.path)
@@ -55,7 +52,12 @@ function getFileJson (res, arr, dir) {
  * @returns 返回处理好的对象
  */
 function newObj (tempDir, item) {
-  const pathSplit = tempDir.split('\\')
+  let pathSplit = ''
+  if (os.platform().toString() === 'win32') {
+    pathSplit = tempDir.split('\\')
+  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+    pathSplit = tempDir.split('/')
+  }
   const obj = {
     name: item,
     path: tempDir,
@@ -85,7 +87,7 @@ function newObj (tempDir, item) {
 }
 
 exports.getTree = async (folderPath, folderName) => {
-  const dirPath = path.resolve(folderPath)
+  const dirPath = path.win32.resolve(folderPath)
   // console.log(dirPath)
   const fileJson = await initFun(dirPath, folderName)
   return fileJson

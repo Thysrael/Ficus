@@ -8662,6 +8662,11 @@ os-tmpdir@~1.0.2:
   resolved "https://mirrors.cloud.tencent.com/npm/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
+os@^0.1.2:
+  version "0.1.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/os/-/os-0.1.2.tgz#f29a50c62908516ba42652de42f7038600cadbc2"
+  integrity sha512-ZoXJkvAnljwvc56MbvhtKVWmSkzV712k42Is2mA0+0KTSRakq5XXuXpjZjgAt9ctzl51ojhQWakQQpmOvXWfjQ==
+
 p-cancelable@^1.0.0:
   version "1.1.0"
   resolved "https://mirrors.cloud.tencent.com/npm/p-cancelable/-/p-cancelable-1.1.0.tgz#d078d15a3af409220c886f1d9a0ca2e441ab26cc"
