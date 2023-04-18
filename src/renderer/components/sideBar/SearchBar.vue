@@ -18,8 +18,8 @@
         </g>
       </svg>
     </button>
-     </div>
-  </template>
+  </div>
+</template>
 
 <script>
 export default {
