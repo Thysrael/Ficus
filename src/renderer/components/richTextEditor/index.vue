@@ -74,6 +74,18 @@ export default {
             content: content,
             wordCnt: content.length
           })
+        },
+        // 针对文件链接的回调函数
+        link: {
+          click: (aElement) => {
+            if (aElement.getAttribute('class') === 'ficus-filelink') {
+              const name = aElement.innerText
+              const path = aElement.getAttribute('href')
+              bus.emit('openRefFile', { name, path })
+            } else {
+              window.open(event.target.getAttribute("href"));
+            }
+          }
         }
       }
       // 根据options和默认设置创建vditor实例
