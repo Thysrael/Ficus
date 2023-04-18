@@ -89,7 +89,7 @@ function mindToTreeRecursion (mindJson) {
       break
     default:
       // error
-      console.log('error '+mindJson.type)
+      console.log('error ' + mindJson.type)
       break
   }
   mindJson.children.forEach(mjson => {
