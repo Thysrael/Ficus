@@ -158,3 +158,19 @@ pre.vditor-sv:focus {
 .vditor-reset pre > code {
     background-color: var(--SwissCoffee-500);
 }
+
+/** 列表 **/
+
+.vditor-reset ol > li,
+.vditor-reset ul > li
+{
+  font-weight: 400; /* Regular */
+   font-size: 12px;
+   line-height: 18px;
+   color: var(--TextMedium);
+   text-align: justify;
+   vertical-align: center;
+}
+.vditor-reset li p{
+  margin-bottom: 0px;
+}
