@@ -83,9 +83,9 @@ class HeadingContent extends Content {
   }
 
   getMindJson () {
-    const graphJson = super.getMindJson()
-    graphJson.level = this.depth
-    return graphJson
+    const mindJson = super.getMindJson()
+    mindJson.level = this.depth
+    return mindJson
   }
 }
 
@@ -94,7 +94,7 @@ class CodeContent extends Content {
   // private lang
   constructor (typename, text, type, lang) {
     super(typename, text)
-    this.type = type
+    this.style = type
     this.lang = lang
   }
 
@@ -108,10 +108,10 @@ class CodeContent extends Content {
   }
 
   getMindJson () {
-    const graphJson = super.getMindJson()
-    graphJson.type = this.type
-    graphJson.lang = this.lang
-    return graphJson
+    const mindJson = super.getMindJson()
+    mindJson.style = this.style
+    mindJson.lang = this.lang
+    return mindJson
   }
 }
 
@@ -127,9 +127,9 @@ class MathContent extends Content {
   }
 
   getMindJson () {
-    const graphJson = super.getMindJson()
-    graphJson.style = this.style
-    return graphJson
+    const mindJson = super.getMindJson()
+    mindJson.style = this.style
+    return mindJson
   }
 }
 
@@ -169,6 +169,15 @@ class ListContent extends Content {
     return ''
   }
 
+  getMindJson () {
+    const mindJson = super.getMindJson()
+    mindJson.loose = this.loose
+    mindJson.start = this.start
+    mindJson.delimiter = this.delimiter
+    mindJson.marker = this.marker
+    return mindJson
+  }
+
   getSinglePre (off = 0) {
     return (this.marker || `${this.start + off}${this.delimiter}`) + ' '
   }
@@ -196,9 +205,9 @@ class ListItemContent extends Content {
   }
 
   getMindJson () {
-    const graphJson = super.getMindJson()
-    graphJson.checked = this.checked
-    return graphJson
+    const mindJson = super.getMindJson()
+    mindJson.checked = this.checked
+    return mindJson
   }
 }
 
@@ -269,6 +278,12 @@ class TableContent extends Content {
     })
 
     return result.join('\n') + '\n'
+  }
+
+  getMindJson () {
+    const mindJson = super.getMindJson()
+    mindJson.cells = this.cells
+    return mindJson
   }
 }
 
