@@ -19,6 +19,9 @@
     <button style="width: 130px;height: 20px;border-radius: 3px;opacity: 1;background-color: #42b983;font-size: 12px">
       转换为Ficus根
     </button>
+    <button style="width: 130px;height: 20px;border-radius: 3px;opacity: 1;background-color: #71717a;font-size: 12px">
+      提交图修改
+    </button>
   </div>
 </template>
 

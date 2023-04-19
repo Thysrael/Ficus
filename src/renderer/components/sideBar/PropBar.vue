@@ -26,6 +26,7 @@
       <!-- 点击叶子按钮时需要将输入框内容添加到标签组中，注意绑定事件 -->
       <span class="items-center inline-flex">
           <input
+              v-model="keyWord"
               type="text"
               class="block text-gray-700 text-xs font-normal mr-2 my-2 px-3 py-1 inline-flex items-center hover:shadow-sm transition duration placeholder-gray focus:ring-0"
               id="newTag"
@@ -34,13 +35,21 @@
           />
           <button type="button"
                   class="inline-flex transition items-center text-sm text-blueGray-300 bg-transparent rounded-md hover:text-blueGray-800"
-                  aria-label="Remove">
+                  aria-label="Remove"
+                  @click="handleSearch">
             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"
                  xmlns="http://www.w3.org/2000/svg"> <g> <path fill="none" d="M0 0H24V24H0z"/> <path
                 d="M21 3v2c0 9.627-5.373 14-12 14H7.098c.212-3.012 1.15-4.835 3.598-7.001 1.204-1.065 1.102-1.68.509-1.327-4.084 2.43-6.112 5.714-6.202 10.958L5 22H3c0-1.363.116-2.6.346-3.732C3.116 16.974 3 15.218 3 13 3 7.477 7.477 3 13 3c2 0 4 1 8 0z"/> </g> </svg>
           </button>
       </span>
     </div>
+    <ul style="margin-top: 10px" v-if="showM">
+      <li v-for="(item, index) in resTags"
+          :key="index"
+          @click="handleAddTag(index)">
+        {{ item }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -51,9 +60,31 @@ export default {
   name: 'PropBar',
   setup () {
     const tags = ref(['BUAA', 'SCSE', 'SE'])
+    const resTags = ref(['a', 'b', 'c'])
+    const keyWord = ref('')
+    const showM = ref(false)
+
+    function handleSearch () {
+      showM.value = true
+    }
+
+    function handleAddTag (index) {
+      const selected = resTags.value[index]
+      for (let i = 0; i < tags.value; i++) {
+        if (selected === tags.value[i]) {
+          return
+        }
+      }
+      // 调用后端添加tag
+    }
 
     return {
-      tags
+      tags,
+      resTags,
+      keyWord,
+      showM,
+      handleSearch,
+      handleAddTag
     }
   }
 }
