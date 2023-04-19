@@ -16,7 +16,7 @@ class DataManager {
 
   /**
    * 从markdown生成FicusTree
-   * @param info {content: md文本, path: 绝对路径}
+   * @param info {{path: UnwrapRef<string>, content: UnwrapRef<string>}}
    * @param replaced 是否替换当前tree
    * @returns
    */

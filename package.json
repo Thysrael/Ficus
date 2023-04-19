@@ -18,6 +18,7 @@
     "main": "background.js",
     "dependencies": {
         "@tailwindcss/forms": "0.2.1",
+        "assert": "^2.0.0",
         "chai": "^4.3.7",
         "commitizen": "^4.3.0",
         "commitlint": "^17.5.1",
