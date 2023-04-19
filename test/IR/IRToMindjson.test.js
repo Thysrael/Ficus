@@ -1,4 +1,8 @@
 const { markdownToTree } = require('../../src/IR/block/factory/markdownToTree.js')
+<<<<<<< HEAD
+=======
+const chai = require('chai')
+>>>>>>> 7f67072 (feat(renderer): 修改面包屑，加入导出pdf功能)
 const assert = require('assert')
 
 describe('IR到MindJson测试', function () {

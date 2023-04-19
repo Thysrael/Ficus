@@ -67,7 +67,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="getTags">
+      <button class="myButton" @click="isFile = 4; getTags">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -341,6 +341,10 @@ export default {
       isFile.value = 6
       console.log('getGraph')
       bus.emit('changeToGraph')
+    }
+
+    function getTags () {
+      console.log('getTags')
     }
 
     return {
