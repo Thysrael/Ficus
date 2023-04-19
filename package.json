@@ -24,6 +24,7 @@
         "core-js": "^3.8.3",
         "cz-conventional-changelog": "^3.3.0",
         "ficus-editor": "^1.0.5",
+        "ficus-mindmap": "0.5.14",
         "fs-extra": "^11.1.1",
         "husky": "^8.0.3",
         "os": "^0.1.2",
