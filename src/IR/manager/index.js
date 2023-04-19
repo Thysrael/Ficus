@@ -1,5 +1,5 @@
-import { buildGraphFromFileTree } from '../block/factory/filesToGraph'
-import { IRTree } from '../component/tree'
+const { buildGraphFromFileTree } = require('../block/factory/filesToGraph')
+const { IRTree } = require('../component/tree')
 
 const DEFAULT_OPTIONS = {
   replaced: false
@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS = {
 
 class DataManager {
   constructor () {
-    this.tree = undefined
+    this.irtree = undefined
     this.forest = undefined
     this.graph = undefined
 
@@ -26,11 +26,11 @@ class DataManager {
     if (this.treeSet[info.path] !== undefined) {
       newTree = this.treeSet[info.path]
     } else {
-      newTree = new IRTree({ markdown: info.content })
+      newTree = new IRTree({ content: info.content })
     }
 
     if (treeOptions.replaced) {
-      this.tree = newTree
+      this.irtree = newTree
     }
     return newTree.tree
   }
@@ -39,11 +39,11 @@ class DataManager {
    *
    * @param {*} markdown md文本
    */
-  updateTreeFromMarkdown (markdown) {
-    if (this.tree === undefined) {
+  updateTreeFromMarkdown (content) {
+    if (this.irtree === undefined) {
       console.log('不存在当前文件')
     } else {
-      this.tree.update({ markdown })
+      this.irtree.update({ content })
     }
   }
 
@@ -52,10 +52,10 @@ class DataManager {
      * @returns markdown字符串
      */
   getTreeMarkdown () {
-    if (this.tree === undefined) {
+    if (this.irtree === undefined) {
       return ''
     }
-    return this.tree.toMarkdown()
+    return this.irtree.toMarkdown()
   }
 
   /**
@@ -63,10 +63,10 @@ class DataManager {
    * @returns 大纲json
    */
   getTreeOutline () {
-    if (this.tree === undefined) {
+    if (this.irtree.tree === undefined) {
       return {}
     }
-    return this.tree.toOutlineJson()
+    return this.irtree.tree.toOutlineJson()
   }
 
   /**
@@ -85,16 +85,16 @@ class DataManager {
     }
 
     if (treeOptions.replaced) {
-      this.tree = newTree
+      this.irtree = newTree
     }
     return newTree.tree
   }
 
   updateTreeFromMindJson (mindJson) {
-    if (this.tree === undefined) {
+    if (this.irtree === undefined) {
       console.log('不存在当前文件')
     } else {
-      this.tree.update({ mindJson })
+      this.irtree.update({ mindJson })
     }
   }
 
@@ -103,10 +103,10 @@ class DataManager {
    * @returns mind json
    */
   getTreeMindJson () {
-    if (this.tree === undefined) {
+    if (this.irtree === undefined) {
       return {}
     }
-    return this.tree.toOutlineJson()
+    return this.irtree.toOutlineJson()
   }
 
   /**
@@ -122,4 +122,6 @@ class DataManager {
   }
 }
 
-export default DataManager
+module.exports = {
+  DataManager
+}
