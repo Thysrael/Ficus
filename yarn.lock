@@ -12121,6 +12121,28 @@ vue3-eventbus@^2.0.0:
   dependencies:
     mitt "^2.1.0"
 
+<<<<<<< HEAD
+=======
+vue3-mindmap@^0.5.12:
+  version "0.5.12"
+  resolved "https://mirrors.cloud.tencent.com/npm/vue3-mindmap/-/vue3-mindmap-0.5.12.tgz#d29822befdde7ff34cb133fa62e1221155749d51"
+  integrity sha512-W9D4h02F+1lw1UMCxraNv+25AhivFXL4bGp+LPpuQRCVNbhXBtFkir95KLXRPVwAuUQNoT5oUNO0v4xODwn4fw==
+  dependencies:
+    d3-drag "^2.0.0"
+    d3-interpolate "^2.0.1"
+    d3-scale "^3.3.0"
+    d3-scale-chromatic "^2.0.0"
+    d3-selection "^2.0.0"
+    d3-shape "^2.1.0"
+    d3-transition "^2.0.0"
+    d3-zoom "^2.0.0"
+    html2canvas "^1.0.0-rc.7"
+    i18next "^21.6.6"
+    lodash.clonedeep "^4.5.0"
+    mitt "^2.1.0"
+    vue "^3.0.0"
+
+>>>>>>> 61877b4 (feat(./src/renderer/components/mindeditor): 添加了Ficus导图的样式及相关插件)
 vue@^3.0.0, vue@^3.2.13:
   version "3.2.47"
   resolved "https://mirrors.cloud.tencent.com/npm/vue/-/vue-3.2.47.tgz#3eb736cbc606fc87038dbba6a154707c8a34cff0"
