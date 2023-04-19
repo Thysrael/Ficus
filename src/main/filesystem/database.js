@@ -2,6 +2,43 @@ const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
 const { getTree } = require('./getFileTree')
+
+exports.deleteTag = (tagName, folderPath, filePath) => {
+  const basePath = path.join(folderPath, '.ficus')
+  const tagsJSONFilePath = path.join(basePath, 'tags.json')
+  const rawData = fs.readFileSync(tagsJSONFilePath)
+  const tags = JSON.parse(rawData)
+  const tag2Files = tags.tag2Files
+  const file2Tags = tags.file2Tags
+  for (const file of file2Tags) {
+    if (file.path.replace(/[\r\n]/g, '') === filePath) {
+      const arr = file.fileTags.filter(item => item !== tagName)
+      file.fileTags = arr
+    }
+  }
+  let cnt = 0
+  for (const tag of tag2Files) {
+    if (tag.tagName.replace(/[\r\n]/g, '') === tagName) {
+      const newAttach = tag.attach.filter(item => item.replace(/[\r\n]/g, '') !== filePath)
+      console.log(newAttach.length)
+      if (newAttach.length === 0) {
+        tag2Files.splice(cnt, 1)
+      } else {
+        tag.attach = newAttach
+      }
+      break
+    }
+    cnt = cnt + 1
+  }
+  const newTags = { tag2Files, file2Tags }
+  fs.writeFile(tagsJSONFilePath, JSON.stringify(newTags), (error) => {
+    // 创建失败
+    if (error) {
+      console.log(`Fail: ${error}`)
+    }
+    // 创建成功
+  })
+}
 // 根据用户输入的tag模糊匹配所有前缀相同的tag， 后端返回的对 [tag] 进行模糊匹配的结果 + 一个以 [tag] 为名称的新标签（如果模糊匹配结果中不包含名称 === [tag] 的标签）
 exports.findTags = (tagName, folderPath) => {
   const res = []
