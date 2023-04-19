@@ -1,3 +1,4 @@
+import { buildGraphFromFileTree } from '../block/factory/filesToGraph'
 import { IRTree } from '../component/tree'
 
 const DEFAULT_OPTIONS = {
@@ -106,6 +107,18 @@ class DataManager {
       return {}
     }
     return this.tree.toOutlineJson()
+  }
+
+  /**
+   *
+   */
+  buildGraphFromFiles (info, options = {}) {
+    const treeOptions = Object.assign({}, DEFAULT_OPTIONS, options)
+    const newGraph = buildGraphFromFileTree(info.files)
+    if (treeOptions.replaced) {
+      this.graph = newGraph
+    }
+    return newGraph.graph
   }
 }
 
