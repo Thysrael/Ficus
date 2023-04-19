@@ -7,7 +7,9 @@ const {
   QuoteContent,
   RootContent,
   TableContent,
-  ParagraphContent
+  ParagraphContent,
+  FolderContent,
+  FileContent
 } = require('../base/content')
 const TreeNode = require('../base/treeNode')
 const {
@@ -25,7 +27,9 @@ const {
   thematicBreakTypeName,
   codeblockTypeName,
   diagramTypeName,
-  htmlblockTypeName
+  htmlblockTypeName,
+  fileTypeName,
+  folderTypeName
 } = require('../type/constant')
 
 function buildRootNode () {
@@ -80,6 +84,14 @@ function buildTable (cells) {
   return new TreeNode(paragraphNodeType, new TableContent(cells))
 }
 
+function buildFileNode (id, name, path, content) {
+  return new TreeNode(fileTypeName, new FileContent(id, name, path, content))
+}
+
+function buildFolderNode (id, name, path) {
+  return new TreeNode(folderTypeName, new FolderContent(id, name, path))
+}
+
 module.exports = {
   buildCodeBlock,
   buildDiagramBlock,
@@ -93,5 +105,7 @@ module.exports = {
   buildQuoteBlock,
   buildRootNode,
   buildTable,
-  buildThematicBreak
+  buildThematicBreak,
+  buildFileNode,
+  buildFolderNode
 }

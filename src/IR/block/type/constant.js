@@ -22,6 +22,9 @@ const quoteTypeName = 'quote'
 const listTypeName = 'list'
 const listItemTypeName = 'list-item'
 
+const fileTypeName = 'file'
+const folderTypeName = 'folder'
+
 module.exports = {
   rootTypeName,
   headingTypeName,
@@ -39,5 +42,7 @@ module.exports = {
   bulletlistTypeName,
   orderlistTypeName,
   tasklistTypeName,
-  taskListItemTypeName
+  taskListItemTypeName,
+  fileTypeName,
+  folderTypeName
 }
