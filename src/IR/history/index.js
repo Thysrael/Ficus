@@ -91,8 +91,8 @@ class History {
   }
 
   updateTree (doc) {
-    if (doc.markdown) {
-      this.irtree.tree = markdownToTree(this.initdoc.markdown)
+    if (doc.content) {
+      this.irtree.tree = markdownToTree(this.initdoc.content)
     } else if (doc.mindJson) {
       this.irtree.tree = mindToTree(this.initdoc.mindJson)
     }
