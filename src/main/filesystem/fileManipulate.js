@@ -32,6 +32,11 @@ exports.getFileFromUser = async () => {
         children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
         content // 文件内容
       }
+      file.type = 'file'
+      const index = filePath.lastIndexOf('.')
+      const ext = filePath.substring(index + 1)
+      const isMd = (ext === 'md')
+      file.isMd = isMd
       fileObjs.push(file)
     }
     return fileObjs
@@ -63,8 +68,9 @@ exports.getFolderFromUser = async () => {
       path: folderPath, // 绝对路径
       absolutePath: pathSplit, // 希望将绝对路径分割成数组
       offset: -1, // 直接填充-1即可
-      children: tree.children, // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-      content: '' // 文件内容
+      children: tree.children.filter(item => item.name !== '.ficus'), // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+      content: '', // 文件内容
+      type: 'folder'
     }
     // console.log(folder)
     return folder
