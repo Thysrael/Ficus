@@ -18,4 +18,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   newFileFromSidebar: (filePath, fileName) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName),
   newFolderFromDialog: (projPath) => ipcRenderer.invoke('newFolderFromDialog', projPath),
   newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.invoke('newFolderFromSidebar', folderPath, folderName)
+
 })
