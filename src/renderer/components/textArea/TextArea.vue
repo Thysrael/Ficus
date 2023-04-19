@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TextUI :content="content" style="width: 100%;height: 100%;position: relative"></TextUI>
+    <TextUI style="width: 100%;height: 100%;position: relative"></TextUI>
     <div class="littleInformation">
       <div class="information">
         <text class="myText">
@@ -25,20 +25,14 @@
 <script>
 import TextUI from '@/renderer/components/richTextEditor'
 import { ref } from 'vue'
-import bus from 'vue3-eventbus'
 
 export default {
   name: 'TextArea',
   components: { TextUI },
   setup () {
-    const content = ref('')
     const showInfoWin = ref(false)
-    bus.on('setEditorContent', (obj) => {
-      console.log(obj)
-      content.value = obj
-    })
+
     return {
-      content,
       showInfoWin
     }
   }
@@ -51,7 +45,7 @@ export default {
   position: fixed;
   bottom: 100px;
   right: 20px;
-  width: 100px;
+  width: 62px;
   height: 20px;
   opacity: 1;
   background: #FFFFFF;

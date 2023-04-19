@@ -1,5 +1,5 @@
 <template>
-  <div class="flexStyle" style="margin-left: 200px;">
+  <div class="flexStyle" style="margin-left: 200px; margin-right: 20px">
     <ol class="flex">
       <li
           :class="(item.path === curObj.path) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex;"
@@ -13,7 +13,9 @@
           @contextmenu.prevent.stop="updateRightClickItem($event, item)"
           v-contextmenu:contextmenu
       >
-        {{ getName(item) }}
+        <div style="width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+          {{ getName(item) }}
+        </div>
         <div style="margin-top: 5px" @click.stop="closeTabByItem(item)">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                width="12" height="12" viewBox="0 0 12 12">
@@ -119,7 +121,7 @@ export default {
       const index = item.absolutePath.length + item.offset
       let res = item.absolutePath[index]
       for (let i = index + 1; i <= item.absolutePath.length - 1; i++) {
-        res += '\\' + item.absolutePath[i]
+        res += '>' + item.absolutePath[i]
       }
       return res
     }
@@ -162,7 +164,7 @@ export default {
 
 <style scoped>
 .flexStyle{
-  height:100px;
+  height:25px;
   display:flex;
   justify-content:space-between;
   /* 设置超出滚动 */
