@@ -11,5 +11,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   maxWindow: () => ipcRenderer.invoke('window-max'),
   closeWindow: () => ipcRenderer.invoke('window-close'),
   addTag: (filePath, tagName, isNewTag, folderPath) => ipcRenderer.invoke('addTagToFile', filePath, tagName, isNewTag, folderPath),
-  findTags: (tagName, folderPath) => ipcRenderer.invoke('find_tags', tagName, folderPath)
+  findTags: (tagName, folderPath) => ipcRenderer.invoke('find_tags', tagName, folderPath),
+  deleteTag: (filePath, tagName, folderPath) => ipcRenderer.invoke('delete_tag', filePath, tagName, folderPath)
+
 })
