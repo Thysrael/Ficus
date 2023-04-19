@@ -46,8 +46,10 @@ async function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://.de/index.html')
   }
-  win.setMeu(null)
+  win.setMinimumSize(800, 600)
+  win.setMenu(null)
   win.removeMenu()
+  return win
 }
 
 // Quit when all windows are closed.
@@ -179,9 +181,9 @@ app.on('ready', async () => {
   ipcMain.handle('saveToTarget', (e, content, projPath) => {
     saveToTarget(content, projPath)
   })
-  createWindow()
-
-  const win = BrowserWindow.getFocusedWindow()
+  const win = await createWindow()
+  // createWindow()
+  // const win = BrowserWindow.getFocusedWindow()
   ipcMain.handle('window-min', () => {
     win.minimize()
   })
@@ -191,6 +193,18 @@ app.on('ready', async () => {
     } else {
       win.maximize()
     }
+    // if (win.isFullScreen()) {
+    //   win.setFullScreen(false)
+    // } else {
+    //   win.setFullScreen(true)
+    // }
+    /* maxOS下可用的全屏幕放大缩小
+    if (win.isFullScreen()) {
+      win.setFullScreen(false)
+    } else {
+      win.setFullScreen(true)
+    }
+    */
   })
   ipcMain.handle('window-close', () => {
     win.close()

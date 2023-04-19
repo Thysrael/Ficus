@@ -1,12 +1,17 @@
 <template>
   <div class="text-gray-600 text-sm">
-    <ul class="space-y-1">
+    <ul class="space-y-1" v-if="items.length !== 0">
       <OutLineItem
           :item="item"
           v-for="(item, index) in items"
           :key="index"
       />
     </ul>
+    <div v-if="items.length === 0">
+      <div style="font-size: 12px">
+        大纲内容为空
+      </div>
+    </div>
   </div>
 </template>
 
