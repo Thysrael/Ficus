@@ -4,7 +4,7 @@ import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
-import { addTag2File, findTags, initFromFolder } from '@/main/filesystem/database'
+import { addTag2File, deleteTag, findTags, initFromFolder } from '@/main/filesystem/database'
 
 import path from 'path'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
@@ -69,6 +69,10 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+  ipcMain.handle('delete_tag', async (e, filePath, tagName, folderPath) => {
+    deleteTag(tagName, folderPath, filePath)
+  })
+
   ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
     const tags = await findTags(tagName, folderPath)
     // console.log(fileObjs)
