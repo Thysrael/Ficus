@@ -73,9 +73,9 @@ export default {
       }, {
         name: '重命名'
       }, {
-        name: '导出文件'
+        name: '导出HTML文件'
       }, {
-        name: '打印文件'
+        name: '导出PDF文件'
       }, {
         name: '打开控制台'
       }, {
@@ -238,9 +238,11 @@ export default {
             res: arr[i]
           }
         }
-        const obj = contain(file, arr[i].children)
-        if (obj.has) {
-          return obj
+        if (arr[i].children.type === 'folder') {
+          const obj = contain(file, arr[i].children)
+          if (obj.has) {
+            return obj
+          }
         }
       }
       return {
@@ -254,12 +256,12 @@ export default {
       const root = await window.electronAPI.newFicusVault('newTest')
       console.log(root.root)
       openDir.value = [{
-        name: root.root.foldername,
+        name: root.root.folderName,
         path: root.root.path,
         children: root.root.tree,
         curChild: -1,
         content: '',
-        absolutePath: [root.root.foldername],
+        absolutePath: [root.root.folderName],
         offset: -1,
         type: 'folder'
       }]
@@ -365,6 +367,12 @@ export default {
             break
           case '文件引用':
             bus.emit('addFormat', { type: 'file-link' })
+            break
+          case '导出HTML文件':
+            bus.emit('exportHTML')
+            break
+          case '导出PDF文件':
+            bus.emit('exportPDF')
             break
         }
       }

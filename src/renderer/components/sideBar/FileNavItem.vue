@@ -56,7 +56,9 @@
           </g>
         </g>
       </svg>
-      {{ item.name }}
+      <div style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+        {{ item.name }}
+      </div>
     </div>
     <div>
       <v-contextmenu ref="contextmenu">
@@ -133,6 +135,7 @@ export default {
       return props.item.children && props.item.children.length
     })
 
+    // 考虑将isSelected加入data字段中提升计算效率
     const isSelected = computed(() => {
       // console.log('selected is ', selectedList.value)
       for (let i = 0; i < selectedList.value.length; i++) {
@@ -149,7 +152,8 @@ export default {
         curItem.value.curChild = -1
         if (hasChildren.value) {
           expanded.value = !expanded.value
-        } else {
+        }
+        if (props.item.type === 'file') {
           bus.emit('openNewTab', props.item)
         }
         // 单击会新建一个列表
@@ -192,7 +196,7 @@ export default {
     }
 
     function handleRightClick (e) {
-      console.log('i am clicked')
+      // 右键一个对象，如果对象已经在selectedList中，则不改变，如果不在，则新建一个selected
       TabXY.value = { x: e.clientX, y: e.clientY }
       store.dispatch('updateXY', TabXY.value)
     }
@@ -208,8 +212,8 @@ export default {
       expanded,
       hasChildren,
       isSelected,
-      toggle,
       curItem,
+      toggle,
       getCurChild,
       handleRightClick,
       handleNew

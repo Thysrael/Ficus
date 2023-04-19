@@ -73,12 +73,12 @@ export default {
       const root = await window.electronAPI.newFicusVault('newTest')
       console.log(root.root)
       const openDir = [{
-        name: root.root.foldername,
+        name: root.root.folderName,
         path: root.root.path,
         children: root.root.tree,
         curChild: -1,
         content: '',
-        absolutePath: [root.root.foldername],
+        absolutePath: [root.root.folderName],
         offset: -1,
         type: 'folder'
       }]

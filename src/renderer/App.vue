@@ -172,6 +172,7 @@ export default {
         if (father.path !== obj.path) {
           removeFrom(source.value, father.children)
           // 拖拽会改变文件的路径，删除一个文件，改变source的path
+          // 后端返回新的文件对象
           obj.children.push(source.value)
         }
       }
@@ -186,9 +187,11 @@ export default {
             res: father
           }
         }
-        const obj = findFather(file, father.children[i])
-        if (obj.has) {
-          return obj
+        if (father.children[i].type === 'folder') {
+          const obj = findFather(file, father.children[i])
+          if (obj.has) {
+            return obj
+          }
         }
       }
       return {
@@ -246,7 +249,7 @@ export default {
   top: 0;
   right: 0;
   margin-left: 200px;
-  margin-top: 60px;
+  margin-top: 65px;
   width: calc(100% - 200px);
   height: 100%;
   opacity: 1;

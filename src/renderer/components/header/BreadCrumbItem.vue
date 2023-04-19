@@ -1,14 +1,15 @@
 <template>
   <li style="display: flex">
     <div
-        class="flex items-center cursor-pointer"
+        class="cursor-pointer"
         @dblclick="doubleEvent"
         @click="toggle"
+        style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     >
       {{ item.name }}
     </div>
-    <div v-if="hasChildren && item.curChild !== -1" class="flex">
-      >>>
+    <div v-if="hasChildren && item.curChild >= 0" class="flex">
+      >
       <ul>
         <BreadCrumbItem
             :item="item.children[item.curChild]"
