@@ -3,7 +3,13 @@
 import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
+import {
+  getFileFromUser,
+  getFolderFromUser, newFileFromDialog,
+  newFileFromSidebar, newFolderFromDialog, newFolderFromSidebar,
+  saveFile,
+  saveToTarget
+} from './main/filesystem/fileManipulate'
 import { addTag2File, deleteTag, findTags, initFromFolder } from '@/main/filesystem/database'
 
 import path from 'path'
@@ -69,6 +75,26 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+  ipcMain.handle('newFileFromSidebar', (e, filePath, fileName) => {
+    newFileFromSidebar(filePath, fileName)
+  })
+
+  ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
+    newFolderFromSidebar(filePath, fileName)
+  })
+
+  ipcMain.handle('newFileFromDialog', async (e, projPath) => {
+    const tree = await newFileFromDialog(projPath)
+    // console.log(fileObjs)
+    return tree
+  })
+
+  ipcMain.handle('newFolderFromDialog', async (e, projPath) => {
+    const tree = await newFolderFromDialog(projPath)
+    // console.log(fileObjs)
+    return tree
+  })
+
   ipcMain.handle('delete_tag', async (e, filePath, tagName, folderPath) => {
     deleteTag(tagName, folderPath, filePath)
   })

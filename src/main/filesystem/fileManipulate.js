@@ -1,6 +1,74 @@
 const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const { getTree } = require('./getFileTree')
+const path = require('path')
+
+// 新建文件1
+exports.newFileFromDialog = async (projPath) => {
+  return await dialog.showSaveDialog({
+    buttonLabel: '新建',
+    defaultPath: app.getPath('desktop'),
+    properties: ['showHiddenFiles'],
+    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+      { name: 'images', extensions: ['jpg', 'png'] }
+    ]
+  }).then(async (result) => {
+    fs.openSync(result.filePath, 'w')
+    if (result.filePath.startsWith(projPath)) {
+      const pathSplit = projPath.split('\\')
+      const folderName = pathSplit[pathSplit.length - 1]
+      // console.log(result.filePaths[0])
+      const tree = await getTree(projPath, folderName)
+      // console.log(tree)
+      return tree.children.filter(item => item.name !== '.ficus')
+    } else {
+      return []
+    }
+  })
+}
+// 新建文件2
+exports.newFileFromSidebar = (filePath, fileName) => {
+  const pos = path.join(filePath, fileName)
+  fs.openSync(pos, 'w')
+}
+
+// 新建文件夹1
+exports.newFolderFromDialog = async (projPath) => {
+  return await dialog.showOpenDialog({
+    buttonLabel: '新建',
+    defaultPath: app.getPath('desktop'),
+    properties: ['showHiddenFiles', 'createDirectory', 'openDirectory'],
+    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+      { name: 'images', extensions: ['jpg', 'png'] }
+    ]
+  }).then(async (result) => {
+    // fs.mkdir(result, { recursive: true }, err => {
+    //   if (err) console.log(`mkdir path: ${basePath} err`)
+    // })
+    if (result.filePaths[0].startsWith(projPath)) {
+      const pathSplit = projPath.split('\\')
+      const folderName = pathSplit[pathSplit.length - 1]
+      // console.log(result.filePaths[0])
+      const tree = await getTree(projPath, folderName)
+      // console.log(tree)
+      return tree.children.filter(item => item.name !== '.ficus')
+    } else {
+      return []
+    }
+  })
+}
+// 新建文件夹2
+exports.newFolderFromSidebar = (folderPath, folderName) => {
+  const basePath = path.join(folderPath, folderName)
+  console.log(basePath)
+  fs.mkdir(basePath, { recursive: true }, err => {
+    if (err) console.log(`mkdir path: ${basePath} err`)
+  })
+}
 
 // 打开文件：
 exports.getFileFromUser = async () => {

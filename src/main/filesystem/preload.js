@@ -12,6 +12,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   closeWindow: () => ipcRenderer.invoke('window-close'),
   addTag: (filePath, tagName, isNewTag, folderPath) => ipcRenderer.invoke('addTagToFile', filePath, tagName, isNewTag, folderPath),
   findTags: (tagName, folderPath) => ipcRenderer.invoke('find_tags', tagName, folderPath),
-  deleteTag: (filePath, tagName, folderPath) => ipcRenderer.invoke('delete_tag', filePath, tagName, folderPath)
+  deleteTag: (filePath, tagName, folderPath) => ipcRenderer.invoke('delete_tag', filePath, tagName, folderPath),
 
+  newFileFromDialog: (projPath) => ipcRenderer.invoke('newFileFromDialog', projPath),
+  newFileFromSidebar: (filePath, fileName) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName),
+  newFolderFromDialog: (projPath) => ipcRenderer.invoke('newFolderFromDialog', projPath),
+  newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.invoke('newFolderFromSidebar', folderPath, folderName)
 })
