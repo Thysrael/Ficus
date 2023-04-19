@@ -1,4 +1,4 @@
-const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName } = require('../../type/constant.js')
+const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName } = require('../../type/constant.js')
 
 class Content {
   // private text
@@ -287,6 +287,59 @@ class TableContent extends Content {
   }
 }
 
+const folderCategory = 0
+const fileCategory = 1
+
+class FileContent extends Content {
+  constructor (id, name, path, content) {
+    super(fileTypeName, content)
+    this.id = id
+    this.name = name
+    this.path = path
+  }
+
+  getFileJson () {
+    return {
+      name: this.name,
+      path: this.path,
+      content: this.text
+    }
+  }
+
+  getNodeJson () {
+    return {
+      id: `${this.id}`,
+      name: this.name,
+      category: fileCategory
+    }
+  }
+}
+
+class FolderContent extends Content {
+  constructor (id, name, path) {
+    super(fileTypeName, name)
+    this.id = id
+    this.name = name
+    this.path = path
+  }
+
+  getFileJson () {
+    return {
+      name: this.text,
+      path: this.path,
+      children: []
+    }
+  }
+
+  getNodeJson () {
+    return {
+      id: `${this.id}`,
+      name: this.name,
+      category: folderCategory
+    }
+  }
+}
+
 module.exports = {
   Content,
   RootContent,
@@ -297,5 +350,7 @@ module.exports = {
   ListContent,
   ListItemContent,
   TableContent,
-  ParagraphContent
+  ParagraphContent,
+  FileContent,
+  FolderContent
 }

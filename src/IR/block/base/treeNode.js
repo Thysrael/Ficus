@@ -86,5 +86,23 @@ class TreeNode extends LinkedNode {
     })
     return res
   }
+
+  /**
+   *
+   */
+  toFileTreeJson () {
+    const res = this.content.getFileJson()
+    this.children.forEach(ch => {
+      res.children.push(ch.toFileTreeJson())
+    })
+    return res
+  }
+
+  /**
+   *
+   */
+  toNodeJson () {
+    return this.content.getNodeJson()
+  }
 }
 module.exports = TreeNode
