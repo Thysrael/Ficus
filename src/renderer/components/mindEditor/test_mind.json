@@ -1,0 +1,1184 @@
+[{
+    "name": "",
+    "text": "",
+    "type": "root",
+    "children":  [
+        {
+            "name": "教程",
+            "text": "教程",
+            "type": "heading",
+            "children": [
+                {
+                    "name": "这是一篇讲解如何正确使用 **Markdown** 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。",
+                    "text": "这是一篇讲解如何正确使用 **Markdown** 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。",
+                    "type": "paragraph",
+                    "children": []
+                },
+                {
+                    "name": "这是一篇讲解如何正确使用 **Markdown** 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。",
+                    "text": "",
+                    "type": "quote",
+                    "children": [
+                        {
+                            "name": "引用文本：Markdown is a text formatting syntax inspired",
+                            "text": "引用文本：Markdown is a text formatting syntax inspired",
+                            "type": "paragraph",
+                            "children": []
+                        }
+                    ]
+                }
+            ],
+            "level": 2
+        },
+        {
+            "name": "语法指导",
+            "text": "语法指导",
+            "type": "heading",
+            "children": [
+                {
+                    "name": "普通内容",
+                    "text": "普通内容",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "这段内容展示了在内容里面一些排版格式，比如：",
+                            "text": "这段内容展示了在内容里面一些排版格式，比如：",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "",
+                            "text": "",
+                            "type": "bullet-list",
+                            "children": [
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "list-item",
+                                    "children": [
+                                        {
+                                            "name": "**加粗** - `**加粗**`",
+                                            "text": "**加粗** - `**加粗**`",
+                                            "type": "paragraph",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "list-item",
+                                    "children": [
+                                        {
+                                            "name": "*倾斜* - `*倾斜*`",
+                                            "text": "*倾斜* - `*倾斜*`",
+                                            "type": "paragraph",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "list-item",
+                                    "children": [
+                                        {
+                                            "name": "~~删除线~~ - `~~删除线~~`",
+                                            "text": "~~删除线~~ - `~~删除线~~`",
+                                            "type": "paragraph",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "list-item",
+                                    "children": [
+                                        {
+                                            "name": "`Code 标记` - `` `Code 标记` ``",
+                                            "text": "`Code 标记` - `` `Code 标记` ``",
+                                            "type": "paragraph",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "list-item",
+                                    "children": [
+                                        {
+                                            "name": "[超级链接](https://ld246.com) - `[超级链接](https://ld246.com)`",
+                                            "text": "[超级链接](https://ld246.com) - `[超级链接](https://ld246.com)`",
+                                            "type": "paragraph",
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "list-item",
+                                    "children": [
+                                        {
+                                            "name": "[username@gmail.com](mailto:username@gmail.com) - `[username@gmail.com](mailto:username@gmail.com)`",
+                                            "text": "[username@gmail.com](mailto:username@gmail.com) - `[username@gmail.com](mailto:username@gmail.com)`",
+                                            "type": "paragraph",
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ],
+                            "loose": false,
+                            "marker": "-"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "提及用户",
+                    "text": "提及用户",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "@Vanessa 通过 `@User` 可以在内容中提及用户，被提及的用户将会收到系统通知。",
+                            "text": "@Vanessa 通过 `@User` 可以在内容中提及用户，被提及的用户将会收到系统通知。",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "",
+                            "text": "",
+                            "type": "quote",
+                            "children": [
+                                {
+                                    "name": "NOTE:",
+                                    "text": "NOTE:",
+                                    "type": "paragraph",
+                                    "children": []
+                                },
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "order-list",
+                                    "children": [
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "@用户名之后需要有一个空格",
+                                                    "text": "@用户名之后需要有一个空格",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "新手没有艾特的功能权限",
+                                                    "text": "新手没有艾特的功能权限",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "loose": false,
+                                    "start": 1,
+                                    "delimiter": "."
+                                }
+                            ]
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "表情符号 Emoji",
+                    "text": "表情符号 Emoji",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "支持大部分标准的表情符号，可使用输入法直接输入，也可手动输入字符格式。通过输入 `:` 触发自动完成，可在个人设置中[设置常用表情](https://ld246.com/settings/function)。",
+                            "text": "支持大部分标准的表情符号，可使用输入法直接输入，也可手动输入字符格式。通过输入 `:` 触发自动完成，可在个人设置中[设置常用表情](https://ld246.com/settings/function)。",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "一些表情例子",
+                            "text": "一些表情例子",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": ":smile: :laughing: :dizzy_face: :sob: :cold_sweat: :sweat_smile:  :cry: :triumph: :heart_eyes: :relieved:\n:+1: :-1: :100: :clap: :bell: :gift: :question: :bomb: :heart: :coffee: :cyclone: :bow: :kiss: :pray: :anger:",
+                                    "text": ":smile: :laughing: :dizzy_face: :sob: :cold_sweat: :sweat_smile:  :cry: :triumph: :heart_eyes: :relieved:\n:+1: :-1: :100: :clap: :bell: :gift: :question: :bomb: :heart: :coffee: :cyclone: :bow: :kiss: :pray: :anger:",
+                                    "type": "paragraph",
+                                    "children": []
+                                }
+                            ],
+                            "level": 4
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "大标题 - Heading 3",
+                    "text": "大标题 - Heading 3",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "你可以选择使用 H1 至 H6，使用 ##(N) 打头。建议帖子或回帖中的顶级标题使用 Heading 3，不要使用 1 或 2，因为 1 是系统站点级，2 是帖子标题级。",
+                            "text": "你可以选择使用 H1 至 H6，使用 ##(N) 打头。建议帖子或回帖中的顶级标题使用 Heading 3，不要使用 1 或 2，因为 1 是系统站点级，2 是帖子标题级。",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "",
+                            "text": "",
+                            "type": "quote",
+                            "children": [
+                                {
+                                    "name": "NOTE: 别忘了 # 后面需要有空格！",
+                                    "text": "NOTE: 别忘了 # 后面需要有空格！",
+                                    "type": "paragraph",
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Heading 4",
+                            "text": "Heading 4",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": "Heading 5",
+                                    "text": "Heading 5",
+                                    "type": "heading",
+                                    "children": [
+                                        {
+                                            "name": "Heading 6",
+                                            "text": "Heading 6",
+                                            "type": "heading",
+                                            "children": [],
+                                            "level": 6
+                                        }
+                                    ],
+                                    "level": 5
+                                }
+                            ],
+                            "level": 4
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "图片",
+                    "text": "图片",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "![alt 文本](http://image-path.png)\n![alt 文本](http://image-path.png \"图片 Title 值\")",
+                            "text": "![alt 文本](http://image-path.png)\n![alt 文本](http://image-path.png \"图片 Title 值\")",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": ""
+                        },
+                        {
+                            "name": "支持复制粘贴直接上传。",
+                            "text": "支持复制粘贴直接上传。",
+                            "type": "paragraph",
+                            "children": []
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "代码块",
+                    "text": "代码块",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "普通",
+                            "text": "普通",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": "*emphasize*    **strong**\n_emphasize_    __strong__\nvar a = 1",
+                                    "text": "*emphasize*    **strong**\n_emphasize_    __strong__\nvar a = 1",
+                                    "type": "code-block",
+                                    "children": [],
+                                    "style": "fenced",
+                                    "lang": ""
+                                }
+                            ],
+                            "level": 4
+                        },
+                        {
+                            "name": "语法高亮支持",
+                            "text": "语法高亮支持",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": "如果在 ``` 后面跟随语言名称，可以有语法高亮的效果哦，比如:",
+                                    "text": "如果在 ``` 后面跟随语言名称，可以有语法高亮的效果哦，比如:",
+                                    "type": "paragraph",
+                                    "children": []
+                                },
+                                {
+                                    "name": "演示 Go 代码高亮",
+                                    "text": "演示 Go 代码高亮",
+                                    "type": "heading",
+                                    "children": [
+                                        {
+                                            "name": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, 世界\")\n}",
+                                            "text": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, 世界\")\n}",
+                                            "type": "code-block",
+                                            "children": [],
+                                            "style": "fenced",
+                                            "lang": "go"
+                                        }
+                                    ],
+                                    "level": 5
+                                },
+                                {
+                                    "name": "演示 Java 高亮",
+                                    "text": "演示 Java 高亮",
+                                    "type": "heading",
+                                    "children": [
+                                        {
+                                            "name": "public class HelloWorld {\n\n    public static void main(String[] args) {\n        System.out.println(\"Hello World!\");\n    }\n\n}",
+                                            "text": "public class HelloWorld {\n\n    public static void main(String[] args) {\n        System.out.println(\"Hello World!\");\n    }\n\n}",
+                                            "type": "code-block",
+                                            "children": [],
+                                            "style": "fenced",
+                                            "lang": "java"
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "quote",
+                                            "children": [
+                                                {
+                                                    "name": "Tip: 语言名称支持下面这些: `ruby`, `python`, `js`, `html`, `erb`, `css`, `coffee`, `bash`, `json`, `yml`, `xml` ...",
+                                                    "text": "Tip: 语言名称支持下面这些: `ruby`, `python`, `js`, `html`, `erb`, `css`, `coffee`, `bash`, `json`, `yml`, `xml` ...",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "level": 5
+                                }
+                            ],
+                            "level": 4
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "有序、无序、任务列表",
+                    "text": "有序、无序、任务列表",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "无序列表",
+                            "text": "无序列表",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "bullet-list",
+                                    "children": [
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "Java",
+                                                    "text": "Java",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "",
+                                                    "text": "",
+                                                    "type": "bullet-list",
+                                                    "children": [
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Spring",
+                                                                    "text": "Spring",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                },
+                                                                {
+                                                                    "name": "",
+                                                                    "text": "",
+                                                                    "type": "bullet-list",
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "",
+                                                                            "text": "",
+                                                                            "type": "list-item",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "IoC",
+                                                                                    "text": "IoC",
+                                                                                    "type": "paragraph",
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "",
+                                                                            "text": "",
+                                                                            "type": "list-item",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "AOP",
+                                                                                    "text": "AOP",
+                                                                                    "type": "paragraph",
+                                                                                    "children": []
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ],
+                                                                    "loose": false,
+                                                                    "marker": "-"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "loose": false,
+                                                    "marker": "-"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "Go",
+                                                    "text": "Go",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "",
+                                                    "text": "",
+                                                    "type": "bullet-list",
+                                                    "children": [
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "gofmt",
+                                                                    "text": "gofmt",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Wide",
+                                                                    "text": "Wide",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "loose": false,
+                                                    "marker": "-"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "Node.js",
+                                                    "text": "Node.js",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "",
+                                                    "text": "",
+                                                    "type": "bullet-list",
+                                                    "children": [
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Koa",
+                                                                    "text": "Koa",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Express",
+                                                                    "text": "Express",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "loose": false,
+                                                    "marker": "-"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "loose": false,
+                                    "marker": "-"
+                                }
+                            ],
+                            "level": 4
+                        },
+                        {
+                            "name": "有序列表",
+                            "text": "有序列表",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "order-list",
+                                    "children": [
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "Node.js",
+                                                    "text": "Node.js",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "",
+                                                    "text": "",
+                                                    "type": "order-list",
+                                                    "children": [
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Express",
+                                                                    "text": "Express",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Koa",
+                                                                    "text": "Koa",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Sails",
+                                                                    "text": "Sails",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "loose": false,
+                                                    "start": 1,
+                                                    "delimiter": "."
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "Go",
+                                                    "text": "Go",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "",
+                                                    "text": "",
+                                                    "type": "order-list",
+                                                    "children": [
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "gofmt",
+                                                                    "text": "gofmt",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Wide",
+                                                                    "text": "Wide",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "loose": false,
+                                                    "start": 1,
+                                                    "delimiter": "."
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "list-item",
+                                            "children": [
+                                                {
+                                                    "name": "Java",
+                                                    "text": "Java",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                },
+                                                {
+                                                    "name": "",
+                                                    "text": "",
+                                                    "type": "order-list",
+                                                    "children": [
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "Latke",
+                                                                    "text": "Latke",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "",
+                                                            "text": "",
+                                                            "type": "list-item",
+                                                            "children": [
+                                                                {
+                                                                    "name": "IDEA",
+                                                                    "text": "IDEA",
+                                                                    "type": "paragraph",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "loose": false,
+                                                    "start": 1,
+                                                    "delimiter": "."
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "loose": false,
+                                    "start": 1,
+                                    "delimiter": "."
+                                }
+                            ],
+                            "level": 4
+                        },
+                        {
+                            "name": "任务列表",
+                            "text": "任务列表",
+                            "type": "heading",
+                            "children": [
+                                {
+                                    "name": "",
+                                    "text": "",
+                                    "type": "task-list",
+                                    "children": [
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "task-list-item",
+                                            "children": [
+                                                {
+                                                    "name": "发布 Sym",
+                                                    "text": "发布 Sym",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                }
+                                            ],
+                                            "checked": true
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "task-list-item",
+                                            "children": [
+                                                {
+                                                    "name": "发布 Solo",
+                                                    "text": "发布 Solo",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                }
+                                            ],
+                                            "checked": true
+                                        },
+                                        {
+                                            "name": "",
+                                            "text": "",
+                                            "type": "task-list-item",
+                                            "children": [
+                                                {
+                                                    "name": "预约牙医",
+                                                    "text": "预约牙医",
+                                                    "type": "paragraph",
+                                                    "children": []
+                                                }
+                                            ],
+                                            "checked": false
+                                        }
+                                    ],
+                                    "loose": false,
+                                    "marker": "-"
+                                }
+                            ],
+                            "level": 4
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "表格",
+                    "text": "表格",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "如果需要展示数据什么的，可以选择使用表格。",
+                            "text": "如果需要展示数据什么的，可以选择使用表格。",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "table",
+                            "text": "table",
+                            "type": "table",
+                            "children": [],
+                            "cells": [
+                                {
+                                    "name": "table.row",
+                                    "children": [
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "header 1"
+                                        },
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "header 2"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "table.row",
+                                    "children": [
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "cell 1"
+                                        },
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "cell 2"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "table.row",
+                                    "children": [
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "cell 3"
+                                        },
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "cell 4"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "table.row",
+                                    "children": [
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "cell 5"
+                                        },
+                                        {
+                                            "name": "table.cell",
+                                            "meta": {
+                                                "align": null
+                                            },
+                                            "text": "cell 6"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "隐藏细节",
+                    "text": "隐藏细节",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "<details>\n<summary>这里是摘要部分。</summary>\n这里是细节部分。\n</details>",
+                            "text": "<details>\n<summary>这里是摘要部分。</summary>\n这里是细节部分。\n</details>",
+                            "type": "html-block",
+                            "children": []
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "段落",
+                    "text": "段落",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "空行可以将内容进行分段，便于阅读。（这是第一段）",
+                            "text": "空行可以将内容进行分段，便于阅读。（这是第一段）",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "使用空行在 Markdown 排版中相当重要。（这是第二段）",
+                            "text": "使用空行在 Markdown 排版中相当重要。（这是第二段）",
+                            "type": "paragraph",
+                            "children": []
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "链接引用",
+                    "text": "链接引用",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "[链接文本][链接标识]",
+                            "text": "[链接文本][链接标识]",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "[链接标识]: https://b3log.org",
+                            "text": "[链接标识]: https://b3log.org",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "[链接文本][链接标识]\n\n[链接标识]: https://b3log.org",
+                            "text": "[链接文本][链接标识]\n\n[链接标识]: https://b3log.org",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": ""
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "数学公式",
+                    "text": "数学公式",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "多行公式块：",
+                            "text": "多行公式块：",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "\\frac{1}{\n  \\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\n  \\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {\n    1+\\frac{e^{-6\\pi}}\n    {1+\\frac{e^{-8\\pi}}{1+\\cdots}}\n  }\n}",
+                            "text": "\\frac{1}{\n  \\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\n  \\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {\n    1+\\frac{e^{-6\\pi}}\n    {1+\\frac{e^{-8\\pi}}{1+\\cdots}}\n  }\n}",
+                            "type": "math-block",
+                            "children": [],
+                            "style": ""
+                        },
+                        {
+                            "name": "行内公式：",
+                            "text": "行内公式：",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "公式 $a^2 + b^2 = \\color{red}c^2$ 是行内。",
+                            "text": "公式 $a^2 + b^2 = \\color{red}c^2$ 是行内。",
+                            "type": "paragraph",
+                            "children": []
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "脑图",
+                    "text": "脑图",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "- 教程\n- 语法指导\n  - 普通内容\n  - 提及用户\n  - 表情符号 Emoji\n    - 一些表情例子\n  - 大标题 - Heading 3\n    - Heading 4\n      - Heading 5\n        - Heading 6\n  - 图片\n  - 代码块\n    - 普通\n    - 语法高亮支持\n      - 演示 Go 代码高亮\n      - 演示 Java 高亮\n  - 有序、无序、任务列表\n    - 无序列表\n    - 有序列表\n    - 任务列表\n  - 表格\n  - 隐藏细节\n  - 段落\n  - 链接引用\n  - 数学公式\n  - 脑图\n  - 流程图\n  - 时序图\n  - 甘特图\n  - 图表\n  - 五线谱\n  - Graphviz\n  - 多媒体\n  - 脚注\n- 快捷键",
+                            "text": "- 教程\n- 语法指导\n  - 普通内容\n  - 提及用户\n  - 表情符号 Emoji\n    - 一些表情例子\n  - 大标题 - Heading 3\n    - Heading 4\n      - Heading 5\n        - Heading 6\n  - 图片\n  - 代码块\n    - 普通\n    - 语法高亮支持\n      - 演示 Go 代码高亮\n      - 演示 Java 高亮\n  - 有序、无序、任务列表\n    - 无序列表\n    - 有序列表\n    - 任务列表\n  - 表格\n  - 隐藏细节\n  - 段落\n  - 链接引用\n  - 数学公式\n  - 脑图\n  - 流程图\n  - 时序图\n  - 甘特图\n  - 图表\n  - 五线谱\n  - Graphviz\n  - 多媒体\n  - 脚注\n- 快捷键",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": "mindmap"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "流程图",
+                    "text": "流程图",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "graph TB\n    c1-->a2\n    subgraph one\n    a1-->a2\n    end\n    subgraph two\n    b1-->b2\n    end\n    subgraph three\n    c1-->c2\n    end",
+                            "text": "graph TB\n    c1-->a2\n    subgraph one\n    a1-->a2\n    end\n    subgraph two\n    b1-->b2\n    end\n    subgraph three\n    c1-->c2\n    end",
+                            "type": "diagram",
+                            "children": [],
+                            "style": "mermaid",
+                            "lang": "mermaid"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "时序图",
+                    "text": "时序图",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "sequenceDiagram\n    Alice->>John: Hello John, how are you?\n    loop Every minute\n        John-->>Alice: Great!\n    end",
+                            "text": "sequenceDiagram\n    Alice->>John: Hello John, how are you?\n    loop Every minute\n        John-->>Alice: Great!\n    end",
+                            "type": "diagram",
+                            "children": [],
+                            "style": "mermaid",
+                            "lang": "mermaid"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "甘特图",
+                    "text": "甘特图",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "gantt\n    title A Gantt Diagram\n    dateFormat  YYYY-MM-DD\n    section Section\n    A task           :a1, 2019-01-01, 30d\n    Another task     :after a1  , 20d\n    section Another\n    Task in sec      :2019-01-12  , 12d\n    another task      : 24d",
+                            "text": "gantt\n    title A Gantt Diagram\n    dateFormat  YYYY-MM-DD\n    section Section\n    A task           :a1, 2019-01-01, 30d\n    Another task     :after a1  , 20d\n    section Another\n    Task in sec      :2019-01-12  , 12d\n    another task      : 24d",
+                            "type": "diagram",
+                            "children": [],
+                            "style": "mermaid",
+                            "lang": "mermaid"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "图表",
+                    "text": "图表",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "{\n  \"title\": { \"text\": \"最近 30 天\" },\n  \"tooltip\": { \"trigger\": \"axis\", \"axisPointer\": { \"lineStyle\": { \"width\": 0 } } },\n  \"legend\": { \"data\": [\"帖子\", \"用户\", \"回帖\"] },\n  \"xAxis\": [{\n      \"type\": \"category\",\n      \"boundaryGap\": false,\n      \"data\": [\"2019-05-08\",\"2019-05-09\",\"2019-05-10\",\"2019-05-11\",\"2019-05-12\",\"2019-05-13\",\"2019-05-14\",\"2019-05-15\",\"2019-05-16\",\"2019-05-17\",\"2019-05-18\",\"2019-05-19\",\"2019-05-20\",\"2019-05-21\",\"2019-05-22\",\"2019-05-23\",\"2019-05-24\",\"2019-05-25\",\"2019-05-26\",\"2019-05-27\",\"2019-05-28\",\"2019-05-29\",\"2019-05-30\",\"2019-05-31\",\"2019-06-01\",\"2019-06-02\",\"2019-06-03\",\"2019-06-04\",\"2019-06-05\",\"2019-06-06\",\"2019-06-07\"],\n      \"axisTick\": { \"show\": false },\n      \"axisLine\": { \"show\": false }\n  }],\n  \"yAxis\": [{ \"type\": \"value\", \"axisTick\": { \"show\": false }, \"axisLine\": { \"show\": false }, \"splitLine\": { \"lineStyle\": { \"color\": \"rgba(0, 0, 0, .38)\", \"type\": \"dashed\" } } }],\n  \"series\": [\n    {\n      \"name\": \"帖子\", \"type\": \"line\", \"smooth\": true, \"itemStyle\": { \"color\": \"#d23f31\" }, \"areaStyle\": { \"normal\": {} }, \"z\": 3,\n      \"data\": [\"18\",\"14\",\"22\",\"9\",\"7\",\"18\",\"10\",\"12\",\"13\",\"16\",\"6\",\"9\",\"15\",\"15\",\"12\",\"15\",\"8\",\"14\",\"9\",\"10\",\"29\",\"22\",\"14\",\"22\",\"9\",\"10\",\"15\",\"9\",\"9\",\"15\",\"0\"]\n    },\n    {\n      \"name\": \"用户\", \"type\": \"line\", \"smooth\": true, \"itemStyle\": { \"color\": \"#f1e05a\" }, \"areaStyle\": { \"normal\": {} }, \"z\": 2,\n      \"data\": [\"31\",\"33\",\"30\",\"23\",\"16\",\"29\",\"23\",\"37\",\"41\",\"29\",\"16\",\"13\",\"39\",\"23\",\"38\",\"136\",\"89\",\"35\",\"22\",\"50\",\"57\",\"47\",\"36\",\"59\",\"14\",\"23\",\"46\",\"44\",\"51\",\"43\",\"0\"]\n    },\n    {\n      \"name\": \"回帖\", \"type\": \"line\", \"smooth\": true, \"itemStyle\": { \"color\": \"#4285f4\" }, \"areaStyle\": { \"normal\": {} }, \"z\": 1,\n      \"data\": [\"35\",\"42\",\"73\",\"15\",\"43\",\"58\",\"55\",\"35\",\"46\",\"87\",\"36\",\"15\",\"44\",\"76\",\"130\",\"73\",\"50\",\"20\",\"21\",\"54\",\"48\",\"73\",\"60\",\"89\",\"26\",\"27\",\"70\",\"63\",\"55\",\"37\",\"0\"]\n    }\n  ]\n}",
+                            "text": "{\n  \"title\": { \"text\": \"最近 30 天\" },\n  \"tooltip\": { \"trigger\": \"axis\", \"axisPointer\": { \"lineStyle\": { \"width\": 0 } } },\n  \"legend\": { \"data\": [\"帖子\", \"用户\", \"回帖\"] },\n  \"xAxis\": [{\n      \"type\": \"category\",\n      \"boundaryGap\": false,\n      \"data\": [\"2019-05-08\",\"2019-05-09\",\"2019-05-10\",\"2019-05-11\",\"2019-05-12\",\"2019-05-13\",\"2019-05-14\",\"2019-05-15\",\"2019-05-16\",\"2019-05-17\",\"2019-05-18\",\"2019-05-19\",\"2019-05-20\",\"2019-05-21\",\"2019-05-22\",\"2019-05-23\",\"2019-05-24\",\"2019-05-25\",\"2019-05-26\",\"2019-05-27\",\"2019-05-28\",\"2019-05-29\",\"2019-05-30\",\"2019-05-31\",\"2019-06-01\",\"2019-06-02\",\"2019-06-03\",\"2019-06-04\",\"2019-06-05\",\"2019-06-06\",\"2019-06-07\"],\n      \"axisTick\": { \"show\": false },\n      \"axisLine\": { \"show\": false }\n  }],\n  \"yAxis\": [{ \"type\": \"value\", \"axisTick\": { \"show\": false }, \"axisLine\": { \"show\": false }, \"splitLine\": { \"lineStyle\": { \"color\": \"rgba(0, 0, 0, .38)\", \"type\": \"dashed\" } } }],\n  \"series\": [\n    {\n      \"name\": \"帖子\", \"type\": \"line\", \"smooth\": true, \"itemStyle\": { \"color\": \"#d23f31\" }, \"areaStyle\": { \"normal\": {} }, \"z\": 3,\n      \"data\": [\"18\",\"14\",\"22\",\"9\",\"7\",\"18\",\"10\",\"12\",\"13\",\"16\",\"6\",\"9\",\"15\",\"15\",\"12\",\"15\",\"8\",\"14\",\"9\",\"10\",\"29\",\"22\",\"14\",\"22\",\"9\",\"10\",\"15\",\"9\",\"9\",\"15\",\"0\"]\n    },\n    {\n      \"name\": \"用户\", \"type\": \"line\", \"smooth\": true, \"itemStyle\": { \"color\": \"#f1e05a\" }, \"areaStyle\": { \"normal\": {} }, \"z\": 2,\n      \"data\": [\"31\",\"33\",\"30\",\"23\",\"16\",\"29\",\"23\",\"37\",\"41\",\"29\",\"16\",\"13\",\"39\",\"23\",\"38\",\"136\",\"89\",\"35\",\"22\",\"50\",\"57\",\"47\",\"36\",\"59\",\"14\",\"23\",\"46\",\"44\",\"51\",\"43\",\"0\"]\n    },\n    {\n      \"name\": \"回帖\", \"type\": \"line\", \"smooth\": true, \"itemStyle\": { \"color\": \"#4285f4\" }, \"areaStyle\": { \"normal\": {} }, \"z\": 1,\n      \"data\": [\"35\",\"42\",\"73\",\"15\",\"43\",\"58\",\"55\",\"35\",\"46\",\"87\",\"36\",\"15\",\"44\",\"76\",\"130\",\"73\",\"50\",\"20\",\"21\",\"54\",\"48\",\"73\",\"60\",\"89\",\"26\",\"27\",\"70\",\"63\",\"55\",\"37\",\"0\"]\n    }\n  ]\n}",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": "echarts"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "五线谱",
+                    "text": "五线谱",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "X: 24\nT: Clouds Thicken\nC: Paul Rosen\nS: Copyright 2005, Paul Rosen\nM: 6/8\nL: 1/8\nQ: 3/8=116\nR: Creepy Jig\nK: Em\n|:\"Em\"EEE E2G|\"C7\"_B2A G2F|\"Em\"EEE E2G|\\\n\"C7\"_B2A \"B7\"=B3|\"Em\"EEE E2G|\n\"C7\"_B2A G2F|\"Em\"GFE \"D (Bm7)\"F2D|\\\n1\"Em\"E3-E3:|2\"Em\"E3-E2B|:\"Em\"e2e gfe|\n\"G\"g2ab3|\"Em\"gfeg2e|\"D\"fedB2A|\"Em\"e2e gfe|\\\n\"G\"g2ab3|\"Em\"gfe\"D\"f2d|\"Em\"e3-e3:|",
+                            "text": "X: 24\nT: Clouds Thicken\nC: Paul Rosen\nS: Copyright 2005, Paul Rosen\nM: 6/8\nL: 1/8\nQ: 3/8=116\nR: Creepy Jig\nK: Em\n|:\"Em\"EEE E2G|\"C7\"_B2A G2F|\"Em\"EEE E2G|\\\n\"C7\"_B2A \"B7\"=B3|\"Em\"EEE E2G|\n\"C7\"_B2A G2F|\"Em\"GFE \"D (Bm7)\"F2D|\\\n1\"Em\"E3-E3:|2\"Em\"E3-E2B|:\"Em\"e2e gfe|\n\"G\"g2ab3|\"Em\"gfeg2e|\"D\"fedB2A|\"Em\"e2e gfe|\\\n\"G\"g2ab3|\"Em\"gfe\"D\"f2d|\"Em\"e3-e3:|",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": "abc"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "Graphviz",
+                    "text": "Graphviz",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "digraph finite_state_machine {\n    rankdir=LR;\n    size=\"8,5\"\n    node [shape = doublecircle]; S;\n    node [shape = point ]; qi\n\n    node [shape = circle];\n    qi -> S;\n    S  -> q1 [ label = \"a\" ];\n    S  -> S  [ label = \"a\" ];\n    q1 -> S  [ label = \"a\" ];\n    q1 -> q2 [ label = \"ddb\" ];\n    q2 -> q1 [ label = \"b\" ];\n    q2 -> q2 [ label = \"b\" ];\n}",
+                            "text": "digraph finite_state_machine {\n    rankdir=LR;\n    size=\"8,5\"\n    node [shape = doublecircle]; S;\n    node [shape = point ]; qi\n\n    node [shape = circle];\n    qi -> S;\n    S  -> q1 [ label = \"a\" ];\n    S  -> S  [ label = \"a\" ];\n    q1 -> S  [ label = \"a\" ];\n    q1 -> q2 [ label = \"ddb\" ];\n    q2 -> q1 [ label = \"b\" ];\n    q2 -> q2 [ label = \"b\" ];\n}",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": "graphviz"
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "多媒体",
+                    "text": "多媒体",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "支持 v.qq.com，youtube.com，youku.com，coub.com，facebook.com/video，dailymotion.com，.mp4，.m4v，.ogg，.ogv，.webm，.mp3，.wav 链接解析",
+                            "text": "支持 v.qq.com，youtube.com，youku.com，coub.com，facebook.com/video，dailymotion.com，.mp4，.m4v，.ogg，.ogv，.webm，.mp3，.wav 链接解析",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html",
+                            "text": "https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html",
+                            "type": "paragraph",
+                            "children": []
+                        }
+                    ],
+                    "level": 3
+                },
+                {
+                    "name": "脚注",
+                    "text": "脚注",
+                    "type": "heading",
+                    "children": [
+                        {
+                            "name": "这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。",
+                            "text": "这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "[^1]: 第一个脚注定义。\n[^bignote]: 脚注定义可使用多段内容。\n    缩进对齐的段落包含在这个脚注定义内。\n\n    ```\n    可以使用代码块。\n    ```\n\n    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。",
+                            "text": "[^1]: 第一个脚注定义。\n[^bignote]: 脚注定义可使用多段内容。\n    缩进对齐的段落包含在这个脚注定义内。\n\n    ```\n    可以使用代码块。\n    ```\n\n    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。",
+                            "type": "paragraph",
+                            "children": []
+                        },
+                        {
+                            "name": "这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。\n[^1]: 第一个脚注定义。\n[^bignote]: 脚注定义可使用多段内容。\n\n    缩进对齐的段落包含在这个脚注定义内。\n\n    ```\n    可以使用代码块。\n    ```\n\n    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。",
+                            "text": "这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。\n[^1]: 第一个脚注定义。\n[^bignote]: 脚注定义可使用多段内容。\n\n    缩进对齐的段落包含在这个脚注定义内。\n\n    ```\n    可以使用代码块。\n    ```\n\n    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。",
+                            "type": "code-block",
+                            "children": [],
+                            "style": "fenced",
+                            "lang": ""
+                        }
+                    ],
+                    "level": 3
+                }
+            ],
+            "level": 2
+        },
+        {
+            "name": "快捷键",
+            "text": "快捷键",
+            "type": "heading",
+            "children": [
+                {
+                    "name": "我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://ld246.com/article/1582778815353)",
+                    "text": "我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://ld246.com/article/1582778815353)",
+                    "type": "paragraph",
+                    "children": []
+                }
+            ],
+            "level": 2
+        }
+    ]
+}]
