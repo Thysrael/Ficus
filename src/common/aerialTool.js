@@ -1,11 +1,16 @@
 const { Lexer } = require('../IR/utils/marked/lexer')
 
 function getAerialInBlock (blocktext) {
-  const aerailPattern = /\[(\w+)\]/g
+  const aerailPattern = /-\[(\w+)\]\((\w+)\)/g
   const aerials = []
 
   for (const word of blocktext.matchAll(aerailPattern)) {
-    aerials.push(word)
+    aerials.push(
+      {
+        name: word[1],
+        path: word[2]
+      }
+    )
   }
 
   return aerials
