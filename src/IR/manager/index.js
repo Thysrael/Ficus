@@ -32,7 +32,7 @@ class DataManager {
     if (treeOptions.replaced) {
       this.irtree = newTree
     }
-    return newTree.tree
+    return newTree.root
   }
 
   /**
@@ -63,10 +63,10 @@ class DataManager {
    * @returns 大纲json
    */
   getTreeOutline () {
-    if (this.irtree.tree === undefined) {
+    if (this.irtree === undefined) {
       return {}
     }
-    return this.irtree.tree.toOutlineJson()
+    return this.irtree.toOutlineJson()
   }
 
   /**
