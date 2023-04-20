@@ -24,6 +24,7 @@ const listItemTypeName = 'list-item'
 
 const fileTypeName = 'file'
 const folderTypeName = 'folder'
+const tagTypeName = 'tag'
 
 module.exports = {
   rootTypeName,
@@ -44,5 +45,6 @@ module.exports = {
   tasklistTypeName,
   taskListItemTypeName,
   fileTypeName,
-  folderTypeName
+  folderTypeName,
+  tagTypeName
 }
