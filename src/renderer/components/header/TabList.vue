@@ -39,7 +39,6 @@
     <v-contextmenu ref="contextmenu">
       <v-contextmenu-item @click="closeTab">关闭标签页</v-contextmenu-item>
       <v-contextmenu-item @click="closeOtherTab">关闭其他标签页</v-contextmenu-item>
-      <v-contextmenu-item @click="lockTab">固定标签页</v-contextmenu-item>
     </v-contextmenu>
 
 </template>

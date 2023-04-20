@@ -43,7 +43,13 @@ import MenuItem from '@/renderer/components/header/MenuItem'
 export default {
   name: 'MenuList',
   components: { MenuItem },
-  setup () {
+  props: {
+    data: {
+      type: Array,
+      require: true
+    }
+  },
+  setup (props) {
     const items = [{
       name: '文件',
       children: [{
@@ -51,11 +57,9 @@ export default {
       }, {
         name: '新建窗口'
       }, {
-        name: '新建项目'
+        name: '打开文件'
       }, {
-        name: '打开本地文件'
-      }, {
-        name: '打开工作区'
+        name: '打开文件夹'
       }, {
         name: '打开最近文件'
       }, {
@@ -73,13 +77,18 @@ export default {
       }, {
         name: '重命名'
       }, {
-        name: '导出HTML文件'
+        name: '导出文件',
+        children: [{
+          name: '导出HTML文件'
+        }, {
+          name: '导出PDF文件'
+        }, {
+          name: '导出PNG'
+        }, {
+          name: '导出SVG'
+        }]
       }, {
-        name: '导出PDF文件'
-      }, {
-        name: '打开控制台'
-      }, {
-        name: '退出程序'
+        name: '退出'
       }]
     }, {
       name: '编辑',
@@ -100,7 +109,13 @@ export default {
       }, {
         name: '粘贴为纯文本'
       }, {
+        name: '选择'
+      }, {
         name: '搜索'
+      }, {
+        name: '删除'
+      }, {
+        name: '排版优化'
       }]
     }, {
       name: '段落',
@@ -183,6 +198,19 @@ export default {
         }, {
           name: '暗黑主题'
         }]
+      }, {
+        name: '开发者工具'
+      }, {
+        name: '打字机模式'
+      }]
+    }, {
+      name: '帮助',
+      children: [{
+        name: '欢迎'
+      }, {
+        name: '文档'
+      }, {
+        name: '关于'
       }]
     }]
 
@@ -190,7 +218,6 @@ export default {
     const secondShow = ref(false)
     const thirdItems = ref([{}])
     const thirdShow = ref(false)
-    const openDir = ref([])
     const menu = ref(false)
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
@@ -253,9 +280,8 @@ export default {
 
     // 新建项目
     async function newMyProject () {
-      const root = await window.electronAPI.newFicusVault('newTest')
-      console.log(root.root)
-      openDir.value = [{
+      const root = await window.electronAPI.newFicusVault()
+      const openDir = [{
         name: root.root.folderName,
         path: root.root.path,
         children: root.root.tree,
@@ -265,7 +291,7 @@ export default {
         offset: -1,
         type: 'folder'
       }]
-      bus.emit('openDir', openDir.value[0])
+      bus.emit('openDir', openDir[0])
     }
 
     // 打开文件，可以一次打开多个
@@ -276,7 +302,7 @@ export default {
         // 特殊场景：打开文件夹，再次从本地打开文件夹中已有的文件
         // 策略：如果在文件夹中已经打开，则使用文件夹内的对象，否则使用files[i]
         // 必要性：确保前端对每一个文件只维护一个缓存，避免内容更新复杂
-        const obj = contain(files[i], openDir.value)
+        const obj = contain(files[i], props.data)
         bus.emit('openNewTab', obj.res)
       }
     }
@@ -292,24 +318,26 @@ export default {
       }
     }
 
-    // 测试已打开工作区，未打开工作区
+    // 新建文件
     async function newFile () {
       let path = ''
-      if (openDir.value.length !== 0) {
-        path = openDir.value[0].path
+      if (props.data.length !== 0) {
+        path = props.data[0].path
       }
+      console.log('hey', props.data[0])
       const obj = await window.electronAPI.newFileFromDialog(path)
       for (let i = 0; i < obj.length; i++) {
+        console.log('1111 ', obj[i])
         if (obj[i].in) {
-          let i = 0
-          for (; i < path.length; i++) {
-            if (path[i] === openDir.value[0].name) {
+          let j = 0
+          for (; j < obj[i].file.absolutePath.length; j++) {
+            if (obj[i].file.absolutePath[j] === props.data[0].name) {
               break
             }
           }
-          const father = findFatherByPath(i + 1, path, openDir.value[0])
-          father.value.children.push(obj)
-          father.value.curChild = father.value.children.length - 1
+          const father = findFatherByPath(j + 1, obj[i].file.absolutePath, props.data[0])
+          father.children.push(obj[i].file)
+          father.curChild = father.children.length - 1
         }
         bus.emit('openNewTab', obj[i].file)
       }
