@@ -10,7 +10,8 @@ const {
   ParagraphContent,
   FolderContent,
   FileContent,
-  TagContent
+  TagContent,
+  FrontmatterContent
 } = require('../base/content')
 const TreeNode = require('../base/treeNode')
 const {
@@ -22,12 +23,12 @@ const {
   rootNodeType,
   fileNodeType,
   folderNodeType,
-  tagNodeType
+  tagNodeType,
+  frontmatterNodeType
 } = require('../base/type/type')
 const {
   paragraphTypeName,
   quoteTypeName,
-  frontmatterTypeName,
   thematicBreakTypeName,
   codeblockTypeName,
   diagramTypeName,
@@ -38,8 +39,8 @@ function buildRootNode () {
   return new TreeNode(rootNodeType, new RootContent())
 }
 
-function buildFrontMatter (text) {
-  return new TreeNode(paragraphNodeType, new ParagraphContent(frontmatterTypeName, text))
+function buildFrontMatter (text, lang, style) {
+  return new TreeNode(frontmatterNodeType, new FrontmatterContent(text, lang, style))
 }
 
 function buildThematicBreak (text) {
