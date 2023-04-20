@@ -5883,6 +5883,25 @@ ficus-editor@^1.0.5:
   dependencies:
     diff-match-patch "^1.0.5"
 
+ficus-mindmap@0.5.14:
+  version "0.5.14"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.5.14.tgz#2c26debfba21963d09007f03211e061debf60cf2"
+  integrity sha512-dTEFQYFJT2BE2snLsP5EDJSKEF/0fIhU1/b2XMZzy8XEZwZB76/11ZurtKjwxrqwvT/Mg28Uk9C+Ft/onN/fCQ==
+  dependencies:
+    d3-drag "^2.0.0"
+    d3-interpolate "^2.0.1"
+    d3-scale "^3.3.0"
+    d3-scale-chromatic "^2.0.0"
+    d3-selection "^2.0.0"
+    d3-shape "^2.1.0"
+    d3-transition "^2.0.0"
+    d3-zoom "^2.0.0"
+    html2canvas "^1.0.0-rc.7"
+    i18next "^21.6.6"
+    lodash.clonedeep "^4.5.0"
+    mitt "^2.1.0"
+    vue "^3.0.0"
+
 figgy-pudding@^3.5.1:
   version "3.5.2"
   resolved "https://mirrors.cloud.tencent.com/npm/figgy-pudding/-/figgy-pudding-3.5.2.tgz#b4eee8148abb01dcf1d1ac34367d59e12fa61d6e"
@@ -12101,25 +12120,6 @@ vue3-eventbus@^2.0.0:
   integrity sha512-AzgA5ShZqWy6zeuZbnwAOZDt/GHRcUwUEyNmUoOEK7MtwpjABXtyh1m6JHzcEulrRrxMgpI2qDFsjss3fYpYuw==
   dependencies:
     mitt "^2.1.0"
-
-vue3-mindmap@^0.5.12:
-  version "0.5.12"
-  resolved "https://mirrors.cloud.tencent.com/npm/vue3-mindmap/-/vue3-mindmap-0.5.12.tgz#d29822befdde7ff34cb133fa62e1221155749d51"
-  integrity sha512-W9D4h02F+1lw1UMCxraNv+25AhivFXL4bGp+LPpuQRCVNbhXBtFkir95KLXRPVwAuUQNoT5oUNO0v4xODwn4fw==
-  dependencies:
-    d3-drag "^2.0.0"
-    d3-interpolate "^2.0.1"
-    d3-scale "^3.3.0"
-    d3-scale-chromatic "^2.0.0"
-    d3-selection "^2.0.0"
-    d3-shape "^2.1.0"
-    d3-transition "^2.0.0"
-    d3-zoom "^2.0.0"
-    html2canvas "^1.0.0-rc.7"
-    i18next "^21.6.6"
-    lodash.clonedeep "^4.5.0"
-    mitt "^2.1.0"
-    vue "^3.0.0"
 
 vue@^3.0.0, vue@^3.2.13:
   version "3.2.47"
