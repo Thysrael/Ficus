@@ -75,7 +75,7 @@ exports.newFileFromDialog = async (projPath) => {
     let pathSplit = ''
     if (os.platform().toString() === 'win32') {
       pathSplit = result.filePath.split('\\')
-    } else if (os.platform().toString() === 'linux' || 'darwin') {
+    } else if (os.platform().toString() === ('linux' || 'darwin')) {
       pathSplit = result.filePath.split('/')
     }
     const fileName = pathSplit[pathSplit.length - 1]
