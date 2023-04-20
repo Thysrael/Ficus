@@ -99,7 +99,7 @@ app.on('ready', async () => {
 
     printWin.webContents.on('did-finish-load', async () => {
       try {
-        const pdf = await win.webContents.printToPDF(options)
+        const pdf = await printWin.webContents.printToPDF(options)
         saveToPDFTarget(pdf)
       } catch (error) {
         console.log(error)
