@@ -1,9 +1,6 @@
 const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName, tagTypeName } = require('../type/constant.js')
 
 class Content {
-  // private text
-  // private typename
-
   constructor (typename, text) {
     this.typename = typename
     this.text = text
