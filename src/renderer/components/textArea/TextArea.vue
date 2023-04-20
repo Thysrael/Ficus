@@ -19,7 +19,6 @@
       1156词<br>
       1885字符<br>
     </div>
-  <div class="area-textArea">
   </div>
 </template>
 
