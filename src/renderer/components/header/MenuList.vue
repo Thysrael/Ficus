@@ -281,6 +281,17 @@ export default {
       }
     }
 
+    // function findFatherByPath (path) {
+    //   let i = 0
+    //   for (; i < path.length; i++) {
+    //     if (path[i] === openDir.value[0].name) {
+    //       break
+    //     }
+    //   }
+    //   i++
+    //
+    // }
+
     // 测试已打开工作区，未打开工作区
     async function newFile () {
       let path = ''
