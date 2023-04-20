@@ -26,20 +26,6 @@ class History {
     this.stack = { undo: [], redo: [] }
   }
 
-  cutoff () {
-    this.lastRecorded = 0
-  }
-
-  getLastSelection () {
-    this.selectionStack.push(this.selection.getSelection())
-
-    if (this.selectionStack.length > 2) {
-      this.selectionStack.shift()
-    }
-
-    return this.selectionStack.length === 2 ? this.selectionStack[0] : null
-  }
-
   record (doc) {
     this.stack.redo = []
     this.lastRecorded = Date.now()
