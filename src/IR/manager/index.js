@@ -114,11 +114,19 @@ class DataManager {
    */
   buildGraphFromFiles (info, options = {}) {
     const treeOptions = Object.assign({}, DEFAULT_OPTIONS, options)
-    const newGraph = buildGraphFromFileTree(info.files)
+    const newGraph = buildGraphFromFileTree(info.files, info.relations)
     if (treeOptions.replaced) {
       this.graph = newGraph
     }
     return newGraph.graph
+  }
+
+  getGraphNodes () {
+    return this.graph.getNodes()
+  }
+
+  getGraphLinks () {
+    return this.graph.getLinks()
   }
 }
 
