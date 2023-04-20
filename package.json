@@ -23,7 +23,11 @@
         "commitlint": "^17.5.1",
         "core-js": "^3.8.3",
         "cz-conventional-changelog": "^3.3.0",
+<<<<<<< HEAD
         "ficus-editor": "^1.0.5",
+=======
+        "ficus-editor": "^1.0.0",
+>>>>>>> f68fd58 (feat(./src/renderer/components/mindeditor): 添加了ficus-mindmap插件包)
         "ficus-mindmap": "0.5.14",
         "fs-extra": "^11.1.1",
         "husky": "^8.0.3",
@@ -32,9 +36,13 @@
         "nyc": "^15.1.0",
         "standard": "^17.0.0",
         "tailwindcss": "2.0.4",
+<<<<<<< HEAD
         "v-contextmenu": "^3.0.0",
         "vue": "^3.2.13",
         "vuedraggable": "^4.0.1"
+=======
+        "vue": "^3.2.13"
+>>>>>>> f68fd58 (feat(./src/renderer/components/mindeditor): 添加了ficus-mindmap插件包)
     },
     "devDependencies": {
         "@babel/core": "^7.12.16",

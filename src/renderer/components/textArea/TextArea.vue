@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div>
     <TextUI :content="content" style="width: 100%;height: 100%;position: relative"></TextUI>
     <div class="littleInformation">
@@ -19,10 +20,15 @@
       1156词<br>
       1885字符<br>
     </div>
+=======
+  <div class="area-textArea">
+    <FicTree/>
+>>>>>>> f68fd58 (feat(./src/renderer/components/mindeditor): 添加了ficus-mindmap插件包)
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import TextUI from '@/renderer/components/richTextEditor'
 import { ref } from 'vue'
 import bus from 'vue3-eventbus'
@@ -42,6 +48,14 @@ export default {
       showInfoWin
     }
   }
+=======
+
+import FicTree from '@/renderer/components/mindEditor/FicTree.vue'
+
+export default {
+  name: 'TextArea',
+  components: { FicTree }
+>>>>>>> f68fd58 (feat(./src/renderer/components/mindeditor): 添加了ficus-mindmap插件包)
 }
 </script>
 
