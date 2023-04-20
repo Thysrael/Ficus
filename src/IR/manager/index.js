@@ -106,7 +106,7 @@ class DataManager {
     if (this.irtree === undefined) {
       return {}
     }
-    return this.irtree.toOutlineJson()
+    return this.irtree.toMindJson()
   }
 
   /**
