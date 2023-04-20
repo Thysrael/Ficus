@@ -352,6 +352,11 @@ export default {
       bus.emit('changeContentTheme', { theme: theme.value })
     }
 
+    bus.on('changeToFicus', () => {
+      // const obj = dataManager.getTreeMindJson()
+
+    })
+
     return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }
   }
 }
