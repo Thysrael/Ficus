@@ -5,6 +5,7 @@
       @dragenter.stop="dragenter($event)"
       @dragover.stop="dragover($event)"
       @dragstart.stop="dragstart()"
+      @dragend.stop="dragend($event)"
       draggable="true">
     <div
         :style="isSelected ? `display: flex;color: #42b983` : `display: flex;color: #2563eb`"
@@ -62,16 +63,17 @@
     </div>
     <div>
       <v-contextmenu ref="contextmenu">
-        <v-contextmenu-item @click="handleNew('file')">新建文件</v-contextmenu-item>
-        <v-contextmenu-item @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
+        <div v-if="item.type === 'folder'">
+          <v-contextmenu-item @click="handleNew('file')">新建文件</v-contextmenu-item>
+          <v-contextmenu-item @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
+          <v-contextmenu-item>粘贴</v-contextmenu-item>
+        </div>
         <v-contextmenu-item>剪切</v-contextmenu-item>
         <v-contextmenu-item>复制</v-contextmenu-item>
-        <v-contextmenu-item>在新窗口打开</v-contextmenu-item>
-        <v-contextmenu-item>在新标签页打开</v-contextmenu-item>
-        <v-contextmenu-item>Ficus视图</v-contextmenu-item>
+        <v-contextmenu-item @click="handleDelete">删除</v-contextmenu-item>
         <v-contextmenu-item>重命名</v-contextmenu-item>
-        <v-contextmenu-item v-if="item.type==='file'">在当前位置引用</v-contextmenu-item>
-        <v-contextmenu-item>删除</v-contextmenu-item>
+        <v-contextmenu-item v-if="item.type==='file'">复制路径</v-contextmenu-item>
+        <v-contextmenu-item v-if="item.type==='file'">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
     <ul v-if="hasChildren && expanded" class="pl-4">
@@ -180,7 +182,7 @@ export default {
       item.curChild = index
     }
 
-    function dragstart (index) {
+    function dragstart () {
       // 源对象
       bus.emit('getSource', props.item)
     }
@@ -192,7 +194,12 @@ export default {
 
     function dragover (e) {
       e.preventDefault()
-      bus.emit('toDst', props.item)
+      bus.emit('getDst', props.item)
+    }
+
+    function dragend (e) {
+      e.preventDefault()
+      bus.emit('toDst')
     }
 
     function handleRightClick (e) {
@@ -205,10 +212,15 @@ export default {
       bus.emit('showDialog', { type, father: props.item })
     }
 
+    function handleDelete () {
+      bus.emit('removeObjFromData', props.item)
+    }
+
     return {
       dragstart,
       dragenter,
       dragover,
+      dragend,
       expanded,
       hasChildren,
       isSelected,
@@ -216,7 +228,8 @@ export default {
       toggle,
       getCurChild,
       handleRightClick,
-      handleNew
+      handleNew,
+      handleDelete
     }
   }
 }

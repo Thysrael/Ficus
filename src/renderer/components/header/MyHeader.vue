@@ -2,7 +2,7 @@
   <div class="area-header"
   >
     <div class="area-header-top" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
-      <MenuList style="z-index: 100;margin-left: 5px;-webkit-app-region: no-drag"></MenuList>
+      <MenuList :data="data" style="z-index: 100;margin-left: 5px;-webkit-app-region: no-drag"></MenuList>
       <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
            style="position: absolute; left: 5px; top: 0; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
@@ -294,6 +294,8 @@ export default {
       }
       if (index !== -1) {
         openFiles.value.splice(index, 1)
+      } else {
+        return
       }
       if (curObj.value.path === obj.path) {
         if (index === openFiles.value.length) {
@@ -355,6 +357,12 @@ export default {
     bus.on('changeToFicus', () => {
       // const obj = dataManager.getTreeMindJson()
 
+    })
+
+    bus.on('changeToGraph', () => {
+      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
+      console.log(dataManager.getGraphNodes())
+      console.log(dataManager.getGraphLinks())
     })
 
     return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }

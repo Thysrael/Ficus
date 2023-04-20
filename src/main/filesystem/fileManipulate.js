@@ -32,12 +32,11 @@ exports.linkToFile = async (filePath) => {
   return file
 }
 // 删除文件
-exports.deleteFile = (filePath, projPath) => {
+exports.deleteFile = (filePath) => {
   fs.unlink(filePath, async function (err) {
     if (err) throw err
     // 如果没有错误，则文件已成功删除
     console.log('File deleted!')
-    await changeRelation(projPath)
   })
 }
 // 重命名文件或文件夹
@@ -53,9 +52,8 @@ exports.renameFileOrFolder = async (newPath, oldPath, projPath) => {
 }
 
 // 删除文件夹
-exports.deleteFolder = async (folderPath, projPath) => {
+exports.deleteFolder = async (folderPath) => {
   clearDir(folderPath)
-  await changeRelation(projPath)
 }
 // 新建文件1
 exports.newFileFromDialog = async (projPath) => {
@@ -105,7 +103,7 @@ exports.newFileFromDialog = async (projPath) => {
   })
 }
 // 新建文件2
-exports.newFileFromSidebar = async (filePath, fileName, projPath) => {
+exports.newFileFromSidebar = async (filePath, fileName) => {
   const pos = path.join(filePath, fileName)
   const fd = fs.openSync(pos, 'w')
   fs.close(fd, (err) => {
@@ -150,7 +148,7 @@ exports.newFolderFromDialog = async (projPath) => {
   })
 }
 // 新建文件夹2
-exports.newFolderFromSidebar = async (folderPath, folderName, projPath) => {
+exports.newFolderFromSidebar = async (folderPath, folderName) => {
   const basePath = path.join(folderPath, folderName)
   fs.mkdir(basePath, { recursive: true }, err => {
     if (err) console.log(`mkdir path: ${basePath} err`)
