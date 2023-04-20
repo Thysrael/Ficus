@@ -1,6 +1,6 @@
 const { IRGraph } = require('../../component/graph')
 
-function buildGraphFromFileTree (files, relations = {}, aerials = {}) {
+function buildGraphFromFileTree (files, relations = [], aerials = []) {
   const res = new IRGraph()
   res.addFiles(files.root)
   res.addRelations(relations)

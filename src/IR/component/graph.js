@@ -1,10 +1,16 @@
-const { buildFolderNode, buildFileNode } = require('../block/factory/buildNode')
+const { buildFolderNode, buildFileNode, buildTagNode } = require('../block/factory/buildNode')
 
 class IRGraph {
   constructor () {
     this.treenodes = []
-    this.id = 0
+    this.nodeid = 0
+    this.linkid = 0
     this.graph = undefined
+
+    this.tagnodes = []
+
+    this.edges = []
+    this.aerials = []
   }
 
   /**
@@ -15,40 +21,61 @@ class IRGraph {
   parseFileTree (files) {
     let newNode
     if (files.children) {
-      newNode = buildFolderNode(this.id, files.name, files.path)
+      newNode = buildFolderNode(this.nodeid, files.name, files.path)
       this.treenodes.push(newNode)
-      this.id += 1
+      this.nodeid += 1
       files.children.forEach(e => {
         newNode.insertAtLast(this.parseFileTree(e))
       })
     } else {
-      newNode = buildFileNode(this.id, files.name, files.path, files.content)
+      newNode = buildFileNode(this.nodeid, files.name, files.path, files.content)
       this.treenodes.push(newNode)
-      this.id += 1
+      this.nodeid += 1
     }
     return newNode
   }
 
   addFiles (files) {
-    // this.graph = this.parseFileTree(files)
-    this.graph = buildFolderNode(this.id, files.folderName, files.path)
+    this.graph = buildFolderNode(this.nodeid, files.folderName, files.path)
     this.treenodes.push(this.graph)
-    this.id += 1
+    this.nodeid += 1
     if (files.tree) {
       files.tree.forEach(e => {
         this.graph.insertAtLast(this.parseFileTree(e))
       })
     }
+
+    this.makeEdges()
   }
 
   addRelations (relations) {
     console.log('add relations')
     console.log(relations)
+
   }
 
   addAerials (aerials) {
-    console.log('add aerials')
-    console.log(aerials)
+    let pathToNodeId = {}
+    for (let node of this.treenodes) {
+      pathToNodeId[node.content.path] = node.content.id
+    }
+
+    for (let tagInfo of aerials) {
+      const tagNode = buildTagNode(this.nodeid, tagInfo.tagName)
+      this.tagnodes.push(tagNode)
+      tagInfo.attach.forEach(filepath => {
+        if (this.pathToNodeId[filepath] !== undefined) {
+          this.aerials.push({
+            id: this.linkid,
+            source: this.nodeid,
+            target: this.pathToNodeId[filepath],
+            type: 0
+          })
+          this.linkid += 1
+        }
+      })
+      this.nodeid += 1
+    }
   }
 
   getNodes () {
@@ -56,25 +83,32 @@ class IRGraph {
     for (const node of this.treenodes) {
       res.push(node.toNodeJson())
     }
+    for (const node of this.tagnodes) {
+      res.push(node.toNodeJson())
+    }
     return res
   }
 
-  getLinks () {
-    let id = 0
-    const res = []
-
+  /**
+   * private
+   * @returns 
+   */
+  makeEdges () {
     for (const node of this.treenodes) {
       node.children.forEach(chnode => {
-        res.push({
-          id,
+        this.edges.push({
+          id: this.linkid,
           source: node.content.id,
           target: chnode.content.id,
           type: 0
         })
-        id += 1
+        this.linkid += 1
       })
     }
-    return res
+  }
+
+  getLinks() {
+    return this.edges.concat(this.aerials)
   }
 
   getFileTreeJson () {
