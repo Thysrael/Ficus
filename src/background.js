@@ -3,7 +3,7 @@
 import { app, BrowserWindow, ipcMain, protocol } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget } from './main/filesystem/fileManipulate'
+import { getFileFromUser, getFolderFromUser, saveFile, saveToTarget, saveToPDFTarget } from './main/filesystem/fileManipulate'
 import { addTag2File, deleteTag, findTags, initFromFolder } from '@/main/filesystem/database'
 
 import path from 'path'
@@ -69,6 +69,34 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+  ipcMain.handle('exportPDF', async (event, html) => {
+    const printWin = new BrowserWindow({
+      show: false,
+      webPreferences: {
+        nodeIntegration: true
+      }
+    })
+
+    printWin.loadURL('data:text/html;charset=UTF-8,' + encodeURI(html))
+
+    const options = {
+      marginsType: 0,
+      pageSize: 'A4',
+      printBackground: true,
+      printSelectionOnly: false,
+      landscape: false
+    }
+
+    printWin.webContents.on('did-finish-load', async () => {
+      try {
+        const pdf = await win.webContents.printToPDF(options)
+        saveToPDFTarget(pdf)
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  })
+
   ipcMain.handle('delete_tag', async (e, filePath, tagName, folderPath) => {
     deleteTag(tagName, folderPath, filePath)
   })
