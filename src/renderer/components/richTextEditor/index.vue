@@ -54,8 +54,7 @@ export default {
           },
           // 设置默认主题
           theme: {
-            current: 'classic',
-            path: 'css/content-theme'
+            current: 'classic'
           },
           // 设置markdown渲染选项
           markdown: {
