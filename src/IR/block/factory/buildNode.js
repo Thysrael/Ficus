@@ -31,7 +31,7 @@ const {
   thematicBreakTypeName,
   codeblockTypeName,
   diagramTypeName,
-  htmlblockTypeName,
+  htmlblockTypeName
 } = require('../base/type/constant')
 
 function buildRootNode () {
@@ -95,7 +95,7 @@ function buildFolderNode (id, name, path) {
 }
 
 function buildTagNode (id, name) {
-  return new TreeNode (tagNodeType, new TagContent(id, name))
+  return new TreeNode(tagNodeType, new TagContent(id, name))
 }
 
 module.exports = {

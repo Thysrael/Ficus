@@ -51,16 +51,15 @@ class IRGraph {
   addRelations (relations) {
     console.log('add relations')
     console.log(relations)
-
   }
 
   addAerials (aerials) {
-    let pathToNodeId = {}
-    for (let node of this.treenodes) {
+    const pathToNodeId = {}
+    for (const node of this.treenodes) {
       pathToNodeId[node.content.path] = node.content.id
     }
 
-    for (let tagInfo of aerials) {
+    for (const tagInfo of aerials) {
       const tagNode = buildTagNode(this.nodeid, tagInfo.tagName)
       this.tagnodes.push(tagNode)
       tagInfo.attach.forEach(filepath => {
@@ -91,7 +90,7 @@ class IRGraph {
 
   /**
    * private
-   * @returns 
+   * @returns
    */
   makeEdges () {
     for (const node of this.treenodes) {
@@ -107,7 +106,7 @@ class IRGraph {
     }
   }
 
-  getLinks() {
+  getLinks () {
     return this.edges.concat(this.aerials)
   }
 
