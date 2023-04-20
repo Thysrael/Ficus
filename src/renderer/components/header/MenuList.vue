@@ -281,16 +281,16 @@ export default {
       }
     }
 
-    // function findFatherByPath (path) {
-    //   let i = 0
-    //   for (; i < path.length; i++) {
-    //     if (path[i] === openDir.value[0].name) {
-    //       break
-    //     }
-    //   }
-    //   i++
-    //
-    // }
+    function findFatherByPath (index, paths, father) {
+      if (index === paths.length - 1) {
+        return father
+      }
+      for (let i = 0; i < father.children.length; i++) {
+        if (father.children[i].name === paths[index]) {
+          return findFatherByPath(index + 1, paths, father.children[i])
+        }
+      }
+    }
 
     // 测试已打开工作区，未打开工作区
     async function newFile () {
@@ -301,7 +301,15 @@ export default {
       const obj = await window.electronAPI.newFileFromDialog(path)
       for (let i = 0; i < obj.length; i++) {
         if (obj[i].in) {
-          //
+          let i = 0
+          for (; i < path.length; i++) {
+            if (path[i] === openDir.value[0].name) {
+              break
+            }
+          }
+          const father = findFatherByPath(i + 1, path, openDir.value[0])
+          father.value.children.push(obj)
+          father.value.curChild = father.value.children.length - 1
         }
         bus.emit('openNewTab', obj[i].file)
       }
