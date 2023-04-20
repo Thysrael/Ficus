@@ -1,10 +1,9 @@
 const { Lexer } = require('../IR/utils/marked/lexer')
 
 function getAerialInBlock (blocktext) {
-  const aerailPattern = /-\[(\w+)\]\((\w+)\)/g
+  const aerialPattern = /-\[(\w+)\]\((\w+)\)/g
   const aerials = []
-
-  for (const word of blocktext.matchAll(aerailPattern)) {
+  for (const word of blocktext.matchAll(aerialPattern)) {
     aerials.push(
       {
         name: word[1],
@@ -18,7 +17,7 @@ function getAerialInBlock (blocktext) {
 
 /**
  * 仅解析paragraph和text类型中的链接
- * @param {*} doc
+ * @param {string} doc
  * @returns
  */
 function getAerialInFile (doc) {
@@ -30,11 +29,12 @@ function getAerialInFile (doc) {
     frontMatter: true
   }).lex(doc)
 
-  const aerials = []
+  let aerials = []
 
   let token
   let value
   while ((token = tokens.shift())) {
+    console.log(token.type)
     switch (token.type) {
       case 'frontmatter': {
         break
@@ -47,7 +47,7 @@ function getAerialInFile (doc) {
       case 'heading': {
         const { text } = token
         value = text
-        aerials.concat(getAerialInBlock(value))
+        aerials = aerials.concat(getAerialInBlock(value))
         break
       }
 
@@ -73,13 +73,13 @@ function getAerialInFile (doc) {
           token = tokens.shift()
           value += `\n${token.text}`
         }
-        aerials.concat(getAerialInBlock(value))
+        aerials = aerials.concat(getAerialInBlock(value))
         break
       }
 
       case 'paragraph': {
         value = token.text
-        aerials.concat(getAerialInBlock(value))
+        aerials = aerials.concat(getAerialInBlock(value))
         break
       }
 
