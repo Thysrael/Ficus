@@ -34,7 +34,6 @@ function getAerialInFile (doc) {
   let token
   let value
   while ((token = tokens.shift())) {
-    console.log(token.type)
     switch (token.type) {
       case 'frontmatter': {
         break
