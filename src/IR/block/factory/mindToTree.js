@@ -30,7 +30,7 @@ const {
   tasklistTypeName,
   listItemTypeName,
   taskListItemTypeName
-} = require('../type/constant')
+} = require('../base/type/constant')
 
 exports.mindToTree = function (mindJson) {
   return mindToTreeRecursion(mindJson)

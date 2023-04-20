@@ -1,4 +1,4 @@
-const { headingNodeType, listNodeType, listItemNodeType } = require('../type/type.js')
+const { headingNodeType, listNodeType, listItemNodeType } = require('./type/type.js')
 const LinkedNode = require('./linkedList/linkedNode.js')
 class TreeNode extends LinkedNode {
   // private nodeType: BaseNodeType

@@ -1,4 +1,4 @@
-const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName } = require('../../type/constant.js')
+const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName, tagTypeName } = require('../type/constant.js')
 
 class Content {
   // private text
@@ -289,6 +289,7 @@ class TableContent extends Content {
 
 const folderCategory = 0
 const fileCategory = 1
+const tagCategory = 1
 
 class FileContent extends Content {
   constructor (id, name, path, content) {
@@ -340,6 +341,22 @@ class FolderContent extends Content {
   }
 }
 
+class TagContent extends Content {
+  constructor (id, name) {
+    super(tagTypeName, name)
+    this.id = id
+    this.name = name
+  }
+
+  getNodeJson () {
+    return {
+      id: `${this.id}`,
+      name: this.name,
+      category: tagCategory
+    }
+  }
+}
+
 module.exports = {
   Content,
   RootContent,
@@ -352,5 +369,6 @@ module.exports = {
   TableContent,
   ParagraphContent,
   FileContent,
-  FolderContent
+  FolderContent,
+  TagContent
 }
