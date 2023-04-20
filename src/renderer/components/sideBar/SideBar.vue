@@ -67,7 +67,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="isFile = 4; getTags">
+      <button class="myButton" @click="getTags">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -100,7 +100,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="isFile = 6">
+      <button class="myButton" @click="getGraph">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <defs>
@@ -210,17 +210,21 @@
     </div>
   </div>
   <v-contextmenu ref="contextmenu">
-    <v-contextmenu-item v-if="isFile === 0" @click="handleNew('file')">新建文件</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 0" @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 0">粘贴</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 0">Ficus 视图</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 0">关闭工作区</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 2">新建段落</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 2">高亮当前标题</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 2">折叠所有章节</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 2">折叠所有章节</v-contextmenu-item>
-    <v-contextmenu-item v-if="isFile === 2">查找</v-contextmenu-item>
+    <div v-if="data.length !== 0 && isFile === 0">
+      <v-contextmenu-item @click="handleNew('file')">新建文件</v-contextmenu-item>
+      <v-contextmenu-item @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
+      <v-contextmenu-item >粘贴</v-contextmenu-item>
+      <v-contextmenu-item >关闭工作区</v-contextmenu-item>
+    </div>
+<!--    <div v-if="isFile === 2">-->
+<!--      <v-contextmenu-item >新建段落</v-contextmenu-item>-->
+<!--      <v-contextmenu-item >高亮当前标题</v-contextmenu-item>-->
+<!--      <v-contextmenu-item >折叠所有章节</v-contextmenu-item>-->
+<!--      <v-contextmenu-item >折叠所有章节</v-contextmenu-item>-->
+<!--      <v-contextmenu-item >查找</v-contextmenu-item>-->
+<!--    </div>-->
   </v-contextmenu>
+
 </template>
 
 <script>
@@ -329,7 +333,14 @@ export default {
     }
 
     function getTags () {
+      isFile.value = 4
       console.log('getTags')
+    }
+
+    function getGraph () {
+      isFile.value = 6
+      console.log('getGraph')
+      bus.emit('changeToGraph')
     }
 
     return {
@@ -339,7 +350,8 @@ export default {
       textWords,
       handleRightClick,
       handleNew,
-      getTags
+      getTags,
+      getGraph
     }
   }
 }
