@@ -281,6 +281,21 @@ export default {
       }
     }
 
+    // 测试已打开工作区，未打开工作区
+    async function newFile () {
+      let path = ''
+      if (openDir.value.length !== 0) {
+        path = openDir.value[0].path
+      }
+      const obj = await window.electronAPI.newFileFromDialog(path)
+      for (let i = 0; i < obj.length; i++) {
+        if (obj[i].in) {
+          //
+        }
+        bus.emit('openNewTab', obj[i].file)
+      }
+    }
+
     // 菜单栏核心逻辑分发函数
     async function show (layer, index) {
       // 导航
@@ -293,6 +308,9 @@ export default {
         closeMenu() // 点击叶节点关闭菜单
         // 根据index找相应的函数执行
         switch (op.name) {
+          case '新建文件':
+            await newFile()
+            break
           case '新建项目':
             await newMyProject()
             break
