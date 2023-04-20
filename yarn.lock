@@ -12122,6 +12122,7 @@ vue3-eventbus@^2.0.0:
     mitt "^2.1.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 vue3-mindmap@^0.5.12:
   version "0.5.12"
@@ -12143,6 +12144,8 @@ vue3-mindmap@^0.5.12:
     vue "^3.0.0"
 
 >>>>>>> 61877b4 (feat(./src/renderer/components/mindeditor): 添加了Ficus导图的样式及相关插件)
+=======
+>>>>>>> f68fd58 (feat(./src/renderer/components/mindeditor): 添加了ficus-mindmap插件包)
 vue@^3.0.0, vue@^3.2.13:
   version "3.2.47"
   resolved "https://mirrors.cloud.tencent.com/npm/vue/-/vue-3.2.47.tgz#3eb736cbc606fc87038dbba6a154707c8a34cff0"
