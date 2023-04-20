@@ -15,9 +15,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deleteTag: (filePath, tagName, folderPath) => ipcRenderer.invoke('delete_tag', filePath, tagName, folderPath),
 
   newFileFromDialog: (projPath) => ipcRenderer.invoke('newFileFromDialog', projPath),
-  newFileFromSidebar: (filePath, fileName, projPath) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName, projPath),
+  newFileFromSidebar: (filePath, fileName) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName),
   newFolderFromDialog: (projPath) => ipcRenderer.invoke('newFolderFromDialog', projPath),
-  newFolderFromSidebar: (folderPath, folderName, projPath) => ipcRenderer.invoke('newFolderFromSidebar', folderPath, folderName, projPath),
+  newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.invoke('newFolderFromSidebar', folderPath, folderName),
 
   deleteFile: (filePath, projPath) => ipcRenderer.invoke('deleteFile', filePath, projPath),
   deleteFolder: (folderPath, projPath) => ipcRenderer.invoke('deleteFolder', folderPath, projPath),

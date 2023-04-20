@@ -142,6 +142,7 @@ export default {
     const showDialog = ref(false)
     const dialogName = ref('')
     const fileName = ref('')
+    const father = ref({}) // 父对象
 
     onMounted(() => {
       window.addEventListener('resize', () => {
@@ -204,9 +205,10 @@ export default {
       data.value = [obj]
     })
 
-    bus.on('showDialog', (type) => {
+    bus.on('showDialog', (obj) => {
       showDialog.value = true
-      dialogName.value = (type === 'file') ? '新建文件' : '新建文件夹'
+      dialogName.value = (obj.type === 'file') ? '新建文件' : '新建文件夹'
+      father.value = obj.father
     })
 
     function handleNew () {
@@ -214,10 +216,32 @@ export default {
         alert('必须输入文件名或文件夹名')
         showDialog.value = false
       } else {
-        bus.emit('handleNewFromApp', {
+        if (dialogName.value === '新建文件') {
+          window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
+        } else {
+          window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
+        }
+        const paths = []
+        for (let i = 0; i < father.value.absolutePath.length; i++) {
+          paths.push(father.value.absolutePath[i])
+        }
+        paths.push(fileName.value)
+        const fileType = (dialogName.value === '新建文件') ? 'file' : 'folder'
+        const obj = {
           name: fileName.value,
-          type: (dialogName.value === '新建文件') ? 'file' : 'folder'
-        })
+          path: father.value.path + '\\' + fileName.value,
+          children: [],
+          curChild: -1,
+          content: '',
+          absolutePath: paths,
+          offset: -1,
+          type: fileType
+        }
+        father.value.children.push(obj)
+        father.value.curChild = father.value.children.length - 1
+        if (obj.type === 'file') {
+          bus.emit('openNewTab', obj)
+        }
         fileName.value = ''
         showDialog.value = false
       }
