@@ -124,6 +124,5 @@ function getAerialInFile (doc) {
 }
 
 module.exports = {
-  getAerialInBlock,
   getAerialInFile
 }

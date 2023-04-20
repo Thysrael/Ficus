@@ -7,7 +7,8 @@ const {
   quoteTypeName,
   folderTypeName,
   fileTypeName,
-  tagTypeName
+  tagTypeName,
+  frontmatterTypeName
 } = require('./constant')
 class BaseNodeType {
   // private leaf: boolean
@@ -34,6 +35,7 @@ exports.paragraphNodeType = new BaseNodeType(false, paragraphTypeName)
 exports.listNodeType = new BaseNodeType(true, listTypeName)
 exports.listItemNodeType = new BaseNodeType(false, listItemTypeName)
 exports.quoteNodeType = new BaseNodeType(true, quoteTypeName)
+exports.frontmatterNodeType = new BaseNodeType(false, frontmatterTypeName)
 
 exports.folderNodeType = new BaseNodeType(true, folderTypeName)
 exports.fileNodeType = new BaseNodeType(false, fileTypeName)

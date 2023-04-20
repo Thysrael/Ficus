@@ -23,13 +23,16 @@ exports.markdownToTree = function (markdown) {
   while ((token = tokens.shift())) {
     switch (token.type) {
       case 'frontmatter': {
-        // const { lang, style, text } = token
-        const { text } = token
+        const { lang, style, text } = token
         value = text
           .replace(/^\s+/, '')
           .replace(/\s$/, '')
+        if (lang === 'yaml') {
+          parentStack[0].node.insertAtLast(buildFrontMatter(value, lang, style))
+        } else {
+          parentStack[0].node.insertAtLast(buildParagraph(value))
+        }
 
-        parentStack[0].node.insertAtLast(buildFrontMatter(value))
         break
       }
 

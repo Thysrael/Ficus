@@ -9,11 +9,11 @@ const DEFAULT_OPTIONS = {
 
 class History {
   /**
-     *
-     * @param {*} irtree 绑定的IRTree
-     * @param {*} doc
-     * @param {*} options
-     */
+   *
+   * @param {IRTree} irtree 绑定的IRTree
+   * @param {string} doc
+   * @param {*} options
+   */
   constructor (irtree, doc, options = {}) {
     this.options = Object.assign({}, DEFAULT_OPTIONS, options)
     this.irtree = irtree
@@ -77,10 +77,13 @@ class History {
   }
 
   updateTree (doc) {
-    if (doc.content) {
-      this.irtree.tree = markdownToTree(doc.content)
-    } else if (doc.mindJson) {
-      this.irtree.tree = mindToTree(doc.mindJson)
+    if (doc.content !== undefined) {
+      this.irtree.root = markdownToTree(doc.content)
+    } else if (doc.mindJson !== undefined) {
+      this.irtree.root = mindToTree(doc.mindJson)
+    } else {
+      console.log('Error in updateTree')
+      console.log(doc)
     }
   }
 }
