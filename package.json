@@ -19,7 +19,6 @@
     "dependencies": {
         "@tailwindcss/forms": "0.2.1",
         "chai": "^4.3.7",
-        "chai-json-schema-ajv": "^5.2.4",
         "commitizen": "^4.3.0",
         "commitlint": "^17.5.1",
         "core-js": "^3.8.3",
