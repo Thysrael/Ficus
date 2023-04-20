@@ -20,9 +20,9 @@ export default function defineRAPI (vditor) {
   /** 修改内容主题 **/
   bus.on('changeContentTheme', ({ theme }) => {
     if (theme === 'classic') {
-      vditor.setTheme('classic', 'classic', 'github', '/css/content-theme')
+      vditor.setTheme('classic', 'classic', 'github')
     } else if (theme === 'modern') {
-      vditor.setTheme('classic', 'modern', 'github', '/css/content-theme')
+      vditor.setTheme('classic', 'modern', 'github')
     } else {
       console.log('no match theme!')
     }
@@ -54,5 +54,16 @@ export default function defineRAPI (vditor) {
   /** 增加format **/
   bus.on('addFormat', ({ type }) => {
     vditor.addFormat(type)
+  })
+
+  /** 导出html **/
+  bus.on('exportHTML', () => {
+    vditor.exportHTML()
+  })
+
+  /** 导出pdf **/
+  bus.on('exportPDF', () => {
+    const html = vditor.exportHTML(false)
+    window.electronAPI.exportPDF(html)
   })
 }
