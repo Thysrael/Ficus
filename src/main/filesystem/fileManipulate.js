@@ -112,3 +112,17 @@ exports.saveToTarget = (fileContent) => {
     fs.writeFileSync(result.filePath, fileContent)
   })
 }
+
+exports.saveToPDFTarget = (fileContent) => {
+  dialog.showSaveDialog({
+    buttonLabel: '保存',
+    defaultPath: app.getPath('desktop'),
+    properties: ['showHiddenFiles', 'createDirectory'],
+    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+      { name: 'PDF Files', extensions: ['pdf'] }
+    ]
+  }).then((result) => {
+    console.log(result)
+    fs.writeFileSync(result.filePath, fileContent)
+  })
+}
