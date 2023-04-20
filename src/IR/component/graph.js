@@ -36,14 +36,7 @@ class IRGraph {
   }
 
   addFiles (files) {
-    this.graph = buildFolderNode(this.nodeid, files.folderName, files.path)
-    this.treenodes.push(this.graph)
-    this.nodeid += 1
-    if (files.tree) {
-      files.tree.forEach(e => {
-        this.graph.insertAtLast(this.parseFileTree(e))
-      })
-    }
+    this.graph = this.parseFileTree(files)
 
     this.makeEdges()
   }
