@@ -202,7 +202,7 @@ export default {
     }
 
     function handleNew (type) {
-      bus.emit('showDialog', type)
+      bus.emit('showDialog', { type, father: props.item })
     }
 
     return {

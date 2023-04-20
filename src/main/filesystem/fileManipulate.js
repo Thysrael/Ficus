@@ -72,27 +72,35 @@ exports.newFileFromDialog = async (projPath) => {
     if (result.canceled === true) {
       return []
     }
+    let pathSplit = ''
+    if (os.platform().toString() === 'win32') {
+      pathSplit = result.filePath.split('\\')
+    } else if (os.platform().toString() === 'linux' || 'darwin') {
+      pathSplit = result.filePath.split('/')
+    }
+    const fileName = pathSplit[pathSplit.length - 1]
+    const file = {
+      name: fileName, // 文件名
+      curChild: -1, // 直接填充-1即可
+      path: result.filePath, // 绝对路径
+      absolutePath: pathSplit, // 希望将绝对路径分割成数组
+      offset: -1, // 直接填充-1即可
+      children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+      content: '' // 文件内容
+    }
+    file.type = 'file'
+    const index = result.filePath.lastIndexOf('.')
+    const ext = result.filePath.substring(index + 1)
+    const isMd = (ext === 'md')
+    file.isMd = isMd
     const fd = fs.openSync(result.filePath, 'w')
+    fs.close(fd, (err) => {
+      if (err) { console.error('Failed to close file', err) }
+    })
     if (result.filePath.startsWith(projPath)) {
-      let pathSplit = ''
-      if (os.platform().toString() === 'win32') {
-        pathSplit = projPath.split('\\')
-      } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
-        pathSplit = projPath.split('/')
-      }
-      const folderName = pathSplit[pathSplit.length - 1]
-      // console.log(result.filePaths[0])
-      const tree = await getTree(projPath, folderName)
-      await changeRelation(projPath)
-      fs.close(fd, (err) => {
-        if (err) { console.error('Failed to close file', err) }
-      })
-      return tree.children.filter(item => item.name !== '.ficus')
+      return [{ file, in: true }]
     } else {
-      fs.close(fd, (err) => {
-        if (err) { console.error('Failed to close file', err) }
-      })
-      return []
+      return [{ file, in: false }]
     }
   })
 }
@@ -100,7 +108,6 @@ exports.newFileFromDialog = async (projPath) => {
 exports.newFileFromSidebar = async (filePath, fileName, projPath) => {
   const pos = path.join(filePath, fileName)
   const fd = fs.openSync(pos, 'w')
-  await changeRelation(projPath)
   fs.close(fd, (err) => {
     if (err) { console.error('Failed to close file', err) }
   })
@@ -148,7 +155,6 @@ exports.newFolderFromSidebar = async (folderPath, folderName, projPath) => {
   fs.mkdir(basePath, { recursive: true }, err => {
     if (err) console.log(`mkdir path: ${basePath} err`)
   })
-  await changeRelation(projPath)
 }
 
 // 打开文件：
