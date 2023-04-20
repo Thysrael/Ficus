@@ -1,15 +1,16 @@
 <template>
   <div class="area-textArea">
-    <FicGraph/>
+    <FicTree/>
   </div>
 </template>
 
 <script>
-import FicGraph from '@/renderer/components/mindEditor/FicGraph.vue'
+
+import FicTree from '@/renderer/components/mindEditor/FicTree.vue'
 
 export default {
   name: 'TextArea',
-  components: { FicGraph }
+  components: { FicTree }
 }
 </script>
 
