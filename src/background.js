@@ -116,11 +116,11 @@ app.on('ready', async () => {
     const file = await linkToFile(filePath)
     return file
   })
-  ipcMain.handle('deleteFile', (e, filePath, projPath) => {
-    deleteFile(filePath, projPath)
+  ipcMain.handle('deleteFile', (e, filePath) => {
+    deleteFile(filePath)
   })
-  ipcMain.handle('deleteFolder', async (e, folderPath, projPath) => {
-    await deleteFolder(folderPath, projPath)
+  ipcMain.handle('deleteFolder', async (e, folderPath) => {
+    await deleteFolder(folderPath)
   })
   ipcMain.handle('renameFileOrFolder', async (e, newPath, oldPath, projPath) => {
     await renameFileOrFolder(newPath, oldPath, projPath)

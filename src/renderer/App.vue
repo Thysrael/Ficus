@@ -138,6 +138,7 @@ export default {
 
     const data = ref([])
     const source = ref({}) // 源对象
+    const dst = ref({}) // 目标对象
     const windowHeight = ref(window.innerHeight + 'px')
     const showDialog = ref(false)
     const dialogName = ref('')
@@ -154,7 +155,20 @@ export default {
       source.value = obj
     })
 
+    function closeTab (obj) {
+      if (obj.type === 'file') {
+        bus.emit('deleteTab', obj)
+      } else if (obj.type === 'folder') {
+        for (let i = 0; i < obj.children.length; i++) {
+          closeTab(obj.children[i])
+        }
+      }
+    }
+
     function removeFrom (obj, arr) {
+      if (arr === undefined) {
+        console.log('big bug!')
+      }
       let index = -1
       for (let i = 0; i < arr.length; i++) {
         if (arr[i].path === obj.path) {
@@ -165,16 +179,34 @@ export default {
       if (index !== -1) {
         arr.splice(index, 1)
       }
+      // 删除一个对象也需要在工作区关闭其本身和其孩子节点
+      closeTab(obj)
+      // 从后端删除
+      if (obj.type === 'file') {
+        window.electronAPI.deleteFile(obj.path)
+      } else if (obj.type === 'folder') {
+        window.electronAPI.deleteFolder(obj.path)
+      }
     }
 
-    bus.on('toDst', (obj) => {
-      if (obj.children && obj.children.length) {
+    bus.on('removeObjFromData', (obj) => {
+      const father = findFather(obj, data.value[0]).res
+      removeFrom(obj, father.children)
+    })
+
+    bus.on('getDst', (obj) => {
+      dst.value = obj
+      console.log('更新目的地：', dst.value)
+    })
+
+    bus.on('toDst', () => {
+      console.log('dst: ', dst.value)
+      if (dst.value.type === 'folder') {
         const father = findFather(source.value, data.value[0]).res
-        if (father.path !== obj.path) {
+        if (father.path !== dst.value.path) {
           removeFrom(source.value, father.children)
-          // 拖拽会改变文件的路径，删除一个文件，改变source的path
-          // 后端返回新的文件对象
-          obj.children.push(source.value)
+          buildNewFileFromOld(dst.value, source.value)
+          dst.value.children.push(source.value)
         }
       }
     })
@@ -211,6 +243,28 @@ export default {
       father.value = obj.father
     })
 
+    function buildNewFileFromOld (father, curObj) {
+      if (curObj.type === 'file') {
+        window.electronAPI.newFileFromSidebar(father.path, curObj.name)
+      } else {
+        window.electronAPI.newFolderFromSidebar(father.path, curObj.name)
+      }
+      const paths = []
+      for (let i = 0; i < father.absolutePath.length; i++) {
+        paths.push(father.absolutePath[i])
+      }
+      paths.push(curObj.name)
+      curObj.absolutePath = paths
+      curObj.path = father.path + '\\' + curObj.name
+      if (curObj.type === 'file') {
+        window.electronAPI.saveFile(curObj.path, curObj.content)
+      } else if (curObj.type === 'folder') {
+        for (let i = 0; i < curObj.children.length; i++) {
+          buildNewFileFromOld(curObj, curObj.children[i])
+        }
+      }
+    }
+
     function handleNew () {
       if (fileName.value === '') {
         alert('必须输入文件名或文件夹名')
@@ -229,6 +283,7 @@ export default {
         const fileType = (dialogName.value === '新建文件') ? 'file' : 'folder'
         const obj = {
           name: fileName.value,
+          // bugFIX: 跨操作系统时？
           path: father.value.path + '\\' + fileName.value,
           children: [],
           curChild: -1,
