@@ -13,10 +13,15 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import mindmap from 'ficus-mindmap'
 import 'ficus-mindmap/dist/style.css'
+=======
+>>>>>>> f68fd58 (feat(./src/renderer/components/mindeditor): 添加了ficus-mindmap插件包)
 import testMind from './test_mind.json'
 import { defineComponent, ref } from 'vue'
+import mindmap from 'ficus-mindmap'
+import 'ficus-mindmap/dist/style.css'
 export default defineComponent({
   components: {
     mindmap
