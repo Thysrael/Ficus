@@ -3,6 +3,7 @@ const chai = require('chai')
 const assert = require('assert')
 
 describe('IR到MindJson测试', function () {
+  console.log(chai)
   const root = markdownToTree('# aa')
   it('简单单行测试', function () {
     assert.deepStrictEqual(root.toMindJson(), {
