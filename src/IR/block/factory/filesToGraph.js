@@ -8,6 +8,7 @@ function buildGraphFromFileTree (files, relations = [], aerials = []) {
   return res
 }
 
+// TODO
 function buildGraphFromNodes (nodes, links = {}) {
   const res = new IRGraph()
   return res

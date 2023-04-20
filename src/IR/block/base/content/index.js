@@ -1,4 +1,4 @@
-const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName, tagTypeName } = require('../type/constant.js')
+const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName, tagTypeName, frontmatterTypeName } = require('../type/constant.js')
 
 class Content {
   constructor (typename, text) {
@@ -27,6 +27,46 @@ class Content {
 
   getSingleSpacePre () {
     return ''
+  }
+}
+
+const yaml = require('js-yaml')
+
+class FrontmatterContent extends Content {
+  constructor (text, lang, style) {
+    super(frontmatterTypeName, text)
+    this.lang = lang
+    this.style = style
+    this.data = yaml.load(text)
+  }
+
+  getTags () {
+    return this.data.tags || []
+  }
+
+  toMarkdown () {
+    return '---\n' + this.pre + yaml.dump(this.data) + '---\n\n'
+  }
+
+  addTag (tagname) {
+    if (this.data === undefined) {
+      this.data = { tags: [tagname] }
+    } else if (!this.data.tags.includes(tagname)) {
+      this.data.tags.push(tagname)
+    }
+  }
+
+  removeTag (tagname) {
+    if (this.data.tags !== undefined && this.data.tags.includes(tagname)) {
+      this.data.tags.splice(this.data.tags.indexOf(tagname), 1)
+      if (this.data.tags.length === 0) {
+        delete this.data.tags
+      }
+    }
+  }
+
+  isEmpty () {
+    return JSON.stringify(this.data) === '{}'
   }
 }
 
@@ -367,5 +407,6 @@ module.exports = {
   ParagraphContent,
   FileContent,
   FolderContent,
-  TagContent
+  TagContent,
+  FrontmatterContent
 }

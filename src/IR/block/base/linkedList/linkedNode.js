@@ -24,5 +24,11 @@ class LinkedNode {
   insertAtLast (newNode) {
     this.insertBefore(newNode, null)
   }
+
+  removeSelf () {
+    if (this.parent !== null) {
+      this.parent.children.remove(this)
+    }
+  }
 }
 module.exports = LinkedNode
