@@ -126,12 +126,12 @@ app.on('ready', async () => {
     await renameFileOrFolder(newPath, oldPath, projPath)
   })
 
-  ipcMain.handle('newFileFromSidebar', async (e, filePath, fileName, projPath) => {
-    await newFileFromSidebar(filePath, fileName, projPath)
+  ipcMain.handle('newFileFromSidebar', async (e, filePath, fileName) => {
+    await newFileFromSidebar(filePath, fileName)
   })
 
-  ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName, projPath) => {
-    newFolderFromSidebar(filePath, fileName, projPath)
+  ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
+    newFolderFromSidebar(filePath, fileName)
   })
 
   ipcMain.handle('newFileFromDialog', async (e, projPath) => {
