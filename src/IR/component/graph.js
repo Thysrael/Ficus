@@ -10,7 +10,7 @@ class IRGraph {
     this.tagnodes = []
 
     this.edges = []
-    this.aerials = []
+    this.relations = []
   }
 
   /**
@@ -49,22 +49,17 @@ class IRGraph {
   }
 
   addRelations (relations) {
-    console.log('add relations')
-    console.log(relations)
-  }
-
-  addAerials (aerials) {
     const pathToNodeId = {}
     for (const node of this.treenodes) {
       pathToNodeId[node.content.path] = node.content.id
     }
 
-    for (const tagInfo of aerials) {
+    for (const tagInfo of relations) {
       const tagNode = buildTagNode(this.nodeid, tagInfo.tagName)
       this.tagnodes.push(tagNode)
       tagInfo.attach.forEach(filepath => {
         if (this.pathToNodeId[filepath] !== undefined) {
-          this.aerials.push({
+          this.relations.push({
             id: this.linkid,
             source: this.nodeid,
             target: this.pathToNodeId[filepath],
@@ -75,6 +70,11 @@ class IRGraph {
       })
       this.nodeid += 1
     }
+  }
+
+  addAerials (aerials) {
+    console.log('add aerials')
+    console.log(aerials)
   }
 
   getNodes () {
@@ -107,7 +107,7 @@ class IRGraph {
   }
 
   getLinks () {
-    return this.edges.concat(this.aerials)
+    return this.edges.concat(this.relations)
   }
 
   getFileTreeJson () {
