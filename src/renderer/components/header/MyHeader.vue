@@ -312,6 +312,7 @@ export default {
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', (obj) => {
+      bus.emit('chooseToShowPage', 1)
       if (contain(obj)) {
         console.log('already open!')
       } else {
