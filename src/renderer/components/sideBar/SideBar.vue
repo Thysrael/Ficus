@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex" class="Sidebar">
     <div class="toolsBar" style="z-index: 10">
-      <button class="myButton transition ease-linear" @click="isFile = 2">
+      <button class="myButton" @click="isFile = 2">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <defs>
@@ -377,6 +377,7 @@ export default {
 .Sidebar {
   opacity: 1;
   background: #F4F4F3;
+  width: 15%;
 }
 
 .toolsBar {
@@ -425,6 +426,11 @@ export default {
 .myButton {
   margin-left: 15px;
   margin-top: 15px;
+}
+
+.myButton path {
+  -webkit-transition: fill .5s;
+  -webkit-transition:left .5s, fill .5s;
 }
 
 .myButton:hover path {

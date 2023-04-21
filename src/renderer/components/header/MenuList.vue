@@ -22,7 +22,7 @@
           :key="index"
           @mouseenter="mouseIn(2, index)"
           @click="show(2, index)"
-          class="hover:bg-gray-100 bg-white shadow-md"
+          class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
     <ul v-if="thirdShow">
@@ -32,7 +32,7 @@
           :key="index"
           @mouseenter="mouseIn(3, index)"
           @click="show(3, index)"
-          class="hover:bg-gray-100 bg-white shadow-md"
+          class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
   </div>

@@ -2793,7 +2793,7 @@ select {
     width: 100%;
     height: 25px;
     margin-left: 0;
-    position: absolute;
+    position: relative;
     background: #F4F4F3;
 }
 
@@ -2816,9 +2816,9 @@ select {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 170px;
-    height: 20px;
-    border-radius: 5px;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
     background-color: #EFEFEF;
 }
 
@@ -3182,6 +3182,11 @@ select {
     padding-right: 3rem;
 }
 
+.px-24 {
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
 .py-16 {
     padding-top: 4rem;
     padding-bottom: 4rem;
@@ -3253,6 +3258,14 @@ select {
 
 .pl-10 {
     padding-left: 2.5rem;
+}
+
+.pl-24 {
+    padding-left: 6rem;
+}
+
+.pr-36 {
+    padding-right: 9rem;
 }
 
 .pt-12 {
