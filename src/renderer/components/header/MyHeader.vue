@@ -1,13 +1,15 @@
 <template>
-  <div class="area-header"
+  <div class="flex flex-col area-header"
   >
-    <div class="area-header-top" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
-      <MenuList :data="data" style="z-index: 100;margin-left: 5px;-webkit-app-region: no-drag"></MenuList>
+    <div class="area-header-top flex flex-wrap content-center items-center" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
       <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
-           style="position: absolute; left: 5px; top: 0; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
+           style="position: absolute; left: 5px; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
+      <MenuList :data="data"
+                class="mx-8 top-25-px absolute"
+                style="z-index: 100; ft-webkit-app-region: no-drag"></MenuList>
       <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;-webkit-app-region: no-drag"></BreadCrumb>
-      <ModeChoose class="area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
+      <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
       <button @click="myMin" style="-webkit-app-region: no-drag" class="tr1-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
@@ -17,7 +19,7 @@
             </clipPath>
           </defs>
           <g style="mix-blend-mode:passthrough">
-            <rect x="0" y="0" width="40" height="40" rx="0" fill="#666A70" fill-opacity="1"/>
+            <rect x="0" y="0" width="40" height="40" rx="0"/>
             <g clip-path="url(#master_svg0_71_2542)">
               <g>
                 <g>
@@ -39,6 +41,7 @@
             </clipPath>
           </defs>
           <g style="mix-blend-mode:passthrough">
+            <rect x="0" y="0" width="40" height="40" rx="0"/>
             <g clip-path="url(#master_svg0_71_507)">
               <g>
                 <g>
@@ -60,7 +63,7 @@
             </clipPath>
           </defs>
           <g style="mix-blend-mode:passthrough">
-            <rect x="0" y="0" width="40" height="40" rx="0" fill="#B13333" fill-opacity="1"/>
+            <rect x="0" y="0" width="40" height="40" rx="0"/>
             <g clip-path="url(#master_svg0_71_2735)">
               <g>
                 <g>
@@ -388,6 +391,48 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
+}
+
+.tr1-element rect {
+  fill: none;
+}
+
+.tr1-element:hover rect {
+  fill: #666A70;
+  fill-opacity: 1;
+}
+
+.tr1-element:active rect {
+  fill: #3D3D3D;
+  fill-opacity: 1;
+}
+
+.tr2-element rect {
+  fill: none;
+}
+
+.tr2-element:hover rect {
+  fill: #666A70;
+  fill-opacity: 1;
+}
+
+.tr2-element:active rect {
+  fill: #3D3D3D;
+  fill-opacity: 1;
+}
+
+.tr3-element rect {
+  fill: none;
+}
+
+.tr3-element:hover rect {
+  fill: #B13333;
+  fill-opacity: 1;
+}
+
+.tr3-element:active rect {
+  fill: #6e1919;
+  fill-opacity: 1;
 }
 
 .theme-element {

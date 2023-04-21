@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <button style="position: absolute;margin-left: 7.5px;margin-top: 2.5px;width: 48px;height: 15px;opacity: 1;font-size: 10px" @click="changeEditMode(0)">文本模式</button>
-    <button style="position: absolute;margin-left: 60px;margin-top: 2.5px;width: 58px;height: 15px;opacity: 1;font-size: 10px" @click="changeEditMode(2)">Ficus模式</button>
-    <button style="position: absolute;margin-left: 118.5px;margin-top: 2.5px;width: 48px;height: 15px;opacity: 1;font-size: 10px" @click="changeEditMode(1)">源码模式</button>
+  <div class="flex">
+    <button class="flex-grow" style="position: absolute;margin-left: 7.5px;margin-top: 2.5px;width: 48px;height: 15px;opacity: 1;font-size: 10px" @click="changeEditMode(0)">文本模式</button>
+    <button class="flex-grow" style="position: absolute;margin-left: 60px;margin-top: 2.5px;width: 58px;height: 15px;opacity: 1;font-size: 10px" @click="changeEditMode(2)">Ficus模式</button>
+    <button class="flex-grow" style="position: absolute;margin-left: 118.5px;margin-top: 2.5px;width: 48px;height: 15px;opacity: 1;font-size: 10px" @click="changeEditMode(1)">源码模式</button>
   </div>
 </template>
 
