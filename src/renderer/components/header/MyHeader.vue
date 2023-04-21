@@ -125,6 +125,7 @@ export default {
     const content = ref('') // 当前工作区文本内容
     const wordCnt = ref(0) // 当前工作区字符数
     const theme = ref('classic') // 当前主题
+    let mode = -1 // 默认当前模式为欢迎界面
 
     // 对于一个待打开的文件，判断是否已经包含在已打开的文件中
     function contain (file) {
@@ -202,7 +203,16 @@ export default {
       // console.log('get change: ', content.value, wordCnt.value)
       dataManager.updateTreeFromMarkdown(content.value)
       const res = dataManager.getTreeOutline()
-      console.log('6666666: ', res)
+      bus.emit('openOutLine', res.children)
+    })
+
+    // MindUI接口，MindUI实时将工作区修改保存到json中
+    bus.on('saveChangeMindUI', (json) => {
+      console.log(json)
+      dataManager.updateTreeFromMindJson(json)
+      content.value = dataManager.getTreeMarkdown()
+      console.log('树操作之后更新的json: ', content.value)
+      const res = dataManager.getTreeOutline()
       bus.emit('openOutLine', res.children)
     })
 
@@ -256,9 +266,6 @@ export default {
 
     // TextUI接口，更新textUI的展示内容
     bus.on('sendToTextUI', (obj) => {
-      if (curObj.value.path === obj.path) {
-        return // 不更新工作区
-      }
       // 写回content，有可能路径不存在的
       writeBack()
       content.value = obj.content
@@ -273,12 +280,18 @@ export default {
         bus.emit('openOutLine', res.children)
       }
       updateBread()
-      // 传参给textUI
-      console.log('正在传参：', content.value, typeof content.value)
-      if (content.value !== undefined) {
-        bus.emit('setEditorContent', { content: content.value })
-      } else {
-        console.log('bug need fix')
+      // 传参给textUI，根据mode选择传参给哪个组件
+      if (mode === 2) {
+        const obj = dataManager.getTreeMindJson()
+        console.log('正在传参：', obj)
+        bus.emit('sendToFicTree', obj)
+      } else if (mode >= 0) {
+        console.log('正在传参：', content.value, typeof content.value)
+        if (content.value !== undefined) {
+          bus.emit('setEditorContent', { content: content.value })
+        } else {
+          console.log('bug need fix')
+        }
       }
     })
 
@@ -304,7 +317,8 @@ export default {
         if (openFiles.value.length !== 0) {
           bus.emit('sendToTextUI', openFiles.value[index])
         } else {
-          bus.emit('sendToTextUI', { name: '', path: '', content: '未打开任何文件' })
+          // bus.emit('sendToTextUI', { name: '', path: '', content: '未打开任何文件' })
+          bus.emit('changeMode', -1)
         }
       }
       update()
@@ -312,7 +326,10 @@ export default {
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', (obj) => {
-      bus.emit('chooseToShowPage', 1)
+      if (mode === -1) {
+        // 正在展示欢迎界面，默认进入纯文本模式
+        bus.emit('changeMode', 0)
+      }
       if (contain(obj)) {
         console.log('already open!')
       } else {
@@ -355,9 +372,26 @@ export default {
       bus.emit('changeContentTheme', { theme: theme.value })
     }
 
-    bus.on('changeToFicus', () => {
-      // const obj = dataManager.getTreeMindJson()
-
+    bus.on('changeMode', (value) => {
+      if (mode !== value) {
+        // 模式改变 0表示纯文本，1表示源码，2表示树形
+        if (value === 2) {
+          bus.emit('chooseToShowPage', 2) // 展示树型组件
+        } else if (value >= 0) {
+          bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
+          bus.emit('chooseToShowPage', 1) // 展示编辑器组件
+        } else if (value === -1) {
+          bus.emit('chooseToShowPage', 0)
+        }
+        if (mode !== -1) {
+          // 工作区有打开文件
+          console.log('发生了模式切换：', curObj.value)
+          mode = value
+          bus.emit('sendToTextUI', curObj.value)
+        } else {
+          mode = value
+        }
+      }
     })
 
     bus.on('changeToGraph', () => {

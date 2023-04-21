@@ -1,15 +1,10 @@
 <template>
-  <div style="width: 100%; height: 700px; position: relative; overflow: auto">
-    <FicTree/>
-  </div>
   <div>
     <div v-if="showPage === 0">
       我是欢迎界面！
     </div>
-    <TextUI style="width: 100%;height: 100%;position: relative" v-if="showPage === 1"></TextUI>
-    <div v-if="showPage === 2">
-      我是Ficus模式
-    </div>
+    <TextUI style="width: 100%;height: 100%;position: relative" v-show="showPage === 1"></TextUI>
+    <FicTree v-show="showPage === 2" style="width: 100%; height: 700px; position: relative; overflow: auto"/>
     <div class="littleInformation">
       <div class="information">
         <text class="myText">

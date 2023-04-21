@@ -24,7 +24,7 @@
         "commitlint": "^17.5.1",
         "core-js": "^3.8.3",
         "cz-conventional-changelog": "^3.3.0",
-        "ficus-editor": "^1.0.5",
+        "ficus-editor": "^1.0.18",
         "ficus-mindmap": "0.6.10",
         "fs-extra": "^11.1.1",
         "husky": "^8.0.3",
