@@ -66,4 +66,9 @@ export default function defineRAPI (vditor) {
     const html = vditor.exportHTML(false)
     window.electronAPI.exportPDF(html)
   })
+
+  /** 跳转到对应的标题位置 **/
+  bus.on('scrollToHeading', ({ info }) => {
+    vditor.scrollToHeading(info)
+  })
 }
