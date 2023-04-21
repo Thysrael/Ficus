@@ -1,15 +1,22 @@
-const { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, fileTypeName, tagTypeName, frontmatterTypeName } = require('../type/constant.js')
+const {
+  rootTypeName,
+  tableTypeName,
+  headingTypeName,
+  quoteTypeName,
+  mathblockTypeName,
+  frontmatterTypeName
+} = require('../type/constant.js')
 
 class Content {
   constructor (typename, text) {
     this.typename = typename
     this.text = text
-    this.pre = '' // 非空白前缀
-    this.spacePre = '' // 空白行前缀
+    this.normalPrefix = '' // 非空白前缀
+    this.spacePreix = '' // 空白行前缀
   }
 
   toMarkdown () {
-    return this.pre + this.text + '\n'
+    return this.normalPrefix + this.text + '\n'
   }
 
   getMindJson () {
@@ -21,12 +28,28 @@ class Content {
     }
   }
 
-  getSinglePre () {
+  /**
+   * 获取content本身可以生成的正常行前缀
+   * @returns
+   */
+  getOneNormalPrefix () {
     return ''
   }
 
-  getSingleSpacePre () {
+  /**
+   * 获取content本身可以生成的空白行前缀
+   * @returns
+   */
+  getOneSpacePrefix () {
     return ''
+  }
+
+  setNormalPrefix (prefix) {
+    this.normalPrefix = prefix
+  }
+
+  setSpacePrefix (prefix) {
+    this.spacePreix = prefix
   }
 }
 
@@ -45,7 +68,7 @@ class FrontmatterContent extends Content {
   }
 
   toMarkdown () {
-    return '---\n' + this.pre + yaml.dump(this.data) + '---\n\n'
+    return '---\n' + this.normalPrefix + yaml.dump(this.data) + '---\n\n'
   }
 
   addTag (tagname) {
@@ -95,7 +118,7 @@ class ParagraphContent extends Content {
   // }
 
   toMarkdown () {
-    return super.toMarkdown() + this.spacePre + '\n'
+    return super.toMarkdown() + this.spacePreix + '\n'
   }
 }
 
@@ -107,8 +130,8 @@ class HeadingContent extends Content {
   }
 
   toMarkdown () {
-    return this.pre + '#'.repeat(+this.depth) + ' ' + this.text + '\n' +
-    this.spacePre + '\n'
+    return this.normalPrefix + '#'.repeat(+this.depth) + ' ' + this.text + '\n' +
+    this.spacePreix + '\n'
   }
 
   getOutlineJson () {
@@ -136,11 +159,11 @@ class CodeContent extends Content {
   }
 
   toMarkdown () {
-    let res = this.spacePre + '```'
+    let res = this.spacePreix + '```'
     if (this.lang) {
       res += this.lang
     }
-    res += '\n' + super.toMarkdown() + this.spacePre + '```\n' + this.spacePre + '\n'
+    res += '\n' + super.toMarkdown() + this.spacePreix + '```\n' + this.spacePreix + '\n'
     return res
   }
 
@@ -153,14 +176,13 @@ class CodeContent extends Content {
 }
 
 class MathContent extends Content {
-  // private style
   constructor (text, style) {
     super(mathblockTypeName, text)
     this.style = style
   }
 
   toMarkdown () {
-    return this.spacePre + '$$\n' + super.toMarkdown() + this.spacePre + '$$\n' + this.spacePre + '\n'
+    return this.spacePreix + '$$\n' + super.toMarkdown() + this.spacePreix + '$$\n' + this.spacePreix + '\n'
   }
 
   getMindJson () {
@@ -179,21 +201,16 @@ class QuoteContent extends Content {
     return ''
   }
 
-  getSinglePre () {
+  getOneNormalPrefix () {
     return '> '
   }
 
-  getSingleSpacePre () {
+  getOneSpacePrefix () {
     return '> '
   }
 }
 
 class ListContent extends Content {
-  // private type
-  // private loose: boolean
-  // private start
-  // private delimiter
-  // private marker
   constructor (typename, loose, start, delimiter, marker) {
     super(typename, '')
     this.loose = loose
@@ -215,17 +232,16 @@ class ListContent extends Content {
     return mindJson
   }
 
-  getSinglePre (off = 0) {
+  getOneNormalPrefix (off = 0) {
     return (this.marker || `${this.start + off}${this.delimiter}`) + ' '
   }
 
-  getSingleSpacePre () {
+  getOneSpacePrefix () {
     return this.marker === undefined ? '   ' : '  '
   }
 }
 
 class ListItemContent extends Content {
-  // private checked: boolean
   constructor (typename, checked) {
     super(typename, '')
     this.checked = checked
@@ -235,7 +251,7 @@ class ListItemContent extends Content {
     return ''
   }
 
-  getSinglePre () {
+  getOneNormalPrefix () {
     if (this.checked === undefined) {
       return ''
     } else { return `[${this.checked ? 'x' : ' '}] ` }
@@ -248,26 +264,21 @@ class ListItemContent extends Content {
   }
 }
 
-const escapeText = str => {
-  return str.replace(/([^\\])\|/g, '$1\\|')
-}
-
 class TableContent extends Content {
-  // private cells: any
   constructor (cells) {
     super(tableTypeName, 'table')
     this.cells = cells
   }
 
   toMarkdown () {
-    const indent = this.pre
+    const indent = this.normalPrefix
     const result = []
     const row = this.cells.length
     const column = this.cells[0].children.length
     const tableData = []
 
     for (const rowState of this.cells) {
-      tableData.push(rowState.children.map(cell => escapeText(cell.text.trim())))
+      tableData.push(rowState.children.map(cell => this.escapeText(cell.text.trim())))
     }
 
     const columnWidth = this.cells[0].children.map(th => ({ width: 5, align: th.meta.align }))
@@ -322,75 +333,10 @@ class TableContent extends Content {
     mindJson.cells = this.cells
     return mindJson
   }
-}
 
-const folderCategory = 0
-const fileCategory = 1
-const tagCategory = 1
-
-class FileContent extends Content {
-  constructor (id, name, path, content) {
-    super(fileTypeName, content)
-    this.id = id
-    this.name = name
-    this.path = path
-  }
-
-  getFileJson () {
-    return {
-      name: this.name,
-      path: this.path,
-      content: this.text
-    }
-  }
-
-  getNodeJson () {
-    return {
-      id: `${this.id}`,
-      name: this.name,
-      category: fileCategory
-    }
-  }
-}
-
-class FolderContent extends Content {
-  constructor (id, name, path) {
-    super(fileTypeName, name)
-    this.id = id
-    this.name = name
-    this.path = path
-  }
-
-  getFileJson () {
-    return {
-      name: this.text,
-      path: this.path,
-      children: []
-    }
-  }
-
-  getNodeJson () {
-    return {
-      id: `${this.id}`,
-      name: this.name,
-      category: folderCategory
-    }
-  }
-}
-
-class TagContent extends Content {
-  constructor (id, name) {
-    super(tagTypeName, name)
-    this.id = id
-    this.name = name
-  }
-
-  getNodeJson () {
-    return {
-      id: `${this.id}`,
-      name: this.name,
-      category: tagCategory
-    }
+  /* private */
+  escapeText (str) {
+    return str.replace(/([^\\])\|/g, '$1\\|')
   }
 }
 
@@ -405,8 +351,5 @@ module.exports = {
   ListItemContent,
   TableContent,
   ParagraphContent,
-  FileContent,
-  FolderContent,
-  TagContent,
   FrontmatterContent
 }
