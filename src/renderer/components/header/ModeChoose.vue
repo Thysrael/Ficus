@@ -13,13 +13,7 @@ export default {
   name: 'ModeChoose',
   setup () {
     function changeEditMode (mode) {
-      if (mode === 2) {
-        bus.emit('changeToFicus')
-        bus.emit('chooseToShowPage', 2)
-      } else {
-        bus.emit('changeEditMode', { mode })
-        bus.emit('chooseToShowPage', 1)
-      }
+      bus.emit('changeMode', mode)
     }
     return {
       changeEditMode

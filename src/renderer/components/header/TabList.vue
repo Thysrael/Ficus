@@ -126,7 +126,9 @@ export default {
     }
 
     function getTab (item) {
-      bus.emit('sendToTextUI', item)
+      if (props.curObj.path !== item.path) {
+        bus.emit('sendToTextUI', item)
+      }
     }
 
     function closeTabByItem (item) {
