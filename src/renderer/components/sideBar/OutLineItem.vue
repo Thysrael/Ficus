@@ -2,7 +2,6 @@
   <li>
     <div
         :class="isFocused ? `flex items-center cursor-pointer bg-red-300` : `flex items-center cursor-pointer bg-fuchsia-300`"
-        @click="toggle"
         tabindex="0"
         @focus="isFocused = true"
         @blur="isFocused = false"
@@ -24,11 +23,12 @@
 <!--      </svg>-->
       {{ item.name }}
     </div>
-    <ul v-if="hasChildren && expanded">
+    <ul>
       <OutLineItem
           v-for="(child, index) in item.children"
           :key="index"
           :item="child"
+          @click="getIndex(index, child)"
       />
     </ul>
   </li>
@@ -36,6 +36,7 @@
 
 <script>
 import { computed, ref } from 'vue'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'OutLineItem',
@@ -46,33 +47,20 @@ export default {
     }
   },
   setup (props) {
-    const expanded = ref(false) // 控制是否显示孩子节点
     const isFocused = ref(false)
-
-    // 创建一个计算属性，用于判断当前项是否有子节点
-    const hasChildren = computed(() => {
-      return props.item.children && props.item.children.length
-    })
 
     const pl = computed(() => {
       return `padding-left:${props.item.level - 1}rem`
     })
 
-    // 创建一个方法，用于切换节点的展开状态
-    function toggle () {
-      if (hasChildren.value) {
-        expanded.value = !expanded.value
-      } else {
-        //
-      }
+    function getIndex (index, child) {
+      bus.emit('addToTitles', index)
     }
 
     return {
-      expanded,
-      hasChildren,
       isFocused,
       pl,
-      toggle
+      getIndex
     }
   }
 }
