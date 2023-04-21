@@ -2,7 +2,7 @@
   <div id="app" :style="{ height: windowHeight }">
     <MyHeader :data="data"></MyHeader>
     <div style="display:flex;height: 100%;width:100%;position: relative">
-      <SideBar :data="data"></SideBar>
+      <SideBar :data="data" style="width: 20%; height: 100%"></SideBar>
       <TextArea class="myTextArea"></TextArea>
     </div>
     <div class="dialog" v-if="showDialog">
