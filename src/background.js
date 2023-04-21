@@ -87,7 +87,7 @@ app.on('ready', async () => {
       }
     })
 
-    printWin.loadURL('data:text/html;charset=UTF-8,' + encodeURI(html))
+    printWin.loadURL('data:text/html;charset=UTF-8,' + encodeURIComponent(html))
 
     const options = {
       marginsType: 0,
