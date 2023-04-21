@@ -14,23 +14,33 @@
 </template>
 
 <script>
-import testMind from './test_mind.json'
 import { defineComponent, ref } from 'vue'
 import mindmap from 'ficus-mindmap'
 import 'ficus-mindmap/dist/style.css'
+import bus from 'vue3-eventbus'
 
 export default defineComponent({
   components: {
     mindmap
   },
   setup () {
-    const data = ref(testMind)
+    const data = ref([{
+      name: ''
+    }])
     const onChange = (msg) => {
-      console.log(msg)
+      console.log(msg[0])
+      bus.emit('saveChangeMindUI', msg[0])
     }
     const onSelect = (msg) => {
-      console.log(msg)
+      // console.log(msg)
     }
+
+    // 监听data变化
+    bus.on('sendToFicTree', (obj) => {
+      console.log('getObj: ', obj)
+      data.value = [obj]
+    })
+
     return {
       data,
       onChange,
