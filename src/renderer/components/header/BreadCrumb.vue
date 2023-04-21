@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-600 text-sm" :style= "`max-width: ${windowWidth};overflow-x:auto;`">
+  <div class="text-gray-600 text-sm items-center content-center" :style= "`max-width: ${windowWidth};overflow-x:auto;`">
     <ol class="list-none p-0 inline-flex" v-if="enable">
       <BreadCrumbItem style="margin-top: 10px"
                       :item="(items.length === 0) ? {} : items[0]"/>

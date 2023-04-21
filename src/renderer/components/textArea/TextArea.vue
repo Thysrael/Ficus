@@ -1,6 +1,7 @@
 <template>
   <div>
-    <TextUI style="width: 100%;height: 100%;position: relative"></TextUI>
+    <TextUI
+        style="width: 100%; height: 100%; position: relative"></TextUI>
     <div class="littleInformation">
       <div class="information">
         <text class="myText">

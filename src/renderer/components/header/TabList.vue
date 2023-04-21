@@ -1,5 +1,5 @@
 <template>
-  <div class="flexStyle" style="margin-left: 200px; margin-right: 20px">
+  <div class="flexStyle" style="margin-right: 20px">
     <ol class="flex">
       <li
           :class="(item.path === curObj.path) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex;"
@@ -163,7 +163,7 @@ export default {
 
 <style scoped>
 .flexStyle{
-  height:25px;
+  height:100px;
   display:flex;
   justify-content:space-between;
   /* 设置超出滚动 */

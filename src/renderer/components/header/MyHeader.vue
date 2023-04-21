@@ -6,8 +6,10 @@
            @click="showMenu"
            style="position: absolute; left: 5px; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
       <MenuList :data="data"
-                class="mx-8 top-25-px absolute"
-                style="z-index: 100; ft-webkit-app-region: no-drag"></MenuList>
+                class="absolute"
+                style="z-index: 100;
+                ft-webkit-app-region: no-drag;
+                top: 10px; left: 40px"></MenuList>
       <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;-webkit-app-region: no-drag"></BreadCrumb>
       <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
       <button @click="myMin" style="-webkit-app-region: no-drag" class="tr1-element">
@@ -81,11 +83,11 @@
         </svg>
       </button>
     </div>
-    <div class="area-header-bot" style="z-index: 10;display: flex;">
+    <div class="area-header-bot" style="z-index: 10; display: flex">
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
               class="theme-element"
-              style="position: absolute; margin-left: 1320px;margin-top: 5px;-webkit-app-region: no-drag">
+              style="position: absolute; -webkit-app-region: no-drag; right: 10px">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <g style="mix-blend-mode:passthrough">

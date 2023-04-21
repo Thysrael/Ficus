@@ -2,8 +2,8 @@
   <div id="app" :style="{ height: windowHeight }">
     <MyHeader :data="data"></MyHeader>
     <div style="display:flex;height: 100%;width:100%;position: relative">
-      <SideBar :data="data" style="width: 20%; height: 100%"></SideBar>
-      <TextArea class="myTextArea"></TextArea>
+      <SideBar :data="data" style="width: 15%; height: 100%"></SideBar>
+      <TextArea class="myTextArea pl-24 pr-36"></TextArea>
     </div>
     <div class="dialog" v-if="showDialog">
       <div style="width: 300px; height: 30px; background-color: #71717a; text-align: center"> {{ dialogName }} </div>
