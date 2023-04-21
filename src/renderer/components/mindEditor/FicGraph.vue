@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%" id="main"></div>
+  <div style="width: 100%; height: 100%" id="ficGraph"></div>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ export default {
   mounted () {
     /* eslint-disable */
     echarts.registerTheme('ficus', ficus);
-    const myChart = echarts.init(document.getElementById('main'), 'ficus');
+    const myChart = echarts.init(document.getElementById('ficGraph'), 'ficus');
     const option = {
       title: {
         text: 'Les Miserables',
@@ -2041,8 +2041,17 @@ export default {
         }
       ]
     };
-
     option && myChart.setOption(option);
+
+    myChart.on('click', function (params) {
+      if (params.componentType === 'series') {
+        if (params.seriesType === 'graph') {
+          if (params.dataType === 'node') {
+            console.log(params.data);
+          }
+        }
+      }
+    });
   }
 }
 </script>

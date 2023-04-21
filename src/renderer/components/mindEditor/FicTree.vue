@@ -18,6 +18,7 @@ import testMind from './test_mind.json'
 import { defineComponent, ref } from 'vue'
 import mindmap from 'ficus-mindmap'
 import 'ficus-mindmap/dist/style.css'
+
 export default defineComponent({
   components: {
     mindmap

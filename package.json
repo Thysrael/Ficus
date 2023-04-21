@@ -33,6 +33,7 @@
         "standard": "^17.0.0",
         "tailwindcss": "2.0.4",
         "v-contextmenu": "^3.0.0",
+        "vite-mindmap": "^0.6.5",
         "vue": "^3.2.13",
         "vuedraggable": "^4.0.1"
     },
