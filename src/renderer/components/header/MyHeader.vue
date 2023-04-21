@@ -398,6 +398,8 @@ export default {
       dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
       console.log(dataManager.getGraphNodes())
       console.log(dataManager.getGraphLinks())
+      bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
+      bus.emit('chooseToShowPage', 3)
     })
 
     return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }

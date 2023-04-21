@@ -5,6 +5,7 @@
     </div>
     <TextUI style="width: 100%;height: 100%;position: relative" v-show="showPage === 1"></TextUI>
     <FicTree v-show="showPage === 2" style="width: 100%; height: 700px; position: relative; overflow: auto"/>
+    <FicGraph v-show="showPage === 3" style="width: 100%; height: 700px; position: relative; overflow: auto"></FicGraph>
     <div class="littleInformation">
       <div class="information">
         <text class="myText">
@@ -47,10 +48,11 @@ import FicTree from '@/renderer/components/mindEditor/FicTree.vue'
 import TextUI from '@/renderer/components/richTextEditor'
 import { ref } from 'vue'
 import bus from 'vue3-eventbus'
+import FicGraph from '@/renderer/components/mindEditor/FicGraph'
 
 export default {
   name: 'TextArea',
-  components: { FicTree, TextUI },
+  components: { FicGraph, FicTree, TextUI },
   setup () {
     const showInfoWin = ref(false)
     const showPage = ref(0) // 0表示默认显示欢迎界面，1表示textUI，2表示ficus视图
