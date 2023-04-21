@@ -1,14 +1,9 @@
-const { headingNodeType, listNodeType, listItemNodeType } = require('./type/type.js')
 const LinkedNode = require('./linkedList/linkedNode.js')
+const { headingTypeName, listTypeName, listItemTypeName } = require('./type/constant.js')
 class TreeNode extends LinkedNode {
-  // private nodeType: BaseNodeType
-  // private content: Content
-  // private classList: string[]
-  // private attributes: any
-  // private datasets: any
   /**
    *
-   * @param {BaseNodeType} nodeType
+   * @param {string} nodeType
    * @param {Content} content
    */
   constructor (nodeType, content) {
@@ -23,39 +18,31 @@ class TreeNode extends LinkedNode {
 
   /**
    *
-   * @returns boolean
-   */
-  isLeafNode () {
-    return this.nodeType.isLeaf()
-  }
-
-  /**
-   *
    * @returns string
    */
-  toMarkdown (pre = '', SpacePre = '') {
-    this.content.pre = pre
-    this.content.spacePre = SpacePre
-    let res = this.content.toMarkdown(pre, SpacePre)
-    if (this.nodeType === listNodeType) {
+  toMarkdown (normalPreix = '', spacePreix = '') {
+    this.content.setNormalPrefix(normalPreix)
+    this.content.setSpacePrefix(spacePreix)
+    let res = this.content.toMarkdown(normalPreix, spacePreix)
+    if (this.nodeType === listTypeName) {
       let off = 0
       this.children.forEach(ch => {
-        res += ch.toMarkdown(pre + this.content.getSinglePre(off), SpacePre + this.content.getSingleSpacePre())
+        res += ch.toMarkdown(normalPreix + this.content.getOneNormalPrefix(off), spacePreix + this.content.getOneSpacePrefix())
         off += 1
       })
-    } else if (this.nodeType === listItemNodeType) {
+    } else if (this.nodeType === listItemTypeName) {
       let first = true
       this.children.forEach(ch => {
         if (first) {
-          res += ch.toMarkdown(pre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
+          res += ch.toMarkdown(normalPreix + this.content.getOneNormalPrefix(), spacePreix + this.content.getOneSpacePrefix())
           first = false
         } else {
-          res += ch.toMarkdown(SpacePre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
+          res += ch.toMarkdown(spacePreix + this.content.getOneNormalPrefix(), spacePreix + this.content.getOneSpacePrefix())
         }
       })
     } else {
       this.children.forEach(ch => {
-        res += ch.toMarkdown(pre + this.content.getSinglePre(), SpacePre + this.content.getSingleSpacePre())
+        res += ch.toMarkdown(normalPreix + this.content.getOneNormalPrefix(), spacePreix + this.content.getOneSpacePrefix())
       })
     }
     return res
@@ -68,7 +55,7 @@ class TreeNode extends LinkedNode {
   toOutlineJson () {
     const res = this.content.getOutlineJson()
     this.children.forEach(ch => {
-      if (ch.nodeType === headingNodeType) {
+      if (ch.nodeType === headingTypeName) {
         res.children.push(ch.toOutlineJson())
       }
     })

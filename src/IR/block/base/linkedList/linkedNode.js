@@ -1,9 +1,5 @@
 const LinkedList = require('./linkedList')
 class LinkedNode {
-  // public prev: any
-  // public next: any
-  // public parent: any
-  // public children: LinkedList
   constructor () {
     this.prev = this.next = null
     this.parent = null
@@ -29,6 +25,10 @@ class LinkedNode {
     if (this.parent !== null) {
       this.parent.children.remove(this)
     }
+  }
+
+  getChildrenHead () {
+    return this.children.head
   }
 }
 module.exports = LinkedNode
