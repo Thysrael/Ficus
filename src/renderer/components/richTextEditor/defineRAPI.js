@@ -29,16 +29,16 @@ export default function defineRAPI (vditor) {
   })
 
   /** 将用户选中的文本复制进剪切板 **/
-  bus.on('copySelectedText', () => {
-    const content = vditor.getSelection()
+  bus.on('copySelectedText', async ({ type }) => {
+    const content = vditor.getSelection(type)
+    console.log(content)
 
-    const textarea = document.createElement('textarea')
-    textarea.value = content
-    textarea.style.display = 'none'
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    document.body.removeChild(textarea)
+    try {
+      await navigator.clipboard.writeText(content)
+      vditor.vditor.tip.show('已复制')
+    } catch (e) {
+      vditor.vditor.tip.show('复制失败')
+    }
   })
 
   /** 在光标处插入文本 **/
