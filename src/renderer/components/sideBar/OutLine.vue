@@ -5,6 +5,7 @@
           :item="item"
           v-for="(item, index) in items"
           :key="index"
+          @click="getIndex(index, item)"
       />
     </ul>
     <div v-if="items.length === 0">
@@ -18,6 +19,7 @@
 <script>
 
 import OutLineItem from '@/renderer/components/sideBar/OutLineItem'
+import bus from 'vue3-eventbus'
 export default {
   name: 'OutLine',
   components: { OutLineItem },
@@ -25,6 +27,26 @@ export default {
     items: {
       type: Array,
       required: true
+    }
+  },
+  setup () {
+    let titles = []
+
+    bus.on('addToTitles', (index) => {
+      titles.unshift(index)
+    })
+
+    function getIndex (index, item) {
+      titles.unshift(index)
+      for (let i = titles.length; i < 6; i++) {
+        titles.push(-1)
+      }
+      console.log(titles)
+      titles = []
+    }
+
+    return {
+      getIndex
     }
   }
 }
