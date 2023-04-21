@@ -2535,6 +2535,22 @@ select {
     margin-left: 0.75rem;
 }
 
+.ml-4 {
+    margin-left: 1rem;
+}
+
+.ml-6 {
+    margin-left: 2rem;
+}
+
+.ml-8 {
+    margin-left: 3rem;
+}
+
+.ml-10 {
+    margin-left: 4rem;
+}
+
 .mt-4 {
     margin-top: 1rem;
 }
@@ -2545,6 +2561,14 @@ select {
 
 .mr-6 {
     margin-right: 2rem;
+}
+
+.mr-8 {
+    margin-right: 3rem;
+}
+
+.mr-10 {
+    margin-right: 4rem;
 }
 
 .mb-4 {
@@ -2743,16 +2767,16 @@ select {
     width: 200px;
     height: 100%;
     margin-top: 65px;
-    margin-left: 0px;
+    margin-left: 0;
     position: relative;
     background-color: #f4f4f3;
 }
 
 .area-header {
     width: 100%;
-    height: 65px;
-    margin-top: 0px;
-    margin-left: 0px;
+    height: 85px;
+    margin-top: 0;
+    margin-left: 0;
     position: absolute;
 }
 
@@ -2761,14 +2785,14 @@ select {
     height: 40px;
     margin-top: 0;
     margin-left: 0;
-    position: relative;
+    position: absolute;
     background-color: #727B85;
 }
 
 .area-header-bot {
     width: 100%;
-    height: 25px;
-    margin-left: 0px;
+    height: 35px;
+    margin-left: 0;
     position: relative;
     background: #F4F4F3;
 }
@@ -2790,14 +2814,12 @@ select {
 
 .area-header-mode {
     position: absolute;
-    margin: 0 auto;
-    margin-top: 10px;
     left: 50%;
     transform: translateX(-50%);
     width: 170px;
     height: 20px;
     border-radius: 5px;
-    background-color: #D3DCD9;
+    background-color: #EFEFEF;
 }
 
 .area-header-modeSub-Focus {

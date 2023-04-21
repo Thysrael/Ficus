@@ -1,17 +1,19 @@
 <template>
   <li>
     <div
-        :class="(hover) ? `flex items-center cursor-pointer bg-gray-100` : `flex items-center cursor-pointer bg-white`"
-        style="width: 200px;height: 20px;"
+        style="width: 200px;height: 23px;"
         @mouseenter="hover = true"
         @mouseout="hover = false"
+        class="flex content-center items-center"
     >
-      {{ item.name }}
+      <p class="ml-4" style="width: 170px">
+        {{ item.name }}
+      </p>
       <svg
           v-if="hasChildren"
           :class="[(hover) ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
           fill="currentColor"
-          style="height: 10px;width: 10px"
+          style="height: 10px;width: 10px;"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
       >
