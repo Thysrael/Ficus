@@ -1,6 +1,6 @@
 <template>
   <div class="text-gray-600 text-sm">
-    <ul class="space-y-1" v-if="items.length !== 0">
+    <ul class="space-y-1" v-if="items !== undefined && items.length !== 0">
       <OutLineItem
           :item="item"
           v-for="(item, index) in items"
@@ -8,7 +8,7 @@
           @click="getIndex(index, item)"
       />
     </ul>
-    <div v-if="items.length === 0">
+    <div v-if="items === undefined || items.length === 0">
       <div style="font-size: 12px">
         大纲内容为空
       </div>
