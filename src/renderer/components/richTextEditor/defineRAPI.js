@@ -31,13 +31,10 @@ export default function defineRAPI (vditor) {
   /** 将用户选中的文本复制进剪切板 **/
   bus.on('copySelectedText', async ({ type }) => {
     const content = vditor.getSelection(type)
-    console.log(content)
-
     try {
       await navigator.clipboard.writeText(content)
-      vditor.vditor.tip.show('已复制')
     } catch (e) {
-      vditor.vditor.tip.show('复制失败')
+      console.log('复制失败')
     }
   })
 
@@ -70,5 +67,15 @@ export default function defineRAPI (vditor) {
   /** 跳转到对应的标题位置 **/
   bus.on('scrollToHeading', ({ info }) => {
     vditor.scrollToHeading(info)
+  })
+
+  /** 清除样式 **/
+  bus.on('removeFormat', () => {
+    vditor.removeFormat()
+  })
+
+  /** 设置打字机模式 **/
+  bus.on('setTypewriterMode', ({ enable }) => {
+    vditor.setTypewriterMode(enable)
   })
 }
