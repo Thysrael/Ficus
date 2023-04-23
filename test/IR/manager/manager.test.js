@@ -57,4 +57,32 @@ describe('manager树混合测试', function () {
     manager.redoTree()
     expect(manager.getTreeMarkdown()).to.be.equal('## aa\n\n')
   })
+  it('通过mindJson创建一棵树', function () {
+    manager.buildTreeFromMindJson({
+      content: {
+        name: '',
+        text: '',
+        type: 'root',
+        children: [
+          { name: 'aaa', text: 'aaa', type: 'heading', children: [], level: 2 }
+        ]
+      }
+    }, { replaced: true })
+    expect(manager.getTreeMarkdown()).to.be.equal('## aaa\n\n')
+  })
+})
+
+const { files, nodes1, link1 } = require('../data/file.js')
+
+describe('manager: fileJson到IR测试', function () {
+  const manager = new DataManager()
+  it('创建测试', function () {
+    manager.buildGraphFromFiles({ files }, { replaced: true })
+  })
+  it('nodes', function () {
+    assert.deepStrictEqual(manager.getGraphNodes(), nodes1)
+  })
+  it('links', function () {
+    assert.deepStrictEqual(manager.getGraphLinks(), link1)
+  })
 })

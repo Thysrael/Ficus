@@ -33,10 +33,3 @@ describe('须测试', function () {
     }])
   })
 })
-
-describe('柱测试', function () {
-  it('文件须测试', function () {
-    assert.deepStrictEqual(getLinksInFile('---\ntags:\n  - a\n  - b\n---\n\n').tags,
-      ['a', 'b'])
-  })
-})
