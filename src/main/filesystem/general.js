@@ -31,9 +31,9 @@ exports.clearDir = (folderPath) => {
 exports.changeRelation = async (projPath) => {
   console.log(projPath)
   let pathSplit = ''
-  if (os.platform().toString() === 'win32') {
+  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
     pathSplit = projPath.split('\\')
-  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+  } else if (os.platform().toString() === 'linux') {
     pathSplit = projPath.split('/')
   }
   const folderName = pathSplit[pathSplit.length - 1]

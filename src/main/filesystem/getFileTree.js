@@ -53,9 +53,9 @@ function getFileJson (res, arr, dir) {
  */
 function newObj (tempDir, item) {
   let pathSplit = ''
-  if (os.platform().toString() === 'win32') {
+  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
     pathSplit = tempDir.split('\\')
-  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+  } else if (os.platform().toString() === 'linux') {
     pathSplit = tempDir.split('/')
   }
   const obj = {
