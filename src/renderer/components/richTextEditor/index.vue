@@ -58,7 +58,8 @@ export default {
           },
           // 设置markdown渲染选项
           markdown: {
-            mark: true
+            mark: true,
+            linkBase: 'ficus://'
           }
         },
         // 设置tab键渲染

@@ -15,8 +15,11 @@ import {
 import { addTag2File, deleteTag, findTags, initFromFolder, sendTags } from '@/main/filesystem/database'
 
 import path from 'path'
+import * as url from 'url'
+
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
+let ficusPath = ''
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -107,6 +110,17 @@ app.on('ready', async () => {
     })
   })
 
+  protocol.registerFileProtocol('ficus', (request, callback) => {
+    try {
+      let generalPath = request.url.slice('ficus://'.length)
+      generalPath = path.resolve(ficusPath, generalPath)
+      const filePath = url.fileURLToPath('file://' + generalPath)
+      callback(filePath)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
   ipcMain.handle('sendTags', async (e, projPath) => {
     const tags = await sendTags(projPath)
     return tags
@@ -162,6 +176,7 @@ app.on('ready', async () => {
 
   ipcMain.handle('newProject', async (e, data) => {
     const relation = await initFromFolder(data)
+    ficusPath = relation.root.path
     return relation
   })
   ipcMain.handle('dialog:openFile', async (e) => {
@@ -171,8 +186,9 @@ app.on('ready', async () => {
   })
   ipcMain.handle('dialog:openFolder', async (e) => {
     const folderObj = await getFolderFromUser()
-    // console.log(folderObj.children.children[0])
-    // console.log(folderObj)
+    console.log(folderObj.children.children[0])
+    console.log(folderObj.absolutePath)
+    ficusPath = folderObj.absolutePath
     return folderObj
   })
   ipcMain.handle('save_file', (e, path, content) => {
