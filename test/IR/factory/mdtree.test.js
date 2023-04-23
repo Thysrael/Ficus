@@ -35,7 +35,7 @@ describe('markdown列表简单测试', function () {
 describe('markdown综合测试', function () {
   const content = fs.readFileSync('test/IR/data/vditor.md').toString()
   const root1 = markdownToTree(content)
-  it('普通列表测试', function () {
+  it('viditor测试', function () {
     expect(root1.toMarkdown()).to.be.equal(content)
   })
 })
