@@ -1,12 +1,13 @@
 const { Lexer } = require('../IR/utils/marked/lexer')
+const yaml = require('js-yaml')
 
 function getAerialInBlock (blocktext) {
-  const aerialPattern = /-\[(\w+)\]\((\w+)\)/g
+  const aerialPattern = /-\[([^\]]+)\]\((.*?)\)/g
   const aerials = []
   for (const word of blocktext.matchAll(aerialPattern)) {
     aerials.push(
       {
-        name: word[1],
+        name: word[1] || '',
         path: word[2]
       }
     )
@@ -16,11 +17,11 @@ function getAerialInBlock (blocktext) {
 }
 
 /**
- * 仅解析paragraph和text类型中的链接
+ * 仅解析paragraph和text类型中aerial/tag
  * @param {string} doc
  * @returns
  */
-function getAerialInFile (doc) {
+function getLinksInFile (doc) {
   const tokens = new Lexer({
     disableInline: true,
     footnote: false,
@@ -30,12 +31,21 @@ function getAerialInFile (doc) {
   }).lex(doc)
 
   let aerials = []
+  let tags = []
 
   let token
   let value
   while ((token = tokens.shift())) {
     switch (token.type) {
       case 'frontmatter': {
+        const { lang, text } = token
+        value = text
+          .replace(/^\s+/, '')
+          .replace(/\s$/, '')
+        if (lang === 'yaml') {
+          tags = yaml.load(text).tags || []
+        }
+
         break
       }
 
@@ -119,9 +129,9 @@ function getAerialInFile (doc) {
       }
     }
   }
-  return aerials
+  return { aerials, tags }
 }
 
 module.exports = {
-  getAerialInFile
+  getAerialInFile: getLinksInFile
 }
