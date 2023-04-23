@@ -83,11 +83,11 @@
         </svg>
       </button>
     </div>
-    <div class="area-header-bot" style="z-index: 10; display: flex">
+    <div class="area-header-bot items-center content-center" style="z-index: 10; display: flex;">
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
               class="theme-element"
-              style="position: absolute; -webkit-app-region: no-drag; right: 10px">
+              style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <g style="mix-blend-mode:passthrough">
@@ -437,10 +437,23 @@ export default {
   fill-opacity: 1;
 }
 
-.theme-element {
-  position: fixed;
-  top: 0;
-  right: 0;
+.theme-element:hover path {
+  fill: #42b983;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
+
+.theme-element:active path {
+  fill: #19734b;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
+
+.theme-element path {
+  fill: #474747;
+  fill-opacity: 1;
 }
 
 </style>
