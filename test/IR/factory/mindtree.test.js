@@ -38,8 +38,87 @@ describe('MindJson到IR', function () {
       }
     ]
   }
-  const root = mindToTree(mindJson)
+  const root1 = mindToTree(mindJson)
   it('简单单行测试', function () {
-    assert.deepStrictEqual(mindJson, root.toMindJson())
+    assert.deepStrictEqual(mindJson, root1.toMindJson())
+  })
+
+  const mindJson2 = {
+    name: '',
+    text: '',
+    type: 'root',
+    children: [
+      {
+        name: 'aa',
+        text: 'aa',
+        type: 'heading',
+        level: 1,
+        children: [
+          {
+            name: 'aa',
+            text: 'aa',
+            type: 'heading',
+            level: 3,
+            children: [
+              {
+                name: 'aa',
+                text: 'aa',
+                type: 'heading',
+                level: 4,
+                children: []
+              }]
+          },
+          {
+            name: 'aa',
+            text: 'aa',
+            type: 'heading',
+            level: 4,
+            children: []
+          }
+        ]
+      }
+    ]
+  }
+
+  const mindJsonRes2 = {
+    name: '',
+    text: '',
+    type: 'root',
+    children: [
+      {
+        name: 'aa',
+        text: 'aa',
+        type: 'heading',
+        level: 1,
+        children: [
+          {
+            name: 'aa',
+            text: 'aa',
+            type: 'heading',
+            level: 3,
+            children: [
+              {
+                name: 'aa',
+                text: 'aa',
+                type: 'heading',
+                level: 4,
+                children: []
+              }]
+          },
+          {
+            name: 'aa',
+            text: 'aa',
+            type: 'heading',
+            level: 3,
+            children: []
+          }
+        ]
+      }
+    ]
+  }
+
+  const root2 = mindToTree(mindJson2)
+  it('修改标题级别测试', function () {
+    assert.deepStrictEqual(mindJsonRes2, root2.toMindJson())
   })
 })

@@ -38,6 +38,7 @@ exports.mindToTree = function (mindJson) {
 
 function mindToTreeRecursion (mindJson) {
   let nowNode
+  let nowLevel
   switch (mindJson.type) {
     case rootTypeName:
       nowNode = buildRootNode()
@@ -47,6 +48,7 @@ function mindToTreeRecursion (mindJson) {
       break
     case headingTypeName:
       nowNode = buildHeading(mindJson.text, mindJson.level)
+      nowLevel = mindJson.level
       break
     case frontmatterTypeName:
       nowNode = buildFrontMatter(mindJson.text)
@@ -92,8 +94,22 @@ function mindToTreeRecursion (mindJson) {
       console.log('error ' + mindJson.type)
       break
   }
+
+  let level
   mindJson.children.forEach(mjson => {
     nowNode.insertAtLast(mindToTreeRecursion(mjson))
+    if (mjson.level) {
+      level = Math.min(mjson.level, level)
+    }
+  })
+  if (nowLevel && level) {
+    level = Math.max(level, nowLevel - 1)
+  }
+  nowNode.children.forEach(chnode => {
+    if (chnode.nodeType === headingTypeName) {
+      console.log('ok')
+      chnode.content.setDepth(level)
+    }
   })
   return nowNode
 }
