@@ -43,7 +43,12 @@ function getLinksInFile (doc) {
           .replace(/^\s+/, '')
           .replace(/\s$/, '')
         if (lang === 'yaml') {
-          tags = yaml.load(value).tags
+          try {
+            tags = yaml.load(value).tags
+          } catch (e) {
+            tags = []
+            console.log(e)
+          }
         }
 
         break
