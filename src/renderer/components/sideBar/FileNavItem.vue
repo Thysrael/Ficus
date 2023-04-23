@@ -6,12 +6,16 @@
       @dragover.stop="dragover($event)"
       @dragstart.stop="dragstart()"
       @dragend.stop="dragend($event)"
-      draggable="true">
-    <div
-        :style="isSelected ? `display: flex;color: #42b983` : `display: flex;color: #2563eb`"
-        @click.exact="toggle(1)"
-        @click.ctrl="toggle(2)"
-    >
+      draggable="false">
+<!--    <div-->
+<!--        :style="isSelected ? `display: flex;color: #42b983` : `display: flex;color: #2563eb`"-->
+<!--        @click.exact="toggle(1)"-->
+<!--        @click.ctrl="toggle(2)"-->
+<!--    >-->
+      <div
+          :style="isSelected ? `display: flex;color: #42b983` : `display: flex;color: #2563eb`"
+          @click="toggle(1)"
+      >
       <svg v-if="item.type === 'folder'" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
            fill="none" version="1.1" width="15" height="15" viewBox="0 0 15 15">
         <defs>
@@ -71,7 +75,7 @@
         <v-contextmenu-item>剪切</v-contextmenu-item>
         <v-contextmenu-item>复制</v-contextmenu-item>
         <v-contextmenu-item @click="handleDelete">删除</v-contextmenu-item>
-        <v-contextmenu-item>重命名</v-contextmenu-item>
+        <v-contextmenu-item @click="handleRename">重命名</v-contextmenu-item>
         <v-contextmenu-item v-if="item.type==='file'">复制路径</v-contextmenu-item>
         <v-contextmenu-item v-if="item.type==='file'">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
@@ -128,7 +132,9 @@ export default {
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
       if (store.getters.getXY !== temp) {
-        _this.$refs.contextmenu.hide()
+        if (_this.$refs.contextmenu !== null && _this.$refs.contextmenu !== undefined) {
+          _this.$refs.contextmenu.hide()
+        }
       }
     })
 
@@ -209,27 +215,32 @@ export default {
     }
 
     function handleNew (type) {
-      bus.emit('showDialog', { type, father: props.item })
+      bus.emit('showDialogForNewFile', { type, father: props.item })
     }
 
     function handleDelete () {
       bus.emit('removeObjFromData', props.item)
     }
 
+    function handleRename () {
+      bus.emit('showDialogForRenameFile', props.item)
+    }
+
     return {
-      dragstart,
-      dragenter,
-      dragover,
-      dragend,
       expanded,
       hasChildren,
       isSelected,
       curItem,
+      dragstart,
+      dragenter,
+      dragover,
+      dragend,
       toggle,
       getCurChild,
       handleRightClick,
       handleNew,
-      handleDelete
+      handleDelete,
+      handleRename
     }
   }
 }
