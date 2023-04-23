@@ -147,6 +147,10 @@ class HeadingContent extends Content {
     mindJson.level = this.depth
     return mindJson
   }
+
+  setDepth (depth) {
+    this.depth = depth
+  }
 }
 
 class CodeContent extends Content {
