@@ -35,109 +35,7 @@ export default {
   name: 'App',
   components: { SideBar, MyHeader, TextArea },
   setup () {
-    const data = ref([{
-      name: 'app2',
-      curChild: -1,
-      path: 'app2',
-      absolutePath: ['app2'],
-      offset: -1,
-      content: '# 1',
-      type: 'folder',
-      children: [{
-        name: 'src',
-        curChild: -1,
-        path: 'app2\\src',
-        absolutePath: ['app2', 'src'],
-        offset: -1,
-        content: '- 2',
-        type: 'folder',
-        children: [{
-          name: 'components',
-          curChild: -1,
-          path: 'app2\\src\\components',
-          absolutePath: ['app2', 'src', 'components'],
-          offset: -1,
-          content: '3',
-          type: 'folder',
-          children: [{
-            name: 'FileNav.vue',
-            curChild: -1,
-            path: 'app2\\src\\components\\FileNav.vue',
-            absolutePath: ['app2', 'src', 'components', 'FileNav.vue'],
-            offset: -1,
-            content: '4',
-            children: [],
-            type: 'file'
-          }, {
-            name: 'FileNavItem.vue',
-            curChild: -1,
-            path: 'app2\\src\\components\\FileNavItem.vue',
-            absolutePath: ['app2', 'src', 'components', 'FileNavItem.vue'],
-            offset: -1,
-            content: '5',
-            children: [],
-            type: 'file'
-          }]
-        }, {
-          name: 'assets',
-          curChild: -1,
-          path: 'app2\\src\\assets',
-          absolutePath: ['app2', 'src', 'assets'],
-          offset: -1,
-          content: '6',
-          type: 'folder',
-          children: [{
-            name: 'logo.png',
-            curChild: -1,
-            path: 'app2\\src\\assets\\logo.png',
-            absolutePath: ['app2', 'src', 'assets', 'logo.png'],
-            offset: -1,
-            content: '7',
-            children: [],
-            type: 'file'
-          }, {
-            name: 'tailwind.css',
-            curChild: -1,
-            path: 'app2\\src\\assets\\tailwind.css',
-            absolutePath: ['app2', 'src', 'assets', 'tailwind.css'],
-            offset: -1,
-            content: '8',
-            children: [],
-            type: 'file'
-          }, {
-            name: 'FileNav.vue',
-            curChild: -1,
-            path: 'app2\\src\\assets\\FileNav.vue',
-            absolutePath: ['app2', 'src', 'assets', 'FileNav.vue'],
-            offset: -1,
-            content: '9',
-            children: [],
-            type: 'file'
-          }]
-        }, {
-          name: 'FileNav.vue',
-          curChild: -1,
-          path: 'app2\\src\\FileNav.vue',
-          absolutePath: ['app2', 'src', 'FileNav.vue'],
-          offset: -1,
-          content: '```vue\n' +
-          'setup() {\n' +
-          '\tlet name = \'xxx\',\n' +
-          '\tlet age = 18\n' +
-          '\t\n' +
-          '\n' +
-          '\treturn {\n' +
-          '\t\tname,\n' +
-          '\t\tage,\n' +
-          '\t\tsayHello\n' +
-          '\t}\t\n' +
-          '}\n' +
-          '```',
-          children: [],
-          type: 'file'
-        }]
-      }]
-    }])
+    const data = ref([])
     const source = ref({}) // 源对象
     const dst = ref({}) // 目标对象
     const windowHeight = ref(window.innerHeight + 'px')
@@ -332,7 +230,7 @@ export default {
       paths.push(curObj.name)
       curObj.absolutePath = paths
       // curObj.path = path.join(father.path, curObj.name)
-      curObj.path = father.path + curObj.name
+      curObj.path = father.path + '\\' + curObj.name
       if (curObj.type === 'file') {
         window.electronAPI.saveFile(curObj.path, curObj.content)
       } else if (curObj.type === 'folder') {
@@ -370,7 +268,7 @@ export default {
         const obj = {
           name: fileName.value,
           // path: path.join(father.value.path, fileName.value),
-          path: father.value.path + fileName.value,
+          path: father.value.path + '\\' + fileName.value,
           children: [],
           curChild: -1,
           content: '',
@@ -404,27 +302,37 @@ export default {
             return
           }
         }
+        const oldPath = obj.path
         obj.name = fileName.value
         obj.absolutePath.pop()
         obj.absolutePath.push(fileName.value)
         // obj.path = path.join(father.path, fileName.value)
-        obj.path = father.path + fileName.value
+        obj.path = father.path + '\\' + fileName.value
+        const newPath = obj.path
+        window.electronAPI.renameFileOrFolder(newPath, oldPath)
         if (obj.type === 'folder') {
           // 需要递归地修改孩子节点的path和absolutePath
+          console.log('修改：', obj.children)
           for (let i = 0; i < obj.children.length; i++) {
-            changePathAfterFatherRename(obj.children, obj)
+            changePathAfterFatherRename(obj.children[i], obj)
           }
         }
+        bus.emit('updateTabName')
+        fileName.value = ''
+        showDialog.value = false
       }
     }
 
     function changePathAfterFatherRename (obj, father) {
       // obj.path = path.join(father.path, obj.name)
-      obj.path = father.path + obj.name
-      obj.absolutePath[-2] = father.name
+      obj.path = father.path + '\\' + obj.name
+      const last = obj.absolutePath.pop()
+      obj.absolutePath.pop()
+      obj.absolutePath.push(father.name)
+      obj.absolutePath.push(last)
       if (obj.type === 'folder') {
         for (let i = 0; i < obj.children.length; i++) {
-          changePathAfterFatherRename(obj.children, obj)
+          changePathAfterFatherRename(obj.children[i], obj)
         }
       }
     }

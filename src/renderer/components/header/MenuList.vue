@@ -228,7 +228,7 @@ export default {
       if (newValue) {
         _this.$nextTick(() => {
           if (window.getSelection().rangeCount >= 1) {
-            range = getSelection().getRangeAt(0).cloneRange()
+            range = window.getSelection().getRangeAt(0).cloneRange()
           }
           if (_this.$refs.myMenu !== null) {
             _this.$refs.myMenu.focus()
@@ -458,7 +458,7 @@ export default {
 
     function closeMenu () {
       menu.value = false
-      const selection = getSelection()
+      const selection = window.getSelection()
       selection.removeAllRanges()
       selection.addRange(range)
     }
