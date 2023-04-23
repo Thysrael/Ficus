@@ -12,7 +12,15 @@ import {
   saveToTarget,
   saveToPDFTarget
 } from './main/filesystem/fileManipulate'
-import { addTag2File, deleteTag, findTags, initFromFolder, refresh, sendTags } from '@/main/filesystem/database'
+import {
+  addTag2File,
+  deleteTag,
+  findTags,
+  getLinksAndTags,
+  initFromFolder,
+  refresh,
+  sendTags
+} from '@/main/filesystem/database'
 
 import path from 'path'
 import * as url from 'url'
@@ -119,6 +127,10 @@ app.on('ready', async () => {
     } catch (error) {
       console.log(error)
     }
+  })
+
+  ipcMain.handle('getLinksAndTags', async (e, file, projPath) => {
+    return getLinksAndTags(file, projPath)
   })
 
   ipcMain.handle('refresh', async (e, projPath) => {
