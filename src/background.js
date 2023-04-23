@@ -12,7 +12,7 @@ import {
   saveToTarget,
   saveToPDFTarget
 } from './main/filesystem/fileManipulate'
-import { addTag2File, deleteTag, findTags, initFromFolder, sendTags } from '@/main/filesystem/database'
+import { addTag2File, deleteTag, findTags, initFromFolder, refresh, sendTags } from '@/main/filesystem/database'
 
 import path from 'path'
 // const { initFromEmptyFolder } = require('./main/filesystem/database')
@@ -105,6 +105,10 @@ app.on('ready', async () => {
         console.log(error)
       }
     })
+  })
+
+  ipcMain.handle('refresh', async (e, projPath) => {
+    return await refresh(projPath)
   })
 
   ipcMain.handle('sendTags', async (e, projPath) => {

@@ -4,6 +4,19 @@ const path = require('path')
 const { getTree } = require('./getFileTree')
 const os = require('os')
 
+exports.refresh = async (projPath) => {
+  let pathSplit = ''
+  if (os.platform().toString() === 'win32') {
+    pathSplit = projPath.split('\\')
+  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+    pathSplit = projPath.split('/')
+  }
+  const folderName = pathSplit[pathSplit.length - 1]
+  // console.log(result.filePaths[0])
+  const tree = await getTree(projPath, folderName)
+  return tree.children
+}
+
 exports.sendTags = async (projPath) => {
   const basePath = path.join(projPath, '.ficus')
   const tagsJSONFilePath = path.join(basePath, 'tags.json')
@@ -158,6 +171,7 @@ exports.addTag2File = (filePath, tagName, isNewTag, folderPath) => {
   })
 }
 
+// 新建项目：
 exports.initFromFolder = async () => {
   return await dialog.showOpenDialog({
     buttonLabel: '选择',
@@ -188,41 +202,6 @@ exports.initFromFolder = async () => {
     // console.log(tree)
     relation.root.tree = tree.children.filter(item => item.name !== '.ficus')
     relation.root.folderName = folderName
-    // console.log(result)
-    const basePath = path.join(result.filePaths[0], '.ficus')
-    // console.log(basePath)
-    fs.mkdir(basePath, { recursive: true }, err => {
-      if (err) console.log(`mkdir path: ${basePath} err`)
-    })
-    const relationJSONFilePath = path.join(basePath, 'relation.json')
-    const tagsJSONFilePath = path.join(basePath, 'tags.json')
-    const linkJSONFilePath = path.join(basePath, 'link.json')
-    fs.writeFile(relationJSONFilePath, JSON.stringify(relation), (error) => {
-      // 创建失败
-      if (error) {
-        console.log(`Fail: ${error}`)
-      }
-      // 创建成功
-      console.log('Success!')
-    })
-    const tags = { tag2Files: [], file2Tags: [] }
-    fs.writeFile(tagsJSONFilePath, JSON.stringify(tags), (error) => {
-      // 创建失败
-      if (error) {
-        console.log(`Fail: ${error}`)
-      }
-      // 创建成功
-      console.log('Success!')
-    })
-    const links = { links: [] }
-    fs.writeFile(linkJSONFilePath, JSON.stringify(links), (error) => {
-      // 创建失败
-      if (error) {
-        console.log(`Fail: ${error}`)
-      }
-      // 创建成功
-      console.log('Success!')
-    })
     return relation
   })
 }
