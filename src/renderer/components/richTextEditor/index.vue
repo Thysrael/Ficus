@@ -72,7 +72,8 @@ export default {
         input: (content) => {
           bus.emit('saveChange', {
             content: content,
-            wordCnt: content.length
+            wordCnt: content.length,
+            lineCnt: content.split('\n').length - 1
           })
         },
         // 针对文件链接的回调函数
