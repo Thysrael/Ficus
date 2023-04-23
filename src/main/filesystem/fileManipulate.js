@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const { getTree } = require('./getFileTree')
 const path = require('path')
 const os = require('os')
-const { changeRelation, clearDir } = require('./general')
+const { clearDir } = require('./general')
 // 跳转到引用：
 exports.linkToFile = async (filePath) => {
   if (fs.existsSync(filePath) === false) return null
@@ -48,7 +48,6 @@ exports.renameFileOrFolder = async (newPath, oldPath, projPath) => {
       console.log('File Renamed.')
     }
   })
-  await changeRelation(projPath)
 }
 
 // 删除文件夹
@@ -140,7 +139,6 @@ exports.newFolderFromDialog = async (projPath) => {
       // console.log(result.filePaths[0])
       const tree = await getTree(projPath, folderName)
       // console.log(tree)
-      await changeRelation(projPath)
       return tree.children.filter(item => item.name !== '.ficus')
     } else {
       return []
@@ -283,7 +281,6 @@ exports.saveToTarget = async (fileContent, projPath) => {
         const folderName = pathSplit[pathSplit.length - 1]
         // console.log(result.filePaths[0])
         const tree = await getTree(projPath, folderName)
-        await changeRelation(projPath)
         return tree.children.filter(item => item.name !== '.ficus')
       } else {
         return []
