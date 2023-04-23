@@ -1,8 +1,8 @@
 <template>
   <div id="app" :style="{ height: windowHeight }">
-    <MyHeader :data="data"></MyHeader>
-    <div style="display:flex;height: 100%;width:100%;position: relative">
-      <SideBar :data="data" style="width: 15%; height: 100%"></SideBar>
+    <MyHeader :data="data" style="width: 100%"></MyHeader>
+    <div style="display: flex; height: 100%; width: 100%; position: relative">
+      <SideBar :data="data" style="height: 100%"></SideBar>
       <TextArea class="myTextArea pl-24 pr-36"></TextArea>
     </div>
     <div class="dialog" v-if="showDialog">
@@ -140,6 +140,7 @@ export default {
     const source = ref({}) // 源对象
     const dst = ref({}) // 目标对象
     const windowHeight = ref(window.innerHeight + 'px')
+    const windowWidth = ref(window.innerWidth + 'px')
     const showDialog = ref(false)
     const dialogName = ref('')
     const fileName = ref('')
@@ -305,6 +306,7 @@ export default {
     return {
       data,
       windowHeight,
+      windowWidth,
       showDialog,
       dialogName,
       fileName,

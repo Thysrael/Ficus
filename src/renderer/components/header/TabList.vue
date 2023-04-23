@@ -1,5 +1,5 @@
 <template>
-  <div class="flexStyle" style="margin-right: 20px">
+  <div class="flexStyle" style="margin-right: 20px; left: 230px; position: fixed">
     <ol class="flex">
       <li
           :class="(item.path === curObj.path) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex;"
@@ -165,11 +165,9 @@ export default {
 
 <style scoped>
 .flexStyle{
-  height:100px;
-  display:flex;
-  justify-content:space-between;
   /* 设置超出滚动 */
   overflow-x:auto;
+  right: 20px;
 }
 ::-webkit-scrollbar {
   /* 隐藏滚动条 */

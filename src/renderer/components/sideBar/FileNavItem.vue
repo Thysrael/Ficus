@@ -6,9 +6,11 @@
       @dragover.stop="dragover($event)"
       @dragstart.stop="dragstart()"
       @dragend.stop="dragend($event)"
-      draggable="true">
+      draggable="true"
+      class="my-1"
+  >
     <div
-        :style="isSelected ? `display: flex;color: #42b983` : `display: flex;color: #2563eb`"
+        :style="isSelected ? `display: flex; color: #42b983` : `display: flex;color: #2563eb`"
         @click.exact="toggle(1)"
         @click.ctrl="toggle(2)"
     >
@@ -236,5 +238,16 @@ export default {
 </script>
 
 <style scoped>
+.selectedElement {
+
+}
+
+.nonSelectedElement {
+
+}
+
+.fileTreeElementText {
+
+}
 
 </style>

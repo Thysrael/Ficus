@@ -2790,11 +2790,13 @@ select {
 }
 
 .area-header-bot {
-    width: 100%;
     height: 25px;
-    margin-left: 0;
+    top: 40px;
+    width: 100%;
+    right: 0;
+    margin-left: 200px;
     position: relative;
-    background: #F4F4F3;
+    background: #f4f4f3;
 }
 
 .area-header-downtab {
@@ -3222,6 +3224,10 @@ select {
 
 .pt-2 {
     padding-top: 0.5rem;
+}
+
+.pl-2 {
+    padding-left: 0.5rem;
 }
 
 .pl-3 {
