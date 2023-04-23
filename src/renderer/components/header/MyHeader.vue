@@ -137,6 +137,10 @@ export default {
       return false
     }
 
+    bus.on('updateTabName', () => {
+      update()
+    })
+
     // 每次对于openFiles的增加和删除，都需要重新计算特异路径
     function update () {
       // 第一步，将所有对象按名字分组
