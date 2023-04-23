@@ -1,4 +1,5 @@
 
+const { getLinksInFile } = require('../../../src/common/parseLinks')
 const { IRTree } = require('../../../src/IR/component/tree')
 const assert = require('assert')
 
@@ -49,5 +50,16 @@ describe('无tag', function () {
   })
   it('测试输出md', function () {
     assert.deepStrictEqual(tree.toMarkdown(), '---\ntags:\n  - a\n  - b\n---\n\n')
+  })
+})
+
+describe('柱测试', function () {
+  it('文件柱测试1', function () {
+    assert.deepStrictEqual(getLinksInFile('---\ntags:\n  - a\n  - b\n---\naaa\n').tags,
+      ['a', 'b'])
+  })
+  it('文件柱测试2', function () {
+    assert.deepStrictEqual(getLinksInFile('---\ntags:\n  - a\n  - b\n---\n---\n\n\n\n\n').tags,
+      ['a', 'b'])
   })
 })
