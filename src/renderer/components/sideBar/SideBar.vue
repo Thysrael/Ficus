@@ -128,7 +128,7 @@
           <text class="myText">
             {{ textWords }}
           </text>
-          <button class="header1-button">
+          <button class="header1-button" @click="handleFlush">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                  width="15" height="18" viewBox="0 0 9.848484992980957 10">
               <defs>
@@ -343,6 +343,133 @@ export default {
       bus.emit('changeToGraph')
     }
 
+    function handleFlush () {
+      if (isFile.value === 0) {
+        const data = {
+          name: 'app2',
+          curChild: -1,
+          path: 'app2',
+          absolutePath: ['app2'],
+          offset: -1,
+          content: '# 1',
+          type: 'folder',
+          children: [{
+            name: 'src',
+            curChild: -1,
+            path: 'app2\\src',
+            absolutePath: ['app2', 'src'],
+            offset: -1,
+            content: '- 2',
+            type: 'folder',
+            children: [{
+              name: 'components',
+              curChild: -1,
+              path: 'app2\\src\\components',
+              absolutePath: ['app2', 'src', 'components'],
+              offset: -1,
+              content: '3',
+              type: 'folder',
+              children: [{
+                name: 'FileNav.vue',
+                curChild: -1,
+                path: 'app2\\src\\components\\FileNav.vue',
+                absolutePath: ['app2', 'src', 'components', 'FileNav.vue'],
+                offset: -1,
+                content: '4',
+                children: [],
+                type: 'file'
+              }, {
+                name: 'FileNavItem.vue',
+                curChild: -1,
+                path: 'app2\\src\\components\\FileNavItem.vue',
+                absolutePath: ['app2', 'src', 'components', 'FileNavItem.vue'],
+                offset: -1,
+                content: '5',
+                children: [],
+                type: 'file'
+              }, {
+                name: 'FileNavItem2.vue',
+                curChild: -1,
+                path: 'app2\\src\\components\\FileNavItem2.vue',
+                absolutePath: ['app2', 'src', 'components', 'FileNavItem2.vue'],
+                offset: -1,
+                content: '5',
+                children: [],
+                type: 'file'
+              }]
+            }, {
+              name: 'assets',
+              curChild: -1,
+              path: 'app2\\src\\assets',
+              absolutePath: ['app2', 'src', 'assets'],
+              offset: -1,
+              content: '6',
+              type: 'folder',
+              children: [{
+                name: 'logo.png',
+                curChild: -1,
+                path: 'app2\\src\\assets\\logo.png',
+                absolutePath: ['app2', 'src', 'assets', 'logo.png'],
+                offset: -1,
+                content: '7',
+                children: [],
+                type: 'file'
+              }, {
+                name: 'tailwind.css',
+                curChild: -1,
+                path: 'app2\\src\\assets\\tailwind.css',
+                absolutePath: ['app2', 'src', 'assets', 'tailwind.css'],
+                offset: -1,
+                content: '8',
+                children: [],
+                type: 'file'
+              }, {
+                name: 'FileNav.vue',
+                curChild: -1,
+                path: 'app2\\src\\assets\\FileNav.vue',
+                absolutePath: ['app2', 'src', 'assets', 'FileNav.vue'],
+                offset: -1,
+                content: '9',
+                children: [],
+                type: 'file'
+              }, {
+                name: 'cjj.txt',
+                curChild: -1,
+                path: 'app2\\src\\assets\\cjj.txt',
+                absolutePath: ['app2', 'src', 'assets', 'cjj.txt'],
+                offset: -1,
+                content: '966',
+                children: [],
+                type: 'file'
+              }]
+            }, {
+              name: 'FileNav.vue',
+              curChild: -1,
+              path: 'app2\\src\\FileNav.vue',
+              absolutePath: ['app2', 'src', 'FileNav.vue'],
+              offset: -1,
+              content: '```vue\n' +
+                  'setup() {\n' +
+                  '\tlet name = \'xxx\',\n' +
+                  '\tlet age = 18\n' +
+                  '\t\n' +
+                  '\n' +
+                  '\treturn {\n' +
+                  '\t\tname,\n' +
+                  '\t\tage,\n' +
+                  '\t\tsayHello\n' +
+                  '\t}\t\n' +
+                  '}\n' +
+                  '```',
+              children: [],
+              type: 'file'
+            }]
+          }]
+        }
+        bus.emit('openDir', data)
+      }
+    }
+
     return {
       isFile,
       titles,
@@ -351,7 +478,8 @@ export default {
       handleRightClick,
       handleNew,
       getTags,
-      getGraph
+      getGraph,
+      handleFlush
     }
   }
 }
