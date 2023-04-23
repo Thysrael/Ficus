@@ -60,7 +60,12 @@ class FrontmatterContent extends Content {
     super(frontmatterTypeName, text)
     this.lang = lang
     this.style = style
-    this.data = yaml.load(text)
+    try {
+      this.data = yaml.load(text)
+    } catch (e) {
+      this.data = {}
+      console.log(e)
+    }
   }
 
   getTags () {
