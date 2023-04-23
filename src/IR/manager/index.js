@@ -26,7 +26,7 @@ class DataManager {
     if (this.treeSet[info.path] !== undefined) {
       newTree = this.treeSet[info.path]
     } else {
-      newTree = new IRTree({ content: info.content })
+      newTree = new IRTree({ content: info.content }, treeOptions)
     }
 
     if (treeOptions.replaced) {
@@ -81,7 +81,7 @@ class DataManager {
     if (this.treeSet[info.path] !== undefined) {
       newTree = this.treeSet[info.path]
     } else {
-      newTree = new IRTree({ mindJson: info.content })
+      newTree = new IRTree({ mindJson: info.content }, treeOptions)
     }
 
     if (treeOptions.replaced) {
@@ -107,6 +107,24 @@ class DataManager {
       return {}
     }
     return this.irtree.toMindJson()
+  }
+
+  /**
+   *
+   */
+  undoTree () {
+    if (this.irtree !== undefined) {
+      this.irtree.undo()
+    }
+  }
+
+  /**
+   *
+   */
+  redoTree () {
+    if (this.irtree !== undefined) {
+      this.irtree.redo()
+    }
   }
 
   /**
