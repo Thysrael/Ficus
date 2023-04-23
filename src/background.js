@@ -140,8 +140,8 @@ app.on('ready', async () => {
   ipcMain.handle('deleteFolder', async (e, folderPath) => {
     await deleteFolder(folderPath)
   })
-  ipcMain.handle('renameFileOrFolder', async (e, newPath, oldPath, projPath) => {
-    await renameFileOrFolder(newPath, oldPath, projPath)
+  ipcMain.handle('renameFileOrFolder', async (e, newPath, oldPath) => {
+    await renameFileOrFolder(newPath, oldPath)
   })
 
   ipcMain.handle('newFileFromSidebar', async (e, filePath, fileName) => {

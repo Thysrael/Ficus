@@ -9,9 +9,9 @@ exports.linkToFile = async (filePath) => {
   if (fs.existsSync(filePath) === false) return null
   const content = fs.readFileSync(filePath).toString()
   let pathSplit = ''
-  if (os.platform().toString() === 'win32') {
+  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
     pathSplit = filePath.split('\\')
-  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+  } else if (os.platform().toString() === 'linux') {
     pathSplit = filePath.split('/')
   }
   const fileName = pathSplit[pathSplit.length - 1]
@@ -40,7 +40,7 @@ exports.deleteFile = (filePath) => {
   })
 }
 // 重命名文件或文件夹
-exports.renameFileOrFolder = async (newPath, oldPath, projPath) => {
+exports.renameFileOrFolder = async (newPath, oldPath) => {
   fs.rename(oldPath, newPath, function (err) {
     if (err) {
       console.log('no such file or directory')
@@ -130,9 +130,9 @@ exports.newFolderFromDialog = async (projPath) => {
     }
     if (result.filePaths[0].startsWith(projPath)) {
       let pathSplit = ''
-      if (os.platform().toString() === 'win32') {
+      if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
         pathSplit = projPath.split('\\')
-      } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+      } else if (os.platform().toString() === 'linux') {
         pathSplit = projPath.split('/')
       }
       const folderName = pathSplit[pathSplit.length - 1]
@@ -173,9 +173,9 @@ exports.getFileFromUser = async () => {
     for (const filePath of filePaths) {
       const content = fs.readFileSync(filePath).toString()
       let pathSplit = ''
-      if (os.platform().toString() === 'win32') {
+      if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
         pathSplit = filePath.split('\\')
-      } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+      } else if (os.platform().toString() === 'linux') {
         pathSplit = filePath.split('/')
       }
       const fileName = pathSplit[pathSplit.length - 1]
@@ -215,9 +215,9 @@ exports.getFolderFromUser = async () => {
     }
     const folderPath = result.filePaths[0]
     let pathSplit = ''
-    if (os.platform().toString() === 'win32') {
+    if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
       pathSplit = folderPath.split('\\')
-    } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+    } else if (os.platform().toString() === 'linux') {
       pathSplit = folderPath.split('/')
     }
     const folderName = pathSplit[pathSplit.length - 1]
@@ -273,9 +273,9 @@ exports.saveToTarget = async (fileContent, projPath) => {
       fs.writeFileSync(result.filePath, fileContent)
       if (result.filePath.startsWith(projPath)) {
         let pathSplit = ''
-        if (os.platform().toString() === 'win32') {
+        if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
           pathSplit = projPath.split('\\')
-        } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+        } else if (os.platform().toString() === 'linux') {
           pathSplit = projPath.split('/')
         }
         const folderName = pathSplit[pathSplit.length - 1]

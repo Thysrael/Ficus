@@ -6,9 +6,9 @@ const os = require('os')
 
 exports.refresh = async (projPath) => {
   let pathSplit = ''
-  if (os.platform().toString() === 'win32') {
+  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
     pathSplit = projPath.split('\\')
-  } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+  } else if (os.platform().toString() === 'linux') {
     pathSplit = projPath.split('/')
   }
   const folderName = pathSplit[pathSplit.length - 1]
@@ -152,9 +152,9 @@ exports.addTag2File = (filePath, tagName, isNewTag, folderPath) => {
   }
   if (!hasFile) {
     let pathSplit = ''
-    if (os.platform().toString() === 'win32') {
+    if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
       pathSplit = filePath.split('\\')
-    } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+    } else if (os.platform().toString() === 'linux') {
       pathSplit = filePath.split('/')
     }
     const fName = pathSplit[pathSplit.length - 1]
@@ -191,9 +191,9 @@ exports.initFromFolder = async () => {
       }
     }
     let pathSplit = ''
-    if (os.platform().toString() === 'win32') {
+    if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
       pathSplit = result.filePaths[0].split('\\')
-    } else if (os.platform().toString() === 'linux' || os.platform().toString() === 'darwin') {
+    } else if (os.platform().toString() === 'linux') {
       pathSplit = result.filePaths[0].split('/')
     }
     const folderName = pathSplit[pathSplit.length - 1]
