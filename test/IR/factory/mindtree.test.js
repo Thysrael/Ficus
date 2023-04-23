@@ -1,6 +1,8 @@
 const { mindToTree } = require('../../../src/IR/block/factory/mindToTree.js')
 const { markdownToTree } = require('../../../src/IR/block/factory/markdownToTree.js')
 const assert = require('assert')
+const { expect } = require('chai')
+const fs = require('fs-extra')
 
 describe('IR到MindJson测试', function () {
   const root = markdownToTree('# aa')
@@ -20,6 +22,12 @@ describe('IR到MindJson测试', function () {
         }
       ]
     })
+  })
+
+  const content = fs.readFileSync('test/IR/data/vditor.md').toString()
+  const root1 = markdownToTree(content)
+  it('vditor测试', function () {
+    expect(mindToTree(root1.toMindJson()).toMarkdown()).to.be.equal(content)
   })
 })
 
