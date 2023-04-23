@@ -55,22 +55,15 @@ describe('MindJson到IR', function () {
         level: 1,
         children: [
           {
-            name: 'aa',
-            text: 'aa',
+            name: 'aa3',
+            text: 'aa3',
             type: 'heading',
             level: 3,
-            children: [
-              {
-                name: 'aa',
-                text: 'aa',
-                type: 'heading',
-                level: 4,
-                children: []
-              }]
+            children: []
           },
           {
-            name: 'aa',
-            text: 'aa',
+            name: 'aa4',
+            text: 'aa4',
             type: 'heading',
             level: 4,
             children: []
@@ -92,22 +85,15 @@ describe('MindJson到IR', function () {
         level: 1,
         children: [
           {
-            name: 'aa',
-            text: 'aa',
+            name: 'aa3',
+            text: 'aa3',
             type: 'heading',
             level: 3,
-            children: [
-              {
-                name: 'aa',
-                text: 'aa',
-                type: 'heading',
-                level: 4,
-                children: []
-              }]
+            children: []
           },
           {
-            name: 'aa',
-            text: 'aa',
+            name: 'aa4',
+            text: 'aa4',
             type: 'heading',
             level: 3,
             children: []
