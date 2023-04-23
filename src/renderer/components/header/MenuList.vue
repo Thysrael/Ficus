@@ -219,6 +219,7 @@ export default {
     const menu = ref(false)
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
+    let range = ''
 
     console.log(proxy, _this)
 
@@ -226,7 +227,12 @@ export default {
       console.log(`menu changed from ${oldValue} to ${newValue}`)
       if (newValue) {
         _this.$nextTick(() => {
-          _this.$refs.myMenu.focus()
+          if (window.getSelection().rangeCount >= 1) {
+            range = getSelection().getRangeAt(0).cloneRange()
+          }
+          if (_this.$refs.myMenu !== null) {
+            _this.$refs.myMenu.focus()
+          }
         })
       }
     })
@@ -452,6 +458,9 @@ export default {
 
     function closeMenu () {
       menu.value = false
+      const selection = getSelection()
+      selection.removeAllRanges()
+      selection.addRange(range)
     }
 
     bus.on('showMenu', () => {
