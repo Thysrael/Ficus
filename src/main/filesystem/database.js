@@ -3,6 +3,31 @@ const fs = require('fs-extra')
 const path = require('path')
 const { getTree } = require('./getFileTree')
 const os = require('os')
+const { getAerialInFile } = require('@/common/parseLinks')
+
+// 获得：
+exports.getLinksAndTags = (file, projPath) => {
+  if (file.isMd === false) {
+    return []
+  }
+  const res = []
+  const doc = file.content
+  const filePath = path.resolve(file.path, '../')
+  const info = getAerialInFile(doc)
+  for (const item of info.aerials) {
+    if (!path.isAbsolute(item.path)) {
+      const abPath = path.join(filePath, item.path)
+      if (abPath.startsWith(projPath)) {
+        res.push({ name: item.name, path: abPath })
+      }
+    } else {
+      if (item.path.startsWith(projPath)) {
+        res.push({ name: item.name, path: item.path })
+      }
+    }
+  }
+  return { aerials: res, tags: info.tags }
+}
 
 exports.refresh = async (projPath) => {
   let pathSplit = ''

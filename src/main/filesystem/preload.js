@@ -24,5 +24,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   renameFileOrFolder: (newPath, oldPath) => ipcRenderer.invoke('renameFileOrFolder', newPath, oldPath),
   linkToFile: (filePath) => ipcRenderer.invoke('linkToFile', filePath),
   sendTags: (projPath) => ipcRenderer.invoke('sendTags', projPath),
-  refresh: (projPath) => ipcRenderer.invoke('refresh', projPath)
+  refresh: (projPath) => ipcRenderer.invoke('refresh', projPath),
+  getLinksAndTags: (file, projPath) => ipcRenderer.invoke('getLinksAndTags', file, projPath)
 })
