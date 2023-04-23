@@ -87,7 +87,7 @@ function newObj (tempDir, item) {
 }
 
 exports.getTree = async (folderPath, folderName) => {
-  const dirPath = path.win32.resolve(folderPath)
+  const dirPath = path.resolve(folderPath)
   // console.log(dirPath)
   const fileJson = await initFun(dirPath, folderName)
   return fileJson
