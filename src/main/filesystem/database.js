@@ -176,12 +176,7 @@ exports.initFromFolder = async () => {
   return await dialog.showOpenDialog({
     buttonLabel: '选择',
     defaultPath: app.getPath('desktop'),
-    properties: ['createDirectory', 'openDirectory'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
+    properties: ['createDirectory', 'openDirectory']
   }).then(async (result) => {
     const relation = {
       version: 1,
@@ -197,7 +192,7 @@ exports.initFromFolder = async () => {
       pathSplit = result.filePaths[0].split('/')
     }
     const folderName = pathSplit[pathSplit.length - 1]
-    // console.log(result.filePaths[0])
+    console.log(result.filePaths[0])
     const tree = await getTree(result.filePaths[0], folderName)
     // console.log(tree)
     relation.root.tree = tree.children.filter(item => item.name !== '.ficus')
