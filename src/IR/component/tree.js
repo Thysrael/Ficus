@@ -3,9 +3,9 @@ const { buildFrontMatter } = require('../block/factory/buildNode')
 const { History } = require('../history/index')
 
 class IRTree {
-  constructor (doc) {
+  constructor (doc, options = {}) {
     this.root = null
-    this.history = new History(this, doc)
+    this.history = new History(this, doc, options)
   }
 
   update (doc) {
