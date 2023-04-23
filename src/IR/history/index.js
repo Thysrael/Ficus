@@ -70,7 +70,7 @@ class History {
     if (this.stack.undo.length === 0) {
       this.updateTree(this.initdoc)
     } else {
-      this.updateTree(this.stack.undo[this.stack.length - 1])
+      this.updateTree(this.stack.undo[this.stack.undo.length - 1])
     }
 
     this.lastRecorded = 0
