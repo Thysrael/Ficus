@@ -1,5 +1,6 @@
 const { markdownToTree } = require('../../../src/IR/block/factory/markdownToTree.js')
 const { expect } = require('chai')
+const fs = require('fs-extra')
 
 describe('markdown生成树简单测试', function () {
   const root1 = markdownToTree('# aa\naa')
@@ -28,5 +29,13 @@ describe('markdown列表简单测试', function () {
   const root1 = markdownToTree('| a   | b   | c   |\n| --- | --- | --- |\n| 1 1 | 1 2 | 1 3 |\n| 2 1 | 2 2 | 2 3 |\n| 3 1 | 3 2 | 3 3 |\n\n')
   it('普通列表测试', function () {
     expect(root1.toMarkdown()).to.be.equal('| a   | b   | c   |\n| --- | --- | --- |\n| 1 1 | 1 2 | 1 3 |\n| 2 1 | 2 2 | 2 3 |\n| 3 1 | 3 2 | 3 3 |\n')
+  })
+})
+
+describe('markdown综合测试', function () {
+  const content = fs.readFileSync('test/IR/data/vditor.md').toString()
+  const root1 = markdownToTree(content)
+  it('普通列表测试', function () {
+    expect(root1.toMarkdown()).to.be.equal(content)
   })
 })

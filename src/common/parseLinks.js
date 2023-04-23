@@ -43,13 +43,9 @@ function getLinksInFile (doc) {
           .replace(/^\s+/, '')
           .replace(/\s$/, '')
         if (lang === 'yaml') {
-          tags = yaml.load(text).tags || []
+          tags = yaml.load(value).tags
         }
 
-        break
-      }
-
-      case 'hr': {
         break
       }
 
@@ -57,22 +53,6 @@ function getLinksInFile (doc) {
         const { text } = token
         value = text
         aerials = aerials.concat(getAerialInBlock(value))
-        break
-      }
-
-      case 'code': {
-        break
-      }
-
-      case 'table': {
-        break
-      }
-
-      case 'html': {
-        break
-      }
-
-      case 'multiplemath': {
         break
       }
 
@@ -92,38 +72,6 @@ function getLinksInFile (doc) {
         break
       }
 
-      case 'blockquote_start': {
-        break
-      }
-
-      case 'blockquote_end': {
-        break
-      }
-
-      case 'list_start': {
-        break
-      }
-
-      case 'list_end': {
-        break
-      }
-
-      case 'loose_item_start': {
-        break
-      }
-
-      case 'list_item_start': {
-        break
-      }
-
-      case 'list_item_end': {
-        break
-      }
-
-      case 'space': {
-        break
-      }
-
       default: {
         break
       }
@@ -133,5 +81,5 @@ function getLinksInFile (doc) {
 }
 
 module.exports = {
-  getAerialInFile: getLinksInFile
+  getLinksInFile
 }
