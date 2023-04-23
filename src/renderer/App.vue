@@ -5,16 +5,19 @@
       <SideBar :data="data"></SideBar>
       <TextArea class="myTextArea"></TextArea>
     </div>
-    <div class="dialog" v-if="showDialog">
-      <div style="width: 300px; height: 30px; background-color: #71717a; text-align: center"> {{ dialogName }} </div>
-      <input v-model="fileName" style="width: 300px; height: 30px; background-color: #ffffff" placeholder="请输入..." @keyup.enter="handleNew"/>
-      <div style="display: flex; position: relative">
-        <button style="position:absolute; left: 20px;" @click="handleNew">
+    <div class="dialog" v-if="myAlert">
+      <div style="display: flex; position: relative; z-index: 1000">
+        {{ message }}
+        <button style="margin-left: 20px" @click="myAlert = false">
           确认
         </button>
-        <button style="position:absolute; right: 20px;" @click="fileName = ''; showDialog = false">
-          取消
-        </button>
+      </div>
+    </div>
+    <div id="modal" class="modal" v-show="showDialog">
+      <div class="modal-content" id="modalContent">
+        <span class="close" @click="showDialog = false">&times;</span>
+        <h2>{{ dialogName }}</h2>
+        <input v-model="fileName" type="text" placeholder="名称" ref="inputBox" @keyup.enter="handle">
       </div>
     </div>
   </div>
@@ -22,7 +25,7 @@
 
 <script>
 
-import { onMounted, ref } from 'vue'
+import { getCurrentInstance, onMounted, ref } from 'vue'
 import MyHeader from '@/renderer/components/header/MyHeader'
 import SideBar from '@/renderer/components/sideBar/SideBar'
 import TextArea from '@/renderer/components/textArea/TextArea'
@@ -32,110 +35,6 @@ export default {
   name: 'App',
   components: { SideBar, MyHeader, TextArea },
   setup () {
-    // const data = ref([{
-    //   name: 'app2',
-    //   curChild: -1,
-    //   path: 'app2',
-    //   absolutePath: ['app2'],
-    //   offset: -1,
-    //   content: '# 1',
-    //   type: 'folder',
-    //   children: [{
-    //     name: 'src',
-    //     curChild: -1,
-    //     path: 'app2\\src',
-    //     absolutePath: ['app2', 'src'],
-    //     offset: -1,
-    //     content: '- 2',
-    //     type: 'folder',
-    //     children: [{
-    //       name: 'components',
-    //       curChild: -1,
-    //       path: 'app2\\src\\components',
-    //       absolutePath: ['app2', 'src', 'components'],
-    //       offset: -1,
-    //       content: '3',
-    //       type: 'folder',
-    //       children: [{
-    //         name: 'FileNav.vue',
-    //         curChild: -1,
-    //         path: 'app2\\src\\components\\FileNav.vue',
-    //         absolutePath: ['app2', 'src', 'components', 'FileNav.vue'],
-    //         offset: -1,
-    //         content: '4',
-    //         children: [],
-    //         type: 'file'
-    //       }, {
-    //         name: 'FileNavItem.vue',
-    //         curChild: -1,
-    //         path: 'app2\\src\\components\\FileNavItem.vue',
-    //         absolutePath: ['app2', 'src', 'components', 'FileNavItem.vue'],
-    //         offset: -1,
-    //         content: '5',
-    //         children: [],
-    //         type: 'file'
-    //       }]
-    //     }, {
-    //       name: 'assets',
-    //       curChild: -1,
-    //       path: 'app2\\src\\assets',
-    //       absolutePath: ['app2', 'src', 'assets'],
-    //       offset: -1,
-    //       content: '6',
-    //       type: 'folder',
-    //       children: [{
-    //         name: 'logo.png',
-    //         curChild: -1,
-    //         path: 'app2\\src\\assets\\logo.png',
-    //         absolutePath: ['app2', 'src', 'assets', 'logo.png'],
-    //         offset: -1,
-    //         content: '7',
-    //         children: [],
-    //         type: 'file'
-    //       }, {
-    //         name: 'tailwind.css',
-    //         curChild: -1,
-    //         path: 'app2\\src\\assets\\tailwind.css',
-    //         absolutePath: ['app2', 'src', 'assets', 'tailwind.css'],
-    //         offset: -1,
-    //         content: '8',
-    //         children: [],
-    //         type: 'file'
-    //       }, {
-    //         name: 'FileNav.vue',
-    //         curChild: -1,
-    //         path: 'app2\\src\\assets\\FileNav.vue',
-    //         absolutePath: ['app2', 'src', 'assets', 'FileNav.vue'],
-    //         offset: -1,
-    //         content: '9',
-    //         children: [],
-    //         type: 'file'
-    //       }]
-    //     }, {
-    //       name: 'FileNav.vue',
-    //       curChild: -1,
-    //       path: 'app2\\src\\FileNav.vue',
-    //       absolutePath: ['app2', 'src', 'FileNav.vue'],
-    //       offset: -1,
-    //       content: '```vue\n' +
-    //           'setup() {\n' +
-    //           '\tlet name = \'xxx\',\n' +
-    //           '\tlet age = 18\n' +
-    //           '\t\n' +
-    //           '\n' +
-    //           '\treturn {\n' +
-    //           '\t\tname,\n' +
-    //           '\t\tage,\n' +
-    //           '\t\tsayHello\n' +
-    //           '\t}\t\n' +
-    //           '}\n' +
-    //           '```',
-    //       children: [],
-    //       type: 'file'
-    //     }]
-    //   }]
-    // }])
-
     const data = ref([])
     const source = ref({}) // 源对象
     const dst = ref({}) // 目标对象
@@ -144,14 +43,89 @@ export default {
     const dialogName = ref('')
     const fileName = ref('')
     const father = ref({}) // 父对象
+    let mode = 0 // 0：新建 / 1：重命名
+    const { proxy, ctx } = getCurrentInstance()
+    const _this = ctx
+    const myAlert = ref(false)
+    const message = ref('')
+
+    console.log(proxy, _this)
 
     onMounted(() => {
       window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight + 'px'
       })
+      // 获取对话框、关闭按钮、输入框、取消按钮和确定按钮
+      const modal = document.getElementById('modal')
+      const modalContent = document.getElementById('modalContent')
+
+      // 当用户单击模态框外部时，关闭模态框
+      window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          closeModal()
+        }
+      })
+
+      // 当用户按下鼠标左键时，记录鼠标位置和对话框位置，并绑定鼠标移动和释放事件
+      let x0, y0, x1, y1
+      modal.addEventListener('mousedown', function (event) {
+        x0 = event.clientX
+        y0 = event.clientY
+        x1 = modal.offsetLeft
+        y1 = modal.offsetTop
+        document.addEventListener('mousemove', moveModal)
+        document.addEventListener('mouseup', stopMoveModal)
+      })
+
+      // 当鼠标移动时，更新对话框位置
+      function moveModal (event) {
+        const x = event.clientX - x0 + x1
+        const y = event.clientY - y0 + y1
+        modal.style.left = x + 'px'
+        modal.style.top = y + 'px'
+      }
+
+      // 当鼠标释放时，停止更新对话框位置
+      function stopMoveModal (event) {
+        document.removeEventListener('mousemove', moveModal)
+        document.removeEventListener('mouseup', stopMoveModal)
+      }
+
+      // 显示模态框
+      function openModal () {
+        showDialog.value = true
+        modal.style.top = '0'
+        modal.style.left = '0'
+        modalContent.style.top = '50%'
+        modalContent.style.left = '50%'
+        modalContent.style.transform = 'translate(-50%, -50%)'
+        if (_this.$refs.inputBox !== null) {
+          _this.$refs.inputBox.focus()
+        }
+      }
+
+      // 关闭模态框
+      function closeModal () {
+        showDialog.value = false
+      }
+
+      bus.on('showDialogForNewFile', (obj) => {
+        dialogName.value = (obj.type === 'file') ? '新建文件' : '新建文件夹'
+        father.value = obj.father
+        mode = 0
+        openModal()
+      })
+
+      bus.on('showDialogForRenameFile', (obj) => {
+        dialogName.value = '重命名'
+        father.value = obj
+        mode = 1
+        openModal()
+      })
     })
 
     bus.on('getSource', (obj) => {
+      console.log('getSource ', obj)
       source.value = obj
     })
 
@@ -200,9 +174,14 @@ export default {
     })
 
     bus.on('toDst', () => {
-      console.log('dst: ', dst.value)
+      const info = '确定将' + source.value.name + '移动到' + dst.value.name + '？'
+      alert(info)
+      if (dst.value.path === source.value.path) {
+        return
+      }
       if (dst.value.type === 'folder') {
         const father = findFather(source.value, data.value[0]).res
+        // 会有一套完整的安全管理流程，例如控制改变之后同目录下的文件不应该重名
         if (father.path !== dst.value.path) {
           removeFrom(source.value, father.children)
           buildNewFileFromOld(dst.value, source.value)
@@ -237,12 +216,6 @@ export default {
       data.value = [obj]
     })
 
-    bus.on('showDialog', (obj) => {
-      showDialog.value = true
-      dialogName.value = (obj.type === 'file') ? '新建文件' : '新建文件夹'
-      father.value = obj.father
-    })
-
     function buildNewFileFromOld (father, curObj) {
       if (curObj.type === 'file') {
         window.electronAPI.newFileFromSidebar(father.path, curObj.name)
@@ -255,7 +228,8 @@ export default {
       }
       paths.push(curObj.name)
       curObj.absolutePath = paths
-      curObj.path = father.path + '\\' + curObj.name
+      // curObj.path = path.join(father.path, curObj.name)
+      curObj.path = father.path + curObj.name
       if (curObj.type === 'file') {
         window.electronAPI.saveFile(curObj.path, curObj.content)
       } else if (curObj.type === 'folder') {
@@ -267,9 +241,18 @@ export default {
 
     function handleNew () {
       if (fileName.value === '') {
-        alert('必须输入文件名或文件夹名')
-        showDialog.value = false
+        message.value = '必须输入文件名或文件夹名'
+        myAlert.value = true
+        fileName.value = ''
       } else {
+        for (let i = 0; i < father.value.children.length; i++) {
+          if (father.value.children[i].name === fileName.value) {
+            message.value = '输入的名称已存在'
+            myAlert.value = true
+            fileName.value = ''
+            return
+          }
+        }
         if (dialogName.value === '新建文件') {
           window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
         } else {
@@ -283,8 +266,8 @@ export default {
         const fileType = (dialogName.value === '新建文件') ? 'file' : 'folder'
         const obj = {
           name: fileName.value,
-          // bugFIX: 跨操作系统时？
-          path: father.value.path + '\\' + fileName.value,
+          // path: path.join(father.value.path, fileName.value),
+          path: father.value.path + fileName.value,
           children: [],
           curChild: -1,
           content: '',
@@ -302,13 +285,64 @@ export default {
       }
     }
 
+    function renameFile () {
+      const obj = father.value
+      if (fileName.value === '') {
+        message.value = '文件名或文件夹名不能为空'
+        myAlert.value = true
+        fileName.value = ''
+      } else {
+        const father = findFather(obj, data.value[0]).res
+        for (let i = 0; i < father.children.length; i++) {
+          if (father.children[i].name === fileName.value) {
+            message.value = '输入的名称已存在'
+            myAlert.value = true
+            fileName.value = ''
+            return
+          }
+        }
+        obj.name = fileName.value
+        obj.absolutePath.pop()
+        obj.absolutePath.push(fileName.value)
+        // obj.path = path.join(father.path, fileName.value)
+        obj.path = father.path + fileName.value
+        if (obj.type === 'folder') {
+          // 需要递归地修改孩子节点的path和absolutePath
+          for (let i = 0; i < obj.children.length; i++) {
+            changePathAfterFatherRename(obj.children, obj)
+          }
+        }
+      }
+    }
+
+    function changePathAfterFatherRename (obj, father) {
+      // obj.path = path.join(father.path, obj.name)
+      obj.path = father.path + obj.name
+      obj.absolutePath[-2] = father.name
+      if (obj.type === 'folder') {
+        for (let i = 0; i < obj.children.length; i++) {
+          changePathAfterFatherRename(obj.children, obj)
+        }
+      }
+    }
+
+    function handle () {
+      if (mode === 0) {
+        handleNew()
+      } else if (mode === 1) {
+        renameFile()
+      }
+    }
+
     return {
       data,
       windowHeight,
       showDialog,
       dialogName,
       fileName,
-      handleNew
+      myAlert,
+      message,
+      handle
     }
   }
 }
@@ -336,9 +370,50 @@ export default {
 
 .dialog {
   position: fixed;
+  z-index: 20;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2563eb;
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /*background-color: rgba(0,0,0,0.4);*/
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  width: 400px;
+  position: absolute;
   top: 50%;
   left: 50%;
-  z-index: 10;
   transform: translate(-50%, -50%);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

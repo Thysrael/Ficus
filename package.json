@@ -33,6 +33,7 @@
         "mousetrap": "^1.6.5",
         "nyc": "^15.1.0",
         "os": "^0.1.2",
+        "path": "^0.12.7",
         "standard": "^17.0.0",
         "tailwindcss": "2.0.4",
         "v-contextmenu": "^3.0.0",
