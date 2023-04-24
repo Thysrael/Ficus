@@ -135,6 +135,10 @@ app.on('ready', async () => {
     return content
   })
 
+  ipcMain.handle('getPathSep', (e) => {
+    return path.sep
+  })
+
   ipcMain.handle('getLinksAndTags', async (e, file) => {
     return await getLinksAndTags(file)
   })
