@@ -6,7 +6,7 @@ export default function defineRAPI (vditor) {
     vditor.setValue(content)
     // 同时返回新文本的内容、长度以及行数
     bus.emit('saveChange', {
-      content: content,
+      content,
       wordCnt: content.length,
       lineCnt: content.split('\n').length - 1
     })
@@ -42,6 +42,40 @@ export default function defineRAPI (vditor) {
     } catch (e) {
       console.log('复制失败')
     }
+  })
+
+  /** 剪切用户选中的文本 **/
+  bus.on('cutSelectedText', async () => {
+    let content = ''
+    if (vditor.vditor.currentMode === 'wysiwyg') {
+      content = vditor.getSelection('md')
+    } else if (vditor.vditor.currentMode === 'sv') {
+      content = vditor.getSelection('text')
+    }
+    try {
+      await navigator.clipboard.writeText(content)
+      vditor.deleteValue()
+    } catch (e) {
+      console.log('剪切失败')
+    }
+  })
+
+  /** 粘贴剪切板内容 **/
+  bus.on('pasteSelectedText', async ({ type }) => {
+    try {
+      let content = await navigator.clipboard.readText()
+      if (type === 'plain') {
+        content = content.replace(/(<([^>]+)>)/gi, '')
+      }
+      vditor.insertValue(content)
+    } catch (e) {
+      console.log('粘贴失败')
+    }
+  })
+
+  /** 删除所选的文本 **/
+  bus.on('deleteSelectedText', () => {
+    vditor.deleteValue()
   })
 
   /** 在光标处插入文本 **/
