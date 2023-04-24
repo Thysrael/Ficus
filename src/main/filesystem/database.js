@@ -2,7 +2,6 @@ const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
 const { getTree } = require('./getFileTree')
-const os = require('os')
 const { getAerialInFile } = require('@/common/parseLinks')
 
 // 获得：
@@ -17,7 +16,7 @@ exports.getLinksAndTags = async (file) => {
   }
   const res = []
   const doc = obj.content
-  const filePath = path.resolve(obj.path, '../')
+  const filePath = path.resolve(obj.path, '..' + path.sep)
   console.log('调用前：', doc)
   const info = getAerialInFile(doc)
   console.log('调用后：', info)
@@ -33,12 +32,7 @@ exports.getLinksAndTags = async (file) => {
 }
 
 exports.refresh = async (projPath) => {
-  let pathSplit = ''
-  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-    pathSplit = projPath.split('\\')
-  } else if (os.platform().toString() === 'linux') {
-    pathSplit = projPath.split('/')
-  }
+  const pathSplit = projPath.split(path.sep)
   const folderName = pathSplit[pathSplit.length - 1]
   // console.log(result.filePaths[0])
   const tree = await getTree(projPath, folderName)
@@ -179,12 +173,7 @@ exports.addTag2File = (filePath, tagName, isNewTag, folderPath) => {
     tags.tag2Files.push({ tagName, attach: [filePath] })
   }
   if (!hasFile) {
-    let pathSplit = ''
-    if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-      pathSplit = filePath.split('\\')
-    } else if (os.platform().toString() === 'linux') {
-      pathSplit = filePath.split('/')
-    }
+    const pathSplit = filePath.split(path.sep)
     const fName = pathSplit[pathSplit.length - 1]
     const file = { fileName: fName, path: filePath, fileTags: [tagName] }
     tags.file2Tags.push(file)
@@ -213,12 +202,7 @@ exports.initFromFolder = async () => {
         tree: {}
       }
     }
-    let pathSplit = ''
-    if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-      pathSplit = result.filePaths[0].split('\\')
-    } else if (os.platform().toString() === 'linux') {
-      pathSplit = result.filePaths[0].split('/')
-    }
+    const pathSplit = result.filePaths[0].split(path.sep)
     const folderName = pathSplit[pathSplit.length - 1]
     console.log(result.filePaths[0])
     const tree = await getTree(result.filePaths[0], folderName)

@@ -2,18 +2,12 @@ const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const { getTree } = require('./getFileTree')
 const path = require('path')
-const os = require('os')
 const { clearDir } = require('./general')
 // 跳转到引用：
 exports.linkToFile = async (filePath) => {
   if (fs.existsSync(filePath) === false) return null
   const content = fs.readFileSync(filePath).toString()
-  let pathSplit = ''
-  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-    pathSplit = filePath.split('\\')
-  } else if (os.platform().toString() === 'linux') {
-    pathSplit = filePath.split('/')
-  }
+  const pathSplit = filePath.split(path.sep)
   const fileName = pathSplit[pathSplit.length - 1]
   const file = {
     name: fileName, // 文件名
@@ -69,12 +63,7 @@ exports.newFileFromDialog = async (projPath) => {
     if (result.canceled === true) {
       return []
     }
-    let pathSplit = ''
-    if (os.platform().toString() === 'win32') {
-      pathSplit = result.filePath.split('\\')
-    } else if (os.platform().toString() === ('linux' || 'darwin')) {
-      pathSplit = result.filePath.split('/')
-    }
+    const pathSplit = result.filePath.split(path.sep)
     const fileName = pathSplit[pathSplit.length - 1]
     const file = {
       name: fileName, // 文件名
@@ -129,12 +118,7 @@ exports.newFolderFromDialog = async (projPath) => {
       return []
     }
     if (result.filePaths[0].startsWith(projPath)) {
-      let pathSplit = ''
-      if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-        pathSplit = projPath.split('\\')
-      } else if (os.platform().toString() === 'linux') {
-        pathSplit = projPath.split('/')
-      }
+      const pathSplit = projPath.split(path.sep)
       const folderName = pathSplit[pathSplit.length - 1]
       // console.log(result.filePaths[0])
       const tree = await getTree(projPath, folderName)
@@ -172,12 +156,7 @@ exports.getFileFromUser = async () => {
     const fileObjs = []
     for (const filePath of filePaths) {
       const content = fs.readFileSync(filePath).toString()
-      let pathSplit = ''
-      if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-        pathSplit = filePath.split('\\')
-      } else if (os.platform().toString() === 'linux') {
-        pathSplit = filePath.split('/')
-      }
+      const pathSplit = filePath.split(path.sep)
       const fileName = pathSplit[pathSplit.length - 1]
       const file = {
         name: fileName, // 文件名
@@ -214,12 +193,7 @@ exports.getFolderFromUser = async () => {
       return []
     }
     const folderPath = result.filePaths[0]
-    let pathSplit = ''
-    if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-      pathSplit = folderPath.split('\\')
-    } else if (os.platform().toString() === 'linux') {
-      pathSplit = folderPath.split('/')
-    }
+    const pathSplit = folderPath.split(path.sep)
     const folderName = pathSplit[pathSplit.length - 1]
     const tree = await getTree(folderPath, folderName)
     // console.log(tree.children[0].absolutePath[2])
@@ -272,12 +246,7 @@ exports.saveToTarget = async (fileContent, projPath) => {
     } else {
       fs.writeFileSync(result.filePath, fileContent)
       if (result.filePath.startsWith(projPath)) {
-        let pathSplit = ''
-        if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-          pathSplit = projPath.split('\\')
-        } else if (os.platform().toString() === 'linux') {
-          pathSplit = projPath.split('/')
-        }
+        const pathSplit = projPath.split(path.sep)
         const folderName = pathSplit[pathSplit.length - 1]
         // console.log(result.filePaths[0])
         const tree = await getTree(projPath, folderName)
