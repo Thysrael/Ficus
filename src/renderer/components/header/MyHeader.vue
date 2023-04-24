@@ -1,13 +1,17 @@
 <template>
-  <div class="area-header"
+  <div class="flex flex-col area-header"
   >
-    <div class="area-header-top" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
-      <MenuList :data="data" style="z-index: 100;margin-left: 5px;-webkit-app-region: no-drag"></MenuList>
+    <div class="area-header-top flex flex-wrap content-center items-center" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
       <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
-           style="position: absolute; left: 5px; top: 0; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
-      <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;-webkit-app-region: no-drag"></BreadCrumb>
-      <ModeChoose class="area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
+           style="position: absolute; left: 5px; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
+      <MenuList :data="data"
+                class="absolute"
+                style="z-index: 100;
+                ft-webkit-app-region: no-drag;
+                top: 10px; left: 40px"></MenuList>
+      <BreadCrumb :items="data" style="position: relative; margin-left: 60px;-webkit-app-region: no-drag" class="items-center content-center"></BreadCrumb>
+      <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
       <button @click="myMin" style="-webkit-app-region: no-drag" class="tr1-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
@@ -17,7 +21,7 @@
             </clipPath>
           </defs>
           <g style="mix-blend-mode:passthrough">
-            <rect x="0" y="0" width="40" height="40" rx="0" fill="#666A70" fill-opacity="1"/>
+            <rect x="0" y="0" width="40" height="40" rx="0"/>
             <g clip-path="url(#master_svg0_71_2542)">
               <g>
                 <g>
@@ -39,6 +43,7 @@
             </clipPath>
           </defs>
           <g style="mix-blend-mode:passthrough">
+            <rect x="0" y="0" width="40" height="40" rx="0"/>
             <g clip-path="url(#master_svg0_71_507)">
               <g>
                 <g>
@@ -60,7 +65,7 @@
             </clipPath>
           </defs>
           <g style="mix-blend-mode:passthrough">
-            <rect x="0" y="0" width="40" height="40" rx="0" fill="#B13333" fill-opacity="1"/>
+            <rect x="0" y="0" width="40" height="40" rx="0"/>
             <g clip-path="url(#master_svg0_71_2735)">
               <g>
                 <g>
@@ -78,11 +83,11 @@
         </svg>
       </button>
     </div>
-    <div class="area-header-bot" style="z-index: 10;display: flex;">
+    <div class="area-header-bot items-center content-center" style="z-index: 10; display: flex;">
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
               class="theme-element"
-              style="position: absolute; margin-left: 1320px;margin-top: 5px;-webkit-app-region: no-drag">
+              style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <g style="mix-blend-mode:passthrough">
@@ -122,7 +127,6 @@ export default {
         }
       }, 30000)
     })
-
     const dataManager = new DataManager()
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
@@ -477,6 +481,12 @@ export default {
       getTags()
     })
 
+    bus.on('changeToGraph', () => {
+      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
+      console.log(dataManager.getGraphNodes())
+      console.log(dataManager.getGraphLinks())
+    })
+
     return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }
   }
 }
@@ -502,10 +512,65 @@ export default {
   right: 0;
 }
 
-.theme-element {
-  position: fixed;
-  top: 0;
-  right: 0;
+.tr1-element rect {
+  fill: none;
+}
+
+.tr1-element:hover rect {
+  fill: #666A70;
+  fill-opacity: 1;
+}
+
+.tr1-element:active rect {
+  fill: #3D3D3D;
+  fill-opacity: 1;
+}
+
+.tr2-element rect {
+  fill: none;
+}
+
+.tr2-element:hover rect {
+  fill: #666A70;
+  fill-opacity: 1;
+}
+
+.tr2-element:active rect {
+  fill: #3D3D3D;
+  fill-opacity: 1;
+}
+
+.tr3-element rect {
+  fill: none;
+}
+
+.tr3-element:hover rect {
+  fill: #B13333;
+  fill-opacity: 1;
+}
+
+.tr3-element:active rect {
+  fill: #6e1919;
+  fill-opacity: 1;
+}
+
+.theme-element:hover path {
+  fill: #42b983;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
+
+.theme-element:active path {
+  fill: #19734b;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
+
+.theme-element path {
+  fill: #474747;
+  fill-opacity: 1;
 }
 
 </style>

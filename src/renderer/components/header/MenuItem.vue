@@ -1,25 +1,26 @@
 <template>
   <li>
     <div
-        :class="(hover) ? `flex items-center cursor-pointer bg-gray-100` : `flex items-center cursor-pointer bg-white`"
-        style="width: 200px;height: 20px;"
+        style="width: 200px;height: 23px;"
         @mouseenter="hover = true"
         @mouseout="hover = false"
+        class="flex content-center items-center"
     >
-      {{ item.name }}
-      <svg
-          v-if="hasChildren"
-          :class="[(hover) ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
-          fill="currentColor"
-          style="height: 10px;width: 10px"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-            fill-rule="evenodd"
-            d="M6.293 7.293a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-        ></path>
+      <p class="ml-4" style="width: 170px; font-size: 12px">
+        {{ item.name }}
+      </p>
+
+      <svg fill="#000000"
+           v-if="hasChildren"
+           :class="[(hover) ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
+           style="height: 12px;width: 12px;"
+           viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+          <path d="M6.5,8.5l6,7l6-7H6.5z"></path>
+        </g>
       </svg>
     </div>
   </li>

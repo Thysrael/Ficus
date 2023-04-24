@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <div class="searchBar">
-      <input class="area-search-tab" placeholder="在工作区中搜索文件"/>
-      <button style="margin-left: 5px">
+  <div class="pl-2 content-center items-center w-full mt-2">
+    <div style="display: flex">
+      <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
+             style="font-family: 'Noto Sans SC'; font-weight: lighter"
+             type="text"
+             placeholder="搜索文件"/>
+      <button class="searchBtn ml-3">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-             width="10" height="10" viewBox="0 0 10 10">
-          <defs>
-            <clipPath id="master_svg0_71_1377">
-              <rect x="0" y="0" width="10" height="10" rx="0"/>
-            </clipPath>
-          </defs>
+             width="15" height="15" viewBox="0 0 10 10">
           <g style="mix-blend-mode:passthrough" clip-path="url(#master_svg0_71_1377)">
             <g style="mix-blend-mode:passthrough">
               <path
@@ -20,14 +18,14 @@
         </svg>
       </button>
     </div>
-    <div style="display: flex;margin-top: 20px;position: relative">
+    <div style="display: flex; position: relative" class="mt-6 items-center content-center">
       <div
-          style="font-family: Source Han Sans CN;font-size: 12px;font-weight: normal;line-height: 10px;etter-spacing: 0em;">
-        共{{ files.length }}条搜索结果。
+          style="font-size: 12px">
+        共 {{ files.length }} 条搜索结果。
       </div>
       <button style="position: absolute; right: 0">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-             width="10" height="10" viewBox="0 0 10 10">
+             width="13" height="13" viewBox="0 0 10 10">
           <defs>
             <clipPath id="master_svg0_93_0213">
               <rect x="0" y="0" width="10" height="10" rx="0"/>
@@ -54,21 +52,34 @@
         </svg>
       </button>
     </div>
-    <ul style="margin-top: 10px">
+    <ul style="margin-top: 15px">
       <li v-for="(item, index) in files"
           :key="index">
-        <div style="display: flex">
+        <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
           <div>
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="15" height="15" viewBox="0 0 15 15"><defs><clipPath id="master_svg0_93_2922"><rect x="0" y="0" width="15" height="15" rx="0"/></clipPath></defs><g clip-path="url(#master_svg0_93_2922)"><g></g><g></g><g><g><path d="M13.04039189376831,10.861825785446166L8.35336189376831,0.5489007854461669C8.20148189376831,0.21468178544616698,7.868201893768311,-0.0004742145538330078,7.49976189376831,-0.0004742145538330078C7.13180189376831,-0.0004742145538330078,6.79851189376831,0.21468178544616698,6.6464118937683105,0.5489007854461669L1.9589075937683105,10.861625785446167C1.8271888937683105,11.151825785446167,1.8517982937683106,11.489725785446167,2.0238298937683106,11.756925785446168C2.1970328937683106,12.025525785446167,2.4937518937683105,12.187525785446168,2.8122678937683103,12.187525785446168L6.562271893768311,12.187525785446168L6.562271893768311,14.062525785446168C6.562271893768311,14.580725785446168,6.98156189376831,15.000025785446168,7.499771893768311,15.000025785446168C8.01820189376831,15.000025785446168,8.43750189376831,14.580725785446168,8.43750189376831,14.062525785446168L8.43750189376831,12.187525785446168L12.18699189376831,12.187525785446168C12.50559189376831,12.187525785446168,12.802291893768311,12.025525785446167,12.976191893768311,11.757225785446167C13.148391893768311,11.489725785446167,13.172091893768311,11.152025785446167,13.04039189376831,10.861825785446166Z" fill="#89D3B1" fill-opacity="1"/></g></g></g></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="20" viewBox="0 0 15 15"><defs><clipPath id="master_svg0_93_2922"><rect x="0" y="0" width="15" height="15" rx="0"/></clipPath></defs><g clip-path="url(#master_svg0_93_2922)"><g></g><g></g><g><g><path d="M13.04039189376831,10.861825785446166L8.35336189376831,0.5489007854461669C8.20148189376831,0.21468178544616698,7.868201893768311,-0.0004742145538330078,7.49976189376831,-0.0004742145538330078C7.13180189376831,-0.0004742145538330078,6.79851189376831,0.21468178544616698,6.6464118937683105,0.5489007854461669L1.9589075937683105,10.861625785446167C1.8271888937683105,11.151825785446167,1.8517982937683106,11.489725785446167,2.0238298937683106,11.756925785446168C2.1970328937683106,12.025525785446167,2.4937518937683105,12.187525785446168,2.8122678937683103,12.187525785446168L6.562271893768311,12.187525785446168L6.562271893768311,14.062525785446168C6.562271893768311,14.580725785446168,6.98156189376831,15.000025785446168,7.499771893768311,15.000025785446168C8.01820189376831,15.000025785446168,8.43750189376831,14.580725785446168,8.43750189376831,14.062525785446168L8.43750189376831,12.187525785446168L12.18699189376831,12.187525785446168C12.50559189376831,12.187525785446168,12.802291893768311,12.025525785446167,12.976191893768311,11.757225785446167C13.148391893768311,11.489725785446167,13.172091893768311,11.152025785446167,13.04039189376831,10.861825785446166Z" fill="#89D3B1" fill-opacity="1"/></g></g></g></svg>
           </div>
-          <div>
-            <div style="font-size: 10px;">
+          <div class="pl-2 overflow-auto" id="btnRef"
+               @mouseenter="togglePopover()"
+               @mouseleave="togglePopover()">
+            <div style="font-size: 12px;">
               {{ item.name }}
             </div>
-            <div style="font-size: 6px">
+            <div style="font-size: 10px">
               {{ item.path }}
             </div>
           </div>
+
+          <div id="popoverRef" v-bind:class="{'hidden': !popoverShow, 'block': popoverShow}"
+               class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
+               style="position: relative; font-family: 'Noto Sans SC'; left: 30px; font-size: 12px">
+            <div class="px-3 py-2">
+              {{item.name}}
+              <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
+              {{item.path}}
+            </div>
+          </div>
+
         </div>
       </li>
     </ul>
@@ -76,6 +87,9 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { createPopper } from '@popperjs/core'
+
 export default {
   name: 'ForestBar',
   setup () {
@@ -89,39 +103,58 @@ export default {
       children: [],
       type: 'file'
     }]
+    const popoverShow = ref(false)
+
+    function togglePopover () {
+      const btnRef = document.querySelector('#btnRef')
+      const popoverRef = document.querySelector('#popoverRef')
+      if (this.popoverShow) {
+        this.popoverShow = false
+      } else {
+        this.popoverShow = true
+        createPopper(btnRef, popoverRef, {
+          placement: 'right',
+          element: 'arrow'
+        })
+      }
+    }
 
     return {
-      files
+      files,
+      popoverShow,
+      togglePopover
     }
   }
 }
 </script>
 
 <style scoped>
-.searchBar {
-  position: absolute;
-  display: flex;
-  left: 0px;
-  top: 0px;
-  width: 130px;
-  height: 15px;
-  opacity: 1;
+.searchBtn:hover path {
+  fill: #42b983;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
 }
 
-::placeholder {
-  position: absolute;
-  top: 2.5px;
-  width: 250px;
-  height: 10px;
-  opacity: 1;
+.searchBtn:active path {
+  fill: #19734b;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
 
-  font-family: Source Han Sans CN;
-  font-size: 11px;
-  font-weight: normal;
-  line-height: 10px;
-  letter-spacing: 0em;
+::-webkit-scrollbar {
+  /* 隐藏滚动条 */
+  display: none;
+}
 
-  color: #989898;
+.relBarItem {
+  font-family: "Noto Sans SC";
+}
 
+.relBarItem:hover {
+  background-color: #e3e3e3;
+  border-radius: 6px;
+  -webkit-transition: .2s;
 }
 </style>

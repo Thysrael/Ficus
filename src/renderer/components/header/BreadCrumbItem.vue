@@ -4,7 +4,7 @@
         class="cursor-pointer"
         @dblclick="doubleEvent"
         @click="toggle"
-        style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+        style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; font-family: 'Noto Sans SC'"
     >
       {{ item.name }}
     </div>
