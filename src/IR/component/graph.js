@@ -119,7 +119,7 @@ class IRGraph {
   }
 
   getLinks () {
-    return this.edges.concat(this.relations)
+    return this.edges.concat(this.relations).concat(this.aerials)
   }
 
   getFileTreeJson () {
