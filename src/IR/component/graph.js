@@ -11,11 +11,12 @@ class IRGraph {
 
     this.edges = []
     this.relations = []
+    this.aerials = []
   }
 
   /**
      * private
-     * @param {*} files
+     * @param {{name: string, path: string, children: [any]}} files
      * @returns
      */
   parseFileTree (files) {
@@ -41,6 +42,10 @@ class IRGraph {
     this.makeEdges()
   }
 
+  /**
+   *
+   * @param {[{tagInfo: string, attach: [string]}]} relations
+   */
   addRelations (relations) {
     const pathToNodeId = {}
     for (const node of this.treenodes) {
@@ -56,7 +61,7 @@ class IRGraph {
             id: this.linkid,
             source: this.nodeid,
             target: this.pathToNodeId[filepath],
-            type: 0
+            type: 1
           })
           this.linkid += 1
         }
@@ -65,9 +70,24 @@ class IRGraph {
     }
   }
 
+  /**
+   *
+   * @param {[{name: string, sourcePath: string, targetPath: string}]} aerials
+   */
   addAerials (aerials) {
-    console.log('add aerials')
-    console.log(aerials)
+    for (const aerialInfo of aerials) {
+      if (this.pathToNodeId[aerialInfo.sourcePath] !== undefined &&
+            this.pathToNodeId[aerialInfo.targetPath] !== undefined) {
+        this.relations.push({
+          id: this.linkid,
+          source: this.pathToNodeId[aerialInfo.sourcePath],
+          target: this.pathToNodeId[aerialInfo.targetPath],
+          name: aerialInfo.name,
+          type: 2
+        })
+        this.linkid += 1
+      }
+    }
   }
 
   getNodes () {
@@ -83,7 +103,6 @@ class IRGraph {
 
   /**
    * private
-   * @returns
    */
   makeEdges () {
     for (const node of this.treenodes) {
