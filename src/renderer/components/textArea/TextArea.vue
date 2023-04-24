@@ -9,7 +9,7 @@
     <div class="littleInformation">
       <div class="information">
         <text class="myText">
-          1156词
+          {{ wordCnt }} 字符
         </text>
         <button style="margin-left: 40px;" @click="showInfoWin = !showInfoWin">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -35,10 +35,9 @@
     <div class="allInformation" v-if="showInfoWin">
       字数统计信息
       <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
-      5分钟<br>
-      98行<br>
-      1156词<br>
-      1885字符<br>
+      {{ time }}分钟<br>
+      {{ lineCnt }}行<br>
+      {{ wordCnt }}字符<br>
     </div>
   </div>
 </template>
@@ -46,7 +45,7 @@
 <script>
 import FicTree from '@/renderer/components/mindEditor/FicTree.vue'
 import TextUI from '@/renderer/components/richTextEditor'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import FicGraph from '@/renderer/components/mindEditor/FicGraph'
 
@@ -56,14 +55,27 @@ export default {
   setup () {
     const showInfoWin = ref(false)
     const showPage = ref(0) // 0表示默认显示欢迎界面，1表示textUI，2表示ficus视图
+    const wordCnt = ref(0)
+    const lineCnt = ref(0)
+    const time = computed(() => {
+      return Math.floor(wordCnt.value / 300)
+    })
 
     bus.on('chooseToShowPage', (num) => {
       showPage.value = num
     })
 
+    bus.on('getInfoOfFile', (obj) => {
+      wordCnt.value = obj.wordCnt
+      lineCnt.value = obj.lineCnt
+    })
+
     return {
       showInfoWin,
-      showPage
+      showPage,
+      wordCnt,
+      lineCnt,
+      time
     }
   }
 }

@@ -176,13 +176,16 @@ export default {
         name: '行内数学公式'
       }, {
         name: '高亮'
-      }, {
-        name: '上标'
-      }, {
-        name: '下标'
-      }, {
-        name: '注释'
-      }, {
+      },
+      //   {
+      //   name: '上标'
+      // }, {
+      //   name: '下标'
+      // },
+      // {
+      //   name: '注释'
+      // },
+      {
         name: '引用文件'
       }, {
         name: '超链接'
@@ -194,19 +197,21 @@ export default {
     }, {
       name: '视图和布局',
       children: [{
-        name: '进入 Ficus 视图'
+        name: 'Ficus模式'
       }, {
-        name: '源代码模式'
+        name: '源码模式'
       }, {
-        name: '文本编辑模式'
-      }, {
-        name: '主题偏好',
-        children: [{
-          name: '经典主题'
-        }, {
-          name: '暗黑主题'
-        }]
-      }, {
+        name: '文本模式'
+      },
+      //   {
+      //   name: '主题偏好',
+      //   children: [{
+      //     name: '经典主题'
+      //   }, {
+      //     name: '暗黑主题'
+      //   }]
+      // },
+      {
         name: '开发者工具'
       }, {
         name: '打字机模式'
@@ -391,6 +396,12 @@ export default {
           case '重命名当前文件':
             bus.emit('renameCurTabForMenu')
             break
+          case '撤销':
+            bus.emit('undoCurTab')
+            break
+          case '重做':
+            bus.emit('redoCurTab')
+            break
           case '复制为纯文本':
             bus.emit('copySelectedText', { type: 'text' })
             break
@@ -487,6 +498,18 @@ export default {
             break
           case '导出PDF文件':
             bus.emit('exportPDF')
+            break
+          case 'Ficus模式':
+            bus.emit('changeMode', 2)
+            break
+          case '文本模式':
+            bus.emit('changeMode', 0)
+            break
+          case '源码模式':
+            bus.emit('changeMode', 1)
+            break
+          case '欢迎':
+            bus.emit('changeMode', -1)
             break
         }
       }
