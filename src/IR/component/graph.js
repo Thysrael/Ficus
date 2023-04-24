@@ -44,7 +44,7 @@ class IRGraph {
 
   /**
    *
-   * @param {[{tagInfo: string, attach: [string]}]} relations
+   * @param {[{tagName: string, attach: [string]}]} relations
    */
   addRelations (relations) {
     const pathToNodeId = {}
