@@ -37,7 +37,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="isFile = 1">
+      <button class="myButton" @click="isFile = 1" v-if="false">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <defs>
@@ -81,7 +81,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="isFile = 5">
+      <button class="myButton" @click="isFile = 5" v-if="false">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <defs>
@@ -214,7 +214,7 @@
       <v-contextmenu-item @click="handleNew('file')">新建文件</v-contextmenu-item>
       <v-contextmenu-item @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
       <v-contextmenu-item >粘贴</v-contextmenu-item>
-      <v-contextmenu-item >关闭工作区</v-contextmenu-item>
+      <v-contextmenu-item @click="handleCloseWorkArea">关闭文件夹</v-contextmenu-item>
     </div>
 <!--    <div v-if="isFile === 2">-->
 <!--      <v-contextmenu-item >新建段落</v-contextmenu-item>-->
@@ -362,7 +362,14 @@ export default {
 
         console.log(data[0].name, open[0].name)
         // bus.emit('openDir', data)
+        // 清空selectedList
+        // 同步openFileList 【策略：path相同的修改为文件夹中给的对象，不同的暂不处理】
       }
+    }
+
+    function handleCloseWorkArea () {
+      selected.value.length = 0 // 清空选中区
+      bus.emit('closeDir')
     }
 
     function getRelation () {
@@ -380,7 +387,8 @@ export default {
       getTags,
       getGraph,
       handleFlush,
-      getRelation
+      getRelation,
+      handleCloseWorkArea
     }
   }
 }
