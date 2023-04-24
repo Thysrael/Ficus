@@ -153,6 +153,36 @@ export default {
       update()
     })
 
+    // 保证openFiles和打开的文件夹同引用，不同引用只是会使得rename出问题
+    function inDirTree (file, arr) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].path === file.path) {
+          return {
+            has: true,
+            res: arr[i]
+          }
+        }
+        if (arr[i].children.type === 'folder') {
+          const obj = inDirTree(file, arr[i].children)
+          if (obj.has) {
+            return obj
+          }
+        }
+      }
+      return {
+        has: false,
+        res: file
+      }
+    }
+
+    bus.on('updateOpenFiles', () => {
+      for (let i = 0; i < openFiles.value.length; i++) {
+        if (props.data.length) {
+          openFiles.value[i] = inDirTree(openFiles.value[i], props.data)
+        }
+      }
+    })
+
     // 每次对于openFiles的增加和删除，都需要重新计算特异路径
     function update () {
       // 第一步，将所有对象按名字分组
@@ -217,7 +247,6 @@ export default {
       content.value = obj.content
       wordCnt.value = obj.wordCnt
       dataManager.updateTreeFromMarkdown(content.value)
-      console.log('!!!!!cjj!!!!!')
       const res = dataManager.getTreeOutline()
       bus.emit('openOutLine', res.children)
       bus.emit('getInfoOfFile', obj)
