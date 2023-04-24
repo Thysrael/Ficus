@@ -1,4 +1,3 @@
-const os = require('os')
 const { getTree } = require('./getFileTree')
 const path = require('path')
 const fs = require('fs-extra')
@@ -29,13 +28,7 @@ exports.clearDir = (folderPath) => {
 }
 
 exports.changeRelation = async (projPath) => {
-  console.log(projPath)
-  let pathSplit = ''
-  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-    pathSplit = projPath.split('\\')
-  } else if (os.platform().toString() === 'linux') {
-    pathSplit = projPath.split('/')
-  }
+  const pathSplit = projPath.split(path.sep)
   const folderName = pathSplit[pathSplit.length - 1]
   const tree = await getTree(projPath, folderName)
   const basePath = path.join(projPath, '.ficus')

@@ -52,12 +52,7 @@ function getFileJson (res, arr, dir) {
  * @returns 返回处理好的对象
  */
 function newObj (tempDir, item) {
-  let pathSplit = ''
-  if (os.platform().toString() === 'win32' || os.platform().toString() === 'darwin') {
-    pathSplit = tempDir.split('\\')
-  } else if (os.platform().toString() === 'linux') {
-    pathSplit = tempDir.split('/')
-  }
+  const pathSplit = tempDir.split(path.sep)
   const obj = {
     name: item,
     path: tempDir,
