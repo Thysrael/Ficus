@@ -2281,7 +2281,7 @@ select {
 }
 
 .text-base {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
     font-weight: 400;
     color: #3d3d3d;
@@ -2535,6 +2535,22 @@ select {
     margin-left: 0.75rem;
 }
 
+.ml-4 {
+    margin-left: 1rem;
+}
+
+.ml-6 {
+    margin-left: 2rem;
+}
+
+.ml-8 {
+    margin-left: 3rem;
+}
+
+.ml-10 {
+    margin-left: 4rem;
+}
+
 .mt-4 {
     margin-top: 1rem;
 }
@@ -2545,6 +2561,14 @@ select {
 
 .mr-6 {
     margin-right: 2rem;
+}
+
+.mr-8 {
+    margin-right: 3rem;
+}
+
+.mr-10 {
+    margin-right: 4rem;
 }
 
 .mb-4 {
@@ -2743,7 +2767,7 @@ select {
     width: 200px;
     height: 100%;
     margin-top: 65px;
-    margin-left: 0px;
+    margin-left: 0;
     position: relative;
     background-color: #f4f4f3;
 }
@@ -2751,8 +2775,8 @@ select {
 .area-header {
     width: 100%;
     height: 65px;
-    margin-top: 0px;
-    margin-left: 0px;
+    margin-top: 0;
+    margin-left: 0;
     position: absolute;
 }
 
@@ -2761,16 +2785,18 @@ select {
     height: 40px;
     margin-top: 0;
     margin-left: 0;
-    position: relative;
+    position: absolute;
     background-color: #727B85;
 }
 
 .area-header-bot {
-    width: 100%;
     height: 25px;
-    margin-left: 0px;
+    top: 40px;
+    width: 100%;
+    right: 0;
+    margin-left: 200px;
     position: relative;
-    background: #F4F4F3;
+    background: #f4f4f3;
 }
 
 .area-header-downtab {
@@ -2778,26 +2804,23 @@ select {
     padding-bottom: 4px;
     padding-left: 2px;
     padding-right: 2px;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 8px 8px;
     opacity: 1;
     background: #727B85;
     box-sizing: border-box;
     border-width: 0px 1px 1px 1px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 .area-header-mode {
     position: absolute;
-    margin: 0 auto;
-    margin-top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 170px;
-    height: 20px;
-    border-radius: 5px;
-    background-color: #D3DCD9;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #EFEFEF;
 }
 
 .area-header-modeSub-Focus {
@@ -2827,20 +2850,17 @@ select {
 }
 
 .area-search-tab {
-    width: 100px;
-    height: 15px;
-    border-radius: 3px;
-    margin-top: 0px;
-    margin-left: 20px;
-    position: absolute;
+    height: 25px;
+    border-radius: 6px;
     background-color: #ffffff;
+    border: none;
 }
 
 .area-tab-bg-1 {
     position: relative;
     width: 200px;
     height: 25px;
-    border-radius: 0px 0px 10px 0px;
+    border-radius: 0px 0px 10px 10px;
     opacity: 1;
     background-color: #ffffff;
 }
@@ -2849,7 +2869,7 @@ select {
     position: relative;
     width: 200px;
     height: 25px;
-    border-radius: 0px 0px 10px 0px;
+    border-radius: 0px 0px 10px 10px;
     opacity: 1;
     background-color: #d3dcd9;
 }
@@ -3160,6 +3180,11 @@ select {
     padding-right: 3rem;
 }
 
+.px-24 {
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
 .py-16 {
     padding-top: 4rem;
     padding-bottom: 4rem;
@@ -3197,6 +3222,10 @@ select {
     padding-top: 0.5rem;
 }
 
+.pl-2 {
+    padding-left: 0.5rem;
+}
+
 .pl-3 {
     padding-left: 0.75rem;
 }
@@ -3231,6 +3260,14 @@ select {
 
 .pl-10 {
     padding-left: 2.5rem;
+}
+
+.pl-24 {
+    padding-left: 6rem;
+}
+
+.pr-36 {
+    padding-right: 9rem;
 }
 
 .pt-12 {
@@ -3857,6 +3894,10 @@ select {
     background-color: rgba(228, 228, 231, var(--tw-bg-opacity));
 }
 
+.hover\:bg-gray-400:hover {
+    background-color: #b3bdba;
+}
+
 .hover\:bg-emerald-500:hover {
     --tw-bg-opacity: 1;
     background-color: rgba(16, 185, 129, var(--tw-bg-opacity));;
@@ -4227,8 +4268,8 @@ select {
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-box-shadow, -webkit-transform;
     -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-transition-duration: 150ms;
-    transition-duration: 150ms;
+    -webkit-transition-duration: 300ms;
+    transition-duration: 300ms;
 }
 
 .ease-linear {

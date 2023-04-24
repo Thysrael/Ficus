@@ -1,14 +1,8 @@
 <template>
-  <div class="searchBar">
-    <input class="area-search-tab" placeholder="全局搜索"/>
-    <button style="margin-left: 5px">
+  <div class="searchBar content-center items-center w-full mt-2 pl-2">
+    <button class="searchBtn">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-           width="10" height="10" viewBox="0 0 10 10">
-        <defs>
-          <clipPath id="master_svg0_71_1377">
-            <rect x="0" y="0" width="10" height="10" rx="0"/>
-          </clipPath>
-        </defs>
+           width="15" height="15" viewBox="0 0 10 10">
         <g style="mix-blend-mode:passthrough" clip-path="url(#master_svg0_71_1377)">
           <g style="mix-blend-mode:passthrough">
             <path
@@ -18,6 +12,11 @@
         </g>
       </svg>
     </button>
+    <div class="pl-2 w-full">
+      <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
+             style="font-family: 'Noto Sans SC'; font-weight: lighter"
+             placeholder="全局搜索..." type="text"/>
+    </div>
   </div>
 </template>
 
@@ -31,10 +30,20 @@ export default {
 .searchBar {
   position: absolute;
   display: flex;
-  left: 0px;
-  top: 0px;
-  width: 130px;
-  height: 15px;
   opacity: 1;
+}
+
+.searchBtn:hover path {
+  fill: #42b983;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
+
+.searchBtn:active path {
+  fill: #19734b;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
 }
 </style>

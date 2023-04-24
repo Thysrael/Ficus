@@ -1444,6 +1444,11 @@
   resolved "https://mirrors.cloud.tencent.com/npm/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
+"@popperjs/core@^2.11.7":
+  version "2.11.7"
+  resolved "https://mirrors.cloud.tencent.com/npm/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
+  integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
+
 "@rollup/pluginutils@^5.0.2":
   version "5.0.2"
   resolved "https://mirrors.cloud.tencent.com/npm/@rollup/pluginutils/-/pluginutils-5.0.2.tgz#012b8f53c71e4f6f9cb317e311df1404f56e7a33"
@@ -5893,10 +5898,10 @@ ficus-editor@^1.0.24:
   dependencies:
     diff-match-patch "^1.0.5"
 
-ficus-mindmap@0.6.10:
-  version "0.6.10"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.10.tgz#131bdba0b8f05d779996c691d9c98ce9cfbe88cb"
-  integrity sha512-z2php4M8rDt/g5K58raj2bUWyW9cW8uRXRzU4iGAi/OXBqVTF5BLXZfhdkH/UxaDjCdQ/IQdTENTjMvEjzTWkA==
+ficus-mindmap@0.6.12:
+  version "0.6.12"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.12.tgz#9741e1e6797b2c1c3f7b2401dc0c7d1d532eed16"
+  integrity sha512-ND0PCgcyMkiNtDL1w6PPawawq6VKkvK7JZgHnNaopjTEFY4I9VysTqtW2eXdI7TuD9UAZy94dBnXO/QcTMMnbg==
   dependencies:
     d3-drag "^2.0.0"
     d3-interpolate "^2.0.1"
