@@ -55,6 +55,7 @@
 
 <script>
 import { ref } from 'vue'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'PropBar',
@@ -63,6 +64,10 @@ export default {
     const resTags = ref(['a', 'b', 'c'])
     const keyWord = ref('')
     const showM = ref(false)
+
+    bus.on('editTags', (array) => {
+      tags.value = array
+    })
 
     function handleSearch () {
       showM.value = true

@@ -129,8 +129,8 @@ app.on('ready', async () => {
     }
   })
 
-  ipcMain.handle('getLinksAndTags', async (e, file, projPath) => {
-    return getLinksAndTags(file, projPath)
+  ipcMain.handle('getLinksAndTags', async (e, file) => {
+    return await getLinksAndTags(file)
   })
 
   ipcMain.handle('refresh', async (e, projPath) => {

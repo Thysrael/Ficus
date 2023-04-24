@@ -54,26 +54,33 @@ export default {
       name: '文件',
       children: [{
         name: '新建文件'
-      }, {
-        name: '新建窗口'
-      }, {
+      },
+      // {
+      //   name: '新建窗口'
+      // },
+      {
         name: '打开文件'
       }, {
         name: '打开文件夹'
-      }, {
-        name: '打开最近文件'
-      }, {
-        name: '选择编码重新打开'
-      }, {
+      },
+      //   {
+      //   name: '打开最近文件'
+      // },
+      // {
+      //   name: '选择编码重新打开'
+      // },
+      {
         name: '保存'
       }, {
         name: '另存为'
-      }, {
-        name: '保存全部打开的文件'
-      }, {
+      },
+      // {
+      //   name: '保存全部打开的文件'
+      // },
+      {
         name: '关闭当前标签页'
       }, {
-        name: '重命名'
+        name: '重命名当前文件'
       }, {
         name: '导出文件',
         children: [{
@@ -106,15 +113,20 @@ export default {
         name: '粘贴'
       }, {
         name: '粘贴为纯文本'
-      }, {
-        name: '选择'
-      }, {
-        name: '搜索'
-      }, {
+      },
+      //   {
+      //   name: '选择'
+      // },
+      // {
+      //   name: '搜索'
+      // },
+      {
         name: '删除'
-      }, {
-        name: '排版优化'
-      }]
+      }
+        // {
+        //   name: '排版优化'
+        // }
+      ]
     }, {
       name: '段落',
       children: [{
@@ -150,20 +162,18 @@ export default {
       name: '格式',
       children: [{
         name: '加粗'
-      }, {
-        name: '下划线'
-      }, {
+      },
+      //   {
+      //   name: '下划线'
+      // },
+      {
         name: '斜体'
       }, {
         name: '删除线'
       }, {
         name: '行内代码'
       }, {
-        name: '代码块'
-      }, {
         name: '行内数学公式'
-      }, {
-        name: '数学公式块'
       }, {
         name: '高亮'
       }, {
@@ -217,6 +227,7 @@ export default {
     const thirdItems = ref([{}])
     const thirdShow = ref(false)
     const menu = ref(false)
+    let isTypeWriteMode = false
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
     let range = ''
@@ -368,6 +379,18 @@ export default {
           case '打开文件':
             await openMyFile()
             break
+          case '退出':
+            await window.electronAPI.closeWindow()
+            break
+          case '保存':
+            bus.emit('writeBackForMenu')
+            break
+          case '关闭当前标签页':
+            bus.emit('closeCurTab')
+            break
+          case '重命名当前文件':
+            bus.emit('renameCurTabForMenu')
+            break
           case '复制为纯文本':
             bus.emit('copySelectedText', { type: 'text' })
             break
@@ -376,6 +399,12 @@ export default {
             break
           case '复制为 HTML 代码':
             bus.emit('copySelectedText', { type: 'html' })
+            break
+          case '粘贴':
+            navigator.clipboard.readText().then(text => {
+              console.log(typeof text)
+              bus.emit('insertText', { content: text })
+            })
             break
           case '一级标题':
             bus.emit('addBlock', { type: 'heading-1' })
@@ -440,11 +469,18 @@ export default {
           case '超链接':
             bus.emit('addFormat', { type: 'link' })
             break
-          case '图片':
+          case '图像':
             bus.emit('addFormat', { type: 'img-link' })
             break
-          case '文件引用':
+          case '引用文件':
             bus.emit('addFormat', { type: 'file-link' })
+            break
+          case '清楚样式':
+            bus.emit('removeFormat')
+            break
+          case '打字机模式':
+            isTypeWriteMode = !isTypeWriteMode
+            bus.emit('setTypewriterMode', { enable: isTypeWriteMode })
             break
           case '导出HTML文件':
             bus.emit('exportHTML')
@@ -460,7 +496,9 @@ export default {
       menu.value = false
       const selection = window.getSelection()
       selection.removeAllRanges()
-      selection.addRange(range)
+      if (range instanceof Range) {
+        selection.addRange(range)
+      }
     }
 
     bus.on('showMenu', () => {

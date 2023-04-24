@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
@@ -115,6 +115,14 @@ export default {
     }
   },
   setup (props) {
+    onMounted(() => {
+      setInterval(() => {
+        if (curObj.value !== undefined && content.value !== curObj.value.content) {
+          writeBack()
+        }
+      }, 30000)
+    })
+
     const dataManager = new DataManager()
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
@@ -212,10 +220,8 @@ export default {
 
     // MindUI接口，MindUI实时将工作区修改保存到json中
     bus.on('saveChangeMindUI', (json) => {
-      console.log(json)
       dataManager.updateTreeFromMindJson(json)
       content.value = dataManager.getTreeMarkdown()
-      console.log('树操作之后更新的json: ', content.value)
       const res = dataManager.getTreeOutline()
       bus.emit('openOutLine', res.children)
     })
@@ -223,12 +229,28 @@ export default {
     // 后端接口，将前端的content写回后端文件中，并且更新前端容器
     function writeBack () {
       if (curObj.value.path) {
-        // electron.saveFile(curObj.value.path) // 接口
         console.log('我要保存文件了', content.value)
         window.electronAPI.saveFile(curObj.value.path, content.value)
         curObj.value.content = content.value
       }
     }
+
+    // 暴露给菜单栏writeBack接口
+    bus.on('writeBackForMenu', () => {
+      writeBack()
+    })
+
+    // 暴露给菜单栏关闭当前标签页接口
+    bus.on('closeCurTab', () => {
+      bus.emit('deleteTab', curObj.value)
+    })
+    // 暴露给菜单栏重命名当前文件
+    bus.on('renameCurTabForMenu', () => {
+      if (openFiles.value.length === 0) {
+        return
+      }
+      bus.emit('showDialogForRenameFile', curObj.value)
+    })
 
     // 返回父对象
     function findFather (file, father) {
@@ -404,6 +426,26 @@ export default {
       console.log(dataManager.getGraphLinks())
       bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
       bus.emit('chooseToShowPage', 3)
+    })
+
+    async function getLinks () {
+      const cur = JSON.stringify(curObj.value)
+      const obj = await window.electronAPI.getLinksAndTags(cur)
+      bus.emit('editCites', obj.aerials)
+    }
+
+    async function getTags () {
+      const cur = JSON.stringify(curObj.value)
+      const obj = await window.electronAPI.getLinksAndTags(cur)
+      bus.emit('editTags', obj.tags)
+    }
+
+    bus.on('changeToRelation', () => {
+      getLinks()
+    })
+
+    bus.on('changeToTag', () => {
+      getTags()
     })
 
     return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }
