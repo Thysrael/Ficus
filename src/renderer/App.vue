@@ -214,7 +214,10 @@ export default {
 
     bus.on('openDir', (obj) => {
       data.value = [obj]
-      console.log(data.value)
+    })
+
+    bus.on('closeDir', () => {
+      data.value.length = 0
     })
 
     function buildNewFileFromOld (father, curObj) {

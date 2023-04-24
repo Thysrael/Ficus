@@ -212,10 +212,11 @@ export default {
     bus.on('saveChange', (obj) => {
       content.value = obj.content
       wordCnt.value = obj.wordCnt
-      // console.log('get change: ', content.value, wordCnt.value)
       dataManager.updateTreeFromMarkdown(content.value)
+      console.log('!!!!!cjj!!!!!')
       const res = dataManager.getTreeOutline()
       bus.emit('openOutLine', res.children)
+      bus.emit('getInfoOfFile', obj)
     })
 
     // MindUI接口，MindUI实时将工作区修改保存到json中
@@ -252,6 +253,27 @@ export default {
       bus.emit('showDialogForRenameFile', curObj.value)
     })
 
+    // 暴露给菜单栏撤销
+    bus.on('undoCurTab', () => {
+      if (openFiles.value.length !== 0) {
+        dataManager.undoTree()
+        content.value = dataManager.getTreeMarkdown()
+        sendContentByMode()
+        const res = dataManager.getTreeOutline()
+        bus.emit('openOutLine', res.children)
+      }
+    })
+
+    // 暴露给菜单栏重做
+    bus.on('redoCurTab', () => {
+      if (openFiles.value.length !== 0) {
+        dataManager.redoTree()
+        content.value = dataManager.getTreeMarkdown()
+        sendContentByMode()
+        const res = dataManager.getTreeOutline()
+        bus.emit('openOutLine', res.children)
+      }
+    })
     // 返回父对象
     function findFather (file, father) {
       for (let i = 0; i < father.children.length; i++) {
@@ -290,6 +312,20 @@ export default {
       bus.emit('changeName', curObj.value.name)
     }
 
+    // 传参给，根据mode选择传参给哪个组件
+    function sendContentByMode () {
+      if (mode === 2) {
+        const obj = dataManager.getTreeMindJson()
+        bus.emit('sendToFicTree', obj)
+      } else if (mode >= 0) {
+        if (content.value !== undefined) {
+          bus.emit('setEditorContent', { content: content.value })
+        } else {
+          console.log('bug need fix')
+        }
+      }
+    }
+
     // TextUI接口，更新textUI的展示内容
     bus.on('sendToTextUI', (obj) => {
       // 写回content，有可能路径不存在的
@@ -307,18 +343,7 @@ export default {
       }
       updateBread()
       // 传参给textUI，根据mode选择传参给哪个组件
-      if (mode === 2) {
-        const obj = dataManager.getTreeMindJson()
-        console.log('正在传参：', obj)
-        bus.emit('sendToFicTree', obj)
-      } else if (mode >= 0) {
-        console.log('正在传参：', content.value, typeof content.value)
-        if (content.value !== undefined) {
-          bus.emit('setEditorContent', { content: content.value })
-        } else {
-          console.log('bug need fix')
-        }
-      }
+      sendContentByMode()
     })
 
     // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
@@ -352,15 +377,15 @@ export default {
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', (obj) => {
-      if (mode === -1) {
-        // 正在展示欢迎界面，默认进入纯文本模式
-        bus.emit('changeMode', 0)
-      }
       if (contain(obj)) {
         console.log('already open!')
       } else {
         openFiles.value.push(obj)
         update()
+      }
+      if (mode === -1) {
+        // 正在展示欢迎界面，默认进入纯文本模式
+        bus.emit('changeMode', 0)
       }
       bus.emit('sendToTextUI', obj)
     })
@@ -399,6 +424,10 @@ export default {
     }
 
     bus.on('changeMode', (value) => {
+      if (openFiles.value.length === 0 && value !== -1) {
+        mode = -1
+        return
+      }
       if (mode !== value) {
         // 模式改变 0表示纯文本，1表示源码，2表示树形
         if (value === 2) {
