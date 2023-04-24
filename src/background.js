@@ -26,8 +26,8 @@ import {
 import path from 'path'
 import * as url from 'url'
 
-// const { initFromEmptyFolder } = require('./main/filesystem/database')
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const isOSx = process.platform === 'darwin'
 let ficusPath = ''
 
 // Scheme must be registered before the app is ready
@@ -205,7 +205,8 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('newProject', async (e, data) => {
-    return await initFromFolder(data)
+    const relation = await initFromFolder(data)
+    return relation
   })
   ipcMain.handle('dialog:openFile', async (e) => {
     const fileObjs = await getFileFromUser()
@@ -226,29 +227,23 @@ app.on('ready', async () => {
     saveToTarget(content, projPath)
   })
   const win = await createWindow()
-  // createWindow()
-  // const win = BrowserWindow.getFocusedWindow()
   ipcMain.handle('window-min', () => {
     win.minimize()
   })
   ipcMain.handle('window-max', () => {
-    if (win.isMaximized()) {
-      win.restore()
+    if (isOSx) {
+      if (win.isFullScreen()) {
+        win.setFullScreen(false)
+      } else {
+        win.setFullScreen(true)
+      }
     } else {
-      win.maximize()
+      if (win.isMaximized()) {
+        win.restore()
+      } else {
+        win.maximize()
+      }
     }
-    // if (win.isFullScreen()) {
-    //   win.setFullScreen(false)
-    // } else {
-    //   win.setFullScreen(true)
-    // }
-    /* maxOS下可用的全屏幕放大缩小
-    if (win.isFullScreen()) {
-      win.setFullScreen(false)
-    } else {
-      win.setFullScreen(true)
-    }
-    */
   })
   ipcMain.handle('window-close', () => {
     win.close()
