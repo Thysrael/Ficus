@@ -4,6 +4,12 @@ export default function defineRAPI (vditor) {
   /** 设置编辑器内容 **/
   bus.on('setEditorContent', ({ content }) => {
     vditor.setValue(content)
+    // 同时返回新文本的内容、长度以及行数
+    bus.emit('saveChange', {
+      content: content,
+      wordCnt: content.length,
+      lineCnt: content.split('\n').length - 1
+    })
   })
 
   /** 修改编辑模式 **/
