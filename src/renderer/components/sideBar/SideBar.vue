@@ -211,6 +211,7 @@ export default {
     const isFile = ref(0)
     const titles = ref([]) // root的children
     const selected = ref([]) // 存储被选中的对象
+    const copied = ref([]) // 存储被复制的对象
     const store = useStore()
     const TabXY = ref({ x: -1, y: -1 })
     const { proxy, ctx } = getCurrentInstance()
@@ -269,9 +270,31 @@ export default {
       titles.value = obj
     })
 
+    bus.on('copyFileOrFolder', (obj) => {
+      // 右键一个对象，如果对象已经在selectedList中，则不改变，如果不在，则新建一个selected
+      let index = -1
+      for (let i = 0; i < selected.value.length; i++) {
+        if (obj.path === selected.value[i].path) {
+          index = i
+          break
+        }
+      }
+      if (index === -1) {
+        selected.value.length = 0
+        selected.value.push(obj)
+        console.log('newSelected ', selected.value)
+      }
+      copied.value.length = 0
+      for (let i = 0; i < selected.value.length; i++) {
+        copied.value.push(selected.value[i])
+      }
+      console.log('copy: ', copied.value[0])
+    })
+
     function handleNew (type) {
+      console.log('新建文件！', props.data.length)
       if (props.data.length !== 0) {
-        bus.emit('showDialog', { type, father: props.data[0] })
+        bus.emit('showDialogForNewFile', { type, father: props.data[0] })
       }
     }
     function getTags () {
@@ -306,6 +329,7 @@ export default {
         // 清空selectedList
         // 同步openFileList 【策略：path相同的修改为文件夹中给的对象，不同的暂不处理】
       }
+      bus.emit('updateOpenFiles')
     }
 
     function handleCloseWorkArea () {

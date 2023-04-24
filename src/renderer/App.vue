@@ -63,6 +63,7 @@ export default {
   name: 'App',
   components: { SideBar, MyHeader, TextArea },
   setup () {
+    let pathSeq = ''
     const data = ref([])
     const source = ref({}) // 源对象
     const dst = ref({}) // 目标对象
@@ -80,7 +81,8 @@ export default {
 
     console.log(proxy, _this)
 
-    onMounted(() => {
+    onMounted(async () => {
+      pathSeq = await window.electronAPI.getPathSep()
       window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight + 'px'
       })
@@ -262,7 +264,7 @@ export default {
       paths.push(curObj.name)
       curObj.absolutePath = paths
       // curObj.path = path.join(father.path, curObj.name)
-      curObj.path = father.path + '\\' + curObj.name
+      curObj.path = father.path + pathSeq + curObj.name
       if (curObj.type === 'file') {
         window.electronAPI.saveFile(curObj.path, curObj.content)
       } else if (curObj.type === 'folder') {
@@ -300,7 +302,7 @@ export default {
         const obj = {
           name: fileName.value,
           // path: path.join(father.value.path, fileName.value),
-          path: father.value.path + '\\' + fileName.value,
+          path: father.value.path + pathSeq + fileName.value,
           children: [],
           curChild: -1,
           content: '',
@@ -339,7 +341,7 @@ export default {
         obj.absolutePath.pop()
         obj.absolutePath.push(fileName.value)
         // obj.path = path.join(father.path, fileName.value)
-        obj.path = father.path + '\\' + fileName.value
+        obj.path = father.path + pathSeq + fileName.value
         const newPath = obj.path
         window.electronAPI.renameFileOrFolder(newPath, oldPath)
         if (obj.type === 'folder') {
@@ -357,7 +359,7 @@ export default {
 
     function changePathAfterFatherRename (obj, father) {
       // obj.path = path.join(father.path, obj.name)
-      obj.path = father.path + '\\' + obj.name
+      obj.path = father.path + pathSeq + obj.name
       const last = obj.absolutePath.pop()
       obj.absolutePath.pop()
       obj.absolutePath.push(father.name)
@@ -376,6 +378,21 @@ export default {
         renameFile()
       }
     }
+
+    bus.on('CopyPartPath', (obj) => {
+      let i = 0
+      for (; i < obj.absolutePath.length; i++) {
+        if (obj.absolutePath[i] === data.value[0].name) {
+          break
+        }
+      }
+      let s = data.value[0].name
+      i++
+      for (; i < obj.absolutePath.length; i++) {
+        s = s + pathSeq + obj.absolutePath[i]
+      }
+      navigator.clipboard.writeText(s)
+    })
 
     return {
       data,

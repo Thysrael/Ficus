@@ -73,11 +73,11 @@
           <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">粘贴</v-contextmenu-item>
         </div>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">剪切</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">复制</v-contextmenu-item>
-        <v-contextmenu-item @click="handleDelete" class="hover:bg-gray-200 text-gray-700">删除</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">重命名</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'">复制路径</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'">复制相对路径</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleCopyFileOrFolder">复制</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete">删除</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename">重命名</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type ==='file'" @click="handleCopyAbsolutePath">复制路径</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
     <ul v-if="hasChildren && expanded" class="pl-4">
@@ -211,7 +211,6 @@ export default {
     }
 
     function handleRightClick (e) {
-      // 右键一个对象，如果对象已经在selectedList中，则不改变，如果不在，则新建一个selected
       TabXY.value = { x: e.clientX, y: e.clientY }
       store.dispatch('updateXY', TabXY.value)
     }
@@ -238,6 +237,22 @@ export default {
       bus.emit('removeObjFromData', props.item)
     }
 
+    function handleCopyAbsolutePath () {
+      navigator.clipboard.writeText(props.item.path)
+    }
+
+    function handleCopyPartPath () {
+      bus.emit('CopyPartPath', props.item)
+    }
+
+    function handleCopyFileOrFolder () {
+      bus.emit('copyFileOrFolder', props.item)
+    }
+
+    function handleRename () {
+      bus.emit('showDialogForRenameFile', props.item)
+    }
+
     return {
       expanded,
       hasChildren,
@@ -253,7 +268,11 @@ export default {
       handleNew,
       handleDelete,
       popoverShow,
-      togglePopover
+      togglePopover,
+      handleRename,
+      handleCopyAbsolutePath,
+      handleCopyPartPath,
+      handleCopyFileOrFolder
     }
   }
 }
