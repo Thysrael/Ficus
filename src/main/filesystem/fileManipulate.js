@@ -214,7 +214,19 @@ exports.getFolderFromUser = async () => {
 
 // 读取文件内容:
 exports.readFile = (filePath) => {
-  return fs.readFileSync(filePath).toString()
+  if (fs.existsSync(filePath)) {
+    return { error: 0, content: fs.readFileSync(filePath).toString() }
+  } else {
+    dialog.showMessageBox({
+      type: 'error', // 图标类型
+      title: '错误', // 信息提示框标题
+      message: '文件路径不存在', // 信息提示框内容
+      buttons: ['确定']// 下方显示的按钮
+      // cancelId:2//点击x号关闭返回值
+    }).then(() => {
+    })
+    return { error: -1, content: '' }
+  }
 }
 
 // 保存文件：

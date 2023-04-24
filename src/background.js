@@ -10,7 +10,8 @@ import {
   newFileFromSidebar, newFolderFromDialog, newFolderFromSidebar, renameFileOrFolder,
   saveFile,
   saveToTarget,
-  saveToPDFTarget
+  saveToPDFTarget,
+  readFile
 } from './main/filesystem/fileManipulate'
 import {
   addTag2File,
@@ -127,6 +128,11 @@ app.on('ready', async () => {
     } catch (error) {
       console.log(error)
     }
+  })
+
+  ipcMain.handle('readFile', (e, filePath) => {
+    const content = readFile(filePath)
+    return content
   })
 
   ipcMain.handle('getLinksAndTags', async (e, file) => {
