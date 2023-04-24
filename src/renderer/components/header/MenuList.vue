@@ -73,8 +73,6 @@ export default {
       }, {
         name: '关闭当前标签页'
       }, {
-        name: '关闭当前窗口'
-      }, {
         name: '重命名'
       }, {
         name: '导出文件',
@@ -358,11 +356,20 @@ export default {
           case '新建文件':
             await newFile()
             break
-          case '新建项目':
+          case '打开文件夹':
             await newMyProject()
             break
-          case '打开本地文件':
+          case '打开文件':
             await openMyFile()
+            break
+          case '复制为纯文本':
+            bus.emit('copySelectedText', { type: 'text' })
+            break
+          case '复制为 Markdown Text':
+            bus.emit('copySelectedText', { type: 'md' })
+            break
+          case '复制为 HTML 代码':
+            bus.emit('copySelectedText', { type: 'html' })
             break
           case '一级标题':
             bus.emit('addBlock', { type: 'heading-1' })
