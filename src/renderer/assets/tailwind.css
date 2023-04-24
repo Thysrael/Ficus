@@ -2850,13 +2850,10 @@ select {
 }
 
 .area-search-tab {
-    width: 100px;
-    height: 15px;
-    border-radius: 3px;
-    margin-top: 0px;
-    margin-left: 20px;
-    position: absolute;
+    height: 25px;
+    border-radius: 6px;
     background-color: #ffffff;
+    border: none;
 }
 
 .area-tab-bg-1 {
@@ -3895,6 +3892,10 @@ select {
 .hover\:bg-gray-200:hover {
     --tw-bg-opacity: 1;
     background-color: rgba(228, 228, 231, var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-400:hover {
+    background-color: #b3bdba;
 }
 
 .hover\:bg-emerald-500:hover {

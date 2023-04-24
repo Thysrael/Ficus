@@ -33,8 +33,8 @@
     </ol>
   </div>
     <v-contextmenu ref="contextmenu">
-      <v-contextmenu-item @click="closeTab">关闭标签页</v-contextmenu-item>
-      <v-contextmenu-item @click="closeOtherTab">关闭其他标签页</v-contextmenu-item>
+      <v-contextmenu-item @click="closeTab" class="hover:bg-gray-200 text-gray-700">关闭标签页</v-contextmenu-item>
+      <v-contextmenu-item @click="closeOtherTab" class="hover:bg-gray-200 text-gray-700">关闭其他标签页</v-contextmenu-item>
     </v-contextmenu>
 
 </template>

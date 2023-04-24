@@ -140,17 +140,17 @@
   </div>
   <v-contextmenu ref="contextmenu">
     <div v-if="data.length !== 0 && isFile === 0">
-      <v-contextmenu-item @click="handleNew('file')">新建文件</v-contextmenu-item>
-      <v-contextmenu-item @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
-      <v-contextmenu-item >粘贴</v-contextmenu-item>
-      <v-contextmenu-item >关闭工作区</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('file')">新建文件</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >粘贴</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >关闭工作区</v-contextmenu-item>
     </div>
 <!--    <div v-if="isFile === 2">-->
-<!--      <v-contextmenu-item >新建段落</v-contextmenu-item>-->
-<!--      <v-contextmenu-item >高亮当前标题</v-contextmenu-item>-->
-<!--      <v-contextmenu-item >折叠所有章节</v-contextmenu-item>-->
-<!--      <v-contextmenu-item >折叠所有章节</v-contextmenu-item>-->
-<!--      <v-contextmenu-item >查找</v-contextmenu-item>-->
+<!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >新建段落</v-contextmenu-item>-->
+<!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >高亮当前标题</v-contextmenu-item>-->
+<!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >折叠所有章节</v-contextmenu-item>-->
+<!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >折叠所有章节</v-contextmenu-item>-->
+<!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >查找</v-contextmenu-item>-->
 <!--    </div>-->
   </v-contextmenu>
 

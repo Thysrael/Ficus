@@ -57,25 +57,25 @@
       </div>
     </div>
     <div id="popoverRef" v-bind:class="{'hidden': !popoverShow, 'block': popoverShow}"
-         class="items-center content-center transition-all ease-linear bg-white border-0 shadow-sm mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg"
+         class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
          style="position: absolute; font-family: 'Noto Sans SC'; left: 30px">
       <div class="px-3 py-2">
         {{item.name}}
       </div>
     </div>
     <div>
-      <v-contextmenu ref="contextmenu">
+      <v-contextmenu ref="contextmenu" >
         <div v-if="item.type === 'folder'">
-          <v-contextmenu-item @click="handleNew('file')">新建文件</v-contextmenu-item>
-          <v-contextmenu-item @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
-          <v-contextmenu-item>粘贴</v-contextmenu-item>
+          <v-contextmenu-item @click="handleNew('file')" class="hover:bg-gray-200 text-gray-700">新建文件</v-contextmenu-item>
+          <v-contextmenu-item @click="handleNew('folder')" class="hover:bg-gray-200 text-gray-700">新建文件夹</v-contextmenu-item>
+          <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">粘贴</v-contextmenu-item>
         </div>
-        <v-contextmenu-item>剪切</v-contextmenu-item>
-        <v-contextmenu-item>复制</v-contextmenu-item>
-        <v-contextmenu-item @click="handleDelete">删除</v-contextmenu-item>
-        <v-contextmenu-item>重命名</v-contextmenu-item>
-        <v-contextmenu-item v-if="item.type==='file'">复制路径</v-contextmenu-item>
-        <v-contextmenu-item v-if="item.type==='file'">复制相对路径</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">剪切</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">复制</v-contextmenu-item>
+        <v-contextmenu-item @click="handleDelete" class="hover:bg-gray-200 text-gray-700">删除</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">重命名</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'">复制路径</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
     <ul v-if="hasChildren && expanded" class="pl-4">
