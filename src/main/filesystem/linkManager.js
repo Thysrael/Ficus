@@ -1,3 +1,4 @@
+const path = require('path')
 const { getLinksInFile } = require('../../common/parseLinks')
 const { readFileSync } = require('fs-extra')
 
@@ -34,8 +35,12 @@ class LinkManager {
     }
   }
 
-  getAllTags () {
-    return [...this.tagToFiles.keys()]
+  findTags (tagname = '') {
+    const res = [...this.tagToFiles.keys()].filter(name => name.indexOf(tagname) === 0)
+    if (tagname && !res.includes(tagname)) {
+      res.push(tagname)
+    }
+    return res
   }
 
   getFileTags (filepath) {
@@ -44,6 +49,53 @@ class LinkManager {
     } else {
       console.log('Unknown File Path ' + filepath)
       return []
+    }
+  }
+
+  getCiteInfo (filepath) {
+    let cited = []
+    let citing = []
+    if (this.citingMap.has(filepath)) {
+      citing = this.citingMap.get(filepath)
+    }
+    if (this.citedMap.has(filepath)) {
+      cited = this.citedMap.get(filepath)
+    }
+    return { citing, cited }
+  }
+
+  getLinks () {
+    const relations = []
+    for (const [tagName, attach] of this.tagToFiles.entries()) {
+      relations.push({
+        tagName,
+        attach
+      })
+    }
+
+    const aerials = []
+    for (const [citing, citeds] of this.citingMap.entries()) {
+      for (const cited of citeds) {
+        aerials.push({
+          name: cited.name,
+          sourcePath: citing,
+          targetPath: cited.path
+        })
+      }
+    }
+    return { relations, aerials }
+  }
+
+  updateFile (filepath) {
+    try {
+      const content = readFileSync(filepath).toString()
+      const { aerials, tags } = getLinksInFile(content)
+      this.delFile(filepath)
+      this.addFileTags(filepath, tags)
+      this.addFileAerials(filepath, aerials)
+    } catch (e) {
+      console.log(e)
+      console.log('INVALID FILE PATH ' + filepath)
     }
   }
 
@@ -57,13 +109,35 @@ class LinkManager {
     }
   }
 
-  addFileAerials (citingPath, citedPaths) {
-    this.citingMap.set(citingPath, citedPaths)
-    for (const cited of citedPaths) {
-      if (!this.citedMap.has(cited)) {
-        this.citedMap.set(cited, [])
+  delFile (filepath) {
+    if (this.fileToTags.has(filepath)) {
+      for (const tag of this.fileToTags.get(filepath)) {
+        const fileList = this.tagToFiles.get(tag)
+        fileList.splice(fileList.indexOf(filepath), 1)
       }
-      this.citedMap.get(cited).push(citingPath)
+    }
+    this.fileToTags.delete(filepath)
+    this.citingMap.delete(filepath)
+  }
+
+  addFileAerials (citingPath, citeds) {
+    // newCiteds 储存绝对路径后的数据
+    const newCiteds = []
+    for (const cited of citeds) {
+      newCiteds.push({
+        name: cited.name,
+        path: path.resolve(citingPath, '..', cited.path)
+      })
+    }
+    this.citingMap.set(citingPath, newCiteds)
+    for (const cited of citeds) {
+      if (!this.citedMap.has(cited.path)) {
+        this.citedMap.set(cited.path, [])
+      }
+      this.citedMap.get(cited.path).push({
+        name: cited.name,
+        path: citingPath
+      })
     }
   }
 }
