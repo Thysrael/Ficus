@@ -122,7 +122,7 @@ export default {
   setup (props) {
     onMounted(() => {
       setInterval(() => {
-        if (curObj.value !== undefined && content.value !== curObj.value.content) {
+        if (curObj.value !== undefined) {
           writeBack()
         }
       }, 30000)
@@ -131,8 +131,7 @@ export default {
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
-      path: '',
-      content: '未打开任何文件'
+      path: ''
     }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
     const wordCnt = ref(0) // 当前工作区字符数
@@ -265,7 +264,6 @@ export default {
       if (curObj.value.path) {
         console.log('我要保存文件了', content.value)
         window.electronAPI.saveFile(curObj.value.path, content.value)
-        curObj.value.content = content.value
       }
     }
 
@@ -360,10 +358,16 @@ export default {
     }
 
     // TextUI接口，更新textUI的展示内容
-    bus.on('sendToTextUI', (obj) => {
+    bus.on('sendToTextUI', async (obj) => {
       // 写回content，有可能路径不存在的
       writeBack()
-      content.value = obj.content
+      const res = await window.electronAPI.readFile(obj.path)
+
+      if (res.error === -1) {
+        bus.emit('deleteTab', obj)
+        return
+      }
+      content.value = res.content
       curObj.value = obj
       if (curObj.value.name !== '') {
         // const c = toRef(content.value)
