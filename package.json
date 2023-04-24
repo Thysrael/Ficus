@@ -17,6 +17,7 @@
     },
     "main": "background.js",
     "dependencies": {
+        "@popperjs/core": "^2.11.7",
         "@tailwindcss/forms": "0.2.1",
         "assert": "^2.0.0",
         "chai": "^4.3.7",

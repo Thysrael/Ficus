@@ -3,7 +3,7 @@
     <div v-if="showPage === 0">
       我是欢迎界面！
     </div>
-    <TextUI style="width: 100%;height: 100%;position: relative" v-show="showPage === 1"></TextUI>
+    <TextUI style="width: 100%; height: 100%; position: relative; top: 50px" v-show="showPage === 1"></TextUI>
     <FicTree v-show="showPage === 2" style="width: 100%; height: 700px; position: relative; overflow: auto"/>
     <FicGraph v-show="showPage === 3" style="width: 100%; height: 700px; position: relative; overflow: auto"></FicGraph>
     <div class="littleInformation">

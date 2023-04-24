@@ -2281,7 +2281,7 @@ select {
 }
 
 .text-base {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
     font-weight: 400;
     color: #3d3d3d;
@@ -2804,14 +2804,13 @@ select {
     padding-bottom: 4px;
     padding-left: 2px;
     padding-right: 2px;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 8px 8px;
     opacity: 1;
     background: #727B85;
     box-sizing: border-box;
     border-width: 0px 1px 1px 1px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 .area-header-mode {
@@ -2864,7 +2863,7 @@ select {
     position: relative;
     width: 200px;
     height: 25px;
-    border-radius: 0px 0px 10px 0px;
+    border-radius: 0px 0px 10px 10px;
     opacity: 1;
     background-color: #ffffff;
 }
@@ -2873,7 +2872,7 @@ select {
     position: relative;
     width: 200px;
     height: 25px;
-    border-radius: 0px 0px 10px 0px;
+    border-radius: 0px 0px 10px 10px;
     opacity: 1;
     background-color: #d3dcd9;
 }

@@ -10,7 +10,7 @@
                 style="z-index: 100;
                 ft-webkit-app-region: no-drag;
                 top: 10px; left: 40px"></MenuList>
-      <BreadCrumb :items="data" style="position:absolute; margin-left: 60px;-webkit-app-region: no-drag"></BreadCrumb>
+      <BreadCrumb :items="data" style="position: relative; margin-left: 60px;-webkit-app-region: no-drag" class="items-center content-center"></BreadCrumb>
       <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
       <button @click="myMin" style="-webkit-app-region: no-drag" class="tr1-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
