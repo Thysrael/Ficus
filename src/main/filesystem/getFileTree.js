@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const linkManager = require('./linkManager')
 
 /**
  * 函数作用: 初始化
@@ -9,13 +10,13 @@ async function initFun (dirPath, folderName) {
   // 文件数组
   const res = fs.readdirSync(dirPath)
   const temp = getFileJson(res, [], dirPath)
-  const all = {
+
+  return {
     name: folderName,
     children: temp,
     type: 'folder',
     path: dirPath
   }
-  return all
 }
 
 /**
@@ -60,17 +61,20 @@ function getFileJson (res, arr, dir) {
  * @param {文件名} item
  * @returns 返回处理好的对象
  */
-function newObj (tempDir, item) {
+function newObj (objPath, item) {
   const obj = {
     name: item,
-    path: tempDir,
+    path: objPath,
     curChild: -1, // 直接填充-1即可
     offset: -1, // 直接填充-1即可
-    absolutePath: tempDir.split(path.sep)
+    absolutePath: objPath.split(path.sep)
   }
-  if (fs.statSync(tempDir).isFile()) {
+  if (fs.statSync(objPath).isFile()) {
     obj.type = 'file'
-    obj.isMd = (path.extname(tempDir) === '.md')
+    obj.isMd = (path.extname(objPath) === '.md')
+    if (obj.isMd) {
+      linkManager.addValidFilePath(objPath)
+    }
   } else {
     // 路径为文件夹
     obj.type = 'folder'

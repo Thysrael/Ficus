@@ -17,7 +17,7 @@ import {
   addTag2File,
   deleteTag,
   findTags,
-  getLinksAndTags,
+  getLinks,
   initFromFolder,
   refresh,
   sendTags
@@ -144,7 +144,7 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('getLinksAndTags', async (e, file) => {
-    return await getLinksAndTags(file)
+    return await getLinks(file)
   })
 
   ipcMain.handle('refresh', async (e, projPath) => {

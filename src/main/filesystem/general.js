@@ -1,4 +1,3 @@
-const { getTree } = require('./getFileTree')
 const path = require('path')
 const fs = require('fs-extra')
 const { dialog } = require('electron')
@@ -76,19 +75,5 @@ exports.clearDir = (folderPath) => {
 }
 
 exports.changeRelation = async (projPath) => {
-  const pathSplit = projPath.split(path.sep)
-  const folderName = pathSplit[pathSplit.length - 1]
-  const tree = await getTree(projPath, folderName)
-  const basePath = path.join(projPath, '.ficus')
-  const relationJSONPath = path.join(basePath, 'relation.json')
-  const rawData = fs.readFileSync(relationJSONPath)
-  const relationObj = JSON.parse(rawData)
-  relationObj.root.tree = tree.children.filter(item => item.name !== '.ficus')
-  fs.writeFile(relationJSONPath, JSON.stringify(relationObj), (error) => {
-    // 创建失败
-    if (error) {
-      console.log(`Fail: ${error}`)
-    }
-    // 创建成功
-  })
+  console.log('deprecated')
 }

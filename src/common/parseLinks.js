@@ -44,7 +44,8 @@ function getLinksInFile (doc) {
           .replace(/\s$/, '')
         if (lang === 'yaml') {
           try {
-            tags = yaml.load(value).tags
+            console.log(value)
+            tags = yaml.load(value).tags || []
           } catch (e) {
             tags = []
             console.log(`js-yaml parse failed: ${e}`)
