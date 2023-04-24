@@ -6,7 +6,7 @@
       @dragover.stop="dragover($event)"
       @dragstart.stop="dragstart()"
       @dragend.stop="dragend($event)"
-      draggable="true"
+      draggable="false"
       class="my-1 w-full items-center content-center"
   >
     <div
