@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <div style="font-size: 10px">
+  <div class="pl-2">
+    <div style="font-size: 12px">
       当前文档下共有 {{ tags.length }} 个标签
     </div>
-    <div class="items-center mb-8">
+    <div class="items-center content-center my-2">
       <!-- 在具体实现方面，可以通过一个 v-for 维护 -->
       <!-- 点击删除标签按钮时需要将其从标签组中删去，注意绑定事件 -->
       <span
           v-for="(tag, index) in tags"
           :key="index"
-          class="bg-SwissCoffee-500 text-gray-700 text-xs font-normal mr-2 my-1 px-3 py-1 rounded-full inline-flex items-center">
+          class="tag text-gray-700 text-xs font-normal mr-2 my-1 px-3 py-1 rounded-full inline-flex items-center">
             <svg class="w-3 h-3 mr-1" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path
                 d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/></svg>
             {{ tag }}
             <button type="button"
-                    class="inline-flex transition items-center p-1 ml-2 text-sm text-blueGray-300 bg-transparent rounded-md hover:bg-gray-200 hover:text-blueGray-800"
+                    class="inline-flex transition items-center p-1 ml-2 text-sm bg-transparent rounded-md hover:bg-gray-400 hover:text-white"
                     aria-label="Remove">
               <svg aria-hidden="true" class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"
                    xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"
@@ -28,7 +28,7 @@
           <input
               v-model="keyWord"
               type="text"
-              class="block text-gray-700 text-xs font-normal mr-2 my-2 px-3 py-1 inline-flex items-center hover:shadow-sm transition duration placeholder-gray focus:ring-0"
+              class="block text-gray-700 text-xs font-normal mr-2 my-2 px-3 py-1 inline-flex items-center hover:shadow-sm transition duration placeholder-gray focus:ring-0 rounded-md"
               id="newTag"
               placeholder="输入新标签..."
               style="width: 100px"
@@ -68,7 +68,6 @@ export default {
     bus.on('editTags', (array) => {
       tags.value = array
     })
-
     function handleSearch () {
       showM.value = true
     }
@@ -96,5 +95,12 @@ export default {
 </script>
 
 <style scoped>
+.tag {
+  background-color: #d3dcd9;
+}
 
+.tag:hover {
+  background-color: #d6ece3;
+  -webkit-transition: .3s;
+}
 </style>

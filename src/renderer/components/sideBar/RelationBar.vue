@@ -1,20 +1,15 @@
 <template>
-  <div>
-    <div style="font-size: 10px">
+  <div class="pl-2">
+    <div style="font-size: 12px">
       当前文档共引用 {{ cites.length }} 个文档
     </div>
-    <ul style="margin-top: 10px">
+    <ul style="margin-top: 15px">
       <li v-for="(item, index) in cites"
           :key="index">
-        <div style="display: flex">
+        <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-                 width="15" height="15" viewBox="0 0 15 15">
-              <defs>
-                <clipPath id="master_svg0_93_2618">
-                  <rect x="0" y="0" width="15" height="15" rx="0"/>
-                </clipPath>
-              </defs>
+                 width="20" height="20" viewBox="0 0 15 15">
               <g clip-path="url(#master_svg0_93_2618)">
                 <g>
                   <g>
@@ -49,33 +44,41 @@
               </g>
             </svg>
           </div>
-          <div>
-            <div style="font-size: 10px;">
+          <div class="pl-2 overflow-auto" id="btnRef"
+               @mouseenter="togglePopover()"
+               @mouseleave="togglePopover()">
+            <div style="font-size: 12px">
               {{ item.name }}
             </div>
-            <div style="font-size: 6px">
+            <div style="font-size: 10px; color: #666A70">
               {{ item.path }}
             </div>
           </div>
+
+          <div id="popoverRef" v-bind:class="{'hidden': !popoverShow, 'block': popoverShow}"
+               class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
+               style="position: relative; font-family: 'Noto Sans SC'; left: 30px; font-size: 12px">
+            <div class="px-3 py-2">
+              {{item.name}}
+              <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
+              {{item.path}}
+            </div>
+          </div>
+
         </div>
       </li>
     </ul>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
-    <div style="font-size: 10px">
+    <div style="font-size: 12px">
       当前文档共被 {{ quoted.length }} 个文档引用
     </div>
-    <ul style="margin-top: 10px">
+    <ul style="margin-top: 15px">
       <li v-for="(item, index) in quoted"
           :key="index">
-        <div style="display: flex">
+        <div style="display: flex" class="items-center content-center relBarItem">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-                 width="15" height="15" viewBox="0 0 15 15">
-              <defs>
-                <clipPath id="master_svg0_93_2618">
-                  <rect x="0" y="0" width="15" height="15" rx="0"/>
-                </clipPath>
-              </defs>
+                 width="20" height="20" viewBox="0 0 15 15">
               <g clip-path="url(#master_svg0_93_2618)">
                 <g>
                   <g>
@@ -110,14 +113,27 @@
               </g>
             </svg>
           </div>
-          <div>
-            <div style="font-size: 10px;">
+          <div class="pl-2 overflow-auto" id="btnRef1"
+               @mouseenter="togglePopover1()"
+               @mouseleave="togglePopover1()">
+            <div style="font-size: 12px;">
               {{ item.name }}
             </div>
-            <div style="font-size: 6px">
+            <div style="font-size: 10px; color: #666A70">
               {{ item.path }}
             </div>
           </div>
+
+          <div id="popoverRef1" v-bind:class="{'hidden': !popoverShow1, 'block': popoverShow1}"
+               class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
+               style="position: relative; font-family: 'Noto Sans SC'; left: 30px; font-size: 12px">
+            <div class="px-3 py-2">
+              {{item.name}}
+              <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
+              {{item.path}}
+            </div>
+          </div>
+
         </div>
       </li>
     </ul>
@@ -127,6 +143,7 @@
 <script>
 import { ref } from 'vue'
 import bus from 'vue3-eventbus'
+import { createPopper } from '@popperjs/core'
 
 export default {
   name: 'RelationBar',
@@ -151,6 +168,36 @@ export default {
       children: [],
       type: 'file'
     }])
+    const popoverShow = ref(false) // 显示完整文件名的弹窗
+    const popoverShow1 = ref(false) // 显示完整文件名的弹窗
+
+    function togglePopover () {
+      const btnRef = document.querySelector('#btnRef')
+      const popoverRef = document.querySelector('#popoverRef')
+      if (this.popoverShow) {
+        this.popoverShow = false
+      } else {
+        this.popoverShow = true
+        createPopper(btnRef, popoverRef, {
+          placement: 'right',
+          element: 'arrow'
+        })
+      }
+    }
+
+    function togglePopover1 () {
+      const btnRef = document.querySelector('#btnRef1')
+      const popoverRef = document.querySelector('#popoverRef1')
+      if (this.popoverShow1) {
+        this.popoverShow1 = false
+      } else {
+        this.popoverShow1 = true
+        createPopper(btnRef, popoverRef, {
+          placement: 'right',
+          element: 'arrow'
+        })
+      }
+    }
 
     bus.on('editCites', (array) => {
       cites.value = array
@@ -158,12 +205,29 @@ export default {
 
     return {
       cites,
-      quoted
+      quoted,
+      popoverShow,
+      togglePopover,
+      popoverShow1,
+      togglePopover1
     }
   }
 }
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  /* 隐藏滚动条 */
+  display: none;
+}
 
+.relBarItem {
+  font-family: "Noto Sans SC";
+}
+
+.relBarItem:hover {
+  background-color: #e3e3e3;
+  border-radius: 6px;
+  -webkit-transition: .2s;
+}
 </style>

@@ -1,19 +1,21 @@
 <template>
-  <div class="text-gray-600 text-sm" :style= "`max-width: ${windowWidth};overflow-x:auto;`">
+  <div class="text-gray-600 text-sm items-center content-center" :style= "`max-width: ${windowWidth};overflow-x:auto;`">
     <ol class="list-none p-0 inline-flex" v-if="enable">
-      <BreadCrumbItem style="margin-top: 10px"
-                      :item="(items.length === 0) ? {} : items[0]"/>
+      <BreadCrumbItem :item="(items.length === 0) ? {} : items[0]"/>
     </ol>
-    <div v-if="!enable" style="margin-top: 10px;width: 50px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+    <div v-if="!enable" style="width: 50px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+         class="items-center content-center">
       {{ curName }}
     </div>
-    <div v-if="show" class="area-header-downtab"
+    <div v-if="show" style="position:relative" class="mt-20 shadow-sm"
          tabindex="0"
          @blur="lossFocus" ref="myDiv">
-      <ol>
+      <ol class="area-header-downtab shadow-sm">
         <li v-for="(child, index) in curFocus.children" :key="index"
             @click="changeTab(child, index)"
-        >{{ child.name }}
+            class="breadCrumbChild px-3"
+        >
+          {{ child.name }}
         </li>
       </ol>
     </div>
@@ -107,5 +109,21 @@ export default {
 ::-webkit-scrollbar {
   /* 隐藏滚动条 */
   display: none;
+}
+
+.breadCrumbChild:hover {
+  background-color: #596067;
+  color: #AAAAAA;
+  border-radius: 8px;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
+}
+
+.breadCrumbChild:active {
+  background-color: #3b4044;
+  color: #AAAAAA;
+  border-radius: 8px;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
 }
 </style>

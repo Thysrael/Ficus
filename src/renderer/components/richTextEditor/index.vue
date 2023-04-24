@@ -28,7 +28,7 @@ export default {
       const options =
       {
         // 编辑器高度
-        height: '90%',
+        height: '100%',
         // 初始模式（所见即所得）
         mode: 'wysiwyg',
         // 缓存设置

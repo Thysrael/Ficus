@@ -17,6 +17,7 @@
     },
     "main": "background.js",
     "dependencies": {
+        "@popperjs/core": "^2.11.7",
         "@tailwindcss/forms": "0.2.1",
         "assert": "^2.0.0",
         "chai": "^4.3.7",
@@ -26,7 +27,7 @@
         "cz-conventional-changelog": "^3.3.0",
         "electron-log": "^5.0.0-beta.23",
         "ficus-editor": "^1.0.24",
-        "ficus-mindmap": "0.6.10",
+        "ficus-mindmap": "0.6.12",
         "fs-extra": "^11.1.1",
         "husky": "^8.0.3",
         "js-yaml": "^4.1.0",

@@ -1,8 +1,9 @@
 <template>
-  <div class="flexStyle" style="margin-left: 200px; margin-right: 20px">
+  <div class="flexStyle" style="margin-right: 20px; left: 230px; position: fixed">
     <ol class="flex">
       <li
-          :class="(item.path === curObj.path) ? `area-tab-bg-1` : `area-tab-bg-2`" style="display: flex;"
+          class="items-center content-center shadow-sm"
+          :class="(item.path === curObj.path) ? `area-tab-bg-1 text-blueGray-800` : `area-tab-bg-2 text-gray-500 tabBg`" style="display: flex;"
           @dragenter="dragenter($event, index)"
           @dragover="dragover($event, index)"
           @dragstart="dragstart(index)"
@@ -13,17 +14,12 @@
           @contextmenu.prevent.stop="updateRightClickItem($event, item)"
           v-contextmenu:contextmenu
       >
-        <div style="width: 200px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+        <div class="tabItem">
           {{ getName(item) }}
         </div>
-        <div style="margin-top: 5px" @click.stop="closeTabByItem(item)">
+        <div class="tabBtn" @click.stop="closeTabByItem(item)">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                width="12" height="12" viewBox="0 0 12 12">
-            <defs>
-              <clipPath id="master_svg0_1_540">
-                <rect x="0" y="0" width="12" height="12" rx="0"/>
-              </clipPath>
-            </defs>
             <g style="mix-blend-mode:passthrough" clip-path="url(#master_svg0_1_540)">
               <g style="mix-blend-mode:passthrough">
                 <path
@@ -37,8 +33,8 @@
     </ol>
   </div>
     <v-contextmenu ref="contextmenu">
-      <v-contextmenu-item @click="closeTab">关闭标签页</v-contextmenu-item>
-      <v-contextmenu-item @click="closeOtherTab">关闭其他标签页</v-contextmenu-item>
+      <v-contextmenu-item @click="closeTab" class="hover:bg-gray-200 text-gray-700">关闭标签页</v-contextmenu-item>
+      <v-contextmenu-item @click="closeOtherTab" class="hover:bg-gray-200 text-gray-700">关闭其他标签页</v-contextmenu-item>
     </v-contextmenu>
 
 </template>
@@ -165,14 +161,50 @@ export default {
 
 <style scoped>
 .flexStyle{
-  height:25px;
-  display:flex;
-  justify-content:space-between;
   /* 设置超出滚动 */
   overflow-x:auto;
+  right: 20px;
 }
 ::-webkit-scrollbar {
   /* 隐藏滚动条 */
   display: none;
+}
+
+.tabItem {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 15px;
+  font-family: "Noto Sans SC";
+  font-size: 14px;
+  -webkit-transition: color .3s;
+  -webkit-transition:left .3s, color .3s;
+}
+
+.tabBtn {
+  right: 10px;
+  position: absolute;
+}
+
+.tabBtn:hover {
+  background-color: #bbbbbb;
+  border-radius: 10px;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
+}
+
+.tabBtn:hover path {
+  fill: #FFFFFF;
+  fill-opacity: 1;
+  -webkit-transition: fill .3s;
+  -webkit-transition:left .3s, fill .3s;
+}
+
+.tabBg:hover {
+  background-color: #e0e8e6;
+  color: #3D3D3D;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
 }
 </style>

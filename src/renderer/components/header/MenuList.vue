@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-600 text-sm" style="display: flex;margin-left: 100px;margin-top:20px"
+  <div class="text-gray-600 text-sm" style="display: flex;margin-top:20px"
        v-if="menu"
        tabindex="0"
        @blur="closeMenu"
@@ -12,6 +12,7 @@
           :key="index"
           @mouseenter="mouseIn(1, index)"
           @click="show(1, index)"
+          class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
     <ul v-if="secondShow">
@@ -21,6 +22,7 @@
           :key="index"
           @mouseenter="mouseIn(2, index)"
           @click="show(2, index)"
+          class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
     <ul v-if="thirdShow">
@@ -30,6 +32,7 @@
           :key="index"
           @mouseenter="mouseIn(3, index)"
           @click="show(3, index)"
+          class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
   </div>

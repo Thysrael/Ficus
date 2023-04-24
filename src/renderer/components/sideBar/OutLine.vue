@@ -5,12 +5,12 @@
           :item="item"
           v-for="(item, index) in items"
           :key="index"
-          @click="getIndex(index, item)"
+          class="py-1 pl-2"
       />
     </ul>
-    <div v-if="items === undefined || items.length === 0">
-      <div style="font-size: 12px">
-        大纲内容为空
+    <div v-if="items.length === 0">
+      <div style="font-size: 13px; font-family: 'Noto Sans SC'" class="pl-2">
+        大纲内容为空。
       </div>
     </div>
   </div>
