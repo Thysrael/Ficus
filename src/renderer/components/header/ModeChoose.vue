@@ -30,6 +30,7 @@ export default {
   setup () {
     const editMode = ref(0)
     function changeEditMode (mode) {
+      editMode.value = mode
       bus.emit('changeMode', mode)
     }
     return {
