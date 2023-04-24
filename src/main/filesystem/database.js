@@ -1,25 +1,15 @@
 const { app, dialog } = require('electron')
-const fs = require('fs-extra')
 const path = require('path')
 const { getTree } = require('./getFileTree')
-const { getAerialInFile } = require('@/common/parseLinks')
 const linkManager = require('./linkManager')
 
 /**
  * 获得所有项目下links内容
- * @param {*} file 
- * @returns 
+ * @param {*} file
+ * @returns
  */
 exports.getLinks = async () => {
-  return { aerials: res, tags: info.tags }
-}
-
-exports.refresh = async (projPath) => {
-  const pathSplit = projPath.split(path.sep)
-  const folderName = pathSplit[pathSplit.length - 1]
-  // console.log(result.filePaths[0])
-  const tree = await getTree(projPath, folderName)
-  return tree.children
+  return linkManager.getLinks()
 }
 
 /**
@@ -29,11 +19,29 @@ exports.refresh = async (projPath) => {
  * @returns {[string]}
  */
 exports.findTags = (tagname) => {
-  const res = linkManager.getAllTags().filter(name => name.indexOf(tagname) == 0)
-  if (!res.includes(tagname)) {
-    res.push(tagname)
-  }
-  return res
+  return linkManager.findTags(tagname)
+}
+
+/**
+ * 获取引用信息
+ * @returns {{cited: [{name: string, path: string}], citing: [{name: string, path: string}]}}
+ */
+exports.getCiteInfo = (filepath) => {
+  return linkManager.getCiteInfo(filepath)
+}
+
+/**
+ * 刷新某个文件在linkManager的信息
+ */
+exports.updateFile = (filepath) => {
+  linkManager.updateFile(filepath)
+}
+
+exports.refresh = async (projPath) => {
+  const pathSplit = projPath.split(path.sep)
+  const folderName = pathSplit[pathSplit.length - 1]
+  const tree = await getTree(projPath, folderName)
+  return tree.children
 }
 
 /**
