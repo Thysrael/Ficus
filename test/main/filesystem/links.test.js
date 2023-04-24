@@ -15,8 +15,8 @@ describe('links初始化测试', function () {
     assert.deepStrictEqual(linkManager.getLinks().aerials, [
       {
         name: '123',
-        sourcePath: '/Users/apple/非ICOULD区/SE软工/Ficus/test/main/data/1.md',
-        targetPath: '/Users/apple/非ICOULD区/SE软工/Ficus/test/main/data/3.md'
+        sourcePath: path.resolve('test', 'main', 'data', '1.md'),
+        targetPath: path.resolve('test', 'main', 'data', '3.md')
       }
     ])
   })
