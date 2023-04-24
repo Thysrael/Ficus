@@ -91,7 +91,7 @@ function mindToTreeRecursion (mindJson) {
       break
     default:
       // error
-      console.log('error ' + mindJson.type)
+      console.log('mindToTree: unknown type ' + mindJson.type)
       break
   }
 

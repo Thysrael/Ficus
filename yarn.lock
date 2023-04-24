@@ -5148,6 +5148,11 @@ electron-devtools-installer@^3.1.0:
     tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
 
+electron-log@^5.0.0-beta.23:
+  version "5.0.0-beta.23"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-log/-/electron-log-5.0.0-beta.23.tgz#8c00e9e24232fc70d6fc967915bf0d330a2b24c0"
+  integrity sha512-7tj3LnWet2g5biaaBvVmmJY7762koyrCtjjhC6Llk7SfgaUt7zRX6PS8CZf8qCgzQp+9p6IH8ArRxLS6kNZ4mA==
+
 electron-osx-sign@^0.5.0:
   version "0.5.0"
   resolved "https://mirrors.cloud.tencent.com/npm/electron-osx-sign/-/electron-osx-sign-0.5.0.tgz#fc258c5e896859904bbe3d01da06902c04b51c3a"
@@ -8556,6 +8561,11 @@ module-alias@^2.2.2:
   version "2.2.2"
   resolved "https://mirrors.cloud.tencent.com/npm/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
+
+mousetrap@^1.6.5:
+  version "1.6.5"
+  resolved "https://mirrors.cloud.tencent.com/npm/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
+  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
