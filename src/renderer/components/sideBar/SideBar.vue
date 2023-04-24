@@ -272,10 +272,6 @@ export default {
       bus.emit('changeToGraph')
     }
 
-    function getTags () {
-      console.log('getTags')
-    }
-
     return {
       isFile,
       titles,
