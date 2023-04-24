@@ -148,6 +148,26 @@ class DataManager {
   getGraphLinks () {
     return this.graph.getLinks()
   }
+
+  addTag (tagname) {
+    if (this.irtree) {
+      this.irtree.addTag(tagname)
+    }
+  }
+
+  removeTag (tagname) {
+    if (this.irtree) {
+      this.irtree.removeTag(tagname)
+    }
+  }
+
+  getTags () {
+    if (this.irtree) {
+      return this.irtree.getTags()
+    } else {
+      return []
+    }
+  }
 }
 
 module.exports = DataManager
