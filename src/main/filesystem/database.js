@@ -6,24 +6,27 @@ const os = require('os')
 const { getAerialInFile } = require('@/common/parseLinks')
 
 // 获得：
-exports.getLinksAndTags = (file, projPath) => {
-  if (file.isMd === false) {
-    return []
+exports.getLinksAndTags = async (file) => {
+  const obj = JSON.parse(file)
+  console.log('后端拿到', obj)
+  if (obj === undefined) {
+    return { aerials: [], tags: [] }
+  }
+  if (obj.isMd === false) {
+    return { aerials: [], tags: [] }
   }
   const res = []
-  const doc = file.content
-  const filePath = path.resolve(file.path, '../')
+  const doc = obj.content
+  const filePath = path.resolve(obj.path, '../')
+  console.log('调用前：', doc)
   const info = getAerialInFile(doc)
+  console.log('调用后：', info)
   for (const item of info.aerials) {
     if (!path.isAbsolute(item.path)) {
       const abPath = path.join(filePath, item.path)
-      if (abPath.startsWith(projPath)) {
-        res.push({ name: item.name, path: abPath })
-      }
+      res.push({ name: item.name, path: abPath })
     } else {
-      if (item.path.startsWith(projPath)) {
-        res.push({ name: item.name, path: item.path })
-      }
+      res.push({ name: item.name, path: item.path })
     }
   }
   return { aerials: res, tags: info.tags }

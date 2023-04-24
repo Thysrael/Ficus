@@ -126,6 +126,7 @@
 
 <script>
 import { ref } from 'vue'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'RelationBar',
@@ -150,6 +151,10 @@ export default {
       children: [],
       type: 'file'
     }])
+
+    bus.on('editCites', (array) => {
+      cites.value = array
+    })
 
     return {
       cites,
