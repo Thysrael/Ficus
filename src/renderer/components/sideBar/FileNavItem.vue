@@ -48,7 +48,6 @@
           </g>
         </g>
       </svg>
-
       <div class="pl-2 fileTreeElementText"
            id="btnRef"
            @mouseenter="togglePopover()"
