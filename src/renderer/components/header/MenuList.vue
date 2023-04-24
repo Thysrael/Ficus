@@ -309,7 +309,6 @@ export default {
         path: root.root.path,
         children: root.root.tree,
         curChild: -1,
-        content: '',
         absolutePath: [root.root.folderName],
         offset: -1,
         type: 'folder'
@@ -320,7 +319,6 @@ export default {
     // 打开文件，可以一次打开多个
     async function openMyFile () {
       const files = await window.electronAPI.openFile()
-      console.log(files)
       for (let i = 0; i < files.length; i++) {
         // 特殊场景：打开文件夹，再次从本地打开文件夹中已有的文件
         // 策略：如果在文件夹中已经打开，则使用文件夹内的对象，否则使用files[i]
