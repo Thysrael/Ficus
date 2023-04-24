@@ -5,6 +5,7 @@
           :item="item"
           v-for="(item, index) in items"
           :key="index"
+          @click="getIndex(index, item)"
           class="py-1 pl-2"
       />
     </ul>
@@ -38,6 +39,7 @@ export default {
 
     function getIndex (index, item) {
       titles.unshift(index)
+      console.log(item.name)
       for (let i = titles.length; i < 6; i++) {
         titles.push(-1)
       }
