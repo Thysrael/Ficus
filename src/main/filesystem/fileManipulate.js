@@ -70,16 +70,14 @@ exports.newFileFromDialog = async (projPath) => {
       name: fileName, // 文件名
       curChild: -1, // 直接填充-1即可
       path: result.filePath, // 绝对路径
-      absolutePath: pathSplit, // 希望将绝对路径分割成数组
+      absolutePath: pathSplit, // 绝对路径分割成数组
       offset: -1, // 直接填充-1即可
       children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-      content: '' // 文件内容
+      content: '', // 文件内容
+      type: 'file'
     }
-    file.type = 'file'
-    const index = result.filePath.lastIndexOf('.')
-    const ext = result.filePath.substring(index + 1)
-    const isMd = (ext === 'md')
-    file.isMd = isMd
+    const ext = path.extname(result.filePath)
+    file.isMd = (ext === '.md')
     const fd = fs.openSync(result.filePath, 'w')
     fs.close(fd, (err) => {
       if (err) { console.error('Failed to close file', err) }
@@ -112,18 +110,13 @@ exports.newFolderFromDialog = async (projPath) => {
       { name: 'images', extensions: ['jpg', 'png'] }
     ]
   }).then(async (result) => {
-    // fs.mkdir(result, { recursive: true }, err => {
-    //   if (err) console.log(`mkdir path: ${basePath} err`)
-    // })
     if (result.canceled === true) {
       return []
     }
     if (result.filePaths[0].startsWith(projPath)) {
       const pathSplit = projPath.split(path.sep)
       const folderName = pathSplit[pathSplit.length - 1]
-      // console.log(result.filePaths[0])
       const tree = await getTree(projPath, folderName)
-      // console.log(tree)
       return tree.children.filter(item => item.name !== '.ficus')
     } else {
       return []

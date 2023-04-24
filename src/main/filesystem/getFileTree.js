@@ -1,22 +1,20 @@
 const fs = require('fs-extra')
 const path = require('path')
-const os = require('os')
 
 /**
  * 函数作用: 初始化
  * @returns 处理完的对象
  */
-function initFun (dirPath, folderName) {
+async function initFun (dirPath, folderName) {
+  // 文件数组
+  const res = fs.readdirSync(dirPath)
+  const temp = getFileJson(res, [], dirPath)
   const all = {
     name: folderName,
-    children: [],
+    children: temp,
     type: 'folder',
     path: dirPath
   }
-  // 文件数组
-  const res = fs.readdirSync(dirPath)
-  const temp = getFileJson(res, all.children, dirPath)
-  all.children = temp
   return all
 }
 
@@ -28,17 +26,15 @@ function initFun (dirPath, folderName) {
  */
 function getFileJson (res, arr, dir) {
   res.map(item => {
-    let tempDir = `${dir}/${item}`
-    if (os.platform().toString() === 'win32') {
-      tempDir = `${dir}\\${item}`
-    }
-    const obj = newObj(tempDir, item)
+    const itemPath = path.join(dir, item)
+    const obj = newObj(itemPath, item)
     arr.push(obj)
-    if (obj.children !== undefined && obj.children.length === 0) {
-      const dirValArr = fs.readdirSync(tempDir)
+    if (obj.type === 'folder') {
+      const dirValArr = fs.readdirSync(itemPath)
       return getFileJson(dirValArr, obj.children, obj.path)
+    } else {
+      return null
     }
-    return null
   })
   const files = []
   const folders = []
@@ -65,34 +61,26 @@ function getFileJson (res, arr, dir) {
  * @returns 返回处理好的对象
  */
 function newObj (tempDir, item) {
-  const pathSplit = tempDir.split(path.sep)
   const obj = {
     name: item,
     path: tempDir,
     curChild: -1, // 直接填充-1即可
     offset: -1, // 直接填充-1即可
-    absolutePath: pathSplit
+    absolutePath: tempDir.split(path.sep)
   }
-  // console.log(tempDir)
   if (fs.statSync(tempDir).isFile()) {
     obj.type = 'file'
-    const index = tempDir.lastIndexOf('.')
-    const ext = tempDir.substring(index + 1)
-    const isMd = (ext === 'md')
-    obj.isMd = isMd
-  }
-  // 判断路径是否为文件夹
-  if (!fs.statSync(tempDir).isFile()) {
-    obj.children = []
+    obj.isMd = (path.extname(tempDir) === '.md')
+  } else {
+    // 路径为文件夹
     obj.type = 'folder'
+    obj.children = []
   }
-  // console.log(obj)
   return obj
 }
 
 exports.getTree = async (folderPath, folderName) => {
   const dirPath = path.resolve(folderPath)
-  // console.log(dirPath)
   const fileJson = await initFun(dirPath, folderName)
   return fileJson
 }
