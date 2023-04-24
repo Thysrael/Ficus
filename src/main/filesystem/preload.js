@@ -27,5 +27,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   refresh: (projPath) => ipcRenderer.invoke('refresh', projPath),
   getLinksAndTags: (file) => ipcRenderer.invoke('getLinksAndTags', file),
   readFile: (filePath) => ipcRenderer.invoke('readFile', filePath),
-  getPathSep: () => ipcRenderer.invoke('getPathSep')
+  getPathSep: () => ipcRenderer.invoke('getPathSep'),
+  paste: (userSelect, tarPath) => ipcRenderer.invoke('paste', userSelect, tarPath)
 })
