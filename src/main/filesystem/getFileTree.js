@@ -58,14 +58,10 @@ function newObj (tempDir, item) {
     path: tempDir,
     curChild: -1, // 直接填充-1即可
     offset: -1, // 直接填充-1即可
-    // children: [],
-    content: '',
     absolutePath: pathSplit
   }
   // console.log(tempDir)
   if (fs.statSync(tempDir).isFile()) {
-    const content = fs.readFileSync(tempDir).toString()
-    obj.content = content
     obj.type = 'file'
     const index = tempDir.lastIndexOf('.')
     const ext = tempDir.substring(index + 1)
