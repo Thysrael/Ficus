@@ -42,6 +42,7 @@ export default {
         titles.push(-1)
       }
       console.log(titles)
+      bus.emit('scrollToHeading', { info: titles })
       titles = []
     }
 
