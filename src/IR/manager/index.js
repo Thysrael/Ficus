@@ -27,6 +27,7 @@ class DataManager {
       newTree = this.treeSet[info.path]
     } else {
       newTree = new IRTree({ content: info.content }, treeOptions)
+      this.treeSet[info.path] = newTree
     }
 
     if (treeOptions.replaced) {
@@ -41,7 +42,7 @@ class DataManager {
    */
   updateTreeFromMarkdown (content) {
     if (this.irtree === undefined) {
-      console.log('不存在当前文件')
+      console.log('IR.manager: IRTree is not exist')
     } else {
       this.irtree.update({ content })
     }
@@ -82,6 +83,7 @@ class DataManager {
       newTree = this.treeSet[info.path]
     } else {
       newTree = new IRTree({ mindJson: info.content }, treeOptions)
+      this.treeSet[info.path] = newTree
     }
 
     if (treeOptions.replaced) {
@@ -92,7 +94,7 @@ class DataManager {
 
   updateTreeFromMindJson (mindJson) {
     if (this.irtree === undefined) {
-      console.log('不存在当前文件')
+      console.log('IR.manager: IRTree is not exist')
     } else {
       this.irtree.update({ mindJson })
     }

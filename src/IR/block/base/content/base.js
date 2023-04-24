@@ -64,7 +64,7 @@ class FrontmatterContent extends Content {
       this.data = yaml.load(text)
     } catch (e) {
       this.data = {}
-      console.log(e)
+      console.log(`js-yaml parse failed: ${e}`)
     }
   }
 

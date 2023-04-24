@@ -47,7 +47,7 @@ function getLinksInFile (doc) {
             tags = yaml.load(value).tags
           } catch (e) {
             tags = []
-            console.log(e)
+            console.log(`js-yaml parse failed: ${e}`)
           }
         }
 
