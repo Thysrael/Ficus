@@ -82,7 +82,7 @@ class History {
     } else if (doc.mindJson !== undefined) {
       this.irtree.root = mindToTree(doc.mindJson)
     } else {
-      console.log('Error in updateTree')
+      console.log('Error in updateTree: ')
       console.log(doc)
     }
   }
