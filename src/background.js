@@ -11,7 +11,7 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile
+  readFile, paste
 } from './main/filesystem/fileManipulate'
 import {
   addTag2File,
@@ -128,6 +128,10 @@ app.on('ready', async () => {
     } catch (error) {
       console.log(error)
     }
+  })
+
+  ipcMain.handle('paste', (e, userSelect, tarPath) => {
+    paste(userSelect, tarPath)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {
