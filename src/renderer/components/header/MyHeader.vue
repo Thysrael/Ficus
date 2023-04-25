@@ -387,6 +387,7 @@ export default {
           openFiles.value[i] = obj.res
         }
       }
+      update()
     })
 
     // 每次对于openFiles的增加和删除，都需要重新计算特异路径
