@@ -302,26 +302,23 @@ export default {
       isFile.value = 6
       bus.emit('changeToGraph')
     }
+
     async function handleFlush () {
-      if (isFile.value === 0) {
-        const data = [{
-          name: 'cjj',
+      if (props.data.length !== 0) {
+        const projPath = props.data[0].path
+        const newChildren = await window.electronAPI.refresh(projPath)
+        const openDir = [{
+          name: props.data[0].name,
+          path: projPath,
+          children: newChildren,
           curChild: -1,
-          path: 'app2',
-          absolutePath: ['app2'],
+          absolutePath: props.data[0].absolutePath,
           offset: -1,
-          content: '# 1',
           type: 'folder'
         }]
-
-        const open = []
-        open.push(data[0])
-
-        data[0] = { name: 'xxx' }
-        // bus.emit('openDir', data)
-        // 清空selectedList
-        // 同步openFileList 【策略：path相同的修改为文件夹中给的对象，不同的暂不处理】
+        bus.emit('openDir', openDir[0])
       }
+      // selected.value.length = 0
     }
 
     function handleCloseWorkArea () {
