@@ -2656,6 +2656,11 @@ address@^1.1.2:
   resolved "https://mirrors.cloud.tencent.com/npm/address/-/address-1.2.2.tgz#2b5248dac5485a6390532c6a517fda2e3faac89e"
   integrity sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==
 
+adm-zip@^0.5.10:
+  version "0.5.10"
+  resolved "https://mirrors.cloud.tencent.com/npm/adm-zip/-/adm-zip-0.5.10.tgz#4a51d5ab544b1f5ce51e1b9043139b639afff45b"
+  integrity sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==
+
 agent-base@6:
   version "6.0.2"
   resolved "https://mirrors.cloud.tencent.com/npm/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -5180,10 +5185,10 @@ electron-devtools-installer@^3.1.0:
     tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
 
-electron-log@^5.0.0-beta.23:
-  version "5.0.0-beta.23"
-  resolved "https://mirrors.cloud.tencent.com/npm/electron-log/-/electron-log-5.0.0-beta.23.tgz#8c00e9e24232fc70d6fc967915bf0d330a2b24c0"
-  integrity sha512-7tj3LnWet2g5biaaBvVmmJY7762koyrCtjjhC6Llk7SfgaUt7zRX6PS8CZf8qCgzQp+9p6IH8ArRxLS6kNZ4mA==
+electron-log@^5.0.0:
+  version "4.0.6"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-log/-/electron-log-4.0.6.tgz#7d4244082a6f5ae3838f3fa4cd7271f8dd610bf1"
+  integrity sha512-inoIFKld98aRAp/l5IzLFx8Oc9sp+SKlTCrVgZKWK+qcI92rT574Ybgcah5dU8G3485vc7ClFIEfCf/IERyBJA==
 
 electron-osx-sign@^0.5.0:
   version "0.5.0"
@@ -10277,6 +10282,13 @@ repeat-string@^1.6.1:
   resolved "https://mirrors.cloud.tencent.com/npm/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
 
+request-progress@^3.0.0:
+  version "3.0.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/request-progress/-/request-progress-3.0.0.tgz#4ca754081c7fec63f505e4faa825aa06cd669dbe"
+  integrity sha1-TKdUCBx/7GP1BeT6qCWqBs1mnb4=
+  dependencies:
+    throttleit "^1.0.0"
+
 request@^2.88.2:
   version "2.88.2"
   resolved "https://mirrors.cloud.tencent.com/npm/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
@@ -11498,6 +11510,11 @@ thread-loader@^3.0.0:
     loader-utils "^2.0.0"
     neo-async "^2.6.2"
     schema-utils "^3.0.0"
+
+throttleit@^1.0.0:
+  version "1.0.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/throttleit/-/throttleit-1.0.0.tgz#9e785836daf46743145a5984b6268d828528ac6c"
+  integrity sha1-nnhYNtr0Z0MUWlmEtiaNgoUorGw=
 
 through2-filter@^3.0.0:
   version "3.0.0"

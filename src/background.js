@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
@@ -22,6 +22,7 @@ import {
   refresh,
   sendTags
 } from '@/main/filesystem/database'
+import EAU from './main/update'
 
 import path from 'path'
 import * as url from 'url'
@@ -90,7 +91,47 @@ app.on('ready', async () => {
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
+  } else {
+    EAU.init({
+      api: 'https://ficus.world/update/version.json',
+      server: false,
+      formatRes: function (res) { return res }
+    })
+
+    EAU.check(function (error, last, body) {
+      if (error) {
+        if (error === 'no_update_available') { return false }
+        dialog.showErrorBox('info', error + last + body)
+        return false
+      }
+
+      EAU.progress(function (state) {
+      })
+
+      dialog.showMessageBoxSync(win, {
+        type: 'warning',
+        title: '更新提醒',
+        buttons: ['确定'],
+        message: '发现软件更新，软件需要自动重启',
+        defaultId: 0,
+        cancelId: 1
+      })
+
+      EAU.download(function (error) {
+        if (error) {
+          dialog.showErrorBox('info', error)
+          return false
+        }
+        if (process.platform === 'darwin') {
+          app.relaunch()
+          app.quit()
+        } else {
+          app.quit()
+        }
+      })
+    })
   }
+
   ipcMain.handle('exportPDF', async (event, html) => {
     const printWin = new BrowserWindow({
       show: false,
