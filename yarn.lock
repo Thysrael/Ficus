@@ -5185,10 +5185,10 @@ electron-devtools-installer@^3.1.0:
     tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
 
-electron-log@^5.0.0:
-  version "4.0.6"
-  resolved "https://mirrors.cloud.tencent.com/npm/electron-log/-/electron-log-4.0.6.tgz#7d4244082a6f5ae3838f3fa4cd7271f8dd610bf1"
-  integrity sha512-inoIFKld98aRAp/l5IzLFx8Oc9sp+SKlTCrVgZKWK+qcI92rT574Ybgcah5dU8G3485vc7ClFIEfCf/IERyBJA==
+electron-log@^4.0.6:
+  version "4.4.8"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-log/-/electron-log-4.4.8.tgz#fcb9f714dbcaefb6ac7984c4683912c74730248a"
+  integrity sha512-QQ4GvrXO+HkgqqEOYbi+DHL7hj5JM+nHi/j+qrN9zeeXVKy8ZABgbu4CnG+BBqDZ2+tbeq9tUC4DZfIWFU5AZA==
 
 electron-osx-sign@^0.5.0:
   version "0.5.0"
@@ -5923,17 +5923,17 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-ficus-editor@^1.0.18:
-  version "1.0.27"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.0.27.tgz#0557a2a4a32aef599ad214b2a5b97e9581601a8a"
-  integrity sha512-uq0aTrECUzs4CmbZMAMlOEI7YOPzDoKmWoUp1BHxtOops2sBcJyfncOWNtpgHpcsiopIv+eJOutSUyFu+IiUjw==
+ficus-editor@^1.0.29:
+  version "1.0.29"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.0.29.tgz#497c11f2be98eded127b3a972d60984f8ba9d9b3"
+  integrity sha512-NEQm+c7SY/eyvRdK/rEHiOb2+KZrVrzCGqthMJpi4KyTpzLzUJaKmSjkIPNPcyF2SpAYmqjgGiXc78prmCLWzw==
   dependencies:
     diff-match-patch "^1.0.5"
 
-ficus-mindmap@0.6.10:
-  version "0.6.10"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.10.tgz#131bdba0b8f05d779996c691d9c98ce9cfbe88cb"
-  integrity sha512-z2php4M8rDt/g5K58raj2bUWyW9cW8uRXRzU4iGAi/OXBqVTF5BLXZfhdkH/UxaDjCdQ/IQdTENTjMvEjzTWkA==
+ficus-mindmap@0.6.19:
+  version "0.6.19"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.19.tgz#cf2de6ec87382df9c7585d90caaea37b0251958b"
+  integrity sha512-sRJW8JbooXtKM2jcdTqJsJeRSHv7ULb/BDe1P2/HqFQGRypRh79C3MjovTBama6WzP6OlZz+F7nvsfrv7zGnLw==
   dependencies:
     d3-drag "^2.0.0"
     d3-interpolate "^2.0.1"
@@ -12155,25 +12155,6 @@ verror@^1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
-
-vite-mindmap@^0.6.5:
-  version "0.6.5"
-  resolved "https://mirrors.cloud.tencent.com/npm/vite-mindmap/-/vite-mindmap-0.6.5.tgz#bdf500e72484b4cd4cad816c7e22b5efcb88695c"
-  integrity sha512-GCXnfwIA3j57moIHNQypVfwfmeWO/Ir0ypoV4Wb1XWzCdL4VR5tVHLuyl7yJhrhvxnU3ssXJ21232l9WgiIiKw==
-  dependencies:
-    d3-drag "^2.0.0"
-    d3-interpolate "^2.0.1"
-    d3-scale "^3.3.0"
-    d3-scale-chromatic "^2.0.0"
-    d3-selection "^2.0.0"
-    d3-shape "^2.1.0"
-    d3-transition "^2.0.0"
-    d3-zoom "^2.0.0"
-    html2canvas "^1.0.0-rc.7"
-    i18next "^21.6.6"
-    lodash.clonedeep "^4.5.0"
-    mitt "^2.1.0"
-    vue "^3.0.0"
 
 vm-browserify@^1.0.1:
   version "1.1.2"
