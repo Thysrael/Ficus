@@ -4,27 +4,46 @@
       节点详情信息
     </div>
     <div style="font-size: 12px; margin-top: 15px;">
-      <b>文件名</b>: 中文测试.md
+      <b>文件名</b>: 敬请期待.md
     </div>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
-    <button class="optionBtn">
+    <button class="optionBtn" @click="handleProcess">
       焦点前进
     </button>
-    <button class="optionBtn">
+    <button class="optionBtn" @click="handleProcess">
       焦点后退
     </button>
-    <button class="optionBtn">
+    <button class="optionBtn" @click="handleProcess">
       转换为Ficus根
     </button>
-    <button class="optionBtn">
+    <button class="optionBtn" @click="handleProcess">
       提交图修改
+    </button>
+    <button class="optionBtn" @click="quitGraph">
+      退出榕图
     </button>
   </div>
 </template>
 
 <script>
+import bus from 'vue3-eventbus'
+
 export default {
-  name: 'GraphBar'
+  name: 'GraphBar',
+  setup () {
+    function handleProcess () {
+      bus.emit('showMyAlert', { message: '敬请期待！' })
+    }
+
+    function quitGraph () {
+      bus.emit('quitFromGraph')
+    }
+
+    return {
+      handleProcess,
+      quitGraph
+    }
+  }
 }
 </script>
 

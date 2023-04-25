@@ -303,6 +303,11 @@ export default {
       bus.emit('changeToGraph')
     }
 
+    bus.on('quitFromGraph', () => {
+      isFile.value = 0 // 默认回到资源管理器视图
+      bus.emit('backToEditMode') // 默认进入纯文本模式
+    })
+
     async function handleFlush () {
       if (props.data.length !== 0) {
         const projPath = props.data[0].path
