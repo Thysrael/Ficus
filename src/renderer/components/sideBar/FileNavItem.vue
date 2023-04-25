@@ -72,7 +72,7 @@
           <v-contextmenu-item @click="handleNew('folder')" class="hover:bg-gray-200 text-gray-700">新建文件夹</v-contextmenu-item>
           <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handlePaste">粘贴</v-contextmenu-item>
         </div>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">剪切</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="false">剪切</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleCopyFileOrFolder">复制</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete">删除</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename" v-if="item.path !== topItem.path">重命名</v-contextmenu-item>

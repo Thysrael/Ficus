@@ -74,9 +74,10 @@ export default {
       // },
       {
         name: '保存'
-      }, {
-        name: '另存为'
       },
+      // {
+      //   name: '另存为'
+      // },
       // {
       //   name: '保存全部打开的文件'
       // },
@@ -402,6 +403,9 @@ export default {
           case '重做':
             bus.emit('redoCurTab')
             break
+          case '剪切':
+            bus.emit('cutSelectedText')
+            break
           case '复制为纯文本':
             bus.emit('copySelectedText', { type: 'text' })
             break
@@ -412,9 +416,13 @@ export default {
             bus.emit('copySelectedText', { type: 'html' })
             break
           case '粘贴':
-            navigator.clipboard.readText().then(text => {
-              bus.emit('insertText', { content: text })
-            })
+            bus.emit('pasteSelectedText', { type: 'origin' })
+            break
+          case '粘贴为纯文本':
+            bus.emit('pasteSelectedText', { type: 'plain' })
+            break
+          case '删除':
+            bus.emit(' deleteSelectedText')
             break
           case '一级标题':
             bus.emit('addBlock', { type: 'heading-1' })
