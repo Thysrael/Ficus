@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   closeWindow: () => ipcRenderer.invoke('window-close'),
   newFicusVault: () => ipcRenderer.invoke('newProject'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  openFolder: () => ipcRenderer.invoke('dialog:openFolder'),
+  // openFolder: () => ipcRenderer.invoke('dialog:openFolder'),
   saveFile: (path, content) => ipcRenderer.invoke('save_file', path, content),
   saveToAnotherFile: (content, projPath) => ipcRenderer.invoke('saveToTarget', content, projPath),
   exportPDF: (html) => ipcRenderer.invoke('exportPDF', html),
