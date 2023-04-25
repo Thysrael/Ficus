@@ -1,6 +1,7 @@
 const path = require('path')
 const { getLinksInFile } = require('../../common/parseLinks')
 const { readFileSync } = require('fs-extra')
+const { isValidMarkdownFilePath } = require('../utils')
 
 class LinkManager {
   constructor () {
@@ -18,7 +19,9 @@ class LinkManager {
   }
 
   addValidFilePath (filepath) {
-    this.validFilePaths.push(filepath)
+    if (isValidMarkdownFilePath(filepath)) {
+      this.validFilePaths.push(filepath)
+    }
   }
 
   init () {
@@ -87,15 +90,16 @@ class LinkManager {
   }
 
   updateFile (filepath) {
-    try {
-      const content = readFileSync(filepath).toString()
-      const { aerials, tags } = getLinksInFile(content)
-      this.delFile(filepath)
-      this.addFileTags(filepath, tags)
-      this.addFileAerials(filepath, aerials)
-    } catch (e) {
-      console.log(e)
-      console.log('INVALID FILE PATH ' + filepath)
+    if (isValidMarkdownFilePath(filepath)) {
+      try {
+        const content = readFileSync(filepath).toString()
+        const { aerials, tags } = getLinksInFile(content)
+        this.delFile(filepath)
+        this.addFileTags(filepath, tags)
+        this.addFileAerials(filepath, aerials)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 
