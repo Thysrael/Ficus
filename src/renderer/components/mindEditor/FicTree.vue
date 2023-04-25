@@ -28,7 +28,7 @@ export default defineComponent({
       name: ''
     }])
     const onChange = (msg) => {
-      console.log(msg[0])
+      console.log('检测到修改', msg[0])
       bus.emit('saveChangeMindUI', msg[0])
     }
     const onSelect = (msg) => {

@@ -122,7 +122,7 @@ export default {
   setup (props) {
     onMounted(() => {
       setInterval(() => {
-        if (curObj.value !== undefined) {
+        if (curObj.value !== undefined && openFiles.value.length !== 0) {
           writeBack()
         }
       }, 30000)
@@ -131,12 +131,211 @@ export default {
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
-      path: ''
+      path: '',
+      content: '未打开任何文件'
     }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
-    const wordCnt = ref(0) // 当前工作区字符数
     const theme = ref('classic') // 当前主题
     let mode = -1 // 默认当前模式为欢迎界面
+
+    // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
+    bus.on('openNewTab', async (obj) => {
+      if (contain(obj)) {
+        console.log('file already open!')
+      } else {
+        openFiles.value.push(obj)
+        update()
+      }
+      if (obj.content === undefined) {
+        const res = await window.electronAPI.readFile(obj.path)
+        if (res.error === -1) {
+          return bus.emit('deleteTab', obj)
+        } else if (res.error === 0) {
+          obj.content = res.content
+        }
+      }
+      if (mode === -1) {
+        // 正在展示欢迎界面，默认进入纯文本模式
+        bus.emit('changeMode', 0)
+      }
+      bus.emit('sendToTextUI', obj)
+    })
+
+    // 模式改变核心逻辑
+    bus.on('changeMode', (value) => {
+      if (openFiles.value.length === 0 && value !== -1) {
+        mode = -1
+        return
+      }
+      if (mode !== value) {
+        // 模式改变 0表示纯文本，1表示源码，2表示树形
+        if (value === 2) {
+          bus.emit('chooseToShowPage', 2) // 展示树型组件
+        } else if (value >= 0) {
+          bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
+          bus.emit('chooseToShowPage', 1) // 展示编辑器组件
+        } else if (value === -1) {
+          bus.emit('chooseToShowPage', 0)
+        }
+        if (mode !== -1) {
+          // 工作区有打开文件
+          console.log('发生了模式切换：', curObj.value)
+          mode = value
+          bus.emit('sendToTextUI', curObj.value)
+        } else {
+          mode = value
+        }
+      }
+    })
+
+    // TextUI接口：TextUI实时将工作区修改保存到content中
+    bus.on('saveChange', (obj) => {
+      content.value = obj.content
+      dataManager.updateTreeFromMarkdown(content.value)
+      const res = dataManager.getTreeOutline()
+      bus.emit('openOutLine', res.children)
+      bus.emit('getInfoOfFile', obj) // 更新信息栏
+    })
+
+    // MindUI接口：MindUI实时将工作区修改保存到content中
+    bus.on('saveChangeMindUI', (json) => {
+      dataManager.updateTreeFromMindJson(json)
+      content.value = dataManager.getTreeMarkdown()
+      const res = dataManager.getTreeOutline()
+      bus.emit('openOutLine', res.children)
+    })
+
+    // 将前端的content写回后端文件中，并且更新前端容器
+    function writeBack () {
+      // 有可能路径不存在
+      if (curObj.value.path) {
+        if (content.value === '' || content.value === '\n') {
+          bus.emit('showMyAlert', { message: '检测到写回文件内容为空，请检查是否为误操作！' })
+        }
+        window.electronAPI.saveFile(curObj.value.path, content.value)
+        curObj.value.content = content.value
+      }
+    }
+
+    // 传参给，根据mode选择传参给哪个组件
+    function sendContentByMode () {
+      if (mode === 2) {
+        const obj = dataManager.getTreeMindJson()
+        bus.emit('sendToFicTree', obj)
+      } else if (mode >= 0) {
+        if (content.value !== undefined) {
+          bus.emit('setEditorContent', { content: content.value })
+        } else {
+          console.log('bug: 正在尝试发送给ficus-editor undefined')
+        }
+      }
+    }
+
+    // TextUI接口，更新textUI的展示内容
+    bus.on('sendToTextUI', (obj) => {
+      // 写回content
+      writeBack()
+
+      content.value = obj.content
+      curObj.value = obj
+
+      if (curObj.value.name !== '') {
+        dataManager.buildTreeFromMarkdown({ content: content.value, path: curObj.value.path }, { replaced: true })
+        const res = dataManager.getTreeOutline()
+        bus.emit('openOutLine', res.children)
+      }
+      updateBread()
+      sendContentByMode()
+    })
+
+    // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
+    bus.on('deleteTab', (obj) => {
+      obj.offset = -1
+      let index = -1
+      for (let i = 0; i < openFiles.value.length; i++) {
+        if (openFiles.value[i].path === obj.path) {
+          index = i
+          break
+        }
+      }
+      if (index !== -1) {
+        openFiles.value.splice(index, 1)
+      } else {
+        return
+      }
+      if (curObj.value.path === obj.path) {
+        if (index === openFiles.value.length) {
+          index = 0
+        }
+        if (openFiles.value.length !== 0) {
+          bus.emit('sendToTextUI', openFiles.value[index])
+        } else {
+          // bus.emit('sendToTextUI', { name: '', path: '', content: '未打开任何文件' })
+          bus.emit('changeMode', -1)
+          bus.emit('changeName', '')
+        }
+      }
+      update()
+    })
+
+    function showMenu () {
+      bus.emit('showMenu')
+    }
+
+    // // 监听content变化
+    // watch(content, (newValue, oldValue) => {
+    //   // 调用得到children，传递给sidebar
+    //   dataManager.buildTreeFromMarkdown(newValue, true)
+    //   const obj = dataManager.getTreeOutline()
+    //   bus.emit('openOutLine', obj.children)
+    // })
+
+    function myMin () {
+      window.electronAPI.minWindow()
+    }
+
+    function myMax () {
+      window.electronAPI.maxWindow()
+    }
+
+    function myClose () {
+      window.electronAPI.closeWindow()
+    }
+
+    function changeTheme () {
+      theme.value = (theme.value === 'classic' ? 'modern' : 'classic')
+      bus.emit('changeContentTheme', { theme: theme.value })
+    }
+
+    bus.on('changeToGraph', () => {
+      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
+      bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
+      bus.emit('chooseToShowPage', 3)
+    })
+
+    async function getLinks () {
+      const cur = JSON.stringify(curObj.value)
+      const obj = await window.electronAPI.getLinksAndTags(cur)
+      bus.emit('editCites', obj.aerials)
+    }
+
+    async function getTags () {
+      const cur = JSON.stringify(curObj.value)
+      const obj = await window.electronAPI.getLinksAndTags(cur)
+      bus.emit('editTags', obj.tags)
+    }
+
+    bus.on('changeToRelation', () => {
+      getLinks()
+    })
+
+    bus.on('changeToTag', () => {
+      getTags()
+    })
+
+    bus.on('changeToGraph', () => {
+      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
+    })
 
     // 对于一个待打开的文件，判断是否已经包含在已打开的文件中
     function contain (file) {
@@ -161,7 +360,7 @@ export default {
             res: arr[i]
           }
         }
-        if (arr[i].children.type === 'folder') {
+        if (arr[i].type === 'folder') {
           const obj = inDirTree(file, arr[i].children)
           if (obj.has) {
             return obj
@@ -174,10 +373,18 @@ export default {
       }
     }
 
-    bus.on('updateOpenFiles', () => {
+    bus.on('updateOpenFiles', (root) => {
+      console.log('尝试同步中...', root, openFiles.value)
       for (let i = 0; i < openFiles.value.length; i++) {
-        if (props.data.length) {
-          openFiles.value[i] = inDirTree(openFiles.value[i], props.data)
+        const obj = inDirTree(openFiles.value[i], [root])
+        console.log('判断', openFiles.value[i].name, obj.has)
+        if (obj.has) {
+          // 指向不同引用
+          if (obj.res.content === undefined) {
+            // 新打开的文件夹没有content字段
+            obj.res.content = openFiles.value[i].content
+          }
+          openFiles.value[i] = obj.res
         }
       }
     })
@@ -238,32 +445,6 @@ export default {
         if (!flag[i]) {
           openFiles.value[i].offset = -1
         }
-      }
-    }
-
-    // TextUI接口，TextUI实时将工作区修改保存到content和wordCnt中
-    bus.on('saveChange', (obj) => {
-      content.value = obj.content
-      wordCnt.value = obj.wordCnt
-      dataManager.updateTreeFromMarkdown(content.value)
-      const res = dataManager.getTreeOutline()
-      bus.emit('openOutLine', res.children)
-      bus.emit('getInfoOfFile', obj)
-    })
-
-    // MindUI接口，MindUI实时将工作区修改保存到json中
-    bus.on('saveChangeMindUI', (json) => {
-      dataManager.updateTreeFromMindJson(json)
-      content.value = dataManager.getTreeMarkdown()
-      const res = dataManager.getTreeOutline()
-      bus.emit('openOutLine', res.children)
-    })
-
-    // 后端接口，将前端的content写回后端文件中，并且更新前端容器
-    function writeBack () {
-      if (curObj.value.path) {
-        console.log('我要保存文件了', content.value)
-        window.electronAPI.saveFile(curObj.value.path, content.value)
       }
     }
 
@@ -343,184 +524,7 @@ export default {
       bus.emit('changeName', curObj.value.name)
     }
 
-    // 传参给，根据mode选择传参给哪个组件
-    function sendContentByMode () {
-      if (mode === 2) {
-        const obj = dataManager.getTreeMindJson()
-        bus.emit('sendToFicTree', obj)
-      } else if (mode >= 0) {
-        if (content.value !== undefined) {
-          bus.emit('setEditorContent', { content: content.value })
-        } else {
-          console.log('bug need fix')
-        }
-      }
-    }
-
-    // TextUI接口，更新textUI的展示内容
-    bus.on('sendToTextUI', async (obj) => {
-      // 写回content，有可能路径不存在的
-      writeBack()
-      const res = await window.electronAPI.readFile(obj.path)
-
-      if (res.error === -1) {
-        bus.emit('deleteTab', obj)
-        return
-      }
-      content.value = res.content
-      curObj.value = obj
-      if (curObj.value.name !== '') {
-        // const c = toRef(content.value)
-        // const p = toRef(curObj.value.path)
-        console.log(content.value, curObj.value.path)
-        dataManager.buildTreeFromMarkdown({ content: content.value, path: curObj.value.path }, { replaced: true })
-        const res = dataManager.getTreeOutline()
-        console.log(res)
-        bus.emit('openOutLine', res.children)
-      }
-      updateBread()
-      // 传参给textUI，根据mode选择传参给哪个组件
-      sendContentByMode()
-    })
-
-    // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
-    bus.on('deleteTab', (obj) => {
-      obj.offset = -1
-      let index = -1
-      for (let i = 0; i < openFiles.value.length; i++) {
-        if (openFiles.value[i].path === obj.path) {
-          index = i
-          break
-        }
-      }
-      if (index !== -1) {
-        openFiles.value.splice(index, 1)
-      } else {
-        return
-      }
-      if (curObj.value.path === obj.path) {
-        if (index === openFiles.value.length) {
-          index = 0
-        }
-        if (openFiles.value.length !== 0) {
-          bus.emit('sendToTextUI', openFiles.value[index])
-        } else {
-          // bus.emit('sendToTextUI', { name: '', path: '', content: '未打开任何文件' })
-          bus.emit('changeMode', -1)
-        }
-      }
-      update()
-    })
-
-    // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
-    bus.on('openNewTab', (obj) => {
-      if (contain(obj)) {
-        console.log('already open!')
-      } else {
-        openFiles.value.push(obj)
-        update()
-      }
-      if (mode === -1) {
-        // 正在展示欢迎界面，默认进入纯文本模式
-        bus.emit('changeMode', 0)
-      }
-      bus.emit('sendToTextUI', obj)
-    })
-
-    function showMenu () {
-      bus.emit('showMenu')
-    }
-
-    // // 监听content变化
-    // watch(content, (newValue, oldValue) => {
-    //   // 调用得到children，传递给sidebar
-    //   dataManager.buildTreeFromMarkdown(newValue, true)
-    //   const obj = dataManager.getTreeOutline()
-    //   bus.emit('openOutLine', obj.children)
-    // })
-
-    function myMin () {
-      console.log('min')
-      window.electronAPI.minWindow()
-    }
-
-    function myMax () {
-      console.log('max')
-      window.electronAPI.maxWindow()
-    }
-
-    function myClose () {
-      console.log('close')
-      // 需要关闭开发者窗口
-      window.electronAPI.closeWindow()
-    }
-
-    function changeTheme () {
-      theme.value = (theme.value === 'classic' ? 'modern' : 'classic')
-      bus.emit('changeContentTheme', { theme: theme.value })
-    }
-
-    bus.on('changeMode', (value) => {
-      if (openFiles.value.length === 0 && value !== -1) {
-        mode = -1
-        return
-      }
-      if (mode !== value) {
-        // 模式改变 0表示纯文本，1表示源码，2表示树形
-        if (value === 2) {
-          bus.emit('chooseToShowPage', 2) // 展示树型组件
-        } else if (value >= 0) {
-          bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
-          bus.emit('chooseToShowPage', 1) // 展示编辑器组件
-        } else if (value === -1) {
-          bus.emit('chooseToShowPage', 0)
-        }
-        if (mode !== -1) {
-          // 工作区有打开文件
-          console.log('发生了模式切换：', curObj.value)
-          mode = value
-          bus.emit('sendToTextUI', curObj.value)
-        } else {
-          mode = value
-        }
-      }
-    })
-
-    bus.on('changeToGraph', () => {
-      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
-      console.log(dataManager.getGraphNodes())
-      console.log(dataManager.getGraphLinks())
-      bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
-      bus.emit('chooseToShowPage', 3)
-    })
-
-    async function getLinks () {
-      const cur = JSON.stringify(curObj.value)
-      const obj = await window.electronAPI.getLinksAndTags(cur)
-      bus.emit('editCites', obj.aerials)
-    }
-
-    async function getTags () {
-      const cur = JSON.stringify(curObj.value)
-      const obj = await window.electronAPI.getLinksAndTags(cur)
-      bus.emit('editTags', obj.tags)
-    }
-
-    bus.on('changeToRelation', () => {
-      getLinks()
-    })
-
-    bus.on('changeToTag', () => {
-      getTags()
-    })
-
-    bus.on('changeToGraph', () => {
-      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
-      console.log(dataManager.getGraphNodes())
-      console.log(dataManager.getGraphLinks())
-    })
-
-    return { openFiles, update, curObj, content, wordCnt, showMenu, myMin, myClose, myMax, changeTheme }
+    return { openFiles, update, curObj, content, showMenu, myMin, myClose, myMax, changeTheme }
   }
 }
 </script>
