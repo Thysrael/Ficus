@@ -27,8 +27,6 @@ class History {
   }
 
   record (doc) {
-    console.log('doc change')
-    console.log(doc)
     this.stack.redo = []
     this.lastRecorded = Date.now()
 
@@ -79,8 +77,6 @@ class History {
   }
 
   updateTree (doc) {
-    console.log('doc change')
-    console.log(doc)
     if (doc.content !== undefined) {
       this.irtree.root = markdownToTree(doc.content)
     } else if (doc.mindJson !== undefined) {
