@@ -1,6 +1,6 @@
 {
     "name": "ficus",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
@@ -109,6 +109,9 @@
         "dryRun": true
     },
     "win": {
+        "icon": "build/icon.png"
+    },
+    "linux": {
         "icon": "build/icon.png"
     }
 }
