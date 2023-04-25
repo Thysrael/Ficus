@@ -88,7 +88,8 @@ export default {
           bus.emit('saveChange', {
             content: content,
             wordCnt: content.length,
-            lineCnt: content.split('\n').length - 1
+            lineCnt: content.split('\n').length - 1,
+            range: vditor.getEditorRange()
           })
         },
         // 针对文件链接的回调函数
