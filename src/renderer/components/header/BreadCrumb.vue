@@ -1,8 +1,10 @@
 <template>
   <div class="text-gray-600 text-sm items-center content-center" :style= "`max-width: ${windowWidth};overflow-x:auto;`">
-    <ol class="list-none p-0 inline-flex" v-if="enable">
-      <BreadCrumbItem :item="(items.length === 0) ? {} : items[0]"/>
-    </ol>
+    <div v-show="enable">
+      <ul>
+        <BreadCrumbItem :item="(items.length === 0) ? {} : items[0]"/>
+      </ul>
+    </div>
     <div v-if="!enable" style="width: 50px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
          class="items-center content-center">
       {{ curName }}
