@@ -1,10 +1,15 @@
 const { buildFolderNode, buildFileNode, buildTagNode } = require('../block/factory/buildNode')
 
+const linkType = {
+  file: 0,
+  tag: 1,
+  cite: 2
+}
+
 class IRGraph {
   constructor () {
     this.treenodes = []
-    this.nodeid = 0
-    this.linkid = 0
+    this.initID()
     this.graph = undefined
 
     this.tagnodes = []
@@ -12,6 +17,7 @@ class IRGraph {
     this.edges = []
     this.relations = []
     this.aerials = []
+    this.pathToNodeId = {}
   }
 
   /**
@@ -22,16 +28,14 @@ class IRGraph {
   parseFileTree (files) {
     let newNode
     if (files.children) {
-      newNode = buildFolderNode(this.nodeid, files.name, files.path)
+      newNode = buildFolderNode(this.allocNodeID(), files.name, files.path)
       this.treenodes.push(newNode)
-      this.nodeid += 1
       files.children.forEach(e => {
         newNode.insertAtLast(this.parseFileTree(e))
       })
     } else {
-      newNode = buildFileNode(this.nodeid, files.name, files.path, files.content)
+      newNode = buildFileNode(this.allocNodeID(), files.name, files.path, files.content)
       this.treenodes.push(newNode)
-      this.nodeid += 1
     }
     return newNode
   }
@@ -47,26 +51,26 @@ class IRGraph {
    * @param {[{tagName: string, attach: [string]}]} relations
    */
   addRelations (relations) {
-    const pathToNodeId = {}
+    const pathToNodeId = new Map()
     for (const node of this.treenodes) {
-      pathToNodeId[node.content.path] = node.content.id
+      pathToNodeId.set(node.content.path, node.content.id)
     }
 
     for (const tagInfo of relations) {
-      const tagNode = buildTagNode(this.nodeid, tagInfo.tagName)
+      const tagNodeId = this.allocNodeID()
+      const tagNode = buildTagNode(tagNodeId, tagInfo.tagName)
       this.tagnodes.push(tagNode)
+
       tagInfo.attach.forEach(filepath => {
-        if (this.pathToNodeId[filepath] !== undefined) {
+        if (pathToNodeId.has(filepath)) {
           this.relations.push({
-            id: this.linkid,
-            source: this.nodeid,
-            target: this.pathToNodeId[filepath],
-            type: 1
+            id: this.allocLinkID(),
+            source: tagNodeId,
+            target: pathToNodeId.get(filepath),
+            type: linkType.tag
           })
-          this.linkid += 1
         }
       })
-      this.nodeid += 1
     }
   }
 
@@ -75,17 +79,20 @@ class IRGraph {
    * @param {[{name: string, sourcePath: string, targetPath: string}]} aerials
    */
   addAerials (aerials) {
+    const pathToNodeId = new Map()
+    for (const node of this.treenodes) {
+      pathToNodeId.set(node.content.path, node.content.id)
+    }
     for (const aerialInfo of aerials) {
-      if (this.pathToNodeId[aerialInfo.sourcePath] !== undefined &&
-            this.pathToNodeId[aerialInfo.targetPath] !== undefined) {
-        this.relations.push({
-          id: this.linkid,
-          source: this.pathToNodeId[aerialInfo.sourcePath],
-          target: this.pathToNodeId[aerialInfo.targetPath],
+      if (pathToNodeId.has(aerialInfo.sourcePath) &&
+            pathToNodeId.has(aerialInfo.targetPath)) {
+        this.aerials.push({
+          id: this.allocLinkID(),
+          source: pathToNodeId.get(aerialInfo.sourcePath),
+          target: pathToNodeId.get(aerialInfo.targetPath),
           name: aerialInfo.name,
-          type: 2
+          type: linkType.cite
         })
-        this.linkid += 1
       }
     }
   }
@@ -108,12 +115,11 @@ class IRGraph {
     for (const node of this.treenodes) {
       node.children.forEach(chnode => {
         this.edges.push({
-          id: this.linkid,
+          id: this.allocLinkID(),
           source: node.content.id,
           target: chnode.content.id,
-          type: 0
+          type: linkType.file
         })
-        this.linkid += 1
       })
     }
   }
@@ -126,6 +132,25 @@ class IRGraph {
     if (this.graph) {
       return this.graph.toFileTreeJson()
     }
+  }
+
+  /**
+   * 获得一个独有的nodeID
+   */
+  allocNodeID () {
+    return this.nodeid++
+  }
+
+  /**
+   * 获得一个独有的linkID
+   */
+  allocLinkID () {
+    return this.linkid++
+  }
+
+  initID () {
+    this.nodeid = 0
+    this.linkid = 0
   }
 }
 
