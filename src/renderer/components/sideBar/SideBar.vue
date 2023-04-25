@@ -156,7 +156,7 @@
     <div v-if="data.length !== 0 && isFile === 0">
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('file')">新建文件</v-contextmenu-item>
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
-      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >粘贴</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handlePaste">粘贴</v-contextmenu-item>
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleCloseWorkArea">关闭工作区</v-contextmenu-item>
     </div>
 <!--    <div v-if="isFile === 2">-->
@@ -211,7 +211,7 @@ export default {
     const isFile = ref(0)
     const titles = ref([]) // root的children
     const selected = ref([]) // 存储被选中的对象
-    const copied = ref([]) // 存储被复制的对象
+    const copied = ref([]) // 存储被复制的对象路径
     const store = useStore()
     const TabXY = ref({ x: -1, y: -1 })
     // eslint-disable-next-line no-unused-vars
@@ -283,7 +283,7 @@ export default {
       }
       copied.value.length = 0
       for (let i = 0; i < selected.value.length; i++) {
-        copied.value.push(selected.value[i])
+        copied.value.push(selected.value[i].path)
       }
       console.log('copy: ', copied.value[0])
     })
@@ -321,6 +321,22 @@ export default {
       // selected.value.length = 0
     }
 
+    async function handlePaste () {
+      if (props.data.length !== 0) {
+        const projPath = props.data[0].path
+        await window.electronAPI.paste(copied.value[0], projPath, projPath)
+        await handleFlush()
+      }
+    }
+
+    bus.on('pasteForSpecialPath', async (path) => {
+      if (props.data.length !== 0) {
+        const projPath = props.data[0].path
+        await window.electronAPI.paste(copied.value[0], path, projPath)
+        await handleFlush()
+      }
+    })
+
     function handleCloseWorkArea () {
       selected.value.length = 0 // 清空选中区
       bus.emit('closeDir')
@@ -338,6 +354,7 @@ export default {
       textWords,
       handleRightClick,
       handleNew,
+      handlePaste,
       getTags,
       getGraph,
       handleFlush,
