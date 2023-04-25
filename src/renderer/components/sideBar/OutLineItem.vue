@@ -35,7 +35,7 @@ export default {
   },
   setup (props) {
     const pl = computed(() => {
-      return `padding-left:${props.item.level - 0.5}rem`
+      return `margin-left:${props.item.level - 0.5}rem`
     })
 
     function getIndex (index, child) {

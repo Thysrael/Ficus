@@ -51,7 +51,8 @@
           </g>
         </svg>
       </div>
-      <div class="pl-2 fileTreeElementText"
+      <div class="fileTreeElementText"
+           :class="item.type === 'file' ? `pl-2` : `px-1`"
            id="btnRef"
            @mouseenter="togglePopover()"
            @mouseleave="togglePopover()">
@@ -60,7 +61,7 @@
     </div>
     <div id="popoverRef" v-bind:class="{'hidden': !popoverShow, 'block': popoverShow}"
          class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
-         style="position: absolute; font-family: 'Noto Sans SC'; left: 30px">
+         style="position: fixed; font-family: 'Noto Sans SC'">
       <div class="px-3 py-2">
         {{item.name}}
       </div>
@@ -231,7 +232,8 @@ export default {
         this.popoverShow = true
         createPopper(btnRef, popoverRef, {
           placement: 'right',
-          element: 'arrow'
+          element: 'arrow',
+          strategy: 'fixed'
         })
       }
     }
