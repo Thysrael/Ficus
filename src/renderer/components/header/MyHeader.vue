@@ -313,10 +313,11 @@ export default {
       bus.emit('chooseToShowPage', 3)
     })
 
-    async function getLinks () {
-      const cur = JSON.stringify(curObj.value)
-      const obj = await window.electronAPI.getLinksAndTags(cur)
-      bus.emit('editCites', obj.aerials)
+    async function getCites () {
+      console.log('输入：', curObj.value.path)
+      const obj = await window.electronAPI.getCites(curObj.value.path)
+      console.log('得到返回值：', obj)
+      bus.emit('editCites', obj)
     }
 
     async function getTags () {
@@ -326,7 +327,7 @@ export default {
     }
 
     bus.on('changeToRelation', () => {
-      getLinks()
+      getCites()
     })
 
     bus.on('changeToTag', () => {

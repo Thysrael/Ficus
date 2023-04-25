@@ -16,7 +16,7 @@ import {
 import {
   addTag2File,
   deleteTag,
-  findTags,
+  findTags, getCiteInfo,
   getLinks,
   initFromFolder,
   refresh,
@@ -147,6 +147,10 @@ app.on('ready', async () => {
 
   ipcMain.handle('getLinksAndTags', async (e, file) => {
     return await getLinks(file)
+  })
+
+  ipcMain.handle('ficus::getCites', async (e, filePath) => {
+    return getCiteInfo(filePath)
   })
 
   ipcMain.handle('refresh', async (e, projPath) => {

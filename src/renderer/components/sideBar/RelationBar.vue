@@ -199,8 +199,9 @@ export default {
       }
     }
 
-    bus.on('editCites', (array) => {
-      cites.value = array
+    bus.on('editCites', (obj) => {
+      quoted.value = obj.cited
+      cites.value = obj.citing
     })
 
     return {
