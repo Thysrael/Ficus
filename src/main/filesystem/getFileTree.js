@@ -40,7 +40,20 @@ function getFileJson (res, arr, dir) {
     }
     return null
   })
-  // console.log(arr)
+  const files = []
+  const folders = []
+  for (const item of arr) {
+    if (item.type === 'file') {
+      files.push(item)
+    } else {
+      folders.push(item)
+    }
+  }
+  arr.splice(0, arr.length)
+  const newArr = folders.concat(files)
+  for (const item of newArr) {
+    arr.push(item)
+  }
   return arr
 }
 
