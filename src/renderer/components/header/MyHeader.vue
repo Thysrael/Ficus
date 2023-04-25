@@ -165,7 +165,8 @@ export default {
     bus.on('changeMode', (value) => {
       const mode = store.getters.getMode
       if (openFiles.value.length === 0 && value !== -1) {
-        store.dispatch('updateMode', { value })
+        store.dispatch('updateMode', { value: -1 })
+        bus.emit('chooseToShowPage', 0) // 展示欢迎界面
         return
       }
       if (mode !== value) {
