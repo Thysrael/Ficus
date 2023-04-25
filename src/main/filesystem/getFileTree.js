@@ -86,5 +86,6 @@ function newObj (objPath, item) {
 exports.getTree = async (folderPath, folderName) => {
   const dirPath = path.resolve(folderPath)
   const fileJson = await initFun(dirPath, folderName)
+  linkManager.init()
   return fileJson
 }
