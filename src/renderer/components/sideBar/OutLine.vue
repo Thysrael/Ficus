@@ -9,7 +9,7 @@
           class="py-1 pl-2"
       />
     </ul>
-    <div v-if="items.length === 0">
+    <div v-if="items === undefined || items.length === 0">
       <div style="font-size: 13px; font-family: 'Noto Sans SC'" class="pl-2">
         大纲内容为空。
       </div>
@@ -39,11 +39,9 @@ export default {
 
     function getIndex (index, item) {
       titles.unshift(index)
-      console.log(item.name)
       for (let i = titles.length; i < 6; i++) {
         titles.push(-1)
       }
-      console.log(titles)
       bus.emit('scrollToHeading', { info: titles })
       titles = []
     }

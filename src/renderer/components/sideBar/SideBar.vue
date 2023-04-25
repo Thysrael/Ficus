@@ -157,7 +157,7 @@
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('file')">新建文件</v-contextmenu-item>
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >粘贴</v-contextmenu-item>
-      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >关闭工作区</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleCloseWorkArea">关闭工作区</v-contextmenu-item>
     </div>
 <!--    <div v-if="isFile === 2">-->
 <!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >新建段落</v-contextmenu-item>-->
@@ -214,10 +214,9 @@ export default {
     const copied = ref([]) // 存储被复制的对象
     const store = useStore()
     const TabXY = ref({ x: -1, y: -1 })
+    // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
-
-    console.log(proxy, _this)
 
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
@@ -254,7 +253,6 @@ export default {
     bus.on('newSelected', (obj) => {
       selected.value.length = 0
       selected.value.push(obj)
-      console.log('newSelected ', selected.value)
     })
 
     bus.on('deleteFromSelected', (index) => {
@@ -282,7 +280,6 @@ export default {
       if (index === -1) {
         selected.value.length = 0
         selected.value.push(obj)
-        console.log('newSelected ', selected.value)
       }
       copied.value.length = 0
       for (let i = 0; i < selected.value.length; i++) {
@@ -292,14 +289,12 @@ export default {
     })
 
     function handleNew (type) {
-      console.log('新建文件！', props.data.length)
       if (props.data.length !== 0) {
         bus.emit('showDialogForNewFile', { type, father: props.data[0] })
       }
     }
     function getTags () {
       isFile.value = 4
-      console.log('getTags')
       bus.emit('changeToTag')
     }
 
@@ -323,13 +318,10 @@ export default {
         open.push(data[0])
 
         data[0] = { name: 'xxx' }
-
-        console.log(data[0].name, open[0].name)
         // bus.emit('openDir', data)
         // 清空selectedList
         // 同步openFileList 【策略：path相同的修改为文件夹中给的对象，不同的暂不处理】
       }
-      bus.emit('updateOpenFiles')
     }
 
     function handleCloseWorkArea () {

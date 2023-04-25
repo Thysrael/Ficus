@@ -74,12 +74,11 @@ export default {
     const fileName = ref('')
     const father = ref({}) // 父对象
     let mode = 0 // 0：新建 / 1：重命名
+    // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
     const myAlert = ref(false)
     const message = ref('')
-
-    console.log(proxy, _this)
 
     onMounted(async () => {
       pathSeq = await window.electronAPI.getPathSep()
@@ -155,11 +154,9 @@ export default {
       })
     })
 
-    bus.on('getSource', (obj) => {
-      console.log('getSource ', obj)
-      source.value = obj
-    })
-
+    /*
+    与删除相关的函数
+     */
     function closeTab (obj) {
       if (obj.type === 'file') {
         bus.emit('deleteTab', obj)
@@ -172,7 +169,7 @@ export default {
 
     function removeFrom (obj, arr) {
       if (arr === undefined) {
-        console.log('big bug!')
+        console.log('bug: 尝试从undefined中删除')
       }
       let index = -1
       for (let i = 0; i < arr.length; i++) {
@@ -199,28 +196,6 @@ export default {
       removeFrom(obj, father.children)
     })
 
-    bus.on('getDst', (obj) => {
-      dst.value = obj
-      console.log('更新目的地：', dst.value)
-    })
-
-    bus.on('toDst', () => {
-      const info = '确定将' + source.value.name + '移动到' + dst.value.name + '？'
-      alert(info)
-      if (dst.value.path === source.value.path) {
-        return
-      }
-      if (dst.value.type === 'folder') {
-        const father = findFather(source.value, data.value[0]).res
-        // 会有一套完整的安全管理流程，例如控制改变之后同目录下的文件不应该重名
-        if (father.path !== dst.value.path) {
-          removeFrom(source.value, father.children)
-          buildNewFileFromOld(dst.value, source.value)
-          dst.value.children.push(source.value)
-        }
-      }
-    })
-
     // 返回父对象
     function findFather (file, father) {
       for (let i = 0; i < father.children.length; i++) {
@@ -243,37 +218,19 @@ export default {
       }
     }
 
+    // 打开文件夹
     bus.on('openDir', (obj) => {
       data.value = [obj]
+      console.log('APP：打开了文件夹')
+      bus.emit('updateOpenFiles', obj)
     })
 
+    // 关闭文件夹
     bus.on('closeDir', () => {
       data.value.length = 0
     })
 
-    function buildNewFileFromOld (father, curObj) {
-      if (curObj.type === 'file') {
-        window.electronAPI.newFileFromSidebar(father.path, curObj.name)
-      } else {
-        window.electronAPI.newFolderFromSidebar(father.path, curObj.name)
-      }
-      const paths = []
-      for (let i = 0; i < father.absolutePath.length; i++) {
-        paths.push(father.absolutePath[i])
-      }
-      paths.push(curObj.name)
-      curObj.absolutePath = paths
-      // curObj.path = path.join(father.path, curObj.name)
-      curObj.path = father.path + pathSeq + curObj.name
-      if (curObj.type === 'file') {
-        window.electronAPI.saveFile(curObj.path, curObj.content)
-      } else if (curObj.type === 'folder') {
-        for (let i = 0; i < curObj.children.length; i++) {
-          buildNewFileFromOld(curObj, curObj.children[i])
-        }
-      }
-    }
-
+    // 新建文件/文件夹
     function handleNew () {
       if (fileName.value === '') {
         message.value = '必须输入文件名或文件夹名'
@@ -320,6 +277,7 @@ export default {
       }
     }
 
+    // 重命名文件
     function renameFile () {
       const obj = father.value
       if (fileName.value === '') {
@@ -371,6 +329,7 @@ export default {
       }
     }
 
+    // 名称分发
     function handle () {
       if (mode === 0) {
         handleNew()
@@ -379,6 +338,7 @@ export default {
       }
     }
 
+    // 复制相对路径
     bus.on('CopyPartPath', (obj) => {
       let i = 0
       for (; i < obj.absolutePath.length; i++) {
@@ -393,6 +353,63 @@ export default {
       }
       navigator.clipboard.writeText(s)
     })
+
+    bus.on('showMyAlert', (obj) => {
+      console.log('警告空内容：', obj.message)
+      message.value = obj.message
+      myAlert.value = true
+    })
+
+    /*
+    与拖拽相关的函数
+     */
+    bus.on('getSource', (obj) => {
+      source.value = obj
+    })
+
+    bus.on('getDst', (obj) => {
+      dst.value = obj
+    })
+
+    bus.on('toDst', () => {
+      const info = '确定将' + source.value.name + '移动到' + dst.value.name + '？'
+      alert(info)
+      if (dst.value.path === source.value.path) {
+        return
+      }
+      if (dst.value.type === 'folder') {
+        const father = findFather(source.value, data.value[0]).res
+        // 会有一套完整的安全管理流程，例如控制改变之后同目录下的文件不应该重名
+        if (father.path !== dst.value.path) {
+          removeFrom(source.value, father.children)
+          buildNewFileFromOld(dst.value, source.value)
+          dst.value.children.push(source.value)
+        }
+      }
+    })
+
+    function buildNewFileFromOld (father, curObj) {
+      if (curObj.type === 'file') {
+        window.electronAPI.newFileFromSidebar(father.path, curObj.name)
+      } else {
+        window.electronAPI.newFolderFromSidebar(father.path, curObj.name)
+      }
+      const paths = []
+      for (let i = 0; i < father.absolutePath.length; i++) {
+        paths.push(father.absolutePath[i])
+      }
+      paths.push(curObj.name)
+      curObj.absolutePath = paths
+      // curObj.path = path.join(father.path, curObj.name)
+      curObj.path = father.path + pathSeq + curObj.name
+      if (curObj.type === 'file') {
+        window.electronAPI.saveFile(curObj.path, curObj.content)
+      } else if (curObj.type === 'folder') {
+        for (let i = 0; i < curObj.children.length; i++) {
+          buildNewFileFromOld(curObj, curObj.children[i])
+        }
+      }
+    }
 
     return {
       data,

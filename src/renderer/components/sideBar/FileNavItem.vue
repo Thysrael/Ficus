@@ -125,11 +125,10 @@ export default {
     const selectedList = ref(props.selected)
     const store = useStore()
     const TabXY = ref({ x: -1, y: -1 })
+    // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
     const popoverShow = ref(false) // 显示完整文件名的弹窗
-
-    console.log(proxy, _this)
 
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
@@ -147,7 +146,6 @@ export default {
 
     // 考虑将isSelected加入data字段中提升计算效率
     const isSelected = computed(() => {
-      // console.log('selected is ', selectedList.value)
       for (let i = 0; i < selectedList.value.length; i++) {
         if (props.item.path === selectedList.value[i].path) {
           return true
