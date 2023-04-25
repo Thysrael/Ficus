@@ -73,6 +73,7 @@ export default {
     bus.on('editTags', (obj) => {
       tags.value.length = 0
       tags.value.push(...obj.res)
+      console.log('tags value: ', tags.value)
     })
 
     async function handleSearch () {
@@ -97,7 +98,6 @@ export default {
         }
       }
       bus.emit('addTags', selected)
-      tags.value.push(selected)
     }
 
     function removeTag (tagName, index) {
