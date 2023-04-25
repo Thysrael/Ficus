@@ -109,6 +109,7 @@ import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
 import TabList from '@/renderer/components/header/TabList'
 import DataManager from '@/IR/manager'
+import store from '@/renderer/store'
 
 export default {
   name: 'MyHeader',
@@ -136,7 +137,6 @@ export default {
     }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
     const theme = ref('classic') // 当前主题
-    let mode = -1 // 默认当前模式为欢迎界面
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', async (obj) => {
@@ -154,7 +154,7 @@ export default {
           obj.content = res.content
         }
       }
-      if (mode === -1) {
+      if (store.getters.getMode === -1) {
         // 正在展示欢迎界面，默认进入纯文本模式
         bus.emit('changeMode', 0)
       }
@@ -163,15 +163,16 @@ export default {
 
     // 模式改变核心逻辑
     bus.on('changeMode', (value) => {
+      const mode = store.getters.getMode
       if (openFiles.value.length === 0 && value !== -1) {
-        mode = -1
+        store.dispatch('updateMode', { value })
         return
       }
       if (mode !== value) {
         // 模式改变 0表示纯文本，1表示源码，2表示树形
         if (value === 2) {
           bus.emit('chooseToShowPage', 2) // 展示树型组件
-        } else if (value >= 0) {
+        } else if (value === 0 || value === 1) {
           bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
           bus.emit('chooseToShowPage', 1) // 展示编辑器组件
         } else if (value === -1) {
@@ -180,10 +181,10 @@ export default {
         if (mode !== -1) {
           // 工作区有打开文件
           console.log('发生了模式切换：', curObj.value)
-          mode = value
+          store.dispatch('updateMode', { value })
           bus.emit('sendToTextUI', curObj.value)
         } else {
-          mode = value
+          store.dispatch('updateMode', { value })
         }
       }
     })
@@ -219,10 +220,10 @@ export default {
 
     // 传参给，根据mode选择传参给哪个组件
     function sendContentByMode () {
-      if (mode === 2) {
+      if (store.getters.getMode === 2) {
         const obj = dataManager.getTreeMindJson()
         bus.emit('sendToFicTree', obj)
-      } else if (mode >= 0) {
+      } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
           bus.emit('setEditorContent', { content: content.value })
         } else {
@@ -314,6 +315,7 @@ export default {
       dataManager.buildGraphFromFiles(info, { replaced: true })
       bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
       bus.emit('chooseToShowPage', 3)
+      await store.dispatch('updateMode', { value: 3 })
     })
 
     async function getCites () {
@@ -385,11 +387,22 @@ export default {
       }
     }
 
+    bus.on('openRefFile', async (obj) => {
+      console.log('跳转到：', obj.path)
+      let file = await window.electronAPI.linkToFile()
+      if (file !== undefined) {
+        const obj = inDirTree(file, props.data)
+        if (obj.has) {
+          file = obj.res
+        }
+        bus.emit('openNewTab', file)
+      }
+    })
+
     bus.on('updateOpenFiles', (root) => {
       console.log('尝试同步中...', root, openFiles.value)
       for (let i = 0; i < openFiles.value.length; i++) {
         const obj = inDirTree(openFiles.value[i], [root])
-        console.log('判断', openFiles.value[i].name, obj.has)
         if (obj.has) {
           // 指向不同引用
           if (obj.res.content === undefined) {
