@@ -1,74 +1,97 @@
 <template>
-  <section class="text-gray-600 body-font">
+  <section class="text-gray-500 body-font place-content-center ">
     <div class="container px-5 py-24 mx-auto">
+      <div class="flex place-content-center">
+        <div>
+          <img alt="logo" src="../../assets/ficus_logo2.png"
+               style="-webkit-app-region: no-drag; width: 200px; height: 200px"/>
+        </div>
+      </div>
       <div class="text-center mb-20">
-        <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Raw Denim Heirloom Man Braid</h1>
-        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug.</p>
+        <h1 class="sm:text-3xl text-2xl justify-self-center text-center title-font text-gray-600 mb-4">欢迎来到 Ficus </h1>
+        <p class="leading-relaxed xl:w-6/12 lg:w-9/12 mx-auto" style="font-family: 'Noto Serif SC'; font-style: italic">Branch out your mind with Ficus. </p>
       </div>
-      <div class="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">
-        <div class="p-2 sm:w-1/2 w-full">
-          <div class="bg-gray-100 rounded flex p-4 h-full items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-green-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
-            </svg>
-            <span class="title-font font-medium">Authentic Cliche Forage</span>
+      <div class="flex flex-wrap mx-4 my-2">
+        <div class="p-2 sm:w-6/12 w-full">
+          <div class="bg-gray-200 rounded flex p-4 h-full items-center">
+            <div>
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="flex-shrink-0 mr-4" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                <path d="M22 4L12 14.01l-3-3"></path>
+              </svg>
+            </div>
+            <span class="title-font justify-self-center">像榕树一样组织知识</span>
           </div>
         </div>
-        <div class="p-2 sm:w-1/2 w-full">
-          <div class="bg-gray-100 rounded flex p-4 h-full items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-green-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
-            </svg>
-            <span class="title-font font-medium">Kinfolk Chips Snackwave</span>
+        <div class="p-2 sm:w-6/12 w-full">
+          <div class="bg-gray-200 rounded flex p-4 h-full items-center">
+            <div>
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="flex-shrink-0 mr-4" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                <path d="M22 4L12 14.01l-3-3"></path>
+              </svg>
+            </div>
+            <span class="title-font justify-self-center">所见即所得</span>
           </div>
         </div>
-        <div class="p-2 sm:w-1/2 w-full">
-          <div class="bg-gray-100 rounded flex p-4 h-full items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-green-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
-            </svg>
-            <span class="title-font font-medium">Coloring Book Ethical</span>
+        <div class="p-2 sm:w-6/12 w-full">
+          <div class="bg-gray-200 rounded flex p-4 h-full items-center">
+            <div>
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="flex-shrink-0 mr-4" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                <path d="M22 4L12 14.01l-3-3"></path>
+              </svg>
+            </div>
+            <span class="title-font justify-self-center">联合结构化编辑</span>
           </div>
         </div>
-        <div class="p-2 sm:w-1/2 w-full">
-          <div class="bg-gray-100 rounded flex p-4 h-full items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-green-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
-            </svg>
-            <span class="title-font font-medium">Typewriter Polaroid Cray</span>
-          </div>
-        </div>
-        <div class="p-2 sm:w-1/2 w-full">
-          <div class="bg-gray-100 rounded flex p-4 h-full items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-green-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
-            </svg>
-            <span class="title-font font-medium">Pack Truffaut Blue</span>
-          </div>
-        </div>
-        <div class="p-2 sm:w-1/2 w-full">
-          <div class="bg-gray-100 rounded flex p-4 h-full items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="text-green-500 w-6 h-6 flex-shrink-0 mr-4" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-              <path d="M22 4L12 14.01l-3-3"></path>
-            </svg>
-            <span class="title-font font-medium">The Catcher In The Rye</span>
+        <div class="p-2 sm:w-6/12 w-full">
+          <div class="bg-gray-200 rounded flex p-4 h-full items-center">
+            <div>
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="flex-shrink-0 mr-4" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                <path d="M22 4L12 14.01l-3-3"></path>
+              </svg>
+            </div>
+            <span class="title-font justify-self-center">榕荫般清凉的写作体验</span>
           </div>
         </div>
       </div>
-      <button class="flex mx-auto mt-16 text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">Button</button>
+      <button class="flex mx-auto mt-8 text-white bg-emerald-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-sm font-semibold transition-all"
+              @click="handleOpenDir">
+        打开文件夹
+      </button>
     </div>
   </section>
 </template>
 
 <script>
+import bus from 'vue3-eventbus'
+
 export default {
-  name: 'Welcome'
+  name: 'WelcomePage',
+  setup () {
+    async function handleOpenDir () {
+      const obj = await window.electronAPI.newFicusVault()
+      if (obj.error === 0) {
+        const root = obj.relation
+        const openDir = [{
+          name: root.root.folderName,
+          path: root.root.path,
+          children: root.root.tree,
+          curChild: -1,
+          absolutePath: [root.root.folderName],
+          offset: -1,
+          type: 'folder'
+        }]
+        bus.emit('openDir', openDir[0])
+      }
+    }
+
+    return {
+      handleOpenDir
+    }
+  }
 }
 </script>
 

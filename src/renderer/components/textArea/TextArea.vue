@@ -1,8 +1,7 @@
 <template>
-  <div class="items-center content-center">
-    <div v-if="showPage === 0">
-      我是欢迎界面！
-    </div>
+  <div class="items-center content-center"
+       :class="showPage === 0 ? `bg-SwissCoffee-500` : ``">
+    <WelcomePage style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="showPage === 0"></WelcomePage>
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="showPage === 1"></TextUI>
     <FicTree v-show="showPage === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
     <FicGraph v-show="showPage === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
@@ -37,10 +36,11 @@ import TextUI from '@/renderer/components/richTextEditor'
 import { computed, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import FicGraph from '@/renderer/components/mindEditor/FicGraph'
+import WelcomePage from '@/renderer/components/textArea/WelcomePage.vue'
 
 export default {
   name: 'TextArea',
-  components: { FicGraph, FicTree, TextUI },
+  components: { WelcomePage, FicGraph, FicTree, TextUI },
   setup () {
     const showInfoWin = ref(false)
     const showPage = ref(0) // 0表示默认显示欢迎界面，1表示textUI，2表示ficus视图
@@ -104,7 +104,6 @@ export default {
   width: 70px;
   height: 20px;
   opacity: 1;
-  background: #FFFFFF;
 }
 
 .information {
