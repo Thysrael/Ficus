@@ -325,25 +325,35 @@ exports.paste = async (userSelect, tarPath, projPath) => {
   const selPath = userSelect
   const stat = fs.lstatSync(selPath)
   if (stat.isDirectory()) {
-    const pathSplit = selPath.split(path.sep)
-    const newPath = path.join(tarPath, pathSplit[pathSplit.length - 1])
-    if (!fs.existsSync(newPath)) {
-      fs.mkdir(newPath, (err) => {
-        if (err) console.log(err)
-      })
-      pasteDir(selPath, newPath)
-    } else {
+    if (tarPath.startsWith(selPath)) {
       dialog.showMessageBox({
         type: 'error', // 图标类型
         title: '错误', // 信息提示框标题
-        message: `当前目录下已有此文件夹:${newPath},复制会覆盖原有文件夹中的内容,是否仍要复制`, // 信息提示框内容
-        buttons: ['否', '是'], // 下方显示的按钮
+        message: '不能往选中的文件夹的子文件夹中粘贴！', // 信息提示框内容
+        buttons: ['确定'], // 下方显示的按钮
         cancelId: 2// 点击x号关闭返回值
-      }).then((index) => {
-        if (index.response === 1) {
-          pasteDir(selPath, newPath)
-        } else { /* empty */ }
-      })
+      }).then()
+    } else {
+      const pathSplit = selPath.split(path.sep)
+      const newPath = path.join(tarPath, pathSplit[pathSplit.length - 1])
+      if (!fs.existsSync(newPath)) {
+        fs.mkdir(newPath, (err) => {
+          if (err) console.log(err)
+        })
+        pasteDir(selPath, newPath)
+      } else {
+        dialog.showMessageBox({
+          type: 'error', // 图标类型
+          title: '错误', // 信息提示框标题
+          message: `当前目录下已有此文件夹:${newPath},复制会覆盖原有文件夹中的内容,是否仍要复制`, // 信息提示框内容
+          buttons: ['否', '是'], // 下方显示的按钮
+          cancelId: 2// 点击x号关闭返回值
+        }).then((index) => {
+          if (index.response === 1) {
+            pasteDir(selPath, newPath)
+          } else { /* empty */ }
+        })
+      }
     }
   } else {
     const newPath = path.join(tarPath, path.basename(selPath))
