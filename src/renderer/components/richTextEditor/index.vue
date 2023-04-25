@@ -96,7 +96,10 @@ export default {
           click: (aElement) => {
             if (aElement.getAttribute('class') === 'ficus-filelink') {
               const name = aElement.innerText
-              const path = aElement.getAttribute('href')
+              let path = aElement.getAttribute('href')
+              if (path.startsWith('ficus://')) {
+                path = path.slice(8)
+              }
               bus.emit('openRefFile', { name, path })
             } else {
               window.open(event.target.getAttribute('href'))
