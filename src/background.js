@@ -130,8 +130,8 @@ app.on('ready', async () => {
     }
   })
 
-  ipcMain.handle('paste', (e, userSelect, tarPath) => {
-    paste(userSelect, tarPath)
+  ipcMain.handle('paste', async (e, userSelect, tarPath, projPath) => {
+    return await paste(userSelect, tarPath, projPath)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {

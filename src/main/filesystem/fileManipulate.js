@@ -283,35 +283,39 @@ exports.saveToPDFTarget = (fileContent) => {
     console.log(result)
     fs.writeFileSync(result.filePath, fileContent)
   })
+}
 
-  exports.paste = async (userSelect, tarPath) => {
-    for (const selPath of userSelect) {
-      const stat = fs.lstatSync(selPath)
-      if (stat.isDirectory()) {
-        const pathSplit = selPath.split(path.sep)
-        const newPath = path.join(tarPath, pathSplit[pathSplit.length - 1])
-        if (!fs.existsSync(newPath)) {
-          fs.mkdir(newPath, (err) => {
-            if (err) console.log(err)
-          })
-          pasteDir(selPath, newPath)
-        } else {
-          dialog.showMessageBox({
-            type: 'error', // 图标类型
-            title: '错误', // 信息提示框标题
-            message: `当前目录下已有此文件夹:${newPath},复制会覆盖原有文件夹中的内容,是否仍要复制`, // 信息提示框内容
-            buttons: ['否', '是'], // 下方显示的按钮
-            cancelId: 2// 点击x号关闭返回值
-          }).then((index) => {
-            if (index.response === 1) {
-              pasteDir(selPath, newPath)
-            } else { /* empty */ }
-          })
-        }
+exports.paste = async (userSelect, tarPath, projPath) => {
+  for (const selPath of userSelect) {
+    const stat = fs.lstatSync(selPath)
+    if (stat.isDirectory()) {
+      const pathSplit = selPath.split(path.sep)
+      const newPath = path.join(tarPath, pathSplit[pathSplit.length - 1])
+      if (!fs.existsSync(newPath)) {
+        fs.mkdir(newPath, (err) => {
+          if (err) console.log(err)
+        })
+        pasteDir(selPath, newPath)
       } else {
-        const newPath = path.join(tarPath, path.basename(selPath))
-        await pasteFile(selPath, newPath)
+        dialog.showMessageBox({
+          type: 'error', // 图标类型
+          title: '错误', // 信息提示框标题
+          message: `当前目录下已有此文件夹:${newPath},复制会覆盖原有文件夹中的内容,是否仍要复制`, // 信息提示框内容
+          buttons: ['否', '是'], // 下方显示的按钮
+          cancelId: 2// 点击x号关闭返回值
+        }).then((index) => {
+          if (index.response === 1) {
+            pasteDir(selPath, newPath)
+          } else { /* empty */ }
+        })
       }
+    } else {
+      const newPath = path.join(tarPath, path.basename(selPath))
+      await pasteFile(selPath, newPath)
     }
   }
+  const pathSplit = projPath.split(path.sep)
+  const folderName = pathSplit[pathSplit.length - 1]
+  const tree = await getTree(projPath, folderName)
+  return tree
 }
