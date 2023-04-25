@@ -11,7 +11,7 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile, paste
+  readFile, paste, move
 } from './main/filesystem/fileManipulate'
 import {
   addTag2File,
@@ -128,6 +128,10 @@ app.on('ready', async () => {
     } catch (error) {
       console.log(error)
     }
+  })
+
+  ipcMain.handle('ficus::move', async (e, srcPath, destDir) => {
+    move(srcPath, destDir)
   })
 
   ipcMain.handle('paste', async (e, userSelect, tarPath, projPath) => {

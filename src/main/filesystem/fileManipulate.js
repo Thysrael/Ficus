@@ -3,8 +3,8 @@ const fs = require('fs-extra')
 const { getTree } = require('./getFileTree')
 const path = require('path')
 const { clearDir } = require('./general')
-const { pasteFile, pasteDir } = require('@/main/filesystem/general')
-const linkManager = require('@/main/filesystem/linkManager')
+const { pasteFile, pasteDir } = require('./general')
+const linkManager = require('./linkManager')
 // 跳转到引用：
 exports.linkToFile = async (filePath) => {
   if (fs.existsSync(filePath) === false) return null
@@ -21,10 +21,7 @@ exports.linkToFile = async (filePath) => {
     content // 文件内容
   }
   file.type = 'file'
-  const index = filePath.lastIndexOf('.')
-  const ext = filePath.substring(index + 1)
-  const isMd = (ext === 'md')
-  file.isMd = isMd
+  file.isMd = (path.extname(filePath) === '.md')
   return file
 }
 // 删除文件
@@ -77,8 +74,7 @@ exports.newFileFromDialog = async (projPath) => {
       content: '', // 文件内容
       type: 'file'
     }
-    const ext = path.extname(result.filePath)
-    file.isMd = (ext === '.md')
+    file.isMd = (path.extname(result.filePath) === '.md')
     const fd = fs.openSync(result.filePath, 'w')
     fs.close(fd, (err) => {
       if (err) { console.error('Failed to close file', err) }
@@ -163,10 +159,7 @@ exports.getFileFromUser = async () => {
         content // 文件内容
       }
       file.type = 'file'
-      const index = filePath.lastIndexOf('.')
-      const ext = filePath.substring(index + 1)
-      const isMd = (ext === 'md')
-      file.isMd = isMd
+      file.isMd = (path.extname(filePath) === '.md')
       fileObjs.push(file)
     }
     return fileObjs
@@ -301,6 +294,20 @@ exports.saveToPDFTarget = (fileContent) => {
   })
 }
 
+/**
+ * 移动一个文件或文件夹
+ * @param {string} srcPath 原文件/文件夹路径
+ * @param {string} destDir 目标文件夹
+ */
+exports.move = async (srcPath, destDir) => {
+  try {
+    const fname = path.basename(srcPath)
+    fs.moveSync(srcPath, path.resolve(destDir, fname))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 exports.paste = async (userSelect, tarPath, projPath) => {
   // for (const selPath of userSelect) {
   //   const stat = fs.lstatSync(selPath)
@@ -342,8 +349,7 @@ exports.paste = async (userSelect, tarPath, projPath) => {
         cancelId: 2// 点击x号关闭返回值
       }).then()
     } else {
-      const pathSplit = selPath.split(path.sep)
-      const newPath = path.join(tarPath, pathSplit[pathSplit.length - 1])
+      const newPath = path.join(tarPath, path.basename(selPath))
       if (!fs.existsSync(newPath)) {
         fs.mkdir(newPath, (err) => {
           if (err) console.log(err)
@@ -367,8 +373,7 @@ exports.paste = async (userSelect, tarPath, projPath) => {
     const newPath = path.join(tarPath, path.basename(selPath))
     await pasteFile(selPath, newPath)
   }
-  const pathSplit = projPath.split(path.sep)
-  const folderName = pathSplit[pathSplit.length - 1]
+  const folderName = path.basename(projPath)
   const tree = await getTree(projPath, folderName)
   return tree
 }
