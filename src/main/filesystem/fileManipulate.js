@@ -176,17 +176,6 @@ exports.getFolderFromUser = async () => {
   })
 }
 
-/**
- * 判断某个markdown文件可以进行读取(路径存在，为md文件，且大小不超过100KB)
- * @param {string} filePath
- */
-function isValidMarkdownFilePath (filePath) {
-  return fs.existsSync(filePath) &&
-        (path.extname(filePath) === '.md') &&
-        fs.statSync(filePath).isFile() &&
-        fs.statSync(filePath).size <= 100 * 1024
-}
-
 function readMarkdownFile (filePath) {
   if (isValidMarkdownFilePath(filePath)) {
     return fs.readFileSync(filePath).toString()
