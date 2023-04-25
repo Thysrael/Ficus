@@ -210,8 +210,8 @@ exports.getFolderFromUser = async () => {
  */
 function isValidMarkdownFilePath (filePath) {
   return fs.existsSync(filePath) &&
-        (path.extname === '.md') &&
-        !fs.statSync(filePath).isDirectory() &&
+        (path.extname(filePath) === '.md') &&
+        fs.statSync(filePath).isFile() &&
         fs.statSync(filePath).size <= 100 * 1024
 }
 
