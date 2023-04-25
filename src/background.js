@@ -153,6 +153,14 @@ app.on('ready', async () => {
     return getCiteInfo(filePath)
   })
 
+  ipcMain.handle('ficus::getTags', async (e, tagName) => {
+    return findTags(tagName)
+  })
+
+  ipcMain.handle('ficus::getLinks', async (e) => {
+    return getLinks()
+  })
+
   ipcMain.handle('refresh', async (e, projPath) => {
     return await refresh(projPath)
   })

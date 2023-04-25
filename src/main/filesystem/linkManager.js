@@ -132,7 +132,7 @@ class LinkManager {
       })
     }
     this.citingMap.set(citingPath, newCiteds)
-    for (const cited of citeds) {
+    for (const cited of newCiteds) {
       if (!this.citedMap.has(cited.path)) {
         this.citedMap.set(cited.path, [])
       }
