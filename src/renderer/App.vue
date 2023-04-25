@@ -3,7 +3,7 @@
     <MyHeader :data="data" style="width: 100%"></MyHeader>
     <div style="display: flex; height: 100%; width: 100%; position: relative">
       <SideBar :data="data" style="height: 100%"></SideBar>
-      <TextArea class="myTextArea pl-24 pr-36" ></TextArea>
+      <TextArea class="myTextArea pl-24 pr-36" :style="{ height: windowHeight }"></TextArea>
     </div>
     <div class="dialog text-white px-6 py-4 border-0 rounded bg-pink-500 z-50" v-if="myAlert">
       <span class="text-xl inline-block mr-5 align-middle">
