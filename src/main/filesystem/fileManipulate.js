@@ -229,7 +229,7 @@ exports.readFile = (filePath) => {
     dialog.showMessageBox({
       type: 'error', // 图标类型
       title: '错误', // 信息提示框标题
-      message: '不合法的Markdown文件路径', // 信息提示框内容
+      message: '不合法的Markdown文件路径或者文件>100kb', // 信息提示框内容
       buttons: ['确定'] // 下方显示的按钮
       // cancelId:2//点击x号关闭返回值
     }).then(() => {
