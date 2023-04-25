@@ -37,20 +37,24 @@
           <button type="button"
                   class="inline-flex transition items-center text-sm text-blueGray-300 bg-transparent rounded-md hover:text-blueGray-800"
                   aria-label="Remove"
-                  @click="handleSearch">
+                  @mouseenter="handleSearch">
             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"
                  xmlns="http://www.w3.org/2000/svg"> <g> <path fill="none" d="M0 0H24V24H0z"/> <path
                 d="M21 3v2c0 9.627-5.373 14-12 14H7.098c.212-3.012 1.15-4.835 3.598-7.001 1.204-1.065 1.102-1.68.509-1.327-4.084 2.43-6.112 5.714-6.202 10.958L5 22H3c0-1.363.116-2.6.346-3.732C3.116 16.974 3 15.218 3 13 3 7.477 7.477 3 13 3c2 0 4 1 8 0z"/> </g> </svg>
           </button>
       </span>
     </div>
-    <ul style="margin-top: 10px" v-if="showM">
-      <li v-for="(item, index) in resTags"
+    <div v-bind:class="{'hidden': !showM, 'block': showM}"
+         @mouseleave="handleSearch"
+         class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
+         style="position: relative; font-family: 'Noto Sans SC';">
+      <div v-for="(item, index) in resTags"
+           class="px-3 py-1 option rounded-lg"
           :key="index"
           @click="handleAddTag(index)">
         {{ item }}
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,15 +76,20 @@ export default {
     })
 
     async function handleSearch () {
-      showM.value = true
-      resTags.value = await window.electronAPI.getTags(keyWord.value)
-      resTags.value = resTags.value.filter((tagName) => {
-        return tags.value.indexOf(tagName) === -1
-      })
-      console.log('过滤之后：', resTags.value)
+      if (showM.value === false) {
+        showM.value = true
+        resTags.value = await window.electronAPI.getTags(keyWord.value)
+        resTags.value = resTags.value.filter((tagName) => {
+          return tags.value.indexOf(tagName) === -1
+        })
+        console.log('过滤之后：', resTags.value)
+      } else {
+        showM.value = false
+      }
     }
 
     function handleAddTag (index) {
+      showM.value = false
       const selected = resTags.value[index]
       for (let i = 0; i < tags.value.length; i++) {
         if (selected === tags.value[i]) {
@@ -117,5 +126,17 @@ export default {
 .tag:hover {
   background-color: #d6ece3;
   -webkit-transition: .3s;
+}
+
+.option:hover {
+  background-color: #e5e5e5;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
+}
+
+.option:active {
+  background-color: #c9c9c9;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
 }
 </style>

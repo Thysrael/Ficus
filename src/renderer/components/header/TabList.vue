@@ -168,7 +168,7 @@ export default {
 }
 
 .tabItem {
-  width: 200px;
+  width: 150px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
