@@ -75,6 +75,7 @@ export default function defineRAPI (vditor) {
 
   /** 删除所选的文本 **/
   bus.on('deleteSelectedText', () => {
+    console.log('删除！')
     vditor.deleteValue()
   })
 

@@ -1,5 +1,6 @@
 <template>
-  <div class="flexStyle" style="margin-right: 20px; left: 230px; position: fixed">
+  <div class="flexStyle" style="margin-right: 20px; left: 230px; position: fixed"
+  :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 2">
     <ol class="flex">
       <li
           class="items-center content-center shadow-sm"
@@ -41,7 +42,7 @@
 
 <script>
 
-import { getCurrentInstance, ref, watch } from 'vue'
+import { computed, getCurrentInstance, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import { directive, Contextmenu, ContextmenuItem } from 'v-contextmenu'
 import 'v-contextmenu/dist/themes/default.css'
@@ -75,6 +76,9 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
+    const mode = computed(() => {
+      return store.getters.getMode
+    })
 
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
@@ -141,6 +145,7 @@ export default {
     }
 
     return {
+      mode,
       dragstart,
       dragenter,
       dragover,
