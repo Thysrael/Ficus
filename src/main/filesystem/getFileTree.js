@@ -6,7 +6,7 @@ const {
   isMarkdownExtname,
   isValidFilePath,
   isValidFolderPath
-} = require('../utils')
+} = require('../helper/path')
 
 /**
  *
@@ -92,6 +92,7 @@ function makeFolderStat (dirPath) {
 }
 
 async function getTree (folderPath, folderName) {
+  linkManager.reset()
   const dirPath = path.resolve(folderPath)
   const fileJson = makeFolderStat(dirPath)
   linkManager.init()

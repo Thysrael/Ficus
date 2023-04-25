@@ -1,7 +1,7 @@
 const path = require('path')
 const { getLinksInFile } = require('../../common/parseLinks')
 const { readFileSync } = require('fs-extra')
-const { isValidMarkdownFilePath } = require('../utils')
+const { isValidMarkdownFilePath } = require('../helper/path')
 
 class LinkManager {
   constructor () {
