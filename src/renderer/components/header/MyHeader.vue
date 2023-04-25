@@ -86,7 +86,8 @@
     <div class="area-header-bot items-center content-center" style="z-index: 10; display: flex;">
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
-              class="theme-element"
+              class="theme-element;"
+              :class="(mode === 0 || mode === 1) ? `pointer-events-auto` : `pointer-events-none`"
               style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
@@ -102,7 +103,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
@@ -137,6 +138,9 @@ export default {
     }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
     const theme = ref('classic') // 当前主题
+    const mode = computed(() => {
+      return store.getters.getMode
+    })
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', async (obj) => {
@@ -572,7 +576,7 @@ export default {
       bus.emit('changeName', curObj.value.name)
     }
 
-    return { openFiles, update, curObj, content, showMenu, myMin, myClose, myMax, changeTheme }
+    return { openFiles, update, curObj, content, mode, showMenu, myMin, myClose, myMax, changeTheme }
   }
 }
 </script>

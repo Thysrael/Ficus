@@ -53,7 +53,7 @@ async function createWindow () {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    // if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -62,6 +62,22 @@ async function createWindow () {
   win.setMinimumSize(800, 600)
   win.setMenu(null)
   win.removeMenu()
+
+  // 令窗口初始为最大
+  if (isOSx) {
+    if (win.isFullScreen()) {
+      win.setFullScreen(false)
+    } else {
+      win.setFullScreen(true)
+    }
+  } else {
+    if (win.isMaximized()) {
+      win.restore()
+    } else {
+      win.maximize()
+    }
+  }
+
   return win
 }
 
@@ -309,6 +325,12 @@ app.on('ready', async () => {
   })
   ipcMain.handle('window-close', () => {
     win.close()
+  })
+  ipcMain.handle('dev-open', () => {
+    win.webContents.openDevTools()
+  })
+  ipcMain.handle('dev-close', () => {
+    win.webContents.closeDevTools()
   })
 })
 
