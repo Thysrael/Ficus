@@ -393,6 +393,7 @@ export default {
         closeMenu() // 点击叶节点关闭菜单
         // 根据index找相应的函数执行
         const mode = store.getters.getMode
+        let openDev = false
         switch (op.name) {
           case '新建文件':
             await newFile()
@@ -514,15 +515,31 @@ export default {
           case '清楚样式':
             bus.emit('removeFormat')
             break
+          case '开发者工具':
+            if (openDev) {
+              await window.electronAPI.closeDev()
+            } else {
+              await window.electronAPI.openDev()
+            }
+            openDev = !openDev
+            break
           case '打字机模式':
             isTypeWriteMode = !isTypeWriteMode
             bus.emit('setTypewriterMode', { enable: isTypeWriteMode })
             break
           case '导出HTML文件':
-            bus.emit('exportHTML')
+            if (mode === 0 || mode === 1) {
+              bus.emit('exportHTML')
+            } else {
+              bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出HTML' })
+            }
             break
           case '导出PDF文件':
-            bus.emit('exportPDF')
+            if (mode === 0 || mode === 1) {
+              bus.emit('exportPDF')
+            } else {
+              bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出PDF' })
+            }
             break
           case '导出PNG':
             // 只支持树模式和图模式
@@ -531,7 +548,7 @@ export default {
             } else if (mode === 3) {
               bus.emit('exportGraphPNG')
             } else {
-              bus.emit('showMyAlert', { message: '当前不在树视图或图试图，不能导出PNG' })
+              bus.emit('showMyAlert', { message: '当前不在树视图或图视图，不能导出PNG' })
             }
             break
           case 'Ficus模式':
