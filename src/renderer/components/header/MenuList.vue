@@ -75,7 +75,7 @@ export default {
       //   name: '选择编码重新打开'
       // },
       {
-        name: '保存'
+        name: '保存当前标签页'
       },
       // {
       //   name: '另存为'
@@ -95,9 +95,11 @@ export default {
           name: '导出PDF文件'
         }, {
           name: '导出PNG'
-        }, {
-          name: '导出SVG'
-        }]
+        }
+        // {
+        //   name: '导出SVG'
+        // }
+        ]
       }, {
         name: '退出'
       }]
@@ -400,7 +402,7 @@ export default {
           case '退出':
             await window.electronAPI.closeWindow()
             break
-          case '保存':
+          case '保存当前标签页':
             bus.emit('writeBackForMenu')
             break
           case '关闭当前标签页':
