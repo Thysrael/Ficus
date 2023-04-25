@@ -205,9 +205,7 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('newProject', async (e, data) => {
-    const relation = await initFromFolder(data)
-    ficusPath = relation.root.path
-    return relation
+    return await initFromFolder(data)
   })
   ipcMain.handle('dialog:openFile', async (e) => {
     const fileObjs = await getFileFromUser()
