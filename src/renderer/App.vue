@@ -81,6 +81,19 @@ export default {
     const message = ref('')
 
     onMounted(async () => {
+      window.electronAPI.updateTree((sender, newChildren) => {
+        data.value[0] = {
+          name: data.value[0].name,
+          path: data.value[0],
+          children: newChildren,
+          curChild: -1,
+          absolutePath: data.value[0].absolutePath,
+          offset: -1,
+          type: 'folder'
+        }
+        console.log('APP：粘贴之后刷新了文件夹')
+        bus.emit('updateOpenFiles', data.value[0])
+      })
       pathSeq = await window.electronAPI.getPathSep()
       window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight + 'px'
