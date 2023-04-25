@@ -90,6 +90,10 @@ export default {
       return [this.xc + r * Math.cos(theta) * this.r, this.yc + r * Math.sin(theta) * this.r];
     }
 
+    bus.on('exportGraphPNG', () => {
+      exportPNG()
+    })
+
     bus.on('getNodeAndLink', (obj) => {
       const data = obj.nodes
       const link = obj.links

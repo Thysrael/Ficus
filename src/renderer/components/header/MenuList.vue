@@ -518,6 +518,9 @@ export default {
           case '导出PDF文件':
             bus.emit('exportPDF')
             break
+          case '导出PNG':
+            bus.emit('exportPNG')
+            break
           case 'Ficus模式':
             bus.emit('changeMode', 2)
             break

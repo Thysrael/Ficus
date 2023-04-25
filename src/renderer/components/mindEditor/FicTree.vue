@@ -48,6 +48,10 @@ export default defineComponent({
       init(obj)
     })
 
+    bus.on('exportTreePNG', () => {
+      exportPNG()
+    })
+
     return {
       data,
       onChange,
