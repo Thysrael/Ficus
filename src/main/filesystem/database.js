@@ -195,6 +195,9 @@ exports.initFromFolder = async () => {
     defaultPath: app.getPath('desktop'),
     properties: ['createDirectory', 'openDirectory']
   }).then(async (result) => {
+    if (result.canceled === true) {
+      return { relation: {}, error: -2 }
+    }
     const relation = {
       version: 1,
       root: {
@@ -209,6 +212,6 @@ exports.initFromFolder = async () => {
     // console.log(tree)
     relation.root.tree = tree.children.filter(item => item.name !== '.ficus')
     relation.root.folderName = folderName
-    return relation
+    return { relation, error: 0 }
   })
 }
