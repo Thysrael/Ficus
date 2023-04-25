@@ -328,6 +328,7 @@ export default {
 
     function getTags () {
       const array = dataManager.getTags()
+      console.log('拿到：', array)
       bus.emit('editTags', { res: array })
     }
 
@@ -517,6 +518,22 @@ export default {
         getOutLine()
       }
     })
+
+    // 暴露刷新大纲
+    bus.on('updateOutLine', () => {
+      getOutLine()
+    })
+
+    // 暴露刷新引用
+    bus.on('updateCite', () => {
+      getCites()
+    })
+
+    // 暴露刷新标签
+    bus.on('updateTag', () => {
+      getTags()
+    })
+
     // 返回父对象
     function findFather (file, father) {
       for (let i = 0; i < father.children.length; i++) {

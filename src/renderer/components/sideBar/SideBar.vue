@@ -299,8 +299,12 @@ export default {
     }
 
     function getGraph () {
-      isFile.value = 6
-      bus.emit('changeToGraph')
+      if (props.data.length === 0) {
+        bus.emit('showMyAlert', { message: '必须要打开文件夹才能体验榕图模式' })
+      } else {
+        isFile.value = 6
+        bus.emit('changeToGraph')
+      }
     }
 
     bus.on('quitFromGraph', () => {
@@ -308,7 +312,7 @@ export default {
       bus.emit('backToEditMode') // 默认进入纯文本模式
     })
 
-    async function handleFlush () {
+    async function flushTree () {
       if (props.data.length !== 0) {
         const projPath = props.data[0].path
         const newChildren = await window.electronAPI.refresh(projPath)
@@ -324,6 +328,21 @@ export default {
         bus.emit('openDir', openDir[0])
       }
       // selected.value.length = 0
+    }
+
+    async function handleFlush () {
+      if (isFile.value === 0) {
+        await flushTree()
+      } else if (isFile.value === 2) {
+        bus.emit('updateOutLine')
+      } else if (isFile.value === 3) {
+        bus.emit('updateCite')
+      } else if (isFile.value === 4) {
+        bus.emit('updateTag')
+      } else if (isFile.value === 6) {
+        flushTree()
+        bus.emit('changeToGraph')
+      }
     }
 
     async function handlePaste () {
