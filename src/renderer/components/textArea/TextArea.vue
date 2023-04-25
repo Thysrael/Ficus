@@ -59,18 +59,6 @@ export default {
       lineCnt.value = obj.lineCnt
     })
 
-    bus.on('exportPNG', () => {
-      if (showPage.value === 2) {
-        // 树视图
-        bus.emit('exportTreePNG')
-      } else if (showPage.value === 3) {
-        // 图视图
-        bus.emit('exportGraphPNG')
-      } else {
-        bus.emit('showMyAlert', { message: '当前不在树视图或图试图，不能导出PNG' })
-      }
-    })
-
     return {
       showInfoWin,
       showPage,

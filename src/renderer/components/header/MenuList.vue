@@ -44,6 +44,7 @@ import bus from 'vue3-eventbus'
 import MenuItem from '@/renderer/components/header/MenuItem'
 import Mousetrap from 'mousetrap'
 import keyBoardMap from '@/renderer/utils/keyboardbinding/keyBoardMap'
+import store from '@/renderer/store'
 
 export default {
   name: 'MenuList',
@@ -226,13 +227,15 @@ export default {
       }]
     }, {
       name: '帮助',
-      children: [{
-        name: '欢迎'
-      }, {
-        name: '文档'
-      }, {
-        name: '关于'
-      }]
+      children: [
+      //     {
+      //   name: '欢迎'
+      // },
+        {
+          name: '文档'
+        }, {
+          name: '关于'
+        }]
     }]
 
     const secondItems = ref([{}])
@@ -389,6 +392,7 @@ export default {
       if (!(op.children && op.children.length)) {
         closeMenu() // 点击叶节点关闭菜单
         // 根据index找相应的函数执行
+        const mode = store.getters.getMode
         switch (op.name) {
           case '新建文件':
             await newFile()
@@ -521,7 +525,14 @@ export default {
             bus.emit('exportPDF')
             break
           case '导出PNG':
-            bus.emit('exportPNG')
+            // 只支持树模式和图模式
+            if (mode === 2) {
+              bus.emit('exportTreePNG')
+            } else if (mode === 3) {
+              bus.emit('exportGraphPNG')
+            } else {
+              bus.emit('showMyAlert', { message: '当前不在树视图或图试图，不能导出PNG' })
+            }
             break
           case 'Ficus模式':
             bus.emit('changeMode', 2)
@@ -531,9 +542,6 @@ export default {
             break
           case '源码模式':
             bus.emit('changeMode', 1)
-            break
-          case '欢迎':
-            bus.emit('changeMode', -1)
             break
         }
       }
