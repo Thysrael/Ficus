@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, dialog, Menu } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
@@ -327,3 +327,6 @@ if (isDevelopment) {
     })
   }
 }
+
+// FIXME: 暂时关闭应用菜单
+Menu.setApplicationMenu(null)
