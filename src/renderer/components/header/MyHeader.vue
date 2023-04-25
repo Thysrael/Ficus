@@ -238,7 +238,7 @@ export default {
 
       content.value = obj.content
       curObj.value = obj
-
+      window.electronAPI.changePath(curObj.value.path)
       if (curObj.value.name !== '') {
         dataManager.buildTreeFromMarkdown({ content: content.value, path: curObj.value.path }, { replaced: true })
         const res = dataManager.getTreeOutline()
