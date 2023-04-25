@@ -3,7 +3,14 @@ module.exports = defineConfig({
   transpileDependencies: true,
   pluginOptions: {
     electronBuilder: {
-      preload: 'src/main/filesystem/preload.js'
+      nsis: {
+        allowToChangeInstallationDirectory: true,
+        oneClick: false,
+        installerIcon: 'build/icon.png',
+        installerHeaderIcon: 'build/icon.png'
+      },
+      preload: 'src/main/filesystem/preload.js',
+      nodeModulesPath: ['./node_modules']
     }
   },
   productionSourceMap: false
