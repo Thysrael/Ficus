@@ -1,5 +1,8 @@
+/**
+ * 判断路径类型
+ */
 const { existsSync, statSync } = require('fs-extra')
-const { extname } = require('path')
+const { extname, sep } = require('path')
 
 const maxFileSize = 100 * 1024
 
@@ -40,9 +43,19 @@ function isValidFolderPath (filePath) {
           statSync(filePath).isDirectory()
 }
 
+/**
+ *
+ * @param {string} filePath
+ * @param {string} dirPath
+ */
+function isFileInDirectory (filePath, dirPath) {
+  return filePath.startsWith(dirPath + sep)
+}
+
 module.exports = {
   isValidMarkdownFilePath,
   isValidFilePath,
   isMarkdownExtname,
-  isValidFolderPath
+  isValidFolderPath,
+  isFileInDirectory
 }

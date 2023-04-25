@@ -2,10 +2,8 @@ const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const { getTree, makeMarkdownFileStat, makeFileStat } = require('./getFileTree')
 const path = require('path')
-const { clearDir } = require('./general')
-const { pasteFile, pasteDir } = require('./general')
 const linkManager = require('./linkManager')
-const { isValidMarkdownFilePath } = require('../utils')
+const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } = require('../helper/path')
 
 /**
  * 跳转到引用(cite)
@@ -21,11 +19,7 @@ exports.linkToFile = async (filePath) => {
  * @param {string} filePath
  */
 exports.deleteFile = (filePath) => {
-  fs.unlink(filePath, async function (err) {
-    if (err) throw err
-    // 如果没有错误，则文件已成功删除
-    console.log('File deleted!')
-  })
+  fs.unlinkSync(filePath)
 }
 
 /**
@@ -34,19 +28,17 @@ exports.deleteFile = (filePath) => {
  * @param {string} oldPath
  */
 exports.renameFileOrFolder = async (newPath, oldPath) => {
-  fs.rename(oldPath, newPath, function (err) {
-    if (err) {
-      console.log('no such file or directory')
-    } else {
-      console.log('File Renamed.')
-    }
-  })
+  fs.renameSync(oldPath, newPath)
 }
 
-// 删除文件夹
+/**
+ * 删除文件夹
+ * @param {string} folderPath
+ */
 exports.deleteFolder = async (folderPath) => {
-  clearDir(folderPath)
+  fs.removeSync(folderPath)
 }
+
 // 新建文件1
 exports.newFileFromDialog = async (projPath) => {
   return await dialog.showSaveDialog({
@@ -68,7 +60,7 @@ exports.newFileFromDialog = async (projPath) => {
     fs.close(fd, (err) => {
       if (err) { console.error('Failed to close file', err) }
     })
-    if (result.filePath.startsWith(projPath)) {
+    if (isFileInDirectory(result.filePath, projPath)) {
       return [{ file, in: true }]
     } else {
       return [{ file, in: false }]
@@ -85,30 +77,30 @@ exports.newFileFromSidebar = async (filePath, fileName) => {
 }
 
 // 新建文件夹1
-exports.newFolderFromDialog = async (projPath) => {
-  return await dialog.showOpenDialog({
-    buttonLabel: '新建',
-    defaultPath: app.getPath('desktop'),
-    properties: ['showHiddenFiles', 'createDirectory', 'openDirectory'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
-  }).then(async (result) => {
-    if (result.canceled === true) {
-      return []
-    }
-    if (result.filePaths[0].startsWith(projPath)) {
-      const pathSplit = projPath.split(path.sep)
-      const folderName = pathSplit[pathSplit.length - 1]
-      const tree = await getTree(projPath, folderName)
-      return tree.children
-    } else {
-      return []
-    }
-  })
-}
+// exports.newFolderFromDialog = async (projPath) => {
+//   return await dialog.showOpenDialog({
+//     buttonLabel: '新建',
+//     defaultPath: app.getPath('desktop'),
+//     properties: ['showHiddenFiles', 'createDirectory', 'openDirectory'],
+//     filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+//       { name: 'Text Files', extensions: ['txt'] },
+//       { name: 'Markdown Files', extensions: ['md', 'markdown'] },
+//       { name: 'images', extensions: ['jpg', 'png'] }
+//     ]
+//   }).then(async (result) => {
+//     if (result.canceled === true) {
+//       return []
+//     }
+//     if (isFileInDirectory(result.filePaths[0], projPath)) {
+//       const pathSplit = projPath.split(path.sep)
+//       const folderName = pathSplit[pathSplit.length - 1]
+//       const tree = await getTree(projPath, folderName)
+//       return tree.children
+//     } else {
+//       return []
+//     }
+//   })
+// }
 
 // 新建文件夹2
 exports.newFolderFromSidebar = async (folderPath, folderName) => {
@@ -207,27 +199,14 @@ exports.saveFile = (filePath, fileContent) => {
       buttons: ['是', '否'], // 下方显示的按钮
       cancelId: 2// 点击x号关闭返回值
     }).then((index) => {
-      if (index.response === 1) {
-        return { save: false }
-      } else {
-        fs.writeFileSync(filePath, fileContent, (err) => {
-          if (err) {
-            console.log(`Fail:(${err})`)
-          } else {
-            linkManager.updateFile(filePath)
-          }
-        })
-        return { save: true }
-      }
-    })
-  } else { // 文件路径存在
-    fs.writeFileSync(filePath, fileContent, (err) => {
-      if (err) {
-        console.log(`Fail:(${err})`)
-      } else {
+      if (index.response === 0) {
+        fs.writeFileSync(filePath, fileContent)
         linkManager.updateFile(filePath)
       }
     })
+  } else { // 文件路径存在
+    fs.writeFileSync(filePath, fileContent)
+    linkManager.updateFile(filePath)
   }
 }
 
@@ -247,7 +226,7 @@ exports.saveToTarget = async (fileContent, projPath) => {
       return []
     } else {
       fs.writeFileSync(result.filePath, fileContent)
-      if (result.filePath.startsWith(projPath)) {
+      if (isFileInDirectory(result.filePath, projPath)) {
         const pathSplit = projPath.split(path.sep)
         const folderName = pathSplit[pathSplit.length - 1]
         const tree = await getTree(projPath, folderName)
@@ -287,44 +266,45 @@ exports.move = async (srcPath, destDir) => {
   }
 }
 
-exports.paste = async (userSelect, tarPath, projPath) => {
-  const selPath = userSelect
-  const stat = fs.lstatSync(selPath)
-  if (stat.isDirectory()) {
-    if (tarPath.startsWith(selPath)) {
-      dialog.showMessageBox({
-        type: 'error', // 图标类型
-        title: '错误', // 信息提示框标题
-        message: '不能往选中的文件夹的子文件夹中粘贴！', // 信息提示框内容
-        buttons: ['确定'], // 下方显示的按钮
-        cancelId: 2// 点击x号关闭返回值
-      }).then()
-    } else {
-      const newPath = path.join(tarPath, path.basename(selPath))
-      if (!fs.existsSync(newPath)) {
-        fs.mkdir(newPath, (err) => {
-          if (err) console.log(err)
-        })
-        pasteDir(selPath, newPath)
-      } else {
-        dialog.showMessageBox({
-          type: 'error', // 图标类型
-          title: '错误', // 信息提示框标题
-          message: `当前目录下已有此文件夹:${newPath},复制会覆盖原有文件夹中的内容,是否仍要复制`, // 信息提示框内容
-          buttons: ['否', '是'], // 下方显示的按钮
-          cancelId: 2// 点击x号关闭返回值
-        }).then((index) => {
-          if (index.response === 1) {
-            pasteDir(selPath, newPath)
-          } else { /* empty */ }
-        })
-      }
-    }
-  } else {
-    const newPath = path.join(tarPath, path.basename(selPath))
-    await pasteFile(selPath, newPath)
+/**
+ *
+ * @param {string} srcPath 原文件/文件夹路径
+ * @param {string} destDir 目标文件夹
+ * @param {string} projPath
+ * @returns
+ */
+exports.paste = async (srcPath, destDir, projPath) => {
+  if (isValidFolderPath(srcPath)) {
+    const destPath = makeValidFilePath(path.resolve(destDir, path.basename(srcPath)))
+    fs.copySync(srcPath, destPath)
+  } else if (isValidFilePath(srcPath)) {
+    const destPath = makeValidFilePath(path.resolve(destDir, path.basename(srcPath)))
+    fs.copyFileSync(srcPath, destPath)
   }
-  const folderName = path.basename(projPath)
-  const tree = await getTree(projPath, folderName)
-  return tree
+}
+
+/**
+ * 获得一个不存在的文件路径
+ * @param {string} filePath
+ * @returns
+ */
+function makeValidFilePath (filePath) {
+  if (!fs.existsSync(filePath)) {
+    return filePath
+  }
+  const { dir, name, ext } = path.parse(filePath)
+  let newPath = `${dir}${path.sep}${name} copy${ext}`
+  if (!fs.existsSync(newPath)) {
+    return newPath
+  }
+
+  let id = 2
+  while (id <= 100000) {
+    newPath = `${dir}${path.sep}${name} copy ${id}${ext}`
+    if (!fs.existsSync(newPath)) {
+      return newPath
+    }
+    id += 1
+  }
+  return 'ficus.md' // FIXME
 }

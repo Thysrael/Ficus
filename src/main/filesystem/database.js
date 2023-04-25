@@ -5,7 +5,6 @@ const linkManager = require('./linkManager')
 
 /**
  * 获得所有项目下links内容
- * @param {*} file
  * @returns
  */
 exports.getLinks = async () => {
