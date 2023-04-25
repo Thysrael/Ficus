@@ -24,13 +24,21 @@ class History {
     this.updateTree(doc)
 
     this.stack = { undo: [], redo: [] }
+
+    // FIXME: 因为每次undo/redo后会被立刻调用record
+    this.ignoreRecord = false
   }
 
   record (doc) {
+    if (this.ignoreRecord) {
+      this.ignoreRecord = false
+      return
+    }
+    console.log('record', this.stack.undo)
     this.stack.redo = []
-    this.lastRecorded = Date.now()
-
     const timestamp = Date.now()
+    console.log('time1', this.lastRecorded + this.options.delay)
+    console.log('time2', timestamp)
     // 如果两次操作延迟足够短则不记录之前的操作
     if (
       this.lastRecorded + this.options.delay > timestamp &&
@@ -47,9 +55,11 @@ class History {
     if (this.stack.undo.length > this.options.maxStack) {
       this.stack.undo.shift()
     }
+    console.log('record end', this.stack.undo)
   }
 
   redo () {
+    this.ignoreRecord = true
     if (this.stack.redo.length === 0) {
       return
     }
@@ -61,6 +71,7 @@ class History {
   }
 
   undo () {
+    this.ignoreRecord = true
     if (this.stack.undo.length === 0) {
       return
     }
