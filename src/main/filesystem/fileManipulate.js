@@ -251,7 +251,7 @@ exports.saveFile = (filePath, fileContent) => {
       if (index.response === 1) {
         return { save: false }
       } else {
-        fs.writeFile(filePath, fileContent, (err) => {
+        fs.writeFileSync(filePath, fileContent, (err) => {
           if (err) {
             console.log(`Fail:(${err})`)
           } else {
@@ -262,7 +262,7 @@ exports.saveFile = (filePath, fileContent) => {
       }
     })
   } else { // 文件路径存在
-    fs.writeFile(filePath, fileContent, (err) => {
+    fs.writeFileSync(filePath, fileContent, (err) => {
       if (err) {
         console.log(`Fail:(${err})`)
       } else {
