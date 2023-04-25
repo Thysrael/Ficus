@@ -389,7 +389,8 @@ export default {
 
     bus.on('openRefFile', async (obj) => {
       console.log('跳转到：', obj.path)
-      let file = await window.electronAPI.linkToFile()
+      let file = await window.electronAPI.linkToFile(curObj.value.path, obj.path)
+      console.log('接受到：', file)
       if (file !== undefined) {
         const obj = inDirTree(file, props.data)
         if (obj.has) {
