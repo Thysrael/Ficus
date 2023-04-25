@@ -9,7 +9,7 @@ describe('links初始化测试', function () {
     linkManager.init()
   })
   it('tag正确性检测', async function () {
-    assert.deepStrictEqual(linkManager.findTags(), ['a', 'b', 'c'])
+    assert.deepStrictEqual(linkManager.findTags(), ['aaa', 'b', 'c', 'a'])
   })
   it('links正确性检测', async function () {
     assert.deepStrictEqual(linkManager.getLinks().aerials, [
@@ -20,8 +20,21 @@ describe('links初始化测试', function () {
       }
     ])
   })
+  it('citing正确性检测', async function () {
+    assert.deepStrictEqual(linkManager.getCiteInfo(path.resolve('test', 'main', 'data', '3.md')), 
+      {
+           cited: [
+             {
+               name: '123',
+               path: '/Users/apple/非ICOULD区/SE软工/Ficus/test/main/data/1.md'
+             }
+           ],
+           citing: []
+         }
+    )
+  })
   it('tag搜索检测', async function () {
-    assert.deepStrictEqual(linkManager.findTags('a'), ['a'])
+    assert.deepStrictEqual(linkManager.findTags('a'), ['aaa', 'a'])
   })
   it('删除某个文件后tag搜索检测', async function () {
     linkManager.delFile(path.resolve('test', 'main', 'data/3.md'))
