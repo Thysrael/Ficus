@@ -2,6 +2,7 @@
   <div class="text-gray-600 text-sm flexStyle">
     <ul class="space-y-1 w-full" v-if="navItems.length !== 0">
       <FileNavItem
+          :topItem="navItems[0]"
           :selected="selected"
           :item="navItem"
           v-for="(navItem, index) in navItems"

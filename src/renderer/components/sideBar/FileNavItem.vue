@@ -75,13 +75,14 @@
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">剪切</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleCopyFileOrFolder">复制</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete">删除</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename">重命名</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename" v-if="item.path !== topItem.path">重命名</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type ==='file'" @click="handleCopyAbsolutePath">复制路径</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
     <ul v-if="hasChildren && expanded" class="pl-4">
       <FileNavItem
+          :top-item="topItem"
           :selected="selected"
           v-for="(child, index) in item.children"
           :key="index"
@@ -115,6 +116,10 @@ export default {
       required: true
     },
     item: {
+      type: Object,
+      required: true
+    },
+    topItem: {
       type: Object,
       required: true
     }
