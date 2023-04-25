@@ -131,7 +131,9 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('paste', async (e, userSelect, tarPath, projPath) => {
-    return await paste(userSelect, tarPath, projPath)
+    await paste(userSelect, tarPath, projPath)
+    // const win = BrowserWindow.fromWebContents(e.sender)
+    // win.webContents.send('refreshTree', newChildren)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {
