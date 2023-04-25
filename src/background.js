@@ -130,7 +130,7 @@ app.on('ready', async () => {
     }
   })
 
-  ipcMain.handle('changePath',(e, tarPath) => {
+  ipcMain.handle('changePath', (e, tarPath) => {
     ficusPath = path.dirname(tarPath)
   })
 
