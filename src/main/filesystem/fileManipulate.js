@@ -229,10 +229,20 @@ exports.saveFile = (filePath, fileContent) => {
     dialog.showMessageBox({
       type: 'error', // 图标类型
       title: '错误', // 信息提示框标题
-      message: `当前文件:${filePath}不存在，无法保存`, // 信息提示框内容
-      buttons: ['确定'], // 下方显示的按钮
+      message: `当前文件:${filePath}不存在，无法保存,是否要创建新文件保存工作区修改`, // 信息提示框内容
+      buttons: ['是', '否'], // 下方显示的按钮
       cancelId: 2// 点击x号关闭返回值
     }).then((index) => {
+      if (index.response === 1) {
+        return { save: false }
+      } else {
+        fs.writeFile(filePath, fileContent, (err) => {
+          if (err) {
+            console.log(`Fail:(${err})`)
+          }
+        })
+        return { save: true }
+      }
     })
   } else { // 文件路径存在
     fs.writeFile(filePath, fileContent, (err) => {
