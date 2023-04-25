@@ -235,7 +235,7 @@ app.on('ready', async () => {
     return folderObj
   })
   ipcMain.handle('save_file', (e, path, content) => {
-    saveFile(path, content)
+    return saveFile(path, content)
   })
   ipcMain.handle('saveToTarget', (e, content, projPath) => {
     saveToTarget(content, projPath)

@@ -206,13 +206,13 @@ export default {
     })
 
     // 将前端的content写回后端文件中，并且更新前端容器
-    function writeBack () {
+    async function writeBack () {
       // 有可能路径不存在
       if (curObj.value.path) {
         if (content.value === '' || content.value === '\n') {
           bus.emit('showMyAlert', { message: '检测到写回文件内容为空，请检查是否为误操作！' })
         }
-        window.electronAPI.saveFile(curObj.value.path, content.value)
+        await window.electronAPI.saveFile(curObj.value.path, content.value)
         curObj.value.content = content.value
       }
     }
