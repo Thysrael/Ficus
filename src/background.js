@@ -130,6 +130,10 @@ app.on('ready', async () => {
     }
   })
 
+  ipcMain.handle('changePath',(e, tarPath) => {
+    ficusPath = path.dirname(tarPath)
+  })
+
   ipcMain.handle('ficus::move', async (e, srcPath, destDir) => {
     move(srcPath, destDir)
   })

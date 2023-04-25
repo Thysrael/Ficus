@@ -19,6 +19,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   newFolderFromDialog: (projPath) => ipcRenderer.invoke('newFolderFromDialog', projPath),
   newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.invoke('newFolderFromSidebar', folderPath, folderName),
 
+  changePath: (tarPath) => ipcRenderer.invoke('changePath', tarPath),
+
   deleteFile: (filePath) => ipcRenderer.invoke('deleteFile', filePath),
   deleteFolder: (folderPath) => ipcRenderer.invoke('deleteFolder', folderPath),
   renameFileOrFolder: (newPath, oldPath) => ipcRenderer.invoke('renameFileOrFolder', newPath, oldPath),
