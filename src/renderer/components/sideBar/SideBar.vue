@@ -348,6 +348,7 @@ export default {
 
     function getRelation () {
       isFile.value = 3
+      console.log('获取引用关系：')
       bus.emit('changeToRelation')
     }
 
