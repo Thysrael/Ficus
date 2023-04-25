@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="items-center content-center">
     <div v-if="showPage === 0">
       我是欢迎界面！
     </div>
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="showPage === 1"></TextUI>
-    <FicTree v-show="showPage === 2" style="width: 100%; height: 700px; position: relative; overflow: auto"/>
-    <FicGraph v-show="showPage === 3" style="width: 100%; height: 700px; position: relative; overflow: auto"></FicGraph>
+    <FicTree v-show="showPage === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
+    <FicGraph v-show="showPage === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
     <div class="littleInformation items-center content-center px-3 mr-3">
       <div class="information flex flex-wrap items-center content-center">
         <div class="myText items-center content-center">
-          {{ wordCnt }} 字符
+          {{ wordCnt }} 词
         </div>
         <div class="ml-8 infoBtn" >
           <button @click="showInfoWin = !showInfoWin"
