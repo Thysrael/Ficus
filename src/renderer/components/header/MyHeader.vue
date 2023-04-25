@@ -194,8 +194,8 @@ export default {
     bus.on('saveChange', (obj) => {
       content.value = obj.content
       dataManager.updateTreeFromMarkdown(content.value)
-      const res = dataManager.getTreeOutline()
-      bus.emit('openOutLine', res.children)
+      getOutLine()
+      getTags()
       bus.emit('getInfoOfFile', obj) // 更新信息栏
     })
 
@@ -203,8 +203,7 @@ export default {
     bus.on('saveChangeMindUI', (json) => {
       dataManager.updateTreeFromMindJson(json)
       content.value = dataManager.getTreeMarkdown()
-      const res = dataManager.getTreeOutline()
-      bus.emit('openOutLine', res.children)
+      getOutLine()
     })
 
     // 将前端的content写回后端文件中，并且更新前端容器
@@ -243,8 +242,9 @@ export default {
       window.electronAPI.changePath(curObj.value.path)
       if (curObj.value.name !== '') {
         dataManager.buildTreeFromMarkdown({ content: content.value, path: curObj.value.path }, { replaced: true })
-        const res = dataManager.getTreeOutline()
-        bus.emit('openOutLine', res.children)
+        getOutLine()
+        getTags()
+        getCites()
       }
       updateBread()
       sendContentByMode()
@@ -328,8 +328,12 @@ export default {
 
     function getTags () {
       const array = dataManager.getTags()
-      console.log('获取IR数据：', array)
       bus.emit('editTags', { res: array })
+    }
+
+    function getOutLine () {
+      const res = dataManager.getTreeOutline()
+      bus.emit('openOutLine', res.children)
     }
 
     bus.on('addTags', (tagName) => {
@@ -499,8 +503,8 @@ export default {
         dataManager.undoTree()
         content.value = dataManager.getTreeMarkdown()
         sendContentByMode()
-        const res = dataManager.getTreeOutline()
-        bus.emit('openOutLine', res.children)
+        getOutLine()
+        getTags()
       }
     })
 
@@ -510,8 +514,7 @@ export default {
         dataManager.redoTree()
         content.value = dataManager.getTreeMarkdown()
         sendContentByMode()
-        const res = dataManager.getTreeOutline()
-        bus.emit('openOutLine', res.children)
+        getOutLine()
       }
     })
     // 返回父对象
