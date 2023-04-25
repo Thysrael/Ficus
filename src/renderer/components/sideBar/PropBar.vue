@@ -15,7 +15,8 @@
             {{ tag }}
             <button type="button"
                     class="inline-flex transition items-center p-1 ml-2 text-sm bg-transparent rounded-md hover:bg-gray-400 hover:text-white"
-                    aria-label="Remove">
+                    aria-label="Remove"
+            @click="removeTag(tag, index)">
               <svg aria-hidden="true" class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"
                    xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"
                                                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -65,21 +66,34 @@ export default {
     const keyWord = ref('')
     const showM = ref(false)
 
-    bus.on('editTags', (array) => {
-      tags.value = array
+    bus.on('editTags', (obj) => {
+      tags.value.length = 0
+      tags.value.push(...obj.res)
     })
-    function handleSearch () {
+
+    async function handleSearch () {
       showM.value = true
+      resTags.value = await window.electronAPI.getTags(keyWord.value)
+      resTags.value = resTags.value.filter((tagName) => {
+        return tags.value.indexOf(tagName) === -1
+      })
+      console.log('过滤之后：', resTags.value)
     }
 
     function handleAddTag (index) {
       const selected = resTags.value[index]
-      for (let i = 0; i < tags.value; i++) {
+      for (let i = 0; i < tags.value.length; i++) {
         if (selected === tags.value[i]) {
           return
         }
       }
-      // 调用后端添加tag
+      bus.emit('addTags', selected)
+      tags.value.push(selected)
+    }
+
+    function removeTag (tagName, index) {
+      bus.emit('removeTags', tagName)
+      tags.value.splice(index, 1)
     }
 
     return {
@@ -88,7 +102,8 @@ export default {
       keyWord,
       showM,
       handleSearch,
-      handleAddTag
+      handleAddTag,
+      removeTag
     }
   }
 }

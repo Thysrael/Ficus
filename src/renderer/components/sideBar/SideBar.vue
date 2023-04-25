@@ -57,7 +57,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="isFile = 4; getTags">
+      <button class="myButton" @click="getTags">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -146,7 +146,7 @@
         <SearchBar v-if="isFile === 1"></SearchBar>
         <OutLine :items="titles" v-if="isFile === 2"></OutLine>
         <TagBar v-if="isFile === 3"></TagBar>
-        <PropBar v-if="isFile === 4"></PropBar>
+        <PropBar v-show="isFile === 4"></PropBar>
         <ForestBar v-if="isFile === 5"></ForestBar>
         <GraphBar v-if="isFile === 6"></GraphBar>
       </div>

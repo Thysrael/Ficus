@@ -307,8 +307,11 @@ export default {
       bus.emit('changeContentTheme', { theme: theme.value })
     }
 
-    bus.on('changeToGraph', () => {
-      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
+    bus.on('changeToGraph', async () => {
+      const info = await window.electronAPI.getLinks()
+      info.files = props.data[0]
+      console.log('建图：', info)
+      dataManager.buildGraphFromFiles(info, { replaced: true })
       bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
       bus.emit('chooseToShowPage', 3)
     })
@@ -320,11 +323,23 @@ export default {
       bus.emit('editCites', obj)
     }
 
-    async function getTags () {
-      const cur = JSON.stringify(curObj.value)
-      const obj = await window.electronAPI.getLinksAndTags(cur)
-      bus.emit('editTags', obj.tags)
+    function getTags () {
+      const array = dataManager.getTags()
+      console.log('获取IR数据：', array)
+      bus.emit('editTags', { res: array })
     }
+
+    bus.on('addTags', (tagName) => {
+      dataManager.addTag(tagName)
+      content.value = dataManager.getTreeMarkdown()
+      sendContentByMode()
+    })
+
+    bus.on('removeTags', (tagName) => {
+      dataManager.removeTag(tagName)
+      content.value = dataManager.getTreeMarkdown()
+      sendContentByMode()
+    })
 
     bus.on('changeToRelation', () => {
       getCites()
@@ -332,10 +347,6 @@ export default {
 
     bus.on('changeToTag', () => {
       getTags()
-    })
-
-    bus.on('changeToGraph', () => {
-      dataManager.buildGraphFromFiles({ files: props.data[0] }, { replaced: true })
     })
 
     // 对于一个待打开的文件，判断是否已经包含在已打开的文件中

@@ -4,6 +4,7 @@ const { getTree } = require('./getFileTree')
 const path = require('path')
 const { clearDir } = require('./general')
 const { pasteFile, pasteDir } = require('@/main/filesystem/general')
+const linkManager = require('@/main/filesystem/linkManager')
 // 跳转到引用：
 exports.linkToFile = async (filePath) => {
   if (fs.existsSync(filePath) === false) return null
@@ -239,6 +240,8 @@ exports.saveFile = (filePath, fileContent) => {
         fs.writeFile(filePath, fileContent, (err) => {
           if (err) {
             console.log(`Fail:(${err})`)
+          } else {
+            linkManager.updateFile(filePath)
           }
         })
         return { save: true }
@@ -248,6 +251,8 @@ exports.saveFile = (filePath, fileContent) => {
     fs.writeFile(filePath, fileContent, (err) => {
       if (err) {
         console.log(`Fail:(${err})`)
+      } else {
+        linkManager.updateFile(filePath)
       }
     })
   }
