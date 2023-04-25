@@ -454,7 +454,7 @@ export default {
   right: 0;
   margin-left: 230px;
   padding-top: 65px;
-  width: calc(100% - 200px);
+  width: calc(100% - 230px);
   height: 100%;
   opacity: 1;
 }
