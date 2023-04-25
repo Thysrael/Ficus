@@ -153,7 +153,7 @@ export default {
       }
 
       bus.on('showDialogForNewFile', (obj) => {
-        dialogName.value = (obj.type === 'file') ? '新建文件' : '新建文件夹'
+        dialogName.value = (obj.type === 'file') ? '新建文件（以.md为后缀）' : '新建文件夹'
         father.value = obj.father
         mode = 0
         openModal()
@@ -243,10 +243,27 @@ export default {
       data.value.length = 0
     })
 
+    function validTest (name) {
+      console.log('test: ', name)
+      if (name === '') {
+        return false
+      }
+      return !name.includes(pathSeq)
+    }
+
     // 新建文件/文件夹
     function handleNew () {
-      if (fileName.value === '') {
-        message.value = '必须输入文件名或文件夹名'
+      if (dialogName.value === '新建文件（以.md为后缀）' && fileName.value.includes('.')) {
+        message.value = '文件名或文件夹名非法'
+        myAlert.value = true
+        fileName.value = ''
+        return
+      }
+      if (dialogName.value === '新建文件（以.md为后缀）') {
+        fileName.value = fileName.value.concat('.md')
+      }
+      if (!validTest(fileName.value)) {
+        message.value = '文件名或文件夹名非法'
         myAlert.value = true
         fileName.value = ''
       } else {
@@ -258,7 +275,7 @@ export default {
             return
           }
         }
-        if (dialogName.value === '新建文件') {
+        if (dialogName.value === '新建文件（以.md为后缀）') {
           window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
         } else {
           window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
@@ -268,7 +285,7 @@ export default {
           paths.push(father.value.absolutePath[i])
         }
         paths.push(fileName.value)
-        const fileType = (dialogName.value === '新建文件') ? 'file' : 'folder'
+        const fileType = (dialogName.value === '新建文件（以.md为后缀）') ? 'file' : 'folder'
         const obj = {
           name: fileName.value,
           // path: path.join(father.value.path, fileName.value),
@@ -294,7 +311,7 @@ export default {
     function renameFile () {
       const obj = father.value
       if (fileName.value === '') {
-        message.value = '文件名或文件夹名不能为空'
+        message.value = '文件名或文件夹名'
         myAlert.value = true
         fileName.value = ''
       } else {
