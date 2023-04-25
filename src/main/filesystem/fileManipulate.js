@@ -8,10 +8,12 @@ const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFi
 /**
  * 跳转到引用(cite)
  * @param {string} filePath
+ * @param {string} citingPath
  * @returns
  */
-exports.linkToFile = async (filePath) => {
-  return makeMarkdownFileStat(filePath)
+exports.linkToFile = async (filePath, citingPath) => {
+  console.log(path.resolve(filePath, '..', citingPath))
+  return makeMarkdownFileStat(path.resolve(filePath, '..', citingPath))
 }
 
 /**

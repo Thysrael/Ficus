@@ -219,9 +219,8 @@ app.on('ready', async () => {
     return tags
   })
 
-  ipcMain.handle('linkToFile', async (e, filePath) => {
-    const file = await linkToFile(filePath)
-    return file
+  ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {
+    return await linkToFile(filePath, citingPath)
   })
   ipcMain.handle('deleteFile', (e, filePath) => {
     deleteFile(filePath)
