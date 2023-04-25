@@ -37,11 +37,6 @@ export default {
         },
         // 设置回调延迟
         undoDelay: 50,
-        // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
-        after: () => {
-          vditor.setValue(props.content)
-          vditor.hideToorBar()
-        },
         // 预览模式选项
         preview: {
           // 预览时间间隔(毫秒)
@@ -68,6 +63,26 @@ export default {
         typewriterMode: false,
         // 内容为空时的提示
         placeholder: '请输入...',
+        // 绑定快捷键
+        ficusHotkey: [
+          {
+            hotkey: '⌘Z',
+            action: () => {
+              bus.emit('undoCurTab')
+            }
+          },
+          {
+            hotkey: '⇧⌘Z',
+            action: () => {
+              bus.emit('redoCurTab')
+            }
+          }
+        ],
+        // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
+        after: () => {
+          vditor.setValue(props.content)
+          vditor.hideToorBar()
+        },
         // 用户输入回调函数，将最新的md字符串返回
         input: (content) => {
           bus.emit('saveChange', {
