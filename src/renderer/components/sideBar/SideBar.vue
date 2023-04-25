@@ -325,16 +325,19 @@ export default {
       if (props.data.length !== 0) {
         const projPath = props.data[0].path
         await window.electronAPI.paste(copied.value[0], projPath, projPath)
-        await handleFlush()
+        setTimeout(async () => {
+          await handleFlush()
+        }, 1500)
       }
     }
 
     bus.on('pasteForSpecialPath', async (path) => {
       if (props.data.length !== 0) {
         const projPath = props.data[0].path
-        window.electronAPI.paste(copied.value[0], path, projPath).then(() => {
-          handleFlush()
-        })
+        await window.electronAPI.paste(copied.value[0], path, projPath)
+        setTimeout(async () => {
+          await handleFlush()
+        }, 1500)
       }
     })
 
