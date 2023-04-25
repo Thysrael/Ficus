@@ -72,10 +72,9 @@ export default {
     const rightClickItem = ref({})
     const store = useStore()
     const TabXY = ref({ x: -1, y: -1 })
+    // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
-
-    console.log(proxy, _this)
 
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
@@ -87,7 +86,6 @@ export default {
     function updateRightClickItem (e, item) {
       TabXY.value = { x: e.clientX, y: e.clientY }
       store.dispatch('updateXY', TabXY.value)
-      console.log(store.getters.getXY)
       rightClickItem.value = item
     }
 
@@ -96,7 +94,6 @@ export default {
     }
 
     function dragenter (e, index) {
-      console.log('正在拖拽')
       e.preventDefault()
       // 避免源对象触发自身的dragenter事件
       if (dragIndex.value !== index) {

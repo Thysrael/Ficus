@@ -236,14 +236,12 @@ export default {
     const thirdShow = ref(false)
     const menu = ref(false)
     let isTypeWriteMode = false
+    // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
     let range = ''
 
-    console.log(proxy, _this)
-
     watch(menu, (newValue, oldValue) => {
-      console.log(`menu changed from ${oldValue} to ${newValue}`)
       if (newValue) {
         _this.$nextTick(() => {
           if (window.getSelection().rangeCount >= 1) {
@@ -288,7 +286,7 @@ export default {
             res: arr[i]
           }
         }
-        if (arr[i].children.type === 'folder') {
+        if (arr[i].type === 'folder') {
           const obj = contain(file, arr[i].children)
           if (obj.has) {
             return obj
@@ -322,7 +320,7 @@ export default {
       for (let i = 0; i < files.length; i++) {
         // 特殊场景：打开文件夹，再次从本地打开文件夹中已有的文件
         // 策略：如果在文件夹中已经打开，则使用文件夹内的对象，否则使用files[i]
-        // 必要性：确保前端对每一个文件只维护一个缓存，避免内容更新复杂
+        // 必要性：确保前端对每一个文件只维护一个缓存，保证rename的同步
         const obj = contain(files[i], props.data)
         bus.emit('openNewTab', obj.res)
       }
@@ -345,10 +343,8 @@ export default {
       if (props.data.length !== 0) {
         path = props.data[0].path
       }
-      console.log('hey', props.data[0])
       const obj = await window.electronAPI.newFileFromDialog(path)
       for (let i = 0; i < obj.length; i++) {
-        console.log('1111 ', obj[i])
         if (obj[i].in) {
           let j = 0
           for (; j < obj[i].file.absolutePath.length; j++) {
@@ -414,7 +410,6 @@ export default {
             break
           case '粘贴':
             navigator.clipboard.readText().then(text => {
-              console.log(typeof text)
               bus.emit('insertText', { content: text })
             })
             break

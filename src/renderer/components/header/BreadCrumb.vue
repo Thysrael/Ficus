@@ -40,6 +40,7 @@ export default {
   setup (props) {
     const show = ref(false)
     const curFocus = ref({})
+    // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
     const curName = ref()
@@ -52,13 +53,9 @@ export default {
 
     onMounted(() => {
       window.addEventListener('resize', () => {
-        console.log('old ', windowWidth.value)
         windowWidth.value = (window.innerWidth / 2 - 170) + 'px'
-        console.log('new', windowWidth.value)
       })
     })
-
-    console.log(proxy, _this)
 
     bus.on('wantShow', (obj) => {
       if (obj.children && obj.children.length) {
@@ -78,7 +75,6 @@ export default {
     })
 
     function changeTab (child, index) {
-      console.log('Crumb changeTab ', child, index)
       bus.emit('changeTab', {
         item: curFocus.value,
         child,

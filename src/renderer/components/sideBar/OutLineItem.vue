@@ -39,7 +39,6 @@ export default {
     })
 
     function getIndex (index, child) {
-      console.log(child.name)
       bus.emit('addToTitles', index)
     }
 

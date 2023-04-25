@@ -45,7 +45,6 @@ export default {
   setup () {
     async function handleOpenDir () {
       const root = await window.electronAPI.newFicusVault()
-      console.log(root.root)
       const openDir = [{
         name: root.root.folderName,
         path: root.root.path,
