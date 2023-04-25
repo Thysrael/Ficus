@@ -1,32 +1,25 @@
 const { app, dialog } = require('electron')
 const fs = require('fs-extra')
-const { getTree } = require('./getFileTree')
+const { getTree, makeMarkdownFileStat, makeFileStat } = require('./getFileTree')
 const path = require('path')
 const { clearDir } = require('./general')
 const { pasteFile, pasteDir } = require('./general')
 const linkManager = require('./linkManager')
-// 跳转到引用：
+const { isValidMarkdownFilePath } = require('../utils')
+
+/**
+ * 跳转到引用(cite)
+ * @param {string} filePath
+ * @returns
+ */
 exports.linkToFile = async (filePath) => {
-  if (!isValidMarkdownFilePath(filePath)) {
-    return null
-  }
-  const content = readMarkdownFile(filePath)
-  const pathSplit = filePath.split(path.sep)
-  const fileName = pathSplit[pathSplit.length - 1]
-  const file = {
-    name: fileName, // 文件名
-    curChild: -1, // 直接填充-1即可
-    path: filePath, // 绝对路径
-    absolutePath: pathSplit, // 希望将绝对路径分割成数组
-    offset: -1, // 直接填充-1即可
-    children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-    content // 文件内容
-  }
-  file.type = 'file'
-  file.isMd = (path.extname(filePath) === '.md')
-  return file
+  return makeMarkdownFileStat(filePath)
 }
-// 删除文件
+
+/**
+ * 删除文件
+ * @param {string} filePath
+ */
 exports.deleteFile = (filePath) => {
   fs.unlink(filePath, async function (err) {
     if (err) throw err
@@ -34,7 +27,12 @@ exports.deleteFile = (filePath) => {
     console.log('File deleted!')
   })
 }
-// 重命名文件或文件夹
+
+/**
+ * 重命名文件或文件夹
+ * @param {string} newPath
+ * @param {string} oldPath
+ */
 exports.renameFileOrFolder = async (newPath, oldPath) => {
   fs.rename(oldPath, newPath, function (err) {
     if (err) {
@@ -64,19 +62,8 @@ exports.newFileFromDialog = async (projPath) => {
     if (result.canceled === true) {
       return []
     }
-    const pathSplit = result.filePath.split(path.sep)
-    const fileName = pathSplit[pathSplit.length - 1]
-    const file = {
-      name: fileName, // 文件名
-      curChild: -1, // 直接填充-1即可
-      path: result.filePath, // 绝对路径
-      absolutePath: pathSplit, // 绝对路径分割成数组
-      offset: -1, // 直接填充-1即可
-      children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-      content: '', // 文件内容
-      type: 'file'
-    }
-    file.isMd = (path.extname(result.filePath) === '.md')
+    const file = makeFileStat(result.filePath)
+
     const fd = fs.openSync(result.filePath, 'w')
     fs.close(fd, (err) => {
       if (err) { console.error('Failed to close file', err) }
@@ -122,6 +109,7 @@ exports.newFolderFromDialog = async (projPath) => {
     }
   })
 }
+
 // 新建文件夹2
 exports.newFolderFromSidebar = async (folderPath, folderName) => {
   const basePath = path.join(folderPath, folderName)
@@ -148,22 +136,9 @@ exports.getFileFromUser = async () => {
     const filePaths = result.filePaths
     const fileObjs = []
     for (const filePath of filePaths) {
-      if (isValidMarkdownFilePath(filePath)) {
-        const content = readMarkdownFile(filePath)
-        const pathSplit = filePath.split(path.sep)
-        const fileName = pathSplit[pathSplit.length - 1]
-        const file = {
-          name: fileName, // 文件名
-          curChild: -1, // 直接填充-1即可
-          path: filePath, // 绝对路径
-          absolutePath: pathSplit, // 希望将绝对路径分割成数组
-          offset: -1, // 直接填充-1即可
-          children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-          content,
-          type: 'file',
-          isMd: true
-        }
-        fileObjs.push(file)
+      const mdFileStat = makeMarkdownFileStat(filePath)
+      if (mdFileStat) {
+        fileObjs.push(mdFileStat)
       }
     }
     return fileObjs
@@ -188,18 +163,15 @@ exports.getFolderFromUser = async () => {
     const pathSplit = folderPath.split(path.sep)
     const folderName = pathSplit[pathSplit.length - 1]
     const tree = await getTree(folderPath, folderName)
-    // console.log(tree.children[0].absolutePath[2])
     const folder = {
       name: folderName, // 文件名
       curChild: -1, // 直接填充-1即可
       path: folderPath, // 绝对路径
       absolutePath: pathSplit, // 希望将绝对路径分割成数组
       offset: -1, // 直接填充-1即可
-      children: tree.children, // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-      content: '', // 文件内容
+      children: tree.children, // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件
       type: 'folder'
     }
-    // console.log(folder)
     return folder
   })
 }
@@ -211,7 +183,7 @@ exports.getFolderFromUser = async () => {
 function isValidMarkdownFilePath (filePath) {
   return fs.existsSync(filePath) &&
         (path.extname(filePath) === '.md') &&
-        !fs.statSync(filePath).isDirectory() &&
+        fs.statSync(filePath).isFile() &&
         fs.statSync(filePath).size <= 100 * 1024
 }
 
@@ -229,10 +201,8 @@ exports.readFile = (filePath) => {
     dialog.showMessageBox({
       type: 'error', // 图标类型
       title: '错误', // 信息提示框标题
-      message: '不合法的Markdown文件路径或者文件>100kb', // 信息提示框内容
+      message: '不合法的Markdown文件路径或者文件大小>100kb', // 信息提示框内容
       buttons: ['确定'] // 下方显示的按钮
-      // cancelId:2//点击x号关闭返回值
-    }).then(() => {
     })
     return { error: -1, content: '' }
   }
@@ -291,7 +261,6 @@ exports.saveToTarget = async (fileContent, projPath) => {
       if (result.filePath.startsWith(projPath)) {
         const pathSplit = projPath.split(path.sep)
         const folderName = pathSplit[pathSplit.length - 1]
-        // console.log(result.filePaths[0])
         const tree = await getTree(projPath, folderName)
         return tree.children
       } else {
@@ -330,34 +299,6 @@ exports.move = async (srcPath, destDir) => {
 }
 
 exports.paste = async (userSelect, tarPath, projPath) => {
-  // for (const selPath of userSelect) {
-  //   const stat = fs.lstatSync(selPath)
-  //   if (stat.isDirectory()) {
-  //     const pathSplit = selPath.split(path.sep)
-  //     const newPath = path.join(tarPath, pathSplit[pathSplit.length - 1])
-  //     if (!fs.existsSync(newPath)) {
-  //       fs.mkdir(newPath, (err) => {
-  //         if (err) console.log(err)
-  //       })
-  //       pasteDir(selPath, newPath)
-  //     } else {
-  //       dialog.showMessageBox({
-  //         type: 'error', // 图标类型
-  //         title: '错误', // 信息提示框标题
-  //         message: `当前目录下已有此文件夹:${newPath},复制会覆盖原有文件夹中的内容,是否仍要复制`, // 信息提示框内容
-  //         buttons: ['否', '是'], // 下方显示的按钮
-  //         cancelId: 2// 点击x号关闭返回值
-  //       }).then((index) => {
-  //         if (index.response === 1) {
-  //           pasteDir(selPath, newPath)
-  //         } else { /* empty */ }
-  //       })
-  //     }
-  //   } else {
-  //     const newPath = path.join(tarPath, path.basename(selPath))
-  //     await pasteFile(selPath, newPath)
-  //   }
-  // }
   const selPath = userSelect
   const stat = fs.lstatSync(selPath)
   if (stat.isDirectory()) {
