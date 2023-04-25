@@ -7,8 +7,10 @@ const { pasteFile, pasteDir } = require('./general')
 const linkManager = require('./linkManager')
 // 跳转到引用：
 exports.linkToFile = async (filePath) => {
-  if (fs.existsSync(filePath) === false) return null
-  const content = fs.readFileSync(filePath).toString()
+  if (!isValidMarkdownFilePath(filePath)) {
+    return null
+  }
+  const content = readMarkdownFile(filePath)
   const pathSplit = filePath.split(path.sep)
   const fileName = pathSplit[pathSplit.length - 1]
   const file = {
@@ -114,7 +116,7 @@ exports.newFolderFromDialog = async (projPath) => {
       const pathSplit = projPath.split(path.sep)
       const folderName = pathSplit[pathSplit.length - 1]
       const tree = await getTree(projPath, folderName)
-      return tree.children.filter(item => item.name !== '.ficus')
+      return tree.children
     } else {
       return []
     }
@@ -146,21 +148,23 @@ exports.getFileFromUser = async () => {
     const filePaths = result.filePaths
     const fileObjs = []
     for (const filePath of filePaths) {
-      const content = fs.readFileSync(filePath).toString()
-      const pathSplit = filePath.split(path.sep)
-      const fileName = pathSplit[pathSplit.length - 1]
-      const file = {
-        name: fileName, // 文件名
-        curChild: -1, // 直接填充-1即可
-        path: filePath, // 绝对路径
-        absolutePath: pathSplit, // 希望将绝对路径分割成数组
-        offset: -1, // 直接填充-1即可
-        children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
-        content // 文件内容
+      if (isValidMarkdownFilePath(filePath)) {
+        const content = readMarkdownFile(filePath)
+        const pathSplit = filePath.split(path.sep)
+        const fileName = pathSplit[pathSplit.length - 1]
+        const file = {
+          name: fileName, // 文件名
+          curChild: -1, // 直接填充-1即可
+          path: filePath, // 绝对路径
+          absolutePath: pathSplit, // 希望将绝对路径分割成数组
+          offset: -1, // 直接填充-1即可
+          children: [], // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+          content,
+          type: 'file',
+          isMd: true
+        }
+        fileObjs.push(file)
       }
-      file.type = 'file'
-      file.isMd = (path.extname(filePath) === '.md')
-      fileObjs.push(file)
     }
     return fileObjs
   })
@@ -191,7 +195,7 @@ exports.getFolderFromUser = async () => {
       path: folderPath, // 绝对路径
       absolutePath: pathSplit, // 希望将绝对路径分割成数组
       offset: -1, // 直接填充-1即可
-      children: tree.children.filter(item => item.name !== '.ficus'), // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
+      children: tree.children, // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件,
       content: '', // 文件内容
       type: 'folder'
     }
@@ -200,16 +204,33 @@ exports.getFolderFromUser = async () => {
   })
 }
 
+/**
+ * 判断某个markdown文件可以进行读取(路径存在，为md文件，且大小不超过100KB)
+ * @param {string} filePath
+ */
+function isValidMarkdownFilePath (filePath) {
+  return fs.existsSync(filePath) &&
+        (path.extname === '.md') &&
+        !fs.statSync(filePath).isDirectory() &&
+        fs.statSync(filePath).size <= 100 * 1024
+}
+
+function readMarkdownFile (filePath) {
+  if (isValidMarkdownFilePath(filePath)) {
+    return fs.readFileSync(filePath).toString()
+  }
+}
+
 // 读取文件内容:
 exports.readFile = (filePath) => {
-  if (fs.existsSync(filePath)) {
-    return { error: 0, content: fs.readFileSync(filePath).toString() }
+  if (isValidMarkdownFilePath(filePath)) {
+    return { error: 0, content: readMarkdownFile(filePath) }
   } else {
     dialog.showMessageBox({
       type: 'error', // 图标类型
       title: '错误', // 信息提示框标题
-      message: '文件路径不存在', // 信息提示框内容
-      buttons: ['确定']// 下方显示的按钮
+      message: '不合法的Markdown文件路径', // 信息提示框内容
+      buttons: ['确定'] // 下方显示的按钮
       // cancelId:2//点击x号关闭返回值
     }).then(() => {
     })
@@ -272,7 +293,7 @@ exports.saveToTarget = async (fileContent, projPath) => {
         const folderName = pathSplit[pathSplit.length - 1]
         // console.log(result.filePaths[0])
         const tree = await getTree(projPath, folderName)
-        return tree.children.filter(item => item.name !== '.ficus')
+        return tree.children
       } else {
         return []
       }
