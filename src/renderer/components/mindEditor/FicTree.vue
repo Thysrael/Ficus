@@ -5,10 +5,10 @@
            center-btn="true"
            fit-btn="true"
            download-btn="true"
-           timetravel="true"
            ctm="true"
            @update:model-value="onChange"
            @select="onSelect"
+           ref="ficustree"
   >
   </mindmap>
 </template>
@@ -28,23 +28,31 @@ export default defineComponent({
       name: ''
     }])
     const onChange = (msg) => {
-      console.log('检测到修改', msg[0])
+      console.log(msg[0])
       bus.emit('saveChangeMindUI', msg[0])
     }
     const onSelect = (msg) => {
       // console.log(msg)
     }
+    const ficustree = ref()
+    const init = (obj) => {
+      if (ficustree.value) {
+        ficustree.value.init([obj])
+        // data.value = [obj]
+      }
+    }
 
     // 监听data变化
     bus.on('sendToFicTree', (obj) => {
       console.log('getObj: ', obj)
-      data.value = [obj]
+      init(obj)
     })
 
     return {
       data,
       onChange,
-      onSelect
+      onSelect,
+      ficustree
     }
   }
 })
