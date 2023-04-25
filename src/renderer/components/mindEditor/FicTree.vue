@@ -42,6 +42,12 @@ export default defineComponent({
       }
     }
 
+    function exportPNG () {
+      if (ficustree.value) {
+        ficustree.value.downloadPNG()
+      }
+    }
+
     // 监听data变化
     bus.on('sendToFicTree', (obj) => {
       console.log('getObj: ', obj)

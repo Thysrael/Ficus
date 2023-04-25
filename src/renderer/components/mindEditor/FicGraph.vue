@@ -90,6 +90,39 @@ export default {
       return [this.xc + r * Math.cos(theta) * this.r, this.yc + r * Math.sin(theta) * this.r];
     }
 
+    function exportPNG () {
+      const img = myChart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+      })
+      // eslint-disable-next-line prefer-const
+      let lnk = document.createElement('a'), e
+      lnk.download = 'ficus.png'
+      lnk.href = img
+      /// create a "fake" click-event to trigger the download
+      if (document.createEvent) {
+        e = document.createEvent('MouseEvents')
+        e.initMouseEvent(
+            'click',
+            true,
+            true,
+            window,
+            0,
+            0,
+            0,
+            0,
+            0,
+            false,
+            false,
+            false,
+            false,
+            0,
+            null
+        );
+        lnk.dispatchEvent(e)
+      }
+    }
+
     bus.on('exportGraphPNG', () => {
       exportPNG()
     })
