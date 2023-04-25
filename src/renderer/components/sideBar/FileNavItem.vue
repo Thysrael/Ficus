@@ -70,7 +70,7 @@
         <div v-if="item.type === 'folder'">
           <v-contextmenu-item @click="handleNew('file')" class="hover:bg-gray-200 text-gray-700">新建文件</v-contextmenu-item>
           <v-contextmenu-item @click="handleNew('folder')" class="hover:bg-gray-200 text-gray-700">新建文件夹</v-contextmenu-item>
-          <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">粘贴</v-contextmenu-item>
+          <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handlePaste">粘贴</v-contextmenu-item>
         </div>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700">剪切</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleCopyFileOrFolder">复制</v-contextmenu-item>
@@ -256,6 +256,10 @@ export default {
       bus.emit('showDialogForRenameFile', props.item)
     }
 
+    function handlePaste () {
+      bus.emit('pasteForSpecialPath', props.item.path)
+    }
+
     return {
       expanded,
       hasChildren,
@@ -270,6 +274,7 @@ export default {
       handleRightClick,
       handleNew,
       handleDelete,
+      handlePaste,
       popoverShow,
       togglePopover,
       handleRename,
