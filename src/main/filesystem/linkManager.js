@@ -33,7 +33,6 @@ class LinkManager {
         console.log('INVALID FILE PATH ' + path)
       }
     }
-    console.log('init succeed', this.citingMap)
   }
 
   findTags (tagname = '') {
@@ -62,7 +61,6 @@ class LinkManager {
     if (this.citedMap.has(filepath)) {
       cited = this.citedMap.get(filepath)
     }
-    console.log(citing)
     return { citing, cited }
   }
 
@@ -128,7 +126,7 @@ class LinkManager {
     for (const cited of citeds) {
       newCiteds.push({
         name: cited.name,
-        path: path.resolve(citingPath, '..', cited.path)
+        path: path.resolve(path.dirname(citingPath), cited.path)
       })
     }
     this.citingMap.set(citingPath, newCiteds)
