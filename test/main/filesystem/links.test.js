@@ -6,7 +6,6 @@ const path = require('path')
 describe('links初始化测试', function () {
   it('读取测试', async function () {
     await getTree(path.resolve('test', 'main', 'data'))
-    linkManager.init()
   })
   it('tag正确性检测', async function () {
     assert.deepStrictEqual(linkManager.findTags(), ['aaa', 'b', 'c', 'a'])
@@ -21,16 +20,16 @@ describe('links初始化测试', function () {
     ])
   })
   it('citing正确性检测', async function () {
-    assert.deepStrictEqual(linkManager.getCiteInfo(path.resolve('test', 'main', 'data', '3.md')), 
+    assert.deepStrictEqual(linkManager.getCiteInfo(path.resolve('test', 'main', 'data', '3.md')),
       {
-           cited: [
-             {
-               name: '123',
-               path: '/Users/apple/非ICOULD区/SE软工/Ficus/test/main/data/1.md'
-             }
-           ],
-           citing: []
-         }
+        cited: [
+          {
+            name: '123',
+            path: path.resolve('test', 'main', 'data', '1.md')
+          }
+        ],
+        citing: []
+      }
     )
   })
   it('tag搜索检测', async function () {
