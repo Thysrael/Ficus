@@ -5923,6 +5923,7 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
+<<<<<<< HEAD
 ficus-editor@^1.0.29:
   version "1.0.29"
   resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.0.29.tgz#497c11f2be98eded127b3a972d60984f8ba9d9b3"

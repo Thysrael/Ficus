@@ -33,6 +33,10 @@ export default {
       editMode.value = mode
       bus.emit('changeMode', mode)
     }
+
+    bus.on('backToEditMode', () => {
+      bus.emit('changeMode', editMode.value)
+    })
     return {
       editMode,
       changeEditMode
