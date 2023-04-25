@@ -9,7 +9,7 @@
     <div class="littleInformation items-center content-center px-3 mr-3">
       <div class="information flex flex-wrap items-center content-center">
         <div class="myText items-center content-center">
-          1156 词
+          {{ wordCnt }} 字符
         </div>
         <div class="ml-8 infoBtn" >
           <button @click="showInfoWin = !showInfoWin"

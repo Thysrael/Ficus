@@ -157,7 +157,7 @@
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('file')">新建文件</v-contextmenu-item>
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleNew('folder')">新建文件夹</v-contextmenu-item>
       <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handlePaste">粘贴</v-contextmenu-item>
-      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleCloseWorkArea">关闭工作区</v-contextmenu-item>
+      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  @click="handleCloseWorkArea">关闭文件夹</v-contextmenu-item>
     </div>
 <!--    <div v-if="isFile === 2">-->
 <!--      <v-contextmenu-item class="hover:bg-gray-200 text-gray-700"  >新建段落</v-contextmenu-item>-->
