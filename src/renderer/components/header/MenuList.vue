@@ -560,6 +560,12 @@ export default {
           case '源码模式':
             bus.emit('changeMode', 1)
             break
+          case '关于':
+            await window.electronAPI.aboutUs()
+            break
+          case '文档':
+            await window.electronAPI.aboutUs()
+            break
         }
       }
     }
