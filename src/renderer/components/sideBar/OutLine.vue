@@ -38,7 +38,6 @@ export default {
 
     function getIndex (item) {
       titles[item.level - 1] = item.id
-      console.log(titles)
       bus.emit('scrollToHeading', { info: titles })
       titles = [-1, -1, -1, -1, -1, -1]
     }

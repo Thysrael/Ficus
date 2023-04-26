@@ -91,7 +91,6 @@ export default {
           offset: -1,
           type: 'folder'
         }
-        console.log('APP：粘贴之后刷新了文件夹')
         bus.emit('updateOpenFiles', data.value[0])
       })
       pathSeq = await window.electronAPI.getPathSep()
@@ -234,7 +233,6 @@ export default {
     // 打开文件夹
     bus.on('openDir', (obj) => {
       data.value = [obj]
-      console.log('APP：打开了文件夹')
       bus.emit('updateOpenFiles', obj)
     })
 
@@ -244,7 +242,6 @@ export default {
     })
 
     function validTest (name) {
-      console.log('test: ', name)
       if (name === '') {
         return false
       }
@@ -334,7 +331,6 @@ export default {
         window.electronAPI.renameFileOrFolder(newPath, oldPath)
         if (obj.type === 'folder') {
           // 需要递归地修改孩子节点的path和absolutePath
-          console.log('修改：', obj.children)
           for (let i = 0; i < obj.children.length; i++) {
             changePathAfterFatherRename(obj.children[i], obj)
           }
@@ -385,7 +381,6 @@ export default {
     })
 
     bus.on('showMyAlert', (obj) => {
-      console.log('警告空内容：', obj.message)
       message.value = obj.message
       myAlert.value = true
     })
