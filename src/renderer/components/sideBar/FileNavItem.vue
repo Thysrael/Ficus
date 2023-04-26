@@ -40,7 +40,7 @@
       </div>
 
       <div>
-        <svg v-if="item.type === 'file' && item.name.endsWith('md')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="15" height="20" viewBox="0 0 20 20">
+        <svg v-if="item.type === 'file' && item.name.endsWith('md')" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_152_447)">
             <g>
               <g>
