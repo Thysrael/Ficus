@@ -11,7 +11,7 @@
   >
     <div
         style="display: flex"
-        class="px-3 items-center content-center"
+        class="pl-1 items-center content-center"
         :class="isSelected ? `selectedElement` : `nonSelectedElement`"
         @click="toggle(1)"
     >
@@ -81,7 +81,7 @@
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
-    <ul v-if="hasChildren && expanded" class="pl-4">
+    <ul v-if="hasChildren && expanded" class="pl-2">
       <FileNavItem
           :top-item="topItem"
           :selected="selected"
@@ -317,6 +317,7 @@ export default {
   white-space: nowrap;
   overflow-x: auto;
   text-overflow: ellipsis;
+  font-size: 12px;
 }
 
 ::-webkit-scrollbar {
