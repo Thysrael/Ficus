@@ -14,7 +14,7 @@
           v-for="(child, index) in item.children"
           :key="index"
           :item="child"
-          @click="getIndex(index, child)"
+          @click="getIndex(child)"
       />
     </ul>
   </li>
@@ -37,8 +37,8 @@ export default {
       return `margin-left:${props.item.level - 1}rem`
     })
 
-    function getIndex (index, child) {
-      bus.emit('addToTitles', index)
+    function getIndex (child) {
+      bus.emit('addToTitles', child)
     }
 
     return {
