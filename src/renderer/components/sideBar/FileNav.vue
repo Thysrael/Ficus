@@ -1,6 +1,6 @@
 <template>
   <div class="text-gray-600 text-sm flexStyle">
-    <ul class="space-y-1 w-full overflow-y-auto" v-if="navItems.length !== 0">
+    <ul class="space-y-1 w-full overflow-x-hidden overflow-y-auto" v-if="navItems.length !== 0">
       <FileNavItem
           :topItem="navItems[0]"
           :selected="selected"
@@ -74,7 +74,7 @@ export default {
   justify-content: space-between;
   height: 100%;
   /* 设置超出滚动 */
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 

@@ -6,7 +6,7 @@
           @dblclick="doubleEvent"
           @click="togglePopover()"
           id="btnRef"
-          style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; font-family: 'Noto Sans SC'"
+          style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
           :title="item.name"
       >
         {{ item.name }}
