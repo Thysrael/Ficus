@@ -1,8 +1,8 @@
 <template>
-  <div class="text-gray-600 text-sm items-center content-center"
+  <div class="text-sm items-center content-center text-sm"
        :style= "`max-width: ${windowWidth};overflow-x:auto;`"
        :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`"
-       style="user-select: none;">
+       style="user-select: none; color: #F4F4F3; font-family: 'Noto Sans SC'; font-size: 12px;">
     <div v-show="enable">
       <ul>
         <BreadCrumbItem :item="(items.length === 0) ? {} : items[0]"/>
