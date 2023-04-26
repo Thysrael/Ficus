@@ -74,13 +74,15 @@ exports.markdownToTree = function (markdown) {
             .replace(/\n+$/, '')
             .replace(/^\n+/, '')
         }
-
-        if (/mermaid|flowchart|vega-lite|sequence|plantuml/.test(lang)) {
+        if (codeBlockStyle === 'indented') {
+          parentStack[0].node.insertAtLast(buildParagraph(value))
+        } else if (/mermaid|flowchart|vega-lite|sequence|plantuml/.test(lang)) {
           const codeType = lang
           const codeLang = lang
           parentStack[0].node.insertAtLast(buildDiagramBlock(value, codeType, codeLang))
         } else {
-          const codeType = codeBlockStyle === 'fenced' ? 'fenced' : 'indented'
+          // const codeType = codeBlockStyle === 'fenced' ? 'fenced' : 'indented'
+          const codeType = 'fenced'
           const codeLang = lang
           parentStack[0].node.insertAtLast(buildCodeBlock(token.text, codeType, codeLang))
         }
