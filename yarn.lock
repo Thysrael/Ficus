@@ -5799,10 +5799,10 @@ ficus-editor@^1.0.29:
   dependencies:
     diff-match-patch "^1.0.5"
 
-ficus-mindmap@0.6.19:
-  version "0.6.19"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.19.tgz#cf2de6ec87382df9c7585d90caaea37b0251958b"
-  integrity sha512-sRJW8JbooXtKM2jcdTqJsJeRSHv7ULb/BDe1P2/HqFQGRypRh79C3MjovTBama6WzP6OlZz+F7nvsfrv7zGnLw==
+ficus-mindmap@0.6.24:
+  version "0.6.24"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.24.tgz#440595e9182b3269c564ad3e2972e9e560269494"
+  integrity sha512-u8VwDUIGSzI45qDxitcKHZXy0j7ExCMjJwT7mpN43+XR8aGpaCXn3kwcNhVQaqhlgWGYEGfu80hb9jZBqWMuVA==
   dependencies:
     d3-drag "^2.0.0"
     d3-interpolate "^2.0.1"
