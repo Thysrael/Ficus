@@ -9,6 +9,10 @@ class LinkManager {
     this.reset()
   }
 
+  resetValidFilePaths () {
+    this.validFilePaths = new Set()
+  }
+
   reset () {
     this.fileToTags = new Map()
     this.tagToFiles = new Map()

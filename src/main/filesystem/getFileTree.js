@@ -92,6 +92,7 @@ function makeFolderStat (dirPath) {
 }
 
 async function getTree (folderPath, folderName) {
+  linkManager.resetValidFilePaths()
   const dirPath = path.resolve(folderPath)
   const fileJson = makeFolderStat(dirPath)
   linkManager.init()
