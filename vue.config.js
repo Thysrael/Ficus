@@ -10,6 +10,10 @@ module.exports = defineConfig({
           allowToChangeInstallationDirectory: true,
           oneClick: false,
           perMachine: true
+        },
+        extraResources: {
+          from: './build/exec/updater.exe',
+          to: '../'
         }
       }
     }
