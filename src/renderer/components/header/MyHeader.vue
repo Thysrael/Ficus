@@ -178,7 +178,7 @@ export default {
         if (value === 2) {
           bus.emit('chooseToShowPage', 2) // 展示树型组件
         } else if (value === 0 || value === 1) {
-          bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
+          // bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
           bus.emit('chooseToShowPage', 1) // 展示编辑器组件
         } else if (value === -1) {
           bus.emit('chooseToShowPage', 0)
@@ -229,7 +229,12 @@ export default {
         bus.emit('sendToFicTree', obj)
       } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
-          bus.emit('setEditorContent', { content: content.value })
+          (async () => {
+            bus.emit('setEditorContent', { content: content.value })
+          })().then(() => {
+            bus.emit('changeEditMode', { mode: store.getters.getMode })
+          }
+          )
         } else {
           console.log('bug: 正在尝试发送给ficus-editor undefined')
         }
