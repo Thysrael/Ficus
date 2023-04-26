@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-600 text-sm">
+  <div class="text-gray-600 text-sm h-full overflow-auto">
     <ul class="space-y-1" v-if="items !== undefined && items.length !== 0">
       <OutLineItem
           :item="item"
@@ -54,5 +54,18 @@ export default {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 8px;
 
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #b7b7b7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #777777;
+}
 </style>

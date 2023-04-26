@@ -5,7 +5,7 @@
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="showPage === 1"></TextUI>
     <FicTree v-show="showPage === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
     <FicGraph v-show="showPage === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
-    <div v-if="mode === 0 || mode === 1" class="littleInformation items-center content-center px-3 mr-3">
+    <div class="littleInformation items-center content-center px-3 mr-3">
       <div class="information flex flex-wrap items-center content-center">
         <div class="myText items-center content-center">
           {{ wordCnt }} 词
@@ -37,7 +37,6 @@ import { computed, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import FicGraph from '@/renderer/components/mindEditor/FicGraph'
 import WelcomePage from '@/renderer/components/textArea/WelcomePage.vue'
-import store from '@/renderer/store'
 
 export default {
   name: 'TextArea',
@@ -47,9 +46,6 @@ export default {
     const showPage = ref(0) // 0表示默认显示欢迎界面，1表示textUI，2表示ficus视图
     const wordCnt = ref(0)
     const lineCnt = ref(0)
-    const mode = computed(() => {
-      return store.getters.getMode
-    })
     const time = computed(() => {
       return Math.floor(wordCnt.value / 300)
     })
@@ -63,19 +59,44 @@ export default {
       lineCnt.value = obj.lineCnt
     })
 
+    bus.on('exportPNG', () => {
+      if (showPage.value === 2) {
+        // 树视图
+        bus.emit('exportTreePNG')
+      } else if (showPage.value === 3) {
+        // 图视图
+        bus.emit('exportGraphPNG')
+      } else {
+        bus.emit('showMyAlert', { message: '当前不在树视图或图试图，不能导出PNG' })
+      }
+    })
+
     return {
       showInfoWin,
       showPage,
       wordCnt,
       lineCnt,
-      time,
-      mode
+      time
     }
   }
 }
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #b7b7b7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #777777;
+}
 
 .allInformation {
   position: fixed;
