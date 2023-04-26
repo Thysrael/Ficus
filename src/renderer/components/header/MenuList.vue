@@ -1,5 +1,5 @@
 <template>
-  <div class="text-gray-600 text-sm" style="display: flex;margin-top:20px"
+  <div class="text-gray-600 text-sm" style="display: flex; margin-top:20px; outline:none;"
        v-if="menu"
        tabindex="0"
        @blur="closeMenu"
