@@ -36,9 +36,9 @@ export default defineComponent({
       // console.log(msg)
     }
     const ficustree = ref()
-    const init = (obj) => {
+    const init = () => {
       if (ficustree.value) {
-        ficustree.value.init([obj])
+        ficustree.value.init()
         // data.value = [obj]
       }
     }
@@ -49,10 +49,14 @@ export default defineComponent({
       }
     }
 
+    async function getData (obj) {
+      data.value = [obj]
+    }
+
     // 监听data变化
     bus.on('sendToFicTree', (obj) => {
       console.log('getObj: ', obj)
-      init(obj)
+      getData(obj).then(init)
     })
 
     bus.on('exportTreePNG', () => {

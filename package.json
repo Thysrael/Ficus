@@ -44,7 +44,7 @@
         "eslint": "^8.38.0",
         "eslint-plugin-vue": "^8.0.3",
         "ficus-editor": "^1.0.29",
-        "ficus-mindmap": "0.6.19",
+        "ficus-mindmap": "0.6.24",
         "fs-extra": "^11.1.1",
         "husky": "^8.0.3",
         "js-yaml": "^4.1.0",
