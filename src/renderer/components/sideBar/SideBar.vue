@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex" class="Sidebar">
     <div class="toolsBar items-center content-center" style="z-index: 10">
-      <button class="myButton" :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 2">
+      <button class="myButton" @click="isFile = 2">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_480)">
@@ -17,7 +17,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 0">
+      <button class="myButton"  @click="isFile = 0">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_426)">
@@ -29,7 +29,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 1" v-if="false">
+      <button class="myButton"  @click="isFile = 1" v-if="false">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_1317)">
@@ -42,7 +42,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="getRelation">
+      <button class="myButton"  @click="getRelation">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -57,7 +57,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="getTags">
+      <button class="myButton"  @click="getTags">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -73,7 +73,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 5" v-if="false">
+      <button class="myButton"  @click="isFile = 5" v-if="false">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_462)">
@@ -310,9 +310,15 @@ export default {
       }
     }
 
+    watch(isFile, (newValue, oldValue) => {
+      if (oldValue === 6) {
+        bus.emit('backToEditMode')
+      }
+    })
+
     bus.on('quitFromGraph', () => {
-      isFile.value = 0 // 默认回到资源管理器视图
-      bus.emit('backToEditMode') // 默认进入纯文本模式
+      isFile.value = 0
+      bus.emit('backToEditMode')
     })
 
     async function flushTree () {
