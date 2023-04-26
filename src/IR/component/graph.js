@@ -22,12 +22,12 @@ class IRGraph {
 
   /**
      * private
-     * @param {{name: string, path: string, children: [any]}} files
+     * @param {{name: string, path: string, children: [any], type: string}} files
      * @returns
      */
   parseFileTree (files) {
     let newNode
-    if (files.children) {
+    if (files.type === 'folder') {
       newNode = buildFolderNode(this.allocNodeID(), files.name, files.path)
       this.treenodes.push(newNode)
       files.children.forEach(e => {
