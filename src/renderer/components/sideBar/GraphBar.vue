@@ -36,7 +36,7 @@ export default {
     }
 
     function quitGraph () {
-      bus.emit('quitFromGraph')
+      bus.emit('quitFromGraph', 0)
     }
 
     return {

@@ -1,5 +1,6 @@
 <template>
-  <div class="text-gray-600 text-sm items-center content-center" :style= "`max-width: ${windowWidth};overflow-x:auto;`">
+  <div class="text-gray-600 text-sm items-center content-center" :style= "`max-width: ${windowWidth};overflow-x:auto;`"
+  :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`">
     <div v-show="enable">
       <ul>
         <BreadCrumbItem :item="(items.length === 0) ? {} : items[0]"/>
@@ -29,6 +30,7 @@
 import { computed, getCurrentInstance, onMounted, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import BreadCrumbItem from '@/renderer/components/header/BreadCrumbItem'
+import store from '@/renderer/store'
 
 export default {
   name: 'BreadCrumb',
@@ -46,6 +48,10 @@ export default {
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
     const curName = ref()
+    const mode = computed(() => {
+      return store.getters.getMode
+    })
+
     const enable = computed(() => {
       return props.items.length !== 0 && props.items[0].curChild >= -1
     })
@@ -95,6 +101,7 @@ export default {
       curFocus,
       curName,
       enable,
+      mode,
       windowWidth,
       changeTab,
       lossFocus
