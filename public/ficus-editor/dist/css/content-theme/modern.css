@@ -1,0 +1,225 @@
+/*!
+* Modern content theme of ficus-editor
+*
+*/
+@import url('./noto-sans-sc.css');
+@import url('./sv.css');
+
+:root {
+  --White: #FFFFFF;
+  --TextMedium: #3D3D3D;
+  --TextRegular: #5E5E5E;
+  --TextLight: #D8D8D8;
+  --TextQuote: #AAAAAA;
+  --SwissCoffee-500: #F4F4F3;
+}
+
+.vditor {
+  border: none;
+}
+
+.vditor-sv {
+  padding-left: 70px;
+}
+
+.vditor-preview {
+  padding-right: 70px;
+}
+
+.vditor-reset {
+  font-family: "Noto Sans SC";
+  font-weight: 400px;
+}
+
+.vditor-wysiwyg pre.vditor-reset:focus,
+.vditor-ir pre.vditor-reset:focus,
+pre.vditor-sv:focus {
+  background: var(--White);
+}
+
+
+/* 段落 */
+
+.vditor-reset p {
+  font-weight: 400;
+  /* Regular */
+  font-size: 16px;
+  line-height: 30px;
+  color: var(--TextMedium);
+  text-align: justify;
+  vertical-align: center;
+  margin-bottom: 12px;
+}
+
+.vditor-reset p b,
+.vditor-reset p strong {
+  font-weight: 900;
+}
+
+.vditor-reset pre.vditor-wysiwyg__pre>code {
+  background: var(--TextLight);
+}
+
+
+/* 标题 */
+
+.vditor-reset h1 {
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 52px;
+  color: var(--TextMedium);
+  text-align: justify;
+  border-bottom: 1px solid var(--TextLight);
+  padding-bottom: 4px;
+}
+
+.vditor-reset h2 {
+  font-weight: 900;
+  font-size: 32px;
+  line-height: 44px;
+  color: var(--TextMedium);
+  text-align: justify;
+  border-bottom: 1px solid var(--TextLight);
+  padding-bottom: 4px;
+}
+
+.vditor-reset h3 {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 36px;
+  color: var(--TextMedium);
+  text-align: justify;
+  border-bottom: 1px solid var(--TextLight);
+  padding-bottom: 4px;
+}
+
+.vditor-reset h4 {
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--TextMedium);
+  text-align: justify;
+}
+
+.vditor-reset h5 {
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--TextMedium);
+  text-align: justify;
+}
+
+.vditor-reset h6 {
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 32px;
+  color: var(--TextRegular);
+  text-align: justify;
+}
+
+.vditor-reset h1,
+.vditor-reset h2,
+.vditor-reset h3,
+.vditor-reset h4,
+.vditor-reset h5,
+.vditor-reset h6 {
+  margin-bottom: 20px;
+}
+
+
+/* 分割线 */
+
+.vditor-reset hr {
+  border-bottom: 2px solid var(--TextLight);
+  transform-origin: 0 0;
+  transform: scale(1, 0.5);
+  height: 0;
+}
+
+/* 引用块 */
+
+.vditor-reset blockquote p {
+  font-weight: 200;
+  /* ExtraLight */
+  font-size: 16px;
+  line-height: 30px;
+  color: var(--TextQuote);
+  text-align: justify;
+  vertical-align: center;
+  margin-bottom: 12px;
+}
+
+.vditor-reset blockquote p b,
+.vditor-reset blockquote p strong {
+  font-weight: 400;
+  /* Regular */
+}
+
+/* 代码块 */
+
+.vditor-reset pre>code {
+  background-color: var(--SwissCoffee-500);
+}
+
+/** 列表 **/
+
+.vditor-reset ol>li,
+.vditor-reset ul>li {
+  font-weight: 400;
+  /* Regular */
+  font-size: 16px;
+  line-height: 30px;
+  color: var(--TextMedium);
+  text-align: justify;
+  vertical-align: center;
+}
+
+.vditor-reset li p {
+  margin-bottom: 0px;
+}
+
+/** 内联代码块样式 **/
+.vditor-reset code:not(.hljs):not(.highlight-chroma) {
+  font-weight: 400;
+  /* Regular */
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0px 3px;
+}
+
+/** 内联公式, 公式块样式 **/
+.vditor-reset span.katex-html {
+  font-size: 16px;
+}
+
+/** 内联公式编辑区 **/
+.vditor-reset code[data-type="math-inline"] {
+  background-color: var(--SwissCoffee-500);
+  padding: 1px, 1px;
+}
+
+/** 删除公式块、代码块前缀 **/
+.vditor-wysiwyg div.vditor-wysiwyg__block[data-type="math-block"]:before {
+  content: "";
+}
+
+.vditor-wysiwyg div.vditor-wysiwyg__block[data-type="code-block"]:before {
+  content: "";
+}
+
+/** 表格 **/
+.vditor-reset table th,
+.vditor-reset table td {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.vditor-reset table th:first-child:after,
+.vditor-reset table td:first-child:after {
+  display: none;
+}
+
+/** 有序列表 **/
+.vditor-reset ol {
+  list-style-type: decimal;
+}

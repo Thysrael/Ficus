@@ -1,0 +1,45 @@
+
+.vditor-sv.vditor-reset span,
+.vditor-sv.vditor-reset div {
+  font-weight: 400; /* Regular */
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* 标题 */
+
+.vditor-sv.vditor-reset .h1 {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.vditor-sv.vditor-reset .h2 {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.vditor-sv.vditor-reset .h3 {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.vditor-sv.vditor-reset .h4 {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.vditor-sv.vditor-reset .h5 {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.vditor-sv.vditor-reset .h6 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
