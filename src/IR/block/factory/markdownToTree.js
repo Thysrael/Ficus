@@ -213,6 +213,11 @@ exports.markdownToTree = function (markdown) {
       }
 
       case 'space': {
+        const { length } = token
+
+        if (length >= 4) {
+          parentStack[0].node.insertAtLast(buildParagraph('\n'.repeat(length - 4)))
+        }
         break
       }
 

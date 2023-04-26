@@ -123,7 +123,8 @@ Lexer.prototype.token = function (src, top) {
       src = src.substring(cap[0].length)
       if (cap[0].length > 1) {
         this.tokens.push({
-          type: 'space'
+          type: 'space',
+          length: cap[0].length
         })
       }
     }
