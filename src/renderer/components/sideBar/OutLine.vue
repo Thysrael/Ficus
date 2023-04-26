@@ -1,12 +1,11 @@
 <template>
-  <div class="text-gray-600 text-sm h-full overflow-auto pl-2">
-    <ul class="space-y-1" v-if="items !== undefined && items.length !== 0">
+  <div class="flex justify-between text-gray-600 text-sm pl-2 relative">
+    <ul class="space-y-1 w-full overflow-y-auto" v-if="items !== undefined && items.length !== 0">
       <OutLineItem
           :item="item"
           v-for="(item, index) in items"
           :key="index"
           @click="getIndex(index, item)"
-          class="py-1"
       />
     </ul>
     <div v-if="items === undefined || items.length === 0">

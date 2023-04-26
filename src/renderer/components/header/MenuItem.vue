@@ -6,7 +6,7 @@
         @mouseout="hover = false"
         class="flex content-center items-center"
     >
-      <p class="ml-4" style="width: 170px; font-size: 12px">
+      <p class="ml-4" style="width: 170px; font-size: 12px; user-select: none;">
         {{ item.name }}
       </p>
 

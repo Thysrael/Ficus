@@ -1,7 +1,7 @@
 <template>
   <li>
     <div
-        class="outlineItem pl-1 content-center items-center"
+        class="outlineItem pl-1 py-1 content-center items-center h-full"
         tabindex="0"
         :style="pl"
     >
@@ -15,7 +15,6 @@
           :key="index"
           :item="child"
           @click="getIndex(index, child)"
-          class="py-1"
       />
     </ul>
   </li>
@@ -55,7 +54,6 @@ export default {
   font-family: "Noto Sans SC";
   font-size: 13px;
   color: #3D3D3D;
-  box-sizing: border-box;
   border-width: 0px 0px 0px 2px;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.1);

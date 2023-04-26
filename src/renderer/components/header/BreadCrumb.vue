@@ -1,6 +1,8 @@
 <template>
-  <div class="text-gray-600 text-sm items-center content-center" :style= "`max-width: ${windowWidth};overflow-x:auto;`"
-  :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`">
+  <div class="text-gray-600 text-sm items-center content-center"
+       :style= "`max-width: ${windowWidth};overflow-x:auto;`"
+       :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`"
+       style="user-select: none;">
     <div v-show="enable">
       <ul>
         <BreadCrumbItem :item="(items.length === 0) ? {} : items[0]"/>
@@ -74,6 +76,7 @@ export default {
   border-radius: 8px;
   -webkit-transition: background-color .3s;
   -webkit-transition:left .3s, background-color .3s;
+  user-select: none;
 }
 
 .breadCrumbChild:active {
@@ -82,5 +85,6 @@ export default {
   border-radius: 8px;
   -webkit-transition: background-color .3s;
   -webkit-transition:left .3s, background-color .3s;
+  user-select: none;
 }
 </style>

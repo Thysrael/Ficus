@@ -1,6 +1,6 @@
 <template>
   <div class="grid justify-items-center py-4 w-full h-full">
-    <div style="width: 700px; height: 700px" id="ficGraph" class="justify-self-center"/>
+    <div style="width: 800px; height: 700px" id="ficGraph" class="justify-self-center"/>
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
             distance: 4,
             formatter: '{b}',
             show: true,
-            width: 60,
+            width: 120,
             overflow: 'truncate',
             ellipsis: '...'
           },
@@ -56,7 +56,8 @@ export default {
           },
           lineStyle: {
             color: 'source',
-            curveness: 0.3
+            curveness: 0.3,
+            width: 2
           },
           draggable: true,
           emphasis: {
@@ -77,17 +78,21 @@ export default {
       }
     });
 
-    let Solution = function(radius, x_center, y_center) {
-      this.xc = x_center;
-      this.yc = y_center;
-      this.r = radius;
-    }
-
-    Solution.prototype.randPoint = function() {
-      const u = Math.random();
-      const theta = Math.random() * 2 * Math.PI;
-      const r = Math.sqrt(u);
-      return [this.xc + r * Math.cos(theta) * this.r, this.yc + r * Math.sin(theta) * this.r];
+    function generatePointsInCircle(n, r) {
+      const points = [];
+      const radiusSquared = r * r;
+      for (let i = 0; i < n; i++) {
+        let x, y;
+        do {
+          x = (Math.random() - 0.5) * r * 2;
+          y = (Math.random() - 0.5) * r * 2;
+        } while (x * x + y * y > radiusSquared);
+        points.push({
+          x: x,
+          y: y
+        });
+      }
+      return points;
     }
 
     function exportPNG () {
@@ -130,13 +135,12 @@ export default {
     bus.on('getNodeAndLink', (obj) => {
       const data = obj.nodes
       const link = obj.links
-      const chart = new Solution(700, 0, 0)
+      const positions = generatePointsInCircle(data.length, 1000)
       for (let i = 0; i < data.length; i++) {
         let curData = data[i];
-        let randomPosition = chart.randPoint()
-        curData.symbolSize = curData.name.length * 4 > 60 ? 60 : curData.name.length * 4
-        curData.x = randomPosition[0]
-        curData.y = randomPosition[1]
+        curData.symbolSize = curData.name.length * 4 > 30 ? 30 : curData.name.length * 4
+        curData.x = positions[i].x
+        curData.y = positions[i].y
       }
       myChart.setOption({
         series: [{

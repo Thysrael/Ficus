@@ -11,12 +11,12 @@
   >
     <div
         style="display: flex"
-        class="pl-1 items-center content-center"
+        class="pl-1 items-center content-center flex flex-wrap w-full h-full"
         :class="isSelected ? `selectedElement` : `nonSelectedElement`"
         @click="toggle(1)"
     >
       <div>
-        <svg v-if="item.type === 'folder'" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
+        <svg v-if="item.type === 'folder' && hasChildren && expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
           <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
@@ -52,18 +52,8 @@
         </svg>
       </div>
       <div class="fileTreeElementText"
-           :class="item.type === 'file' ? `pl-2` : `px-1`"
-           id="btnRef"
-           @mouseenter="togglePopover()"
-           @mouseleave="togglePopover()">
+           :class="item.type === 'file' ? `pl-2` : `px-1`" :title="item.name">
         {{ item.name }}
-      </div>
-    </div>
-    <div id="popoverRef" v-bind:class="{'hidden': !popoverShow, 'block': popoverShow}"
-         class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
-         style="position: fixed; font-family: 'Noto Sans SC'">
-      <div class="px-3 py-2">
-        {{item.name}}
       </div>
     </div>
     <div>
@@ -81,7 +71,7 @@
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
-    <ul v-if="hasChildren && expanded" class="pl-2">
+    <ul v-if="hasChildren && expanded">
       <FileNavItem
           :top-item="topItem"
           :selected="selected"
@@ -100,7 +90,6 @@ import bus from 'vue3-eventbus'
 import { directive, Contextmenu, ContextmenuItem } from 'v-contextmenu'
 import 'v-contextmenu/dist/themes/default.css'
 import { useStore } from 'vuex'
-import { createPopper } from '@popperjs/core'
 
 export default {
   name: 'FileNavItem',
@@ -134,7 +123,6 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = ctx
-    const popoverShow = ref(false) // 显示完整文件名的弹窗
 
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
@@ -223,21 +211,6 @@ export default {
       bus.emit('showDialogForNewFile', { type, father: props.item })
     }
 
-    function togglePopover () {
-      const btnRef = document.querySelector('#btnRef')
-      const popoverRef = document.querySelector('#popoverRef')
-      if (this.popoverShow) {
-        this.popoverShow = false
-      } else {
-        this.popoverShow = true
-        createPopper(btnRef, popoverRef, {
-          placement: 'right',
-          element: 'arrow',
-          strategy: 'fixed'
-        })
-      }
-    }
-
     function handleDelete () {
       bus.emit('removeObjFromData', props.item)
     }
@@ -277,8 +250,6 @@ export default {
       handleNew,
       handleDelete,
       handlePaste,
-      popoverShow,
-      togglePopover,
       handleRename,
       handleCopyAbsolutePath,
       handleCopyPartPath,
@@ -318,6 +289,7 @@ export default {
   overflow-x: auto;
   text-overflow: ellipsis;
   font-size: 12px;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {

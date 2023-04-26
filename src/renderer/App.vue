@@ -2,7 +2,7 @@
   <div id="app" :style="{ height: windowHeight }">
     <MyHeader :data="data" style="width: 100%"></MyHeader>
     <div style="display: flex; height: 100%; width: 100%; position: relative">
-      <SideBar :data="data" style="height: 100%"></SideBar>
+      <SideBar :data="data" style="height: 100%; position: fixed;" :style="{ height: windowHeight }"></SideBar>
       <TextArea class="myTextArea" :style="{ height: windowHeight }"></TextArea>
     </div>
     <div class="dialog text-white px-6 py-4 border-0 rounded bg-pink-500 z-50" v-if="myAlert">
@@ -463,6 +463,13 @@ export default {
   background: #FFFFFF;
   overflow-x: hidden;
   overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.html, body {
+  width: 100%;
+  height: 100%;
 }
 
 .myTextArea {
