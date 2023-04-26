@@ -19,7 +19,7 @@
     <button class="optionBtn" @click="handleProcess">
       提交图修改
     </button>
-    <button class="optionBtn" @click="quitGraph">
+    <button class="optionBtn1" @click="quitGraph">
       退出榕图
     </button>
   </div>
@@ -69,6 +69,30 @@ export default {
 }
 
 .optionBtn:active {
+  background-color: #3D3D3D;
+}
+
+.optionBtn1 {
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 130px;
+  height: 25px;
+  border-radius: 3px;
+  opacity: 1;
+  background-color: #7b88b7;
+  font-size: 12px;
+  font-family: "Noto Sans SC";
+  font-weight: lighter;
+  color: #FFFFFF
+}
+
+.optionBtn1:hover {
+  background-color: #414862;
+  -webkit-transition: .2s;
+  -webkit-transition:left .2s, background-color .2s;
+}
+
+.optionBtn1:active {
   background-color: #3D3D3D;
 }
 </style>
