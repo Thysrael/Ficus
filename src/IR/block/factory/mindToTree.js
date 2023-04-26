@@ -97,7 +97,7 @@ function mindToTreeRecursion (mindJson) {
 
   let level
   mindJson.children.forEach(mjson => {
-    nowNode.insertAtLast(mindToTreeRecursion(mjson))
+    const chnode = mindToTreeRecursion(mjson)
     // 寻找子节点最小权重
     if (mjson.level) {
       if (level) {
@@ -106,14 +106,13 @@ function mindToTreeRecursion (mindJson) {
         level = mjson.level
       }
     }
-  })
-  if (nowLevel && level) {
-    level = Math.max(level, nowLevel + 1)
-  }
-  nowNode.children.forEach(chnode => {
+    if (nowLevel && level) {
+      level = Math.max(level, nowLevel + 1)
+    }
     if (chnode.nodeType === headingTypeName && level) {
       chnode.content.setDepth(level)
     }
+    nowNode.insertAtLast(chnode)
   })
   return nowNode
 }
