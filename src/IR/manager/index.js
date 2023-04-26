@@ -1,5 +1,6 @@
 const { buildGraphFromFileTree } = require('../block/factory/filesToGraph')
 const { IRTree } = require('../component/tree')
+const { IdMarker } = require('../helper/counter')
 
 const DEFAULT_OPTIONS = {
   replaced: false
@@ -67,7 +68,10 @@ class DataManager {
     if (this.irtree === undefined) {
       return {}
     }
-    return this.irtree.toOutlineJson()
+    const outlineInfo = this.irtree.toOutlineJson()
+    const idMarker = new IdMarker()
+    idMarker.markId(outlineInfo)
+    return outlineInfo
   }
 
   /**
