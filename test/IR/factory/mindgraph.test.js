@@ -85,10 +85,10 @@ const node2 = [
   { id: '1', name: '1.md', category: 1 },
   { id: '2', name: '2.md', category: 1 },
   { id: '3', name: '3.md', category: 1 },
-  { id: '4', name: 'aaa', category: 1 },
-  { id: '5', name: 'b', category: 1 },
-  { id: '6', name: 'c', category: 1 },
-  { id: '7', name: 'a', category: 1 }
+  { id: '4', name: 'aaa', category: 2 },
+  { id: '5', name: 'b', category: 2 },
+  { id: '6', name: 'c', category: 2 },
+  { id: '7', name: 'a', category: 2 }
 ]
 
 const link2 = [

@@ -3,7 +3,7 @@ const { Content } = require('./base')
 
 const folderCategory = 0
 const fileCategory = 1
-const tagCategory = 1
+const tagCategory = 2
 
 class FileContent extends Content {
   constructor (id, name, path, content) {
