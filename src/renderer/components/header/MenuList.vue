@@ -441,7 +441,7 @@ export default {
             bus.emit('pasteSelectedText', { type: 'plain' })
             break
           case '删除':
-            bus.emit(' deleteSelectedText')
+            bus.emit('deleteSelectedText')
             break
           case '一级标题':
             bus.emit('addBlock', { type: 'heading-1' })
