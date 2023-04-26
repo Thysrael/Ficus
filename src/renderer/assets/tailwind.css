@@ -3222,6 +3222,10 @@ select {
     padding-top: 0.5rem;
 }
 
+.pl-1 {
+    padding-left: 0.25rem;
+}
+
 .pl-2 {
     padding-left: 0.5rem;
 }
@@ -4187,6 +4191,10 @@ select {
     gap: 1.5rem;
 }
 
+.gap-3 {
+    gap: 0.75rem;
+}
+
 .grid-flow-row {
     grid-auto-flow: row;
 }
@@ -4209,6 +4217,22 @@ select {
 
 .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.col-span-2 {
+    grid-column: span 2 / span 2;
+}
+
+.col-span-3 {
+    grid-column: span 3 / span 3;
 }
 
 .grid-cols-7 {

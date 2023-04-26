@@ -77,7 +77,6 @@ async function createWindow () {
       win.maximize()
     }
   }
-
   return win
 }
 
