@@ -214,9 +214,9 @@ export default {
     async function writeBack () {
       // 有可能路径不存在
       if (curObj.value.path) {
-        if (content.value === '' || content.value === '\n') {
-          bus.emit('showMyAlert', { message: '检测到写回文件内容为空，请检查是否为误操作！' })
-        }
+        // if (content.value === '' || content.value === '\n') {
+        //   bus.emit('showMyAlert', { message: '检测到写回文件内容为空，请检查是否为误操作！' })
+        // }
         window.electronAPI.saveFile(curObj.value.path, content.value)
         curObj.value.content = content.value
       }

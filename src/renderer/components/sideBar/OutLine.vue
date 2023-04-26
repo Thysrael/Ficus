@@ -5,7 +5,7 @@
           :item="item"
           v-for="(item, index) in items"
           :key="index"
-          @click="getIndex(index, item)"
+          @click="getIndex(item)"
       />
     </ul>
     <div v-if="items === undefined || items.length === 0">
@@ -30,19 +30,17 @@ export default {
     }
   },
   setup () {
-    let titles = []
+    let titles = [-1, -1, -1, -1, -1, -1]
 
-    bus.on('addToTitles', (index) => {
-      titles.unshift(index)
+    bus.on('addToTitles', (child) => {
+      titles[child.level - 1] = child.id
     })
 
-    function getIndex (index, item) {
-      titles.unshift(index)
-      for (let i = titles.length; i < 6; i++) {
-        titles.push(-1)
-      }
+    function getIndex (item) {
+      titles[item.level - 1] = item.id
+      console.log(titles)
       bus.emit('scrollToHeading', { info: titles })
-      titles = []
+      titles = [-1, -1, -1, -1, -1, -1]
     }
 
     return {
