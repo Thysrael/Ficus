@@ -7,8 +7,8 @@ module.exports = defineConfig({
       nodeModulesPath: ['./node_modules'],
       builderOptions: {
         nsis: {
-          allowToChangeInstallationDirectory: true,
-          oneClick: false,
+          // allowToChangeInstallationDirectory: true,
+          oneClick: true,
           perMachine: true
         },
         extraResources: {
