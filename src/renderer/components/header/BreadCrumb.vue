@@ -10,24 +10,12 @@
          class="items-center content-center">
       {{ curName }}
     </div>
-    <div v-if="show" style="position:relative" class="mt-20 shadow-sm"
-         tabindex="0"
-         @blur="lossFocus" ref="myDiv">
-      <ol class="area-header-downtab shadow-sm">
-        <li v-for="(child, index) in curFocus.children" :key="index"
-            @click="changeTab(child, index)"
-            class="breadCrumbChild px-3"
-        >
-          {{ child.name }}
-        </li>
-      </ol>
-    </div>
   </div>
 
 </template>
 
 <script>
-import { computed, getCurrentInstance, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import BreadCrumbItem from '@/renderer/components/header/BreadCrumbItem'
 import store from '@/renderer/store'
@@ -42,11 +30,6 @@ export default {
     }
   },
   setup (props) {
-    const show = ref(false)
-    const curFocus = ref({})
-    // eslint-disable-next-line no-unused-vars
-    const { proxy, ctx } = getCurrentInstance()
-    const _this = ctx
     const curName = ref()
     const mode = computed(() => {
       return store.getters.getMode
@@ -65,46 +48,15 @@ export default {
       })
     })
 
-    bus.on('wantShow', (obj) => {
-      if (obj.children && obj.children.length) {
-        curFocus.value = obj
-        show.value = true
-        _this.$nextTick(() => {
-          _this.$refs.myDiv.focus()
-        })
-      } else {
-        show.value = false
-      }
-    }
-    )
-
     bus.on('changeName', (name) => {
       curName.value = name
     })
 
-    function changeTab (child, index) {
-      bus.emit('changeTab', {
-        item: curFocus.value,
-        child,
-        index
-      }
-      )
-      show.value = false
-    }
-
-    function lossFocus () {
-      show.value = false
-    }
-
     return {
-      show,
-      curFocus,
       curName,
       enable,
       mode,
-      windowWidth,
-      changeTab,
-      lossFocus
+      windowWidth
     }
   }
 }
