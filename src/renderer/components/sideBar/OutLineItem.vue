@@ -1,13 +1,13 @@
 <template>
   <li>
     <div
-        class="outlineItem pl-2 content-center items-center"
+        class="outlineItem pl-1 content-center items-center"
         tabindex="0"
         :style="pl"
     >
-      <div class="pl-2">
+      <p class="pl-1">
         {{ item.name }}
-      </div>
+      </p>
     </div>
     <ul>
       <OutLineItem
@@ -35,7 +35,7 @@ export default {
   },
   setup (props) {
     const pl = computed(() => {
-      return `margin-left:${props.item.level - 0.5}rem`
+      return `margin-left:${props.item.level - 1}rem`
     })
 
     function getIndex (index, child) {
@@ -53,7 +53,7 @@ export default {
 <style scoped>
 .outlineItem {
   font-family: "Noto Sans SC";
-  font-size: 14px;
+  font-size: 13px;
   color: #3D3D3D;
   box-sizing: border-box;
   border-width: 0px 0px 0px 2px;
