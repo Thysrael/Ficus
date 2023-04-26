@@ -201,7 +201,7 @@ export default {
       }, {
         name: '图像'
       }, {
-        name: '清楚样式'
+        name: '清除样式'
       }]
     }, {
       name: '视图和布局',
@@ -512,7 +512,7 @@ export default {
           case '引用文件':
             bus.emit('addFormat', { type: 'file-link' })
             break
-          case '清楚样式':
+          case '清除样式':
             bus.emit('removeFormat')
             break
           case '开发者工具':
