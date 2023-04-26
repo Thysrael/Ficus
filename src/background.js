@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, dialog, shell } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
@@ -292,6 +292,10 @@ app.on('ready', async () => {
   })
   ipcMain.handle('saveToTarget', (e, content, projPath) => {
     saveToTarget(content, projPath)
+  })
+
+  ipcMain.handle('main::about', () => {
+    shell.openExternal('https://ficus.world/')
   })
   const win = await createWindow()
   ipcMain.handle('window-min', () => {

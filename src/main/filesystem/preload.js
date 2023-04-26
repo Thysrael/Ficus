@@ -36,5 +36,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   paste: (userSelect, tarPath, projPath) => ipcRenderer.invoke('paste', userSelect, tarPath, projPath),
   getCites: (filePath) => ipcRenderer.invoke('ficus::getCites', filePath),
   getTags: (tagName) => ipcRenderer.invoke('ficus::getTags', tagName),
-  getLinks: () => ipcRenderer.invoke('ficus::getLinks')
+  getLinks: () => ipcRenderer.invoke('ficus::getLinks'),
+  aboutUs: () => ipcRenderer.invoke('main::about')
 })
