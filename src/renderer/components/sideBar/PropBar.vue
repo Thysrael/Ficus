@@ -73,7 +73,6 @@ export default {
     bus.on('editTags', (obj) => {
       tags.value.length = 0
       tags.value.push(...obj.res)
-      console.log('tags value: ', tags.value)
     })
 
     async function handleSearch () {
@@ -83,7 +82,6 @@ export default {
         resTags.value = resTags.value.filter((tagName) => {
           return tags.value.indexOf(tagName) === -1
         })
-        console.log('过滤之后：', resTags.value)
       } else {
         showM.value = false
       }

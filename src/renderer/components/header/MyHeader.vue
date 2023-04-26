@@ -185,7 +185,6 @@ export default {
         }
         if (mode !== -1) {
           // 工作区有打开文件
-          console.log('发生了模式切换：', curObj.value)
           store.dispatch('updateMode', { value })
           bus.emit('sendToTextUI', curObj.value)
         } else {
@@ -289,6 +288,15 @@ export default {
       update()
     })
 
+    bus.on('closeAllOtherTab', (obj) => {
+      openFiles.value.length = 0
+      openFiles.value.push(obj)
+      if (curObj.value.path !== obj.path) {
+        bus.emit('sendToTextUI', obj)
+      }
+      update()
+    })
+
     function showMenu () {
       bus.emit('showMenu')
     }
@@ -321,7 +329,6 @@ export default {
     bus.on('changeToGraph', async () => {
       const info = await window.electronAPI.getLinks()
       info.files = props.data[0]
-      console.log('建图：', info)
       dataManager.buildGraphFromFiles(info, { replaced: true })
       bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
       bus.emit('chooseToShowPage', 3)
@@ -329,15 +336,12 @@ export default {
     })
 
     async function getCites () {
-      console.log('输入：', curObj.value.path)
       const obj = await window.electronAPI.getCites(curObj.value.path)
-      console.log('得到返回值：', obj)
       bus.emit('editCites', obj)
     }
 
     function getTags () {
       const array = dataManager.getTags()
-      console.log('拿到：', array)
       bus.emit('editTags', { res: array })
     }
 
@@ -403,9 +407,7 @@ export default {
     }
 
     bus.on('openRefFile', async (obj) => {
-      console.log('跳转到：', obj.path)
       let file = await window.electronAPI.linkToFile(curObj.value.path, obj.path)
-      console.log('接受到：', file)
       if (file !== undefined) {
         const obj = inDirTree(file, props.data)
         if (obj.has) {
@@ -416,7 +418,6 @@ export default {
     })
 
     bus.on('updateOpenFiles', (root) => {
-      console.log('尝试同步中...', root, openFiles.value)
       for (let i = 0; i < openFiles.value.length; i++) {
         const obj = inDirTree(openFiles.value[i], [root])
         if (obj.has) {
