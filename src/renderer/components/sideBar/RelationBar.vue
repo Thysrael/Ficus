@@ -44,27 +44,14 @@
               </g>
             </svg>
           </div>
-          <div class="pl-2 overflow-auto" id="btnRef"
-               @mouseenter="togglePopover()"
-               @mouseleave="togglePopover()">
-            <div style="font-size: 12px">
+          <div class="pl-2 overflow-hidden" :title="item.path">
+            <div style="font-size: 12px; text-overflow: ellipsis;">
               {{ item.name }}
             </div>
-            <div style="font-size: 10px; color: #666A70">
+            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
               {{ item.path }}
             </div>
           </div>
-
-          <div id="popoverRef" v-bind:class="{'hidden': !popoverShow, 'block': popoverShow}"
-               class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
-               style="position: relative; font-family: 'Noto Sans SC'; left: 30px; font-size: 12px">
-            <div class="px-3 py-2">
-              {{item.name}}
-              <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
-              {{item.path}}
-            </div>
-          </div>
-
         </div>
       </li>
     </ul>
@@ -113,27 +100,14 @@
               </g>
             </svg>
           </div>
-          <div class="pl-2 overflow-auto" id="btnRef1"
-               @mouseenter="togglePopover1()"
-               @mouseleave="togglePopover1()">
-            <div style="font-size: 12px;">
+          <div class="pl-2 overflow-hidden" :title="item.path">
+            <div style="font-size: 12px; text-overflow: ellipsis;">
               {{ item.name }}
             </div>
-            <div style="font-size: 10px; color: #666A70">
+            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
               {{ item.path }}
             </div>
           </div>
-
-          <div id="popoverRef1" v-bind:class="{'hidden': !popoverShow1, 'block': popoverShow1}"
-               class="items-center content-center transition-all ease-linear bg-white border-0 shadow-md mr-3 block z-50 font-normal text-sm text-left no-underline break-words rounded-lg opacity-90"
-               style="position: relative; font-family: 'Noto Sans SC'; left: 30px; font-size: 12px">
-            <div class="px-3 py-2">
-              {{item.name}}
-              <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
-              {{item.path}}
-            </div>
-          </div>
-
         </div>
       </li>
     </ul>
@@ -143,7 +117,6 @@
 <script>
 import { ref } from 'vue'
 import bus from 'vue3-eventbus'
-import { createPopper } from '@popperjs/core'
 
 export default {
   name: 'RelationBar',
@@ -168,36 +141,6 @@ export default {
       children: [],
       type: 'file'
     }])
-    const popoverShow = ref(false) // 显示完整文件名的弹窗
-    const popoverShow1 = ref(false) // 显示完整文件名的弹窗
-
-    function togglePopover () {
-      const btnRef = document.querySelector('#btnRef')
-      const popoverRef = document.querySelector('#popoverRef')
-      if (this.popoverShow) {
-        this.popoverShow = false
-      } else {
-        this.popoverShow = true
-        createPopper(btnRef, popoverRef, {
-          placement: 'right',
-          element: 'arrow'
-        })
-      }
-    }
-
-    function togglePopover1 () {
-      const btnRef = document.querySelector('#btnRef1')
-      const popoverRef = document.querySelector('#popoverRef1')
-      if (this.popoverShow1) {
-        this.popoverShow1 = false
-      } else {
-        this.popoverShow1 = true
-        createPopper(btnRef, popoverRef, {
-          placement: 'right',
-          element: 'arrow'
-        })
-      }
-    }
 
     bus.on('editCites', (obj) => {
       quoted.value = obj.cited
@@ -206,11 +149,7 @@ export default {
 
     return {
       cites,
-      quoted,
-      popoverShow,
-      togglePopover,
-      popoverShow1,
-      togglePopover1
+      quoted
     }
   }
 }

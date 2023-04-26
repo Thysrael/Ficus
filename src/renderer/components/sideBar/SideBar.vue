@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex" class="Sidebar">
+  <div style="display: flex" class="Sidebar h-full pb-4 relative">
     <div class="toolsBar items-center content-center" style="z-index: 10">
       <button class="myButton" @click="isFile = 2">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -110,7 +110,7 @@
     <div>
       <div class="header items-center content-center" style="z-index: 10">
         <div class="manage items-center content-center" style="display: flex">
-          <text class="myText pl-2">
+          <text class="myText pl-2" style="user-select: none;">
             {{ textWords }}
           </text>
           <button class="header1-button" @click="handleFlush">
@@ -141,7 +141,7 @@
           </button>
         </div>
       </div>
-      <div class="content pt-2" v-contextmenu:contextmenu @contextmenu="handleRightClick($event)">
+      <div class="content pt-2 pb-4" v-contextmenu:contextmenu @contextmenu="handleRightClick($event)" style="user-select: none;">
         <FileNav :navItems="data" v-if="isFile === 0" :selected="selected"></FileNav>
         <SearchBar v-if="isFile === 1"></SearchBar>
         <OutLine :items="titles" v-if="isFile === 2"></OutLine>
@@ -405,6 +405,11 @@ export default {
 </script>
 
 <style scoped>
+.html, body {
+  width: 100%;
+  height: 100%;
+}
+
 .Sidebar {
   opacity: 1;
   background: #F4F4F3;
@@ -442,10 +447,11 @@ export default {
 .content {
   /* Content */
   position: absolute;
+  overflow: auto;
   left: 60px;
   top: 70px;
   width: 160px;
-  height: 100%;
+  height: 90%;
   opacity: 1;
   /*border: 1px solid #D8D8D8;*/
 }

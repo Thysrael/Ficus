@@ -7,6 +7,7 @@
           @click="togglePopover()"
           id="btnRef"
           style="max-width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; font-family: 'Noto Sans SC'"
+          :title="item.name"
       >
         {{ item.name }}
       </div>

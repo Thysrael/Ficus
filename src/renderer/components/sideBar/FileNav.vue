@@ -1,6 +1,6 @@
 <template>
   <div class="text-gray-600 text-sm flexStyle">
-    <ul class="space-y-1 w-full" v-if="navItems.length !== 0">
+    <ul class="space-y-1 w-full overflow-y-auto" v-if="navItems.length !== 0">
       <FileNavItem
           :topItem="navItems[0]"
           :selected="selected"
@@ -76,11 +76,6 @@ export default {
   /* 设置超出滚动 */
   overflow-x: auto;
   overflow-y: auto;
-}
-
-::-webkit-scrollbar {
-  /* 隐藏滚动条 */
-  display: none;
 }
 
 .openFolderBtn {

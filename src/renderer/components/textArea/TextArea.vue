@@ -21,7 +21,7 @@
            id="popoverRef">
       <div>
           字数统计信息
-          <hr style="border: none;border-top: 2px solid #ccc;height: 1px;">
+          <hr style="border: none;border-top: 2px solid #ccc;height: 1px;" class="py-1">
           {{ time }} 分钟<br>
           {{ lineCnt }} 行<br>
           {{ wordCnt }} 字符<br>
