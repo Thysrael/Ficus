@@ -86,7 +86,7 @@ export default {
 ::-webkit-scrollbar {
   width: 5px;
   border-radius: 8px;
-
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
