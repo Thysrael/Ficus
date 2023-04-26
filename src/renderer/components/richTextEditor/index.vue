@@ -27,6 +27,11 @@ export default {
       // options
       const options =
       {
+        // 设置cdn
+        cdn: '/ficus-editor',
+        hint: {
+          emojiPath: '/ficus-editor'
+        },
         // 编辑器高度
         height: '100%',
         // 初始模式（所见即所得）
@@ -49,7 +54,8 @@ export default {
           },
           // 设置默认主题
           theme: {
-            current: 'classic'
+            current: 'classic',
+            path: '/ficus-editor/dist/css/content-theme'
           },
           // 设置markdown渲染选项
           markdown: {
