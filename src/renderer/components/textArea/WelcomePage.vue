@@ -1,5 +1,5 @@
 <template>
-  <section class="text-gray-500 body-font place-content-center ">
+  <section class="text-gray-500 body-font place-content-center" style="user-select: none;">
     <div class="container px-5 py-16 mx-auto">
       <div class="flex place-content-center">
         <div>

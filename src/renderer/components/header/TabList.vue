@@ -15,7 +15,7 @@
           @contextmenu.prevent.stop="updateRightClickItem($event, item)"
           v-contextmenu:contextmenu
       >
-        <div class="tabItem">
+        <div class="tabItem" :title="getName(item)">
           {{ getName(item) }}
         </div>
         <div class="tabBtn" @click.stop="closeTabByItem(item)">
@@ -179,7 +179,7 @@ export default {
   text-overflow: ellipsis;
   margin-left: 15px;
   font-family: "Noto Sans SC";
-  font-size: 14px;
+  font-size: 12px;
   -webkit-transition: color .3s;
   -webkit-transition:left .3s, color .3s;
 }
