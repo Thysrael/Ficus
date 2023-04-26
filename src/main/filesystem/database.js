@@ -2,6 +2,7 @@ const { app, dialog } = require('electron')
 const path = require('path')
 const { getTree } = require('./getFileTree')
 const linkManager = require('./linkManager')
+const { default: accessor } = require('../accessor')
 
 /**
  * 获得所有项目下links内容
@@ -58,6 +59,7 @@ exports.initFromFolder = async () => {
     }
     console.log(result.filePaths[0])
     const folderName = path.basename(result.filePaths[0])
+    accessor.menu.addRecentlyUsedDocument(folderName)
     const tree = await getTree(result.filePaths[0], folderName)
     const relation = {
       version: 1,
