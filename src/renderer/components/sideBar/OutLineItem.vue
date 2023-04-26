@@ -15,7 +15,7 @@
           :key="index"
           :item="child"
           @click="getIndex(index, child)"
-          class="py-2"
+          class="py-1"
       />
     </ul>
   </li>

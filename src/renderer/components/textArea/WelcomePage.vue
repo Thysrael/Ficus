@@ -1,6 +1,6 @@
 <template>
   <section class="text-gray-500 body-font place-content-center ">
-    <div class="container px-5 py-24 mx-auto">
+    <div class="container px-5 py-16 mx-auto">
       <div class="flex place-content-center">
         <div>
           <img alt="logo" src="../../assets/ficus_logo2.png"
