@@ -49,11 +49,6 @@ export default {
             overflow: 'truncate',
             ellipsis: '...'
           },
-          force: {
-            edgeLength: 5,
-            repulsion: 20,
-            gravity: 0.2
-          },
           lineStyle: {
             color: 'source',
             curveness: 0.3,
@@ -145,6 +140,12 @@ export default {
       myChart.setOption({
         series: [{
           type: 'graph',
+          layout: 'force',
+          force: {
+            edgeLength: 800,
+            repulsion: 2000,
+            gravity: 0.1
+          },
           data: data,
           links: link,
           categories: [{
