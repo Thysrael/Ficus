@@ -29,7 +29,6 @@ export default defineComponent({
       name: ''
     }])
     const onChange = (msg) => {
-      console.log(msg[0])
       bus.emit('saveChangeMindUI', msg[0])
     }
     const onSelect = (msg) => {
@@ -55,7 +54,6 @@ export default defineComponent({
 
     // 监听data变化
     bus.on('sendToFicTree', (obj) => {
-      console.log('getObj: ', obj)
       getData(obj).then(init)
     })
 
