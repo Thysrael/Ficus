@@ -1,16 +1,17 @@
 const files = {
-  path: 'C:\\Users\\22143\\Desktop\\test',
+  path: 'C:',
   name: 'test',
+  type: 'folder',
   children: [
     {
       name: 'test1.txt',
-      path: 'C:\\Users\\22143\\Desktop\\test\\test1.txt',
+      path: 'C:\\test1.txt',
       content: 'fhaf\r\nfafa\r\nafafs',
       type: 'file'
     },
     {
       name: 'test2.txt',
-      path: 'C:\\Users\\22143\\Desktop\\test\\test2.txt',
+      path: 'C:\\test2.txt',
       curChild: -1,
       offset: -1,
       content: 'klejahads\r\nkeafjl\r\njglsf',
@@ -26,7 +27,7 @@ const files = {
     },
     {
       name: 'test3.txt',
-      path: 'C:\\Users\\22143\\Desktop\\test\\test3.txt',
+      path: 'C:\\test3.txt',
       curChild: -1,
       offset: -1,
       content: 'iiiiiiiiiiiiiiiiiiiiiiii',
@@ -42,7 +43,7 @@ const files = {
     },
     {
       name: 'testFolder',
-      path: 'C:\\Users\\22143\\Desktop\\test\\testFolder',
+      path: 'C:\\testFolder',
       curChild: -1,
       offset: -1,
       content: '',
@@ -57,7 +58,7 @@ const files = {
       children: [
         {
           name: 'test.txt',
-          path: 'C:\\Users\\22143\\Desktop\\test\\testFolder\\test.txt',
+          path: 'C:\\testFolder\\test.txt',
           curChild: -1,
           offset: -1,
           content: '',
@@ -89,30 +90,30 @@ const link1 = [
 
 const res1 = {
   name: 'test',
-  path: 'C:\\Users\\22143\\Desktop\\test',
+  path: 'C:',
   children: [
     {
       name: 'test1.txt',
-      path: 'C:\\Users\\22143\\Desktop\\test\\test1.txt',
+      path: 'C:\\test1.txt',
       content: 'fhaf\r\nfafa\r\nafafs'
     },
     {
       name: 'test2.txt',
-      path: 'C:\\Users\\22143\\Desktop\\test\\test2.txt',
+      path: 'C:\\test2.txt',
       content: 'klejahads\r\nkeafjl\r\njglsf'
     },
     {
       name: 'test3.txt',
-      path: 'C:\\Users\\22143\\Desktop\\test\\test3.txt',
+      path: 'C:\\test3.txt',
       content: 'iiiiiiiiiiiiiiiiiiiiiiii'
     },
     {
       name: 'testFolder',
-      path: 'C:\\Users\\22143\\Desktop\\test\\testFolder',
+      path: 'C:\\testFolder',
       children: [
         {
           name: 'test.txt',
-          path: 'C:\\Users\\22143\\Desktop\\test\\testFolder\\test.txt',
+          path: 'C:\\testFolder\\test.txt',
           content: ''
         }
       ]
