@@ -34,11 +34,8 @@ class History {
       this.ignoreRecord = false
       return
     }
-    console.log('record', this.stack.undo)
     this.stack.redo = []
     const timestamp = Date.now()
-    console.log('time1', this.lastRecorded + this.options.delay)
-    console.log('time2', timestamp)
     // 如果两次操作延迟足够短则不记录之前的操作
     if (
       this.lastRecorded + this.options.delay > timestamp &&
@@ -55,7 +52,6 @@ class History {
     if (this.stack.undo.length > this.options.maxStack) {
       this.stack.undo.shift()
     }
-    console.log('record end', this.stack.undo)
   }
 
   redo () {
