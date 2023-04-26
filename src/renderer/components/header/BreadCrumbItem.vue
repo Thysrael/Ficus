@@ -78,13 +78,6 @@ export default {
       }
     }
 
-    function toggle () {
-      clearTimeout(time)
-      time = setTimeout(() => {
-        bus.emit('wantShow', props.item)
-      }, 200)
-    }
-
     function togglePopover () {
       clearTimeout(time)
       time = setTimeout(() => {
@@ -105,7 +98,6 @@ export default {
 
     return {
       hasChildren,
-      toggle,
       doubleEvent,
       curItem,
       selected,
