@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol, dialog, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
@@ -26,9 +26,9 @@ import EAU from './main/update'
 
 import path from 'path'
 import * as url from 'url'
+import { isOsx, isWindows } from './main/config'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-const isOSx = process.platform === 'darwin'
 let ficusPath = ''
 
 // Scheme must be registered before the app is ready
@@ -64,18 +64,10 @@ async function createWindow () {
   win.removeMenu()
 
   // 令窗口初始为最大
-  if (isOSx) {
-    if (win.isFullScreen()) {
-      win.setFullScreen(false)
-    } else {
-      win.setFullScreen(true)
-    }
+  if (isOsx) {
+    win.setFullScreen(true)
   } else {
-    if (win.isMaximized()) {
-      win.restore()
-    } else {
-      win.maximize()
-    }
+    win.maximize()
   }
   return win
 }
@@ -84,7 +76,7 @@ async function createWindow () {
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (!isOsx) {
     app.quit()
   }
 })
@@ -137,12 +129,10 @@ app.on('ready', async () => {
           dialog.showErrorBox('info', error)
           return false
         }
-        if (process.platform === 'darwin') {
+        if (isOsx) {
           app.relaunch()
-          app.quit()
-        } else {
-          app.quit()
         }
+        app.quit()
       })
     })
   }
@@ -308,7 +298,7 @@ app.on('ready', async () => {
     win.minimize()
   })
   ipcMain.handle('window-max', () => {
-    if (isOSx) {
+    if (isOsx) {
       if (win.isFullScreen()) {
         win.setFullScreen(false)
       } else {
@@ -335,7 +325,7 @@ app.on('ready', async () => {
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
-  if (process.platform === 'win32') {
+  if (isWindows) {
     process.on('message', (data) => {
       if (data === 'graceful-exit') {
         app.quit()
@@ -347,6 +337,3 @@ if (isDevelopment) {
     })
   }
 }
-
-// FIXME: 暂时关闭应用菜单
-Menu.setApplicationMenu(null)
