@@ -28,7 +28,13 @@ exports.markdownToTree = function (markdown) {
           .replace(/^\s+/, '')
           .replace(/\s$/, '')
         if (lang === 'yaml') {
-          parentStack[0].node.insertAtLast(buildFrontMatter(value, lang, style))
+          let newNode
+          try {
+            newNode = buildFrontMatter(value, lang, style)
+          } catch {
+            newNode = buildParagraph(`---\n${value}\n---`)
+          }
+          parentStack[0].node.insertAtLast(newNode)
         } else {
           parentStack[0].node.insertAtLast(buildParagraph(value))
         }

@@ -60,12 +60,7 @@ class FrontmatterContent extends Content {
     super(frontmatterTypeName, text)
     this.lang = lang
     this.style = style
-    try {
-      this.data = yaml.load(text)
-    } catch (e) {
-      this.data = {}
-      console.log(`js-yaml parse failed: ${e}`)
-    }
+    this.data = yaml.load(text) || {}
   }
 
   getTags () {
@@ -73,11 +68,15 @@ class FrontmatterContent extends Content {
   }
 
   toMarkdown () {
-    return '---\n' + this.normalPrefix + yaml.dump(this.data) + '---\n\n'
+    if (this.isEmpty()) {
+      return '---\n' + this.text + '---\n\n'
+    } else {
+      return '---\n' + yaml.dump(this.data) + '---\n\n'
+    }
   }
 
   addTag (tagname) {
-    if (this.data === undefined) {
+    if (this.data.tags === undefined) {
       this.data = { tags: [tagname] }
     } else if (!this.data.tags.includes(tagname)) {
       this.data.tags.push(tagname)
