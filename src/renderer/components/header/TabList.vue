@@ -136,8 +136,8 @@ export default {
       bus.emit('deleteTab', rightClickItem.value)
     }
 
-    function closeOtherTab (item) {
-
+    function closeOtherTab () {
+      bus.emit('closeAllOtherTab', rightClickItem.value)
     }
 
     function lockTab () {

@@ -288,7 +288,6 @@ export default {
       for (let i = 0; i < selected.value.length; i++) {
         copied.value.push(selected.value[i].path)
       }
-      console.log('copy: ', copied.value[0])
     })
 
     function handleNew (type) {
@@ -381,7 +380,6 @@ export default {
 
     function getRelation () {
       isFile.value = 3
-      console.log('获取引用关系：')
       bus.emit('changeToRelation')
     }
 
