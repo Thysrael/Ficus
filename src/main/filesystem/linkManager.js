@@ -5,6 +5,7 @@ const { isValidMarkdownFilePath } = require('../helper/path')
 
 class LinkManager {
   constructor () {
+    this.validFilePaths = new Set()
     this.reset()
   }
 
@@ -14,17 +15,16 @@ class LinkManager {
 
     this.citingMap = new Map()
     this.citedMap = new Map()
-
-    this.validFilePaths = []
   }
 
   addValidFilePath (filepath) {
     if (isValidMarkdownFilePath(filepath)) {
-      this.validFilePaths.push(filepath)
+      this.validFilePaths.add(filepath)
     }
   }
 
   init () {
+    this.reset()
     for (const path of this.validFilePaths) {
       try {
         const content = readFileSync(path).toString()
@@ -92,6 +92,7 @@ class LinkManager {
   updateFile (filepath) {
     if (isValidMarkdownFilePath(filepath)) {
       try {
+        this.validFilePaths.add(filepath)
         const content = readFileSync(filepath).toString()
         const { aerials, tags } = getLinksInFile(content)
         this.delFile(filepath)
@@ -121,6 +122,15 @@ class LinkManager {
       }
     }
     this.fileToTags.delete(filepath)
+
+    if (this.citingMap.has(filepath)) {
+      for (const citedInfo of this.citingMap.get(filepath)) {
+        if (this.citedMap.has(citedInfo.path)) {
+          const citedList = this.citedMap.get(citedInfo.path)
+          citedList.splice(citedList.indexOf({ name: citedInfo.name, path: filepath }), 1)
+        }
+      }
+    }
     this.citingMap.delete(filepath)
   }
 
