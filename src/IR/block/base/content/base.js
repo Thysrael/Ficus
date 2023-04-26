@@ -96,6 +96,15 @@ class FrontmatterContent extends Content {
   isEmpty () {
     return JSON.stringify(this.data) === '{}'
   }
+
+  getMindJson () {
+    return {
+      name: yaml.dump(this.data),
+      text: yaml.dump(this.data),
+      type: this.typename,
+      children: []
+    }
+  }
 }
 
 class RootContent extends Content {
