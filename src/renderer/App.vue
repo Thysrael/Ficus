@@ -77,7 +77,7 @@ export default {
     let mode = 0 // 0：新建 / 1：重命名
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
-    const _this = ctx
+    const _this = proxy
     const myAlert = ref(false)
     const message = ref('')
 
