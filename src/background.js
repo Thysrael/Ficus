@@ -62,6 +62,13 @@ async function createWindow () {
   win.setMinimumSize(800, 600)
   win.setMenu(null)
   win.removeMenu()
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('ficus://')) {
+      return { action: 'deny' }
+    }
+    shell.openExternal(url)
+    return { action: 'deny' }
+  })
 
   // 令窗口初始为最大
   if (isOsx) {
