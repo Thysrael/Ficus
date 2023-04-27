@@ -47,7 +47,7 @@ export default {
           // 设置预览最大宽度
           maxWidth: 896,
           // 预览时间间隔(毫秒)
-          delay: 500,
+          delay: 100,
           // 设备适配选项（暂时为空）
           actions: [],
           // 数学公式渲染选项
