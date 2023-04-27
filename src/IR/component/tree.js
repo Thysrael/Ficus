@@ -29,7 +29,11 @@ class IRTree {
   }
 
   toMindJson () {
-    return this.root.toMindJson()
+    const mindJson = this.root.toMindJson()
+    if (this.hasFrontMatter()) {
+      mindJson.frontmatter = this.root.getChildrenHead().toMindJson()
+    }
+    return mindJson
   }
 
   getTags () {

@@ -1,5 +1,5 @@
 const LinkedNode = require('./linkedList/linkedNode.js')
-const { headingTypeName, listTypeName, listItemTypeName } = require('./type/constant.js')
+const { headingTypeName, listTypeName, listItemTypeName, frontmatterTypeName } = require('./type/constant.js')
 class TreeNode extends LinkedNode {
   /**
    *
@@ -69,7 +69,9 @@ class TreeNode extends LinkedNode {
   toMindJson () {
     const res = this.content.getMindJson()
     this.children.forEach(ch => {
-      res.children.push(ch.toMindJson())
+      if (ch.nodeType !== frontmatterTypeName) {
+        res.children.push(ch.toMindJson())
+      }
     })
     return res
   }
