@@ -44,6 +44,8 @@ export default {
         undoDelay: 50,
         // 预览模式选项
         preview: {
+          // 设置预览最大宽度
+          maxWidth: 896,
           // 预览时间间隔(毫秒)
           delay: 500,
           // 设备适配选项（暂时为空）
