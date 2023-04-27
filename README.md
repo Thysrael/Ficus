@@ -29,7 +29,7 @@ Detailed information can be obtained on the [ficus website](https://ficus.world/
 **Rich Text Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/sXXpDhHp/rtext.png"/>
+<img src="https://i.postimg.cc/vZZqrjcy/rtext.png"/>
 </p>
 
 **Source Code Mode**
