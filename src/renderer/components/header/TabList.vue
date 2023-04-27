@@ -75,7 +75,7 @@ export default {
     const TabXY = ref({ x: -1, y: -1 })
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
-    const _this = ctx
+    const _this = proxy
     const mode = computed(() => {
       return store.getters.getMode
     })
