@@ -6294,10 +6294,10 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-ficus-editor@^1.1.1:
-  version "1.1.1"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.1.tgz#789b38f00d91397f41153b1d0d77fb70e30383eb"
-  integrity sha512-1vmq4A7lOZm9AqPTPS74boqIZZ0T7ICv0wb1YKYuQM+GwIKPuQ6gj3O8ERRCreOLaWmfR0EvlboptxUqBkSKAw==
+ficus-editor@^1.1.3:
+  version "1.1.3"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.3.tgz#07fd0d69ce0f223f1c6074de9cba61aca59b3ed2"
+  integrity sha512-ErlwgNzCZQ3GpMuYCZUjs5fDnih9GBEtZLTXNET7y0U+8bNA91YwCMqRuaIir5EAXRDKFgymCQ9UuEdKoueU6w==
   dependencies:
     diff-match-patch "^1.0.5"
 
