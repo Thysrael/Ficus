@@ -33,7 +33,7 @@ $\tt{Ficus}$ 基于 `Vue3, Electron` 框架开发，提供 Windows、macOS 和 L
 **富文本模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/sXXpDhHp/rtext.png"/>
+<img src="https://i.postimg.cc/vZZqrjcy/rtext.png"/>
 </p>
 
 **源码模式**

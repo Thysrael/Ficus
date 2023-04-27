@@ -19,11 +19,11 @@
 }
 
 .vditor-sv {
-  padding-left: 70px;
+  padding-left: 88px;
 }
 
 .vditor-preview {
-  padding-right: 70px;
+  padding-right: 88px;
 }
 
 .vditor-reset {
@@ -41,8 +41,7 @@ pre.vditor-sv:focus {
 /* 段落 */
 
 .vditor-reset p {
-  font-weight: 400;
-  /* Regular */
+  font-weight: 400; /* Regular */
   font-size: 16px;
   line-height: 30px;
   color: var(--TextMedium);
@@ -55,11 +54,6 @@ pre.vditor-sv:focus {
 .vditor-reset p strong {
   font-weight: 900;
 }
-
-.vditor-reset pre.vditor-wysiwyg__pre>code {
-  background: var(--TextLight);
-}
-
 
 /* 标题 */
 
@@ -126,7 +120,6 @@ pre.vditor-sv:focus {
   margin-bottom: 20px;
 }
 
-
 /* 分割线 */
 
 .vditor-reset hr {
@@ -139,8 +132,7 @@ pre.vditor-sv:focus {
 /* 引用块 */
 
 .vditor-reset blockquote p {
-  font-weight: 200;
-  /* ExtraLight */
+  font-weight: 200; /* ExtraLight */
   font-size: 16px;
   line-height: 30px;
   color: var(--TextQuote);
@@ -151,54 +143,94 @@ pre.vditor-sv:focus {
 
 .vditor-reset blockquote p b,
 .vditor-reset blockquote p strong {
-  font-weight: 400;
-  /* Regular */
-}
-
-/* 代码块 */
-
-.vditor-reset pre>code {
-  background-color: var(--SwissCoffee-500);
+  font-weight: 400; /* Regular */
 }
 
 /** 列表 **/
 
-.vditor-reset ol>li,
-.vditor-reset ul>li {
-  font-weight: 400;
-  /* Regular */
+.vditor-reset ol > li,
+.vditor-reset ul > li {
+  font-weight: 400; /* Regular */
   font-size: 16px;
   line-height: 30px;
   color: var(--TextMedium);
   text-align: justify;
   vertical-align: center;
 }
-
 .vditor-reset li p {
   margin-bottom: 0px;
 }
 
-/** 内联代码块样式 **/
-.vditor-reset code:not(.hljs):not(.highlight-chroma) {
-  font-weight: 400;
-  /* Regular */
+/** 内联代码 **/
+
+.vditor-reset code[data-marker="`"],
+.vditor-preview p code {
+  font-weight: 400; /* Regular */
   font-size: 16px;
   line-height: 24px;
-  padding: 20px;
+  padding: 0.2em 0.4em !important;
+  background-color: var(--SwissCoffee-500);
 }
 
-/** 内联公式, 公式块样式 **/
+/** 代码块编辑区域 **/
+
+.vditor-reset pre.vditor-wysiwyg__pre > code {
+  font-weight: 400; /* Regular */
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--TextLight);
+  padding: 20px !important;
+}
+
+/** 代码块展示区域 **/
+
+.vditor-reset pre.vditor-wysiwyg__preview > code,
+.vditor-preview pre > code {
+  font-weight: 400; /* Regular */
+  font-size: 16px;
+  line-height: 24px;
+  background: var(--SwissCoffee-500);
+  padding: 20px !important;
+}
+
+/** 内联公式, 公式块的展示区域 **/
+
 .vditor-reset span.katex-html {
   font-size: 16px;
 }
 
-/** 内联公式编辑区 **/
+/** 内联公式编辑区域 **/
+
 .vditor-reset code[data-type="math-inline"] {
   background-color: var(--SwissCoffee-500);
-  padding: 1px 1px;
+  line-height: 16px;
+  padding: 0.2em 0.4em !important;
 }
 
+/** 公式块编辑区域 **/
+
+.vditor-reset code[data-type="math-block"] {
+  background-color: var(--SwissCoffee-500);
+  line-height: 16px;
+  padding: 0.2em 0.4em !important;
+}
+
+/** front matter **/
+
+.vditor-reset code[data-type="yaml-front-matter"],
+.vditor-reset pre.vditor-yml-front-matter > code {
+  background-color: var(--SwissCoffee-500);
+  color: var(--TextQuote) !important;
+  padding: 20px 20px !important;
+}
+
+.vditor-reset pre.vditor-yml-front-matter > code > span {
+  color: var(--TextQuote) !important;
+}
+
+
 /** 删除公式块、代码块前缀 **/
+
 .vditor-wysiwyg div.vditor-wysiwyg__block[data-type="math-block"]:before {
   content: "";
 }
@@ -208,6 +240,7 @@ pre.vditor-sv:focus {
 }
 
 /** 表格 **/
+
 .vditor-reset table th,
 .vditor-reset table td {
   font-size: 16px;
@@ -220,6 +253,7 @@ pre.vditor-sv:focus {
 }
 
 /** 有序列表 **/
+
 .vditor-reset ol {
   list-style-type: decimal;
 }
