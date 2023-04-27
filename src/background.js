@@ -62,11 +62,15 @@ async function createWindow () {
   win.setMinimumSize(800, 600)
   win.setMenu(null)
   win.removeMenu()
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('ficus://')) {
+  win.webContents.setWindowOpenHandler((detail) => {
+    if (detail.url === undefined) {
+      console.log(detail)
       return { action: 'deny' }
     }
-    shell.openExternal(url)
+    if (detail.url.startsWith('ficus://')) {
+      return { action: 'deny' }
+    }
+    shell.openExternal(detail.url)
     return { action: 'deny' }
   })
 
