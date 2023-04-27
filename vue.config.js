@@ -9,7 +9,7 @@ module.exports = defineConfig({
         nsis: {
           // allowToChangeInstallationDirectory: true,
           oneClick: true,
-          perMachine: true
+          perMachine: false
         },
         extraResources: {
           from: './build/exec/updater.exe',
