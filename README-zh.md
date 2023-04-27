@@ -39,19 +39,19 @@ $\tt{Ficus}$ 基于 `Vue3, Electron` 框架开发，提供 Windows、macOS 和 L
 **源码模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/N0GNmLP0/fcode.png"/>
+<img src="https://i.postimg.cc/CKbbpQkf/fcode.png"/>
 </p>
 
 **榕树模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/TPkt9GZJ/ftree.png"/>
+<img src="https://i.postimg.cc/856p026q/ftree.png"/>
 </p>
 
 **榕图模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/P5Q3C1yc/fgraph.png"/>
+<img src="https://i.postimg.cc/GpyL90mq/fgraph.png"/>
 </p>
 
 
