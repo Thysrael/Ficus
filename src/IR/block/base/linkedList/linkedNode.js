@@ -12,6 +12,10 @@ class LinkedNode {
     return newNode
   }
 
+  insertAtHead (newNode) {
+    this.insertBefore(newNode, this.children.head)
+  }
+
   insertAfter (newNode, refNode) {
     this.insertBefore(newNode, refNode.next)
     return newNode

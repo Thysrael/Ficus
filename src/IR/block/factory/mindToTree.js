@@ -33,7 +33,12 @@ const {
 } = require('../base/type/constant')
 
 exports.mindToTree = function (mindJson) {
-  return mindToTreeRecursion(mindJson)
+  const rootNode = mindToTreeRecursion(mindJson)
+  console.log(mindJson)
+  if (mindJson.frontmatter) {
+    rootNode.insertAtHead(buildFrontMatter(mindJson.frontmatter.text))
+  }
+  return rootNode
 }
 
 function mindToTreeRecursion (mindJson) {
