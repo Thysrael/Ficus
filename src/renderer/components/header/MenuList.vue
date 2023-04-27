@@ -246,7 +246,7 @@ export default {
     let isTypeWriteMode = false
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
-    const _this = ctx
+    const _this = proxy
     let range = ''
 
     onMounted(() => {

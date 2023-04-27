@@ -58,6 +58,7 @@ import MyHeader from '@/renderer/components/header/MyHeader'
 import SideBar from '@/renderer/components/sideBar/SideBar'
 import TextArea from '@/renderer/components/textArea/TextArea'
 import bus from 'vue3-eventbus'
+import store from '@/renderer/store'
 
 export default {
   name: 'App',
@@ -76,7 +77,7 @@ export default {
     let mode = 0 // 0：新建 / 1：重命名
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
-    const _this = ctx
+    const _this = proxy
     const myAlert = ref(false)
     const message = ref('')
 
@@ -234,6 +235,9 @@ export default {
     bus.on('openDir', (obj) => {
       data.value = [obj]
       bus.emit('updateOpenFiles', obj)
+      if (store.getters.getMode === 3) {
+        bus.emit('changeToGraph')
+      }
     })
 
     // 关闭文件夹

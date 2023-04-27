@@ -65,7 +65,7 @@
         </div>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="false">剪切</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleCopyFileOrFolder">复制</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete">删除</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete" v-if="item.path !== topItem.path">删除</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename" v-if="item.path !== topItem.path">重命名</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type ==='file'" @click="handleCopyAbsolutePath">复制路径</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
@@ -123,7 +123,7 @@ export default {
     const TabXY = ref({ x: -1, y: -1 })
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
-    const _this = ctx
+    const _this = proxy
 
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
