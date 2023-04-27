@@ -6294,17 +6294,17 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-ficus-editor@^1.0.30:
-  version "1.0.30"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.0.30.tgz#eab7b4ec8acce8ce54694aa3506b19c3333ff931"
-  integrity sha512-q9C51x0KqHMsVSWXezE96oJcWZxPD6zOXgQ921eZqGpBfB/lD7en+9EskwMcCvxQrfZTramU+bRA22xysq++8A==
+ficus-editor@^1.1.1:
+  version "1.1.1"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.1.tgz#789b38f00d91397f41153b1d0d77fb70e30383eb"
+  integrity sha512-1vmq4A7lOZm9AqPTPS74boqIZZ0T7ICv0wb1YKYuQM+GwIKPuQ6gj3O8ERRCreOLaWmfR0EvlboptxUqBkSKAw==
   dependencies:
     diff-match-patch "^1.0.5"
 
-ficus-mindmap@0.6.24:
-  version "0.6.24"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.24.tgz#440595e9182b3269c564ad3e2972e9e560269494"
-  integrity sha512-u8VwDUIGSzI45qDxitcKHZXy0j7ExCMjJwT7mpN43+XR8aGpaCXn3kwcNhVQaqhlgWGYEGfu80hb9jZBqWMuVA==
+ficus-mindmap@0.6.27:
+  version "0.6.27"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-mindmap/-/ficus-mindmap-0.6.27.tgz#84495fe1ffc887cb16340a960554f671692926d9"
+  integrity sha512-ttq3hFwQOAfaV2dwj1tDGyMGWfy3zsQFOt0r3W8XtH7HW0GINVwgZ9gugmHheEQcmNwgJ561mzY/F7QiKco7SA==
   dependencies:
     d3-drag "^2.0.0"
     d3-interpolate "^2.0.1"
