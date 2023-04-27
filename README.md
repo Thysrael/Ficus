@@ -35,19 +35,19 @@ Detailed information can be obtained on the [ficus website](https://ficus.world/
 **Source Code Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/N0GNmLP0/fcode.png"/>
+<img src="https://i.postimg.cc/CKbbpQkf/fcode.png"/>
 </p>
 
 **Ficus Tree Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/TPkt9GZJ/ftree.png"/>
+<img src="https://i.postimg.cc/856p026q/ftree.png"/>
 </p>
 
 **Ficus Graph Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/P5Q3C1yc/fgraph.png"/>
+<img src="https://i.postimg.cc/GpyL90mq/fgraph.png"/>
 </p>
 
 
