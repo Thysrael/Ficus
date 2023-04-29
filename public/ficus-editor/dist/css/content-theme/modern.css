@@ -2,7 +2,7 @@
 * Modern content theme of ficus-editor
 *
 */
-@import url('./noto-sans-sc.css');
+@import url('../font/noto-sans-sc/index.css');
 @import url('./sv.css');
 
 :root {
