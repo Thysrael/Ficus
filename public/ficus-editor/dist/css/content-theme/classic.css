@@ -2,7 +2,7 @@
 * Classic content theme of ficus-editor
 *
 */
-@import url('./noto-serif-sc.css');
+@import url('../font/noto-serif-sc/index.css');
 @import url('./sv.css');
 
 :root {
