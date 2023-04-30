@@ -1,4 +1,4 @@
-class LinkedList {
+export default class LinkedList {
   constructor () {
     this.head = this.tail = null
     this.length = 0
@@ -112,4 +112,3 @@ class LinkedList {
     return [...this.iterator()].reduce(callback, initialValue)
   }
 }
-module.exports = LinkedList

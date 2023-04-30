@@ -1,19 +1,15 @@
-const { buildFolderNode, buildFileNode, buildTagNode } = require('../block/factory/buildNode')
-
+import { buildFolderNode, buildFileNode, buildTagNode } from '../block/factory/buildNode'
 const linkType = {
   file: 0,
   tag: 1,
   cite: 2
 }
-
-class IRGraph {
+export default class IRGraph {
   constructor () {
     this.treenodes = []
     this.initID()
     this.graph = undefined
-
     this.tagnodes = []
-
     this.edges = []
     this.relations = []
     this.aerials = []
@@ -42,7 +38,6 @@ class IRGraph {
 
   addFiles (files) {
     this.graph = this.parseFileTree(files)
-
     this.makeEdges()
   }
 
@@ -55,12 +50,10 @@ class IRGraph {
     for (const node of this.treenodes) {
       pathToNodeId.set(node.content.path, node.content.id)
     }
-
     for (const tagInfo of relations) {
       const tagNodeId = this.allocNodeID()
       const tagNode = buildTagNode(tagNodeId, tagInfo.tagName)
       this.tagnodes.push(tagNode)
-
       tagInfo.attach.forEach(filepath => {
         if (pathToNodeId.has(filepath)) {
           this.relations.push({
@@ -84,8 +77,7 @@ class IRGraph {
       pathToNodeId.set(node.content.path, node.content.id)
     }
     for (const aerialInfo of aerials) {
-      if (pathToNodeId.has(aerialInfo.sourcePath) &&
-            pathToNodeId.has(aerialInfo.targetPath)) {
+      if (pathToNodeId.has(aerialInfo.sourcePath) && pathToNodeId.has(aerialInfo.targetPath)) {
         this.aerials.push({
           id: this.allocLinkID(),
           source: pathToNodeId.get(aerialInfo.sourcePath),
@@ -152,8 +144,4 @@ class IRGraph {
     this.nodeid = 0
     this.linkid = 0
   }
-}
-
-module.exports = {
-  IRGraph
 }

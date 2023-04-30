@@ -1,9 +1,10 @@
-const { folderTypeName, tagTypeName, fileTypeName } = require('../type/constant')
-const { Content } = require('./base')
-
-const folderCategory = 0
-const fileCategory = 1
-const tagCategory = 2
+import { folderTypeName, tagTypeName, fileTypeName } from '../type/constant'
+import { Content } from './base'
+const category = {
+  folder: 0,
+  file: 1,
+  tag: 2
+}
 
 class FileContent extends Content {
   constructor (id, name, path, content) {
@@ -25,11 +26,10 @@ class FileContent extends Content {
     return {
       id: `${this.id}`,
       name: this.name,
-      category: fileCategory
+      category: category.file
     }
   }
 }
-
 class FolderContent extends Content {
   constructor (id, name, path) {
     super(folderTypeName, name)
@@ -50,11 +50,10 @@ class FolderContent extends Content {
     return {
       id: `${this.id}`,
       name: this.name,
-      category: folderCategory
+      category: category.folder
     }
   }
 }
-
 class TagContent extends Content {
   constructor (id, name) {
     super(tagTypeName, name)
@@ -66,12 +65,12 @@ class TagContent extends Content {
     return {
       id: `${this.id}`,
       name: this.name,
-      category: tagCategory
+      category: category.tag
     }
   }
 }
 
-module.exports = {
+export {
   FileContent,
   FolderContent,
   TagContent

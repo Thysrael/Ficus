@@ -1,14 +1,14 @@
-const { mindToTree } = require('../../../src/IR/block/factory/mindToTree.js')
-const { markdownToTree } = require('../../../src/IR/block/factory/markdownToTree.js')
-const assert = require('assert')
-const { expect } = require('chai')
-const fs = require('fs-extra')
+import { mindToTree } from '../../../src/IR/block/factory/mindToTree.js'
+import { markdownToTree } from '../../../src/IR/block/factory/markdownToTree.js'
+import { deepStrictEqual } from 'assert'
+import { expect } from 'chai'
+import { readFileSync } from 'fs-extra'
 
 describe('IR到MindJson测试', function () {
   const root = markdownToTree('# aa')
   const mindJson = root.toMindJson()
   it('简单单行测试', function () {
-    assert.deepStrictEqual(mindJson, {
+    deepStrictEqual(mindJson, {
       name: '',
       text: '',
       type: 'root',
@@ -24,9 +24,9 @@ describe('IR到MindJson测试', function () {
     })
   })
 
-  const content = fs.readFileSync('test/IR/data/vditor.md').toString()
-  const root1 = markdownToTree(content)
   it('vditor测试', function () {
+    const content = readFileSync('test/IR/data/vditor.md').toString()
+    const root1 = markdownToTree(content)
     expect(mindToTree(root1.toMindJson()).toMarkdown()).to.be.equal(content)
   })
 })
@@ -48,7 +48,7 @@ describe('MindJson到IR', function () {
   }
   const root1 = mindToTree(mindJson)
   it('简单单行测试', function () {
-    assert.deepStrictEqual(mindJson, root1.toMindJson())
+    deepStrictEqual(mindJson, root1.toMindJson())
   })
 
   const mindJson2 = {
@@ -113,6 +113,6 @@ describe('MindJson到IR', function () {
 
   const root2 = mindToTree(mindJson2)
   it('修改标题级别测试', function () {
-    assert.deepStrictEqual(mindJsonRes2, root2.toMindJson())
+    deepStrictEqual(mindJsonRes2, root2.toMindJson())
   })
 })

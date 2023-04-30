@@ -1,12 +1,5 @@
-const {
-  rootTypeName,
-  tableTypeName,
-  headingTypeName,
-  quoteTypeName,
-  mathblockTypeName,
-  frontmatterTypeName
-} = require('../type/constant.js')
-
+import { rootTypeName, tableTypeName, headingTypeName, quoteTypeName, mathblockTypeName, frontmatterTypeName } from '../type/constant.js'
+import yaml from 'js-yaml'
 class Content {
   constructor (typename, text) {
     this.typename = typename
@@ -52,9 +45,6 @@ class Content {
     this.spacePreix = prefix
   }
 }
-
-const yaml = require('js-yaml')
-
 class FrontmatterContent extends Content {
   constructor (text, lang, style) {
     super(frontmatterTypeName, text)
@@ -77,7 +67,9 @@ class FrontmatterContent extends Content {
 
   addTag (tagname) {
     if (this.data.tags === undefined) {
-      this.data = { tags: [tagname] }
+      this.data = {
+        tags: [tagname]
+      }
     } else if (!this.data.tags.includes(tagname)) {
       this.data.tags.push(tagname)
     }
@@ -105,7 +97,6 @@ class FrontmatterContent extends Content {
     }
   }
 }
-
 class RootContent extends Content {
   constructor () {
     super(rootTypeName, '')
@@ -124,7 +115,6 @@ class RootContent extends Content {
     }
   }
 }
-
 class ParagraphContent extends Content {
   // constructor (typename, text) {
   //   super(typename, text)
@@ -134,7 +124,6 @@ class ParagraphContent extends Content {
     return super.toMarkdown() + this.spacePreix + '\n'
   }
 }
-
 class HeadingContent extends Content {
   // private depth
   constructor (text, depth) {
@@ -143,8 +132,7 @@ class HeadingContent extends Content {
   }
 
   toMarkdown () {
-    return this.normalPrefix + '#'.repeat(+this.depth) + ' ' + this.text + '\n' +
-    this.spacePreix + '\n'
+    return this.normalPrefix + '#'.repeat(+this.depth) + ' ' + this.text + '\n' + this.spacePreix + '\n'
   }
 
   getOutlineJson () {
@@ -165,7 +153,6 @@ class HeadingContent extends Content {
     this.depth = depth
   }
 }
-
 class CodeContent extends Content {
   // private type
   // private lang
@@ -191,7 +178,6 @@ class CodeContent extends Content {
     return mindJson
   }
 }
-
 class MathContent extends Content {
   constructor (text, style) {
     super(mathblockTypeName, text)
@@ -208,7 +194,6 @@ class MathContent extends Content {
     return mindJson
   }
 }
-
 class QuoteContent extends Content {
   constructor () {
     super(quoteTypeName, '')
@@ -226,7 +211,6 @@ class QuoteContent extends Content {
     return '> '
   }
 }
-
 class ListContent extends Content {
   constructor (typename, loose, start, delimiter, marker) {
     super(typename, '')
@@ -257,7 +241,6 @@ class ListContent extends Content {
     return this.marker === undefined ? '   ' : '  '
   }
 }
-
 class ListItemContent extends Content {
   constructor (typename, checked) {
     super(typename, '')
@@ -271,7 +254,9 @@ class ListItemContent extends Content {
   getOneNormalPrefix () {
     if (this.checked === undefined) {
       return ''
-    } else { return `[${this.checked ? 'x' : ' '}] ` }
+    } else {
+      return `[${this.checked ? 'x' : ' '}] `
+    }
   }
 
   getMindJson () {
@@ -280,7 +265,6 @@ class ListItemContent extends Content {
     return mindJson
   }
 }
-
 class TableContent extends Content {
   constructor (cells) {
     super(tableTypeName, 'table')
@@ -293,16 +277,15 @@ class TableContent extends Content {
     const row = this.cells.length
     const column = this.cells[0].children.length
     const tableData = []
-
     for (const rowState of this.cells) {
       tableData.push(rowState.children.map(cell => this.escapeText(cell.text.trim())))
     }
-
-    const columnWidth = this.cells[0].children.map(th => ({ width: 5, align: th.meta.align }))
-
+    const columnWidth = this.cells[0].children.map(th => ({
+      width: 5,
+      align: th.meta.align
+    }))
     let i
     let j
-
     for (i = 0; i < row; i++) {
       for (j = 0; j < column; j++) {
         columnWidth[j].width = Math.max(columnWidth[j].width, tableData[i][j].length + 2) // add 2, because have two space around text
@@ -312,22 +295,22 @@ class TableContent extends Content {
     tableData.forEach((r, i) => {
       const rs = indent + '|' + r.map((cell, j) => {
         const raw = ` ${cell + ' '.repeat(columnWidth[j].width)}`
-
         return raw.substring(0, columnWidth[j].width)
       }).join('|') + '|'
       result.push(rs)
       if (i === 0) {
-        const cutOff = indent + '|' + columnWidth.map(({ width, align }) => {
+        const cutOff = indent + '|' + columnWidth.map(({
+          width,
+          align
+        }) => {
           let raw = '-'.repeat(width - 2)
           switch (align) {
             case 'left':
               raw = `:${raw} `
               break
-
             case 'center':
               raw = `:${raw}:`
               break
-
             case 'right':
               raw = ` ${raw}:`
               break
@@ -335,13 +318,11 @@ class TableContent extends Content {
               raw = ` ${raw} `
               break
           }
-
           return raw
         }).join('|') + '|'
         result.push(cutOff)
       }
     })
-
     return result.join('\n') + '\n'
   }
 
@@ -356,8 +337,7 @@ class TableContent extends Content {
     return str.replace(/([^\\])\|/g, '$1\\|')
   }
 }
-
-module.exports = {
+export {
   Content,
   RootContent,
   HeadingContent,

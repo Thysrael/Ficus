@@ -1,6 +1,6 @@
-const LinkedNode = require('./linkedList/linkedNode.js')
-const { headingTypeName, listTypeName, listItemTypeName, frontmatterTypeName } = require('./type/constant.js')
-class TreeNode extends LinkedNode {
+import LinkedNode from './linkedList/linkedNode.js'
+import { headingTypeName, listTypeName, listItemTypeName, frontmatterTypeName } from './type/constant.js'
+export default class TreeNode extends LinkedNode {
   /**
    *
    * @param {string} nodeType
@@ -94,4 +94,3 @@ class TreeNode extends LinkedNode {
     return this.content.getNodeJson()
   }
 }
-module.exports = TreeNode
