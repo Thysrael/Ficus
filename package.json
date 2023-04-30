@@ -17,7 +17,9 @@
         "babel-node": "./node_modules/.bin/babel-node"
     },
     "main": "background.js",
-    "dependencies": {},
+    "dependencies": {
+        "electron-store": "^8.1.0"
+    },
     "devDependencies": {
         "@babel/cli": "^7.21.5",
         "@babel/core": "^7.21.5",
