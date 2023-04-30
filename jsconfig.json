@@ -15,5 +15,7 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  //提高 IDE 性能
+  "exclude": ["node_modules", "dist_electron", "build"]
 }
