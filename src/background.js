@@ -6,22 +6,20 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
   getFileFromUser,
-  getFolderFromUser, linkToFile, newFileFromDialog,
-  newFileFromSidebar, newFolderFromDialog, newFolderFromSidebar, renameFileOrFolder,
+  linkToFile, newFileFromDialog,
+  newFileFromSidebar, newFolder, renameFileOrFolder,
   saveFile,
   saveToTarget,
   saveToPDFTarget,
   readFile, paste, move
 } from './main/filesystem/fileManipulate'
 import {
-  addTag2File,
-  deleteTag,
-  findTags, getCiteInfo,
+  findTags,
+  getCiteInfo,
   getLinks,
   initFromFolder,
-  refresh,
-  sendTags
-} from '@/main/filesystem/database'
+  refresh
+} from './main/filesystem/database'
 import EAU from './main/update'
 
 import path from 'path'
@@ -197,8 +195,6 @@ app.on('ready', async () => {
 
   ipcMain.handle('paste', async (e, userSelect, tarPath, projPath) => {
     await paste(userSelect, tarPath, projPath)
-    // const win = BrowserWindow.fromWebContents(e.sender)
-    // win.webContents.send('refreshTree', newChildren)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {
@@ -230,11 +226,6 @@ app.on('ready', async () => {
     return await refresh(projPath)
   })
 
-  ipcMain.handle('sendTags', async (e, projPath) => {
-    const tags = await sendTags(projPath)
-    return tags
-  })
-
   ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {
     return await linkToFile(filePath, citingPath)
   })
@@ -253,33 +244,17 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
-    newFolderFromSidebar(filePath, fileName)
+    newFolder(filePath, fileName)
   })
 
   ipcMain.handle('newFileFromDialog', async (e, projPath) => {
     const tree = await newFileFromDialog(projPath)
-    // console.log(fileObjs)
     return tree
-  })
-
-  ipcMain.handle('newFolderFromDialog', async (e, projPath) => {
-    const tree = await newFolderFromDialog(projPath)
-    // console.log(fileObjs)
-    return tree
-  })
-
-  ipcMain.handle('delete_tag', async (e, filePath, tagName, folderPath) => {
-    deleteTag(tagName, folderPath, filePath)
   })
 
   ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
     const tags = await findTags(tagName, folderPath)
-    // console.log(fileObjs)
     return tags
-  })
-
-  ipcMain.handle('addTagToFile', async (e, filePath, tagName, isNewTag, folderPath) => {
-    addTag2File(filePath, tagName, isNewTag, folderPath)
   })
 
   ipcMain.handle('newProject', async (e, data) => {
@@ -288,15 +263,7 @@ app.on('ready', async () => {
   })
   ipcMain.handle('dialog:openFile', async (e) => {
     const fileObjs = await getFileFromUser()
-    // console.log(fileObjs)
     return fileObjs
-  })
-  ipcMain.handle('dialog:openFolder', async (e) => {
-    const folderObj = await getFolderFromUser()
-    console.log(folderObj.children.children[0])
-    console.log(folderObj.absolutePath)
-    ficusPath = folderObj.absolutePath
-    return folderObj
   })
   ipcMain.handle('save_file', (e, path, content) => {
     saveFile(path, content)

@@ -1,6 +1,6 @@
 const { app, dialog } = require('electron')
 const path = require('path')
-const { getTree } = require('./getFileTree')
+const { getProject } = require('./getFileTree')
 const linkManager = require('./linkManager')
 const { default: accessor } = require('../accessor')
 
@@ -38,9 +38,7 @@ exports.updateFile = (filepath) => {
 }
 
 exports.refresh = async (projPath) => {
-  const pathSplit = projPath.split(path.sep)
-  const folderName = pathSplit[pathSplit.length - 1]
-  const tree = await getTree(projPath, folderName)
+  const tree = await getProject(projPath)
   return tree.children
 }
 
@@ -60,8 +58,8 @@ exports.initFromFolder = async () => {
     console.log(result.filePaths[0])
     const folderName = path.basename(result.filePaths[0])
     accessor.menu.addRecentlyUsedDocument(folderName)
-    const tree = await getTree(result.filePaths[0], folderName)
-    const relation = {
+    const tree = await getProject(result.filePaths[0])
+    const projectStat = {
       version: 1,
       root: {
         path: result.filePaths[0],
@@ -69,6 +67,6 @@ exports.initFromFolder = async () => {
         folderName
       }
     }
-    return { relation, error: 0 }
+    return { relation: projectStat, error: 0 }
   })
 }

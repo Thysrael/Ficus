@@ -91,7 +91,12 @@ function makeFolderStat (dirPath) {
   }
 }
 
-async function getTree (folderPath, folderName) {
+/**
+ * 打开一个项目（会刷新links信息）
+ * @param {string} folderPath
+ * @returns
+ */
+async function getProject (folderPath) {
   linkManager.resetValidFilePaths()
   const dirPath = path.resolve(folderPath)
   const fileJson = makeFolderStat(dirPath)
@@ -101,7 +106,7 @@ async function getTree (folderPath, folderName) {
 
 module.exports = {
   makeFileStat,
-  getTree,
   makeFolderStat,
-  makeMarkdownFileStat
+  makeMarkdownFileStat,
+  getProject
 }
