@@ -1,4 +1,4 @@
-import { Lexer } from '../../utils/marked/lexer.js'
+import { Lexer } from '../../utils/marked'
 import { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildTable, buildThematicBreak } from './buildNode.js'
 
 const restoreTableEscapeCharacters = text => {

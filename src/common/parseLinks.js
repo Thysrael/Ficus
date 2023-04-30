@@ -1,5 +1,5 @@
-const { Lexer } = require('../IR/utils/marked/lexer')
-const yaml = require('js-yaml')
+import { Lexer } from '../IR/utils/marked'
+import { load } from 'js-yaml'
 
 function getAerialInBlock (blocktext) {
   const aerialPattern = /-\[([^\]]+)\]\((.*?)\)/g
@@ -44,7 +44,7 @@ function getLinksInFile (doc) {
           .replace(/\s$/, '')
         if (lang === 'yaml') {
           try {
-            tags = yaml.load(value).tags || []
+            tags = load(value).tags || []
           } catch (e) {
             tags = []
             console.log(`js-yaml parse failed: ${e}`)
@@ -85,6 +85,6 @@ function getLinksInFile (doc) {
   return { aerials, tags }
 }
 
-module.exports = {
+export {
   getLinksInFile
 }
