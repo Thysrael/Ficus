@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   baseUrl: null,
   breaks: false,
   gfm: true,

@@ -1,4 +1,4 @@
-const { edit, noop } = require('./utils')
+import { edit, noop } from './utils'
 
 /* eslint-disable no-useless-escape */
 
@@ -6,7 +6,7 @@ const { edit, noop } = require('./utils')
  * Block-Level Rules
  */
 
-const block = {
+export const block = {
   newline: /^\n+/,
   code: /^( {4}[^\n]+\n*)+/,
   fences: /^ {0,3}(`{3,}(?=[^`\n]*\n)|~{3,})([^\n]*)\n(?:|([\s\S]*?)\n)(?: {0,3}\1[~`]* *(?:\n+|$)|$)/,
@@ -95,13 +95,13 @@ block.blockquote = edit(block.blockquote)
  * Normal Block Grammar
  */
 
-const normal = Object.assign({}, block)
+export const normal = Object.assign({}, block)
 
 /**
  * GFM Block Grammar
  */
 
-const gfm = Object.assign({}, normal, {
+export const gfm = Object.assign({}, normal, {
   nptable: '^ *([^|\\n ].*\\|.*)\\n' + // Header
     ' {0,3}([-:]+ *\\|[-| :]*)' + // Align
     '(?:\\n((?:(?!\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)', // Cells
@@ -136,7 +136,7 @@ gfm.table = edit(gfm.table)
  * Pedantic grammar (original John Gruber's loose markdown specification)
  */
 
-const pedantic = Object.assign({}, normal, {
+export const pedantic = Object.assign({}, normal, {
   html: edit(
     '^ *(?:comment *(?:\\n|\\s*$)' +
     '|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)' + // closed tag
@@ -162,10 +162,3 @@ const pedantic = Object.assign({}, normal, {
 })
 
 /* eslint-ensable no-useless-escape */
-
-module.exports = {
-  block,
-  normal,
-  gfm,
-  pedantic
-}

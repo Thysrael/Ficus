@@ -1,9 +1,8 @@
 /**
  * 判断路径类型
  */
-const { existsSync, statSync } = require('fs-extra')
-const { extname, sep } = require('path')
-
+import { existsSync, statSync } from 'fs-extra'
+import { extname, sep } from 'path'
 const maxFileSize = 100 * 1024
 
 /**
@@ -11,10 +10,7 @@ const maxFileSize = 100 * 1024
  * @param {string} filePath
  */
 function isValidMarkdownFilePath (filePath) {
-  return existsSync(filePath) &&
-          (extname(filePath) === '.md' || extname(filePath) === '.markdown') &&
-          statSync(filePath).isFile() &&
-          statSync(filePath).size <= maxFileSize
+  return existsSync(filePath) && (extname(filePath) === '.md' || extname(filePath) === '.markdown') && statSync(filePath).isFile() && statSync(filePath).size <= maxFileSize
 }
 
 /**
@@ -22,8 +18,7 @@ function isValidMarkdownFilePath (filePath) {
  * @param {string} filePath
  */
 function isValidFilePath (filePath) {
-  return existsSync(filePath) &&
-          statSync(filePath).isFile()
+  return existsSync(filePath) && statSync(filePath).isFile()
 }
 
 /**
@@ -31,7 +26,7 @@ function isValidFilePath (filePath) {
  * @param {string} filePath
  */
 function isMarkdownExtname (filePath) {
-  return (extname(filePath) === '.md' || extname(filePath) === '.markdown')
+  return extname(filePath) === '.md' || extname(filePath) === '.markdown'
 }
 
 /**
@@ -39,8 +34,7 @@ function isMarkdownExtname (filePath) {
  * @param {string} filePath
  */
 function isValidFolderPath (filePath) {
-  return existsSync(filePath) &&
-          statSync(filePath).isDirectory()
+  return existsSync(filePath) && statSync(filePath).isDirectory()
 }
 
 /**
@@ -51,8 +45,7 @@ function isValidFolderPath (filePath) {
 function isFileInDirectory (filePath, dirPath) {
   return filePath.startsWith(dirPath + sep)
 }
-
-module.exports = {
+export {
   isValidMarkdownFilePath,
   isValidFilePath,
   isMarkdownExtname,
