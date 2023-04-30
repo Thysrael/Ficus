@@ -56,8 +56,9 @@ exports.initFromFolder = async () => {
       return { relation: {}, error: -2 }
     }
     console.log(result.filePaths[0])
+    accessor.menu.addRecentlyUsedDocument(result.filePaths[0])
+
     const folderName = path.basename(result.filePaths[0])
-    accessor.menu.addRecentlyUsedDocument(folderName)
     const tree = await getProject(result.filePaths[0])
     const projectStat = {
       version: 1,

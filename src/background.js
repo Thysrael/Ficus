@@ -25,6 +25,7 @@ import EAU from './main/update'
 import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
+import Preference from './main/preferences'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 let ficusPath = ''
