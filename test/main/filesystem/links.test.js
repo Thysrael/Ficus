@@ -1,10 +1,10 @@
 import linkManager from '../../../src/main/filesystem/linkManager'
-import { getTree } from '../../../src/main/filesystem/getFileTree'
+import { getProject } from '../../../src/main/filesystem/getFileTree'
 import assert from 'assert'
 import path from 'path'
 describe('links初始化测试', function () {
   it('读取测试', async function () {
-    await getTree(path.resolve('test', 'main', 'data'))
+    await getProject(path.resolve('test', 'main', 'data'))
   })
   it('tag正确性检测', async function () {
     assert.deepStrictEqual(linkManager.findTags(), ['aaa', 'b', 'c', 'a'])

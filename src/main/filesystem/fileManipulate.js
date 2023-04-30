@@ -1,9 +1,17 @@
 const { app, dialog } = require('electron')
 const fs = require('fs-extra')
-const { getTree, makeMarkdownFileStat, makeFileStat } = require('./getFileTree')
+const { getProject, makeMarkdownFileStat, makeFileStat } = require('./getFileTree')
 const path = require('path')
 const linkManager = require('./linkManager')
 const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } = require('../helper/path')
+
+/**
+ * 用于 showOpenDialog
+ * 指定应用程序应该能够打开那些类型的文件
+ */
+const markdownFilters = [
+  { name: 'Markdown Files', extensions: ['md', 'markdown'] }
+]
 
 /**
  * 跳转到引用(cite)
@@ -12,7 +20,6 @@ const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFi
  * @returns
  */
 exports.linkToFile = async (filePath, citingPath) => {
-  console.log(path.resolve(filePath, '..', citingPath))
   return makeMarkdownFileStat(path.resolve(filePath, '..', citingPath))
 }
 
@@ -47,21 +54,15 @@ exports.newFileFromDialog = async (projPath) => {
     buttonLabel: '新建',
     defaultPath: app.getPath('desktop'),
     properties: ['showHiddenFiles'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
+    filters: markdownFilters
   }).then(async (result) => {
     if (result.canceled === true) {
       return []
     }
+
+    fs.createFileSync(result.filePath)
     const file = makeFileStat(result.filePath)
 
-    const fd = fs.openSync(result.filePath, 'w')
-    fs.close(fd, (err) => {
-      if (err) { console.error('Failed to close file', err) }
-    })
     if (isFileInDirectory(result.filePath, projPath)) {
       return [{ file, in: true }]
     } else {
@@ -69,60 +70,35 @@ exports.newFileFromDialog = async (projPath) => {
     }
   })
 }
+
 // 新建文件2
-exports.newFileFromSidebar = async (filePath, fileName) => {
-  const pos = path.join(filePath, fileName)
-  const fd = fs.openSync(pos, 'w')
-  fs.close(fd, (err) => {
-    if (err) { console.error('Failed to close file', err) }
-  })
+exports.newFileFromSidebar = async (folderPath, fileName) => {
+  const filePath = path.resolve(folderPath, fileName)
+  fs.createFileSync(filePath)
 }
 
-// 新建文件夹1
-// exports.newFolderFromDialog = async (projPath) => {
-//   return await dialog.showOpenDialog({
-//     buttonLabel: '新建',
-//     defaultPath: app.getPath('desktop'),
-//     properties: ['showHiddenFiles', 'createDirectory', 'openDirectory'],
-//     filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-//       { name: 'Text Files', extensions: ['txt'] },
-//       { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-//       { name: 'images', extensions: ['jpg', 'png'] }
-//     ]
-//   }).then(async (result) => {
-//     if (result.canceled === true) {
-//       return []
-//     }
-//     if (isFileInDirectory(result.filePaths[0], projPath)) {
-//       const pathSplit = projPath.split(path.sep)
-//       const folderName = pathSplit[pathSplit.length - 1]
-//       const tree = await getTree(projPath, folderName)
-//       return tree.children
-//     } else {
-//       return []
-//     }
-//   })
-// }
-
-// 新建文件夹2
-exports.newFolderFromSidebar = async (folderPath, folderName) => {
+/**
+ * 新建文件夹
+ * @param {string} folderPath
+ * @param {string} folderName
+ */
+exports.newFolder = async (folderPath, folderName) => {
   const basePath = path.join(folderPath, folderName)
   fs.mkdir(basePath, { recursive: true }, err => {
     if (err) console.log(`mkdir path: ${basePath} err`)
   })
 }
 
-// 打开文件：
+/**
+ * 打开一个或多个md文件
+ * @returns {[object]}
+ */
 exports.getFileFromUser = async () => {
   return await dialog.showOpenDialog({
     buttonLabel: '选择',
     defaultPath: app.getPath('desktop'),
     properties: ['multiSelections', 'createDirectory', 'openFile'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
+    filters: markdownFilters
   }).then((result) => {
     if (result.canceled === true) {
       return []
@@ -138,41 +114,12 @@ exports.getFileFromUser = async () => {
     return fileObjs
   })
 }
-// 打开文件夹：
-exports.getFolderFromUser = async () => {
-  return await dialog.showOpenDialog({
-    buttonLabel: '选择',
-    defaultPath: app.getPath('desktop'),
-    properties: ['createDirectory', 'openDirectory'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
-  }).then(async (result) => {
-    if (result.canceled === true) {
-      return []
-    }
-    const folderPath = result.filePaths[0]
-    const pathSplit = folderPath.split(path.sep)
-    const folderName = pathSplit[pathSplit.length - 1]
-    const tree = await getTree(folderPath, folderName)
-    const folder = {
-      name: folderName, // 文件名
-      curChild: -1, // 直接填充-1即可
-      path: folderPath, // 绝对路径
-      absolutePath: pathSplit, // 希望将绝对路径分割成数组
-      offset: -1, // 直接填充-1即可
-      children: tree.children, // 对于文件没有子节点则填充空数组，对于文件夹则嵌套文件
-      type: 'folder'
-    }
-    return folder
-  })
-}
 
 function readMarkdownFile (filePath) {
   if (isValidMarkdownFilePath(filePath)) {
     return fs.readFileSync(filePath).toString()
+  } else {
+    return undefined
   }
 }
 
@@ -218,20 +165,14 @@ exports.saveToTarget = async (fileContent, projPath) => {
     buttonLabel: '保存',
     defaultPath: app.getPath('desktop'),
     properties: ['showHiddenFiles', 'createDirectory'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
-      { name: 'Text Files', extensions: ['txt'] },
-      { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-      { name: 'images', extensions: ['jpg', 'png'] }
-    ]
+    filters: markdownFilters
   }).then(async (result) => {
     if (result.canceled === true) {
       return []
     } else {
       fs.writeFileSync(result.filePath, fileContent)
       if (isFileInDirectory(result.filePath, projPath)) {
-        const pathSplit = projPath.split(path.sep)
-        const folderName = pathSplit[pathSplit.length - 1]
-        const tree = await getTree(projPath, folderName)
+        const tree = await getProject(projPath)
         return tree.children
       } else {
         return []
@@ -240,16 +181,19 @@ exports.saveToTarget = async (fileContent, projPath) => {
   })
 }
 
+/**
+ * 导出为PDF
+ * @param {*} fileContent
+ */
 exports.saveToPDFTarget = (fileContent) => {
   dialog.showSaveDialog({
     buttonLabel: '保存',
     defaultPath: app.getPath('desktop'),
     properties: ['showHiddenFiles', 'createDirectory'],
-    filters: [ // filters属性允许我们指定应用程序应该能够打开那些类型的文件，并禁止不符合我们标准的任何文件。
+    filters: [
       { name: 'PDF Files', extensions: ['pdf'] }
     ]
   }).then((result) => {
-    console.log(result)
     fs.writeFileSync(result.filePath, fileContent)
   })
 }
