@@ -1,6 +1,6 @@
-const { frontmatterTypeName } = require('../block/base/type/constant')
-const { buildFrontMatter } = require('../block/factory/buildNode')
-const { History } = require('../history/index')
+import { frontmatterTypeName } from '../block/base/type/constant'
+import { buildFrontMatter } from '../block/factory/buildNode'
+import History from '../history/index'
 
 class IRTree {
   constructor (doc, options = {}) {
@@ -69,6 +69,6 @@ class IRTree {
   }
 }
 
-module.exports = {
+export {
   IRTree
 }

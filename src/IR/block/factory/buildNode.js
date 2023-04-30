@@ -1,37 +1,7 @@
-const {
-  CodeContent,
-  HeadingContent,
-  ListContent,
-  ListItemContent,
-  MathContent,
-  QuoteContent,
-  RootContent,
-  TableContent,
-  ParagraphContent,
-  FrontmatterContent
-} = require('../base/content/base')
-const {
-  FolderContent,
-  FileContent,
-  TagContent
-} = require('../base/content/file')
-const TreeNode = require('../base/treeNode')
-const {
-  paragraphTypeName,
-  quoteTypeName,
-  thematicBreakTypeName,
-  codeblockTypeName,
-  diagramTypeName,
-  htmlblockTypeName,
-  rootTypeName,
-  frontmatterTypeName,
-  headingTypeName,
-  listItemTypeName,
-  listTypeName,
-  fileTypeName,
-  folderTypeName,
-  tagTypeName
-} = require('../base/type/constant')
+import { CodeContent, HeadingContent, ListContent, ListItemContent, MathContent, QuoteContent, RootContent, TableContent, ParagraphContent, FrontmatterContent } from '../base/content/base'
+import { FolderContent, FileContent, TagContent } from '../base/content/file'
+import TreeNode from '../base/treeNode'
+import { paragraphTypeName, quoteTypeName, thematicBreakTypeName, codeblockTypeName, diagramTypeName, htmlblockTypeName, rootTypeName, frontmatterTypeName, headingTypeName, listItemTypeName, listTypeName, fileTypeName, folderTypeName, tagTypeName } from '../base/type/constant'
 
 function buildRootNode () {
   return new TreeNode(rootTypeName, new RootContent())
@@ -97,7 +67,7 @@ function buildTagNode (id, name) {
   return new TreeNode(tagTypeName, new TagContent(id, name))
 }
 
-module.exports = {
+export {
   buildCodeBlock,
   buildDiagramBlock,
   buildFrontMatter,

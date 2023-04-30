@@ -1,14 +1,19 @@
-const DataManager = require('../../../src/IR/manager')
-const assert = require('assert')
-const { expect } = require('chai')
-
+import DataManager from '../../../src/IR/manager'
+import assert from 'assert'
+import { expect } from 'chai'
+import { files, nodes1, link1 } from '../data/file.js'
 describe('manager树测试', function () {
   const manager = new DataManager()
   it('创建有效', function () {
     assert.notEqual(manager, undefined)
   })
   it('创建一棵树', function () {
-    manager.buildTreeFromMarkdown({ content: '# a', path: '1' }, { replaced: true })
+    manager.buildTreeFromMarkdown({
+      content: '# a',
+      path: '1'
+    }, {
+      replaced: true
+    })
     expect(manager.getTreeMarkdown()).to.be.equal('# a\n\n')
   })
   it('更新一棵树', function () {
@@ -24,14 +29,19 @@ describe('manager树测试', function () {
     expect(manager.getTreeMarkdown()).to.be.equal('## aa\n\n')
   })
 })
-
 describe('manager树混合测试', function () {
   const manager = new DataManager()
   it('创建有效', function () {
     assert.notEqual(manager, undefined)
   })
   it('创建一棵树', function () {
-    manager.buildTreeFromMarkdown({ content: '# a', path: '1' }, { replaced: true, delay: 0 })
+    manager.buildTreeFromMarkdown({
+      content: '# a',
+      path: '1'
+    }, {
+      replaced: true,
+      delay: 0
+    })
     expect(manager.getTreeMarkdown()).to.be.equal('# a\n\n')
   })
   it('通过json更新一棵树', function () {
@@ -39,9 +49,13 @@ describe('manager树混合测试', function () {
       name: '',
       text: '',
       type: 'root',
-      children: [
-        { name: 'aaa', text: 'aaa', type: 'heading', children: [], level: 2 }
-      ]
+      children: [{
+        name: 'aaa',
+        text: 'aaa',
+        type: 'heading',
+        children: [],
+        level: 2
+      }]
     })
     expect(manager.getTreeMarkdown()).to.be.equal('## aaa\n\n')
   })
@@ -63,21 +77,28 @@ describe('manager树混合测试', function () {
         name: '',
         text: '',
         type: 'root',
-        children: [
-          { name: 'aaa', text: 'aaa', type: 'heading', children: [], level: 2 }
-        ]
+        children: [{
+          name: 'aaa',
+          text: 'aaa',
+          type: 'heading',
+          children: [],
+          level: 2
+        }]
       }
-    }, { replaced: true })
+    }, {
+      replaced: true
+    })
     expect(manager.getTreeMarkdown()).to.be.equal('## aaa\n\n')
   })
 })
-
-const { files, nodes1, link1 } = require('../data/file.js')
-
 describe('manager: fileJson到IR测试', function () {
   const manager = new DataManager()
   it('创建测试', function () {
-    manager.buildGraphFromFiles({ files }, { replaced: true })
+    manager.buildGraphFromFiles({
+      files
+    }, {
+      replaced: true
+    })
   })
   it('nodes', function () {
     assert.deepStrictEqual(manager.getGraphNodes(), nodes1)

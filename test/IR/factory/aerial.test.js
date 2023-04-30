@@ -1,9 +1,9 @@
-const { getLinksInFile } = require('../../../src/common/parseLinks')
-const assert = require('assert')
+import { getLinksInFile } from '../../../src/common/parseLinks'
+import { deepStrictEqual } from 'assert'
 
 describe('须测试', function () {
   it('文件须测试', function () {
-    assert.deepStrictEqual(getLinksInFile('-[a](aa)-[a](aa)').aerials, [{
+    deepStrictEqual(getLinksInFile('-[a](aa)-[a](aa)').aerials, [{
       name: 'a',
       path: 'aa'
     },
@@ -13,7 +13,7 @@ describe('须测试', function () {
     }])
   })
   it('文件须测试2', function () {
-    assert.deepStrictEqual(getLinksInFile('-[123](1)-[](1)-[1]()').aerials, [{
+    deepStrictEqual(getLinksInFile('-[123](1)-[](1)-[1]()').aerials, [{
       name: '123',
       path: '1'
     },
@@ -23,7 +23,7 @@ describe('须测试', function () {
     }])
   })
   it('文件须测试3', function () {
-    assert.deepStrictEqual(getLinksInFile('# -[123](1)-[](1)-[1]()').aerials, [{
+    deepStrictEqual(getLinksInFile('# -[123](1)-[](1)-[1]()').aerials, [{
       name: '123',
       path: '1'
     },

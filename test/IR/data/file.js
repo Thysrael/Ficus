@@ -130,7 +130,7 @@ const nodes1 = [
   { id: '5', name: 'test.txt', category: 1 }
 ]
 
-module.exports = {
+export {
   files,
   res1,
   link1,
