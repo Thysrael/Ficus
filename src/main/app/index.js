@@ -30,7 +30,9 @@ class App {
       this.watcher.close()
       this.linkManager.reset()
       const relation = await initFromFolder(data)
-      this.watcher.watch(relation.relation.root.path, 'dir')
+      if (relation.relation.root) {
+        this.watcher.watch(relation.relation.root.path, 'dir')
+      }
       return relation
     })
   }

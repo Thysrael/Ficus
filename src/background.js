@@ -245,11 +245,17 @@ app.on('ready', async () => {
   ipcMain.handle('main::about', () => {
     shell.openExternal('https://ficus.world/')
   })
-  const win = await createWindow()
-  ipcMain.handle('window-min', () => {
+  /* window */
+  createWindow()
+  ipcMain.on('window-min', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
+    if (isOsx && win.isFullScreen()) {
+      win.setFullScreen(false)
+    }
     win.minimize()
   })
-  ipcMain.handle('window-max', () => {
+  ipcMain.on('window-max', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     if (isOsx) {
       if (win.isFullScreen()) {
         win.setFullScreen(false)
@@ -264,13 +270,16 @@ app.on('ready', async () => {
       }
     }
   })
-  ipcMain.handle('window-close', () => {
+  ipcMain.on('window-close', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     win.close()
   })
-  ipcMain.handle('dev-open', () => {
+  ipcMain.on('dev-open', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.openDevTools()
   })
-  ipcMain.handle('dev-close', () => {
+  ipcMain.on('dev-close', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.closeDevTools()
   })
 })
