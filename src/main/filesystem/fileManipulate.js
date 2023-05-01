@@ -2,7 +2,6 @@ const { app, dialog } = require('electron')
 const fs = require('fs-extra')
 const { getProject, makeMarkdownFileStat, makeFileStat } = require('./getFileTree')
 const path = require('path')
-const linkManager = require('./linkManager')
 const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } = require('../helper/path')
 
 /**
@@ -150,12 +149,10 @@ exports.saveFile = (filePath, fileContent) => {
     }).then((index) => {
       if (index.response === 0) {
         fs.writeFileSync(filePath, fileContent)
-        linkManager.updateFile(filePath)
       }
     })
   } else { // 文件路径存在
     fs.writeFileSync(filePath, fileContent)
-    linkManager.updateFile(filePath)
   }
 }
 

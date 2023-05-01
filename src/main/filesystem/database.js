@@ -1,41 +1,7 @@
 const { app, dialog } = require('electron')
 const path = require('path')
 const { getProject } = require('./getFileTree')
-const linkManager = require('./linkManager')
 const { default: accessor } = require('../accessor')
-
-/**
- * 获得所有项目下links内容
- * @returns
- */
-exports.getLinks = async () => {
-  return linkManager.getLinks()
-}
-
-/**
- * 根据用户输入的tag模糊匹配所有前缀相同的tag
- * 返回的对 [tag] 进行模糊匹配的结果 + 一个以 [tag] 为名称的新标签
- * @param {string} tagname tag名称
- * @returns {[string]}
- */
-exports.findTags = (tagname) => {
-  return linkManager.findTags(tagname)
-}
-
-/**
- * 获取引用信息
- * @returns {{cited: [{name: string, path: string}], citing: [{name: string, path: string}]}}
- */
-exports.getCiteInfo = (filepath) => {
-  return linkManager.getCiteInfo(filepath)
-}
-
-/**
- * 刷新某个文件在linkManager的信息
- */
-exports.updateFile = (filepath) => {
-  linkManager.updateFile(filepath)
-}
 
 exports.refresh = async (projPath) => {
   const tree = await getProject(projPath)

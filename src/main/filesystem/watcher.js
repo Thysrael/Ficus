@@ -1,28 +1,11 @@
 import chokidar from 'chokidar'
 import { isOsx } from '../config'
+import { isValidMarkdownFilePath } from '../helper/path'
+import EventEmitter from 'events'
 
-function add (pathname, type = 'file') {
-  console.log(`${type} ${pathname} has been added`)
-}
-
-function change (pathname, type = 'file') {
-  console.log(`${type} ${pathname} has been changed`)
-}
-
-function unlink (pathname, type = 'file') {
-  console.log(`${type} ${pathname} has been removed`)
-}
-
-function addDir (pathname) {
-  console.log(`Directory ${pathname} has been removed`)
-}
-
-function unlinkDir (pathname) {
-  console.log(`Directory ${pathname} has been removed`)
-}
-
-class Watcher {
+class Watcher extends EventEmitter {
   constructor () {
+    super()
     this.watchId = 0
     this.watchers = {}
     this.pathMap = new Map()
@@ -39,7 +22,20 @@ class Watcher {
     // Just to be sure when a file is replaced with a directory don't watch recursively.
     const depth = (type === 'file' ? (isOsx ? 1 : 0) : undefined)
     const watcher = chokidar.watch(watchPath, {
-      ignoreInitial: true, // 忽略文件第一次被添加触发add事件
+      ignored: (pathname, fileInfo) => {
+        if (!fileInfo) {
+          return /(?:^|[/\\])(?:\..|node_modules|(?:.+\.asar))/.test(pathname)
+        }
+
+        if (/(?:^|[/\\])(?:\..|node_modules|(?:.+\.asar))/.test(pathname)) {
+          return true
+        }
+        if (fileInfo.isDirectory()) {
+          return false
+        }
+        return !isValidMarkdownFilePath(pathname)
+      },
+      ignoreInitial: type === 'file', // 忽略文件第一次被添加触发add事件
       persistent: true,
 
       depth,
@@ -48,14 +44,15 @@ class Watcher {
     })
 
     watcher
-      .on('add', pathname => add(pathname, type))
-      .on('change', pathname => change(pathname, type))
-      .on('unlink', pathname => unlink(pathname, type))
+      .on('add', pathname => this.add(pathname))
+      .on('change', pathname => this.change(pathname))
+      .on('unlink', pathname => this.unlink(pathname))
       .on('error', error => console.log(`Watcher error: ${error}`))
+      .on('ready', () => this.ready())
     if (type !== 'file') {
       watcher
-        .on('addDir', pathname => addDir(pathname))
-        .on('unlinkDir', pathname => unlinkDir(pathname))
+        .on('addDir', pathname => this.addDir(pathname))
+        .on('unlinkDir', pathname => this.unlinkDir(pathname))
     }
   }
 
@@ -69,13 +66,47 @@ class Watcher {
   }
 
   close () {
-    for (const watcher of this.watchers.values()) {
+    for (const watcher of Object.values(this.watchers)) {
       watcher.close()
     }
+
     this.watchId = 0
     this.watchers = {}
   }
 
+  /* private */
+  /* 处理监听事件 */
+  add (pathname) {
+    console.log(`file ${pathname} has been added`)
+    this.emit('add', pathname)
+  }
+
+  change (pathname) {
+    console.log(`file ${pathname} has been changed`)
+    this.emit('change', pathname)
+  }
+
+  unlink (pathname) {
+    console.log(`file ${pathname} has been removed`)
+    this.emit('unlink', pathname)
+  }
+
+  addDir (pathname) {
+    console.log(`Directory ${pathname} has been removed`)
+    this.emit('addDir', pathname)
+  }
+
+  unlinkDir (pathname) {
+    console.log(`Directory ${pathname} has been removed`)
+    this.emit('unlinkDir', pathname)
+  }
+
+  ready () {
+    console.log('ready')
+    this.emit('ready')
+  }
+
+  /* private */
   _allocWatchId () {
     return this.watchId++
   }

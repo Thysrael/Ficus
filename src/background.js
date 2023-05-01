@@ -13,18 +13,13 @@ import {
   saveToPDFTarget,
   readFile, paste, move
 } from './main/filesystem/fileManipulate'
-import {
-  findTags,
-  getCiteInfo,
-  getLinks,
-  initFromFolder,
-  refresh
-} from './main/filesystem/database'
+import { refresh } from './main/filesystem/database'
 import EAU from './main/update'
 
 import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
+import App from './main/app'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 let ficusPath = ''
@@ -206,22 +201,6 @@ app.on('ready', async () => {
     return path.sep
   })
 
-  ipcMain.handle('getLinksAndTags', async (e, file) => {
-    return await getLinks(file)
-  })
-
-  ipcMain.handle('ficus::getCites', async (e, filePath) => {
-    return getCiteInfo(filePath)
-  })
-
-  ipcMain.handle('ficus::getTags', async (e, tagName) => {
-    return findTags(tagName)
-  })
-
-  ipcMain.handle('ficus::getLinks', async (e) => {
-    return getLinks()
-  })
-
   ipcMain.handle('refresh', async (e, projPath) => {
     return await refresh(projPath)
   })
@@ -252,15 +231,6 @@ app.on('ready', async () => {
     return tree
   })
 
-  ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
-    const tags = await findTags(tagName, folderPath)
-    return tags
-  })
-
-  ipcMain.handle('newProject', async (e, data) => {
-    const relation = await initFromFolder(data)
-    return relation
-  })
   ipcMain.handle('dialog:openFile', async (e) => {
     const fileObjs = await getFileFromUser()
     return fileObjs
@@ -319,3 +289,6 @@ if (isDevelopment) {
     })
   }
 }
+
+const ficus = new App()
+ficus.init()

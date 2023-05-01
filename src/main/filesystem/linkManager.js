@@ -1,12 +1,17 @@
-const path = require('path')
-const { getLinksInFile } = require('../../common/parseLinks')
-const { readFileSync } = require('fs-extra')
-const { isValidMarkdownFilePath } = require('../helper/path')
+import path from 'path'
+import { getLinksInFile } from '../../common/parseLinks'
+import { readFileSync } from 'fs-extra'
+import { isValidMarkdownFilePath } from '../helper/path'
+import { ipcMain } from 'electron'
 
 class LinkManager {
+  /**
+   * 管理tag和cites
+   */
   constructor () {
     this.validFilePaths = new Set()
     this.reset()
+    this._listenForIpcMain()
   }
 
   resetValidFilePaths () {
@@ -22,6 +27,7 @@ class LinkManager {
   }
 
   addValidFilePath (filepath) {
+    console.log(filepath)
     if (isValidMarkdownFilePath(filepath)) {
       this.validFilePaths.add(filepath)
     }
@@ -33,8 +39,8 @@ class LinkManager {
       try {
         const content = readFileSync(path).toString()
         const { aerials, tags } = getLinksInFile(content)
-        this.addFileTags(path, tags)
-        this.addFileAerials(path, aerials)
+        this._addFileTags(path, tags)
+        this._addFileAerials(path, aerials)
       } catch (e) {
         console.log(e)
         console.log('INVALID FILE PATH ' + path)
@@ -42,6 +48,12 @@ class LinkManager {
     }
   }
 
+  /**
+   * 根据用户输入的tag模糊匹配所有前缀相同的tag
+   * 返回的对 [tag] 进行模糊匹配的结果 + 一个以 [tag] 为名称的新标签
+   * @param {string} tagname tag名称
+   * @returns {[string]}
+   */
   findTags (tagname = '') {
     const res = [...this.tagToFiles.keys()].filter(name => name.indexOf(tagname) === 0)
     if (tagname && !res.includes(tagname)) {
@@ -59,6 +71,10 @@ class LinkManager {
     }
   }
 
+  /**
+   * 获取引用信息
+   * @returns {{cited: [{name: string, path: string}], citing: [{name: string, path: string}]}}
+   */
   getCiteInfo (filepath) {
     let cited = []
     let citing = []
@@ -71,6 +87,10 @@ class LinkManager {
     return { citing, cited }
   }
 
+  /**
+   * 获得所有项目下links内容
+   * @returns
+   */
   getLinks () {
     const relations = []
     for (const [tagName, attach] of this.tagToFiles.entries()) {
@@ -93,32 +113,30 @@ class LinkManager {
     return { relations, aerials }
   }
 
+  /**
+   * 刷新某个文件的信息
+   * @param {string} filepath
+   */
   updateFile (filepath) {
     if (isValidMarkdownFilePath(filepath)) {
       try {
         this.validFilePaths.add(filepath)
         const content = readFileSync(filepath).toString()
         const { aerials, tags } = getLinksInFile(content)
-        this.delFile(filepath)
-        this.addFileTags(filepath, tags)
-        this.addFileAerials(filepath, aerials)
+        this.removeFile(filepath)
+        this._addFileTags(filepath, tags)
+        this._addFileAerials(filepath, aerials)
       } catch (e) {
         console.log(e)
       }
     }
   }
 
-  addFileTags (filepath, tags) {
-    this.fileToTags.set(filepath, tags)
-    for (const tag of tags) {
-      if (!this.tagToFiles.has(tag)) {
-        this.tagToFiles.set(tag, [])
-      }
-      this.tagToFiles.get(tag).push(filepath)
-    }
-  }
-
-  delFile (filepath) {
+  /**
+   * 删除某个文件的信息
+   * @param {string} filepath
+   */
+  removeFile (filepath) {
     if (this.fileToTags.has(filepath)) {
       for (const tag of this.fileToTags.get(filepath)) {
         const fileList = this.tagToFiles.get(tag)
@@ -138,7 +156,8 @@ class LinkManager {
     this.citingMap.delete(filepath)
   }
 
-  addFileAerials (citingPath, citeds) {
+  /* private */
+  _addFileAerials (citingPath, citeds) {
     // newCiteds 储存绝对路径后的数据
     const newCiteds = []
     for (const cited of citeds) {
@@ -158,8 +177,41 @@ class LinkManager {
       })
     }
   }
+
+  _addFileTags (filepath, tags) {
+    this.fileToTags.set(filepath, tags)
+    for (const tag of tags) {
+      if (!this.tagToFiles.has(tag)) {
+        this.tagToFiles.set(tag, [])
+      }
+      this.tagToFiles.get(tag).push(filepath)
+    }
+  }
+
+  _listenForIpcMain () {
+    // 测试环境下 ipcMain 为undifined
+    if (ipcMain) {
+      ipcMain.handle('ficus::getCites', async (e, filePath) => {
+        return this.getCiteInfo(filePath)
+      })
+
+      ipcMain.handle('ficus::getTags', async (e, tagName) => {
+        return this.findTags(tagName)
+      })
+
+      ipcMain.handle('ficus::getLinks', async (e) => {
+        return this.getLinks()
+      })
+
+      ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
+        return this.findTags(tagName, folderPath)
+      })
+
+      ipcMain.handle('getLinksAndTags', async (e, file) => {
+        return this.getLinks(file)
+      })
+    }
+  }
 }
 
-const linkManager = new LinkManager()
-
-module.exports = linkManager
+export default LinkManager
