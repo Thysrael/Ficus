@@ -7,7 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   openDev: () => ipcRenderer.send('dev-open'),
   closeDev: () => ipcRenderer.send('dev-close'),
-  
+
   newFicusVault: () => ipcRenderer.invoke('newProject'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
 
@@ -37,5 +37,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getTags: (tagName) => ipcRenderer.invoke('ficus::getTags', tagName),
   findTags: (tagName, folderPath) => ipcRenderer.invoke('find_tags', tagName, folderPath),
   getLinks: () => ipcRenderer.invoke('ficus::getLinks'),
-  aboutUs: () => ipcRenderer.invoke('main::about')
+  aboutUs: () => ipcRenderer.invoke('main::about'),
+
+  passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback)
 })

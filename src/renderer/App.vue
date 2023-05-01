@@ -82,6 +82,7 @@ export default {
     const message = ref('')
 
     onMounted(async () => {
+      store.dispatch('LISTEN_REFRESH')
       window.electronAPI.updateTree((sender, newChildren) => {
         data.value[0] = {
           name: data.value[0].name,

@@ -2,6 +2,7 @@ import chokidar from 'chokidar'
 import { isOsx } from '../config'
 import { isValidMarkdownFilePath } from '../helper/path'
 import EventEmitter from 'events'
+import { makeFolderStat } from './statistic'
 
 class Watcher extends EventEmitter {
   constructor () {
@@ -9,6 +10,7 @@ class Watcher extends EventEmitter {
     this.watchId = 0
     this.watchers = {}
     this.pathMap = new Map()
+    this.rootPath = null
   }
 
   /**
@@ -16,7 +18,7 @@ class Watcher extends EventEmitter {
      * @param {string} watchPath
      * @param {'file' | 'dir'} type
      */
-  watch (watchPath, type = 'file') {
+  watch (win, watchPath, type = 'file') {
     // Chokidar: https://github.com/paulmillr/chokidar
     const usePolling = isOsx // macOS上不使用轮询方式无法检测目录级别变化
     // Just to be sure when a file is replaced with a directory don't watch recursively.
@@ -44,18 +46,24 @@ class Watcher extends EventEmitter {
     })
 
     watcher
-      .on('add', pathname => this.add(pathname))
-      .on('change', pathname => this.change(pathname))
-      .on('unlink', pathname => this.unlink(pathname))
+      .on('add', pathname => this.add(win, pathname))
+      .on('change', pathname => this.change(win, pathname))
+      .on('unlink', pathname => this.unlink(win, pathname))
       .on('error', error => console.log(`Watcher error: ${error}`))
+      .on('ready', () => {
+        if (type === 'dir') {
+          this.rootPath = watchPath
+        }
+      })
     if (type !== 'file') {
       watcher
-        .on('addDir', pathname => this.addDir(pathname))
-        .on('unlinkDir', pathname => this.unlinkDir(pathname))
+        .on('addDir', pathname => this.addDir(win, pathname))
+        .on('unlinkDir', pathname => this.unlinkDir(win, pathname))
     }
   }
 
   unwatch (watchPath) {
+    this.rootPath = null
     if (this.pathMap.has(watchPath)) {
       const watcherId = this.pathMap.get(watchPath)
       this.watchers[watcherId].close()
@@ -75,28 +83,39 @@ class Watcher extends EventEmitter {
 
   /* private */
   /* 处理监听事件 */
-  add (pathname) {
-    console.log(`file ${pathname} has been added`)
+  add (win, pathname) {
+    if (this.rootPath) {
+      const info = makeFolderStat(this.rootPath)
+      win.webContents.send('ficus::passive-refresh', info)
+    }
     this.emit('add', pathname)
   }
 
-  change (pathname) {
-    console.log(`file ${pathname} has been changed`)
+  change (win, pathname) {
     this.emit('change', pathname)
   }
 
-  unlink (pathname) {
-    console.log(`file ${pathname} has been removed`)
+  unlink (win, pathname) {
+    if (this.rootPath) {
+      const info = makeFolderStat(this.rootPath)
+      win.webContents.send('ficus::passive-refresh', info)
+    }
     this.emit('unlink', pathname)
   }
 
-  addDir (pathname) {
-    console.log(`Directory ${pathname} has been removed`)
+  addDir (win, pathname) {
+    if (this.rootPath) {
+      const info = makeFolderStat(this.rootPath)
+      win.webContents.send('ficus::passive-refresh', info)
+    }
     this.emit('addDir', pathname)
   }
 
-  unlinkDir (pathname) {
-    console.log(`Directory ${pathname} has been removed`)
+  unlinkDir (win, pathname) {
+    if (this.rootPath) {
+      const info = makeFolderStat(this.rootPath)
+      win.webContents.send('ficus::passive-refresh', info)
+    }
     this.emit('unlinkDir', pathname)
   }
 
