@@ -1,12 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  minWindow: () => ipcRenderer.invoke('window-min'),
-  maxWindow: () => ipcRenderer.invoke('window-max'),
-  closeWindow: () => ipcRenderer.invoke('window-close'),
+  minWindow: () => ipcRenderer.send('window-min'),
+  maxWindow: () => ipcRenderer.send('window-max'),
+  closeWindow: () => ipcRenderer.send('window-close'),
 
-  openDev: () => ipcRenderer.invoke('dev-open'),
-  closeDev: () => ipcRenderer.invoke('dev-close'),
+  openDev: () => ipcRenderer.send('dev-open'),
+  closeDev: () => ipcRenderer.send('dev-close'),
+  
   newFicusVault: () => ipcRenderer.invoke('newProject'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
 
