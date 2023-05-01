@@ -1,3 +1,4 @@
+import { bus } from 'vue3-eventbus'
 import { createStore } from 'vuex'
 
 const state = {
@@ -17,6 +18,9 @@ const mutations = {
   },
   updateMode (state, mode) {
     state.mode = mode
+  },
+  REFRESH (state, status) {
+    bus.emit('openDir', status)
   }
 }
 
@@ -27,6 +31,11 @@ const actions = {
   },
   updateMode (context, mode) {
     context.commit('updateMode', mode)
+  },
+  LISTEN_REFRESH ({ commit }) {
+    window.electronAPI.passiveRefresh((e, value) => {
+      commit('REFRESH', value)
+    })
   }
 }
 

@@ -1,8 +1,9 @@
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import Watcher from '../filesystem/watcher'
 import { initFromFolder } from '../filesystem/database'
 import LinkManager from '../filesystem/linkManager'
 import Preference from '../preferences'
+import AppMenu from '../menu'
 
 /**
  *
@@ -12,6 +13,7 @@ class App {
     this.watcher = new Watcher()
     this.linkManager = new LinkManager()
     this.preferences = new Preference()
+    this.menu = new AppMenu()
     this._listenForIpcMain()
   }
 
@@ -27,11 +29,12 @@ class App {
 
   _listenForIpcMain () {
     ipcMain.handle('newProject', async (e, data) => {
+      const win = BrowserWindow.fromWebContents(e.sender)
       this.watcher.close()
       this.linkManager.reset()
       const relation = await initFromFolder(data)
       if (relation.relation.root) {
-        this.watcher.watch(relation.relation.root.path, 'dir')
+        this.watcher.watch(win, relation.relation.root.path, 'dir')
       }
       return relation
     })

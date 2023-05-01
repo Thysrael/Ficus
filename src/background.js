@@ -57,7 +57,6 @@ async function createWindow () {
   win.removeMenu()
   win.webContents.setWindowOpenHandler((detail) => {
     if (detail.url === undefined) {
-      console.log(detail)
       return { action: 'deny' }
     }
     if (detail.url.startsWith('ficus://')) {
@@ -246,7 +245,7 @@ app.on('ready', async () => {
     shell.openExternal('https://ficus.world/')
   })
   /* window */
-  createWindow()
+  const win = createWindow()
   ipcMain.on('window-min', (e) => {
     const win = BrowserWindow.fromWebContents(e.sender)
     if (isOsx && win.isFullScreen()) {
