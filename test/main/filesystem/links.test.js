@@ -1,10 +1,13 @@
-import linkManager from '../../../src/main/filesystem/linkManager'
-import { getProject } from '../../../src/main/filesystem/getFileTree'
+import LinkManager from '../../../src/main/filesystem/linkManager'
 import assert from 'assert'
 import path from 'path'
 describe('links初始化测试', function () {
+  const linkManager = new LinkManager()
   it('读取测试', async function () {
-    await getProject(path.resolve('test', 'main', 'data'))
+    linkManager.addValidFilePath(path.resolve('test', 'main', 'data', '1.md'))
+    linkManager.addValidFilePath(path.resolve('test', 'main', 'data', '2.md'))
+    linkManager.addValidFilePath(path.resolve('test', 'main', 'data', '3.md'))
+    linkManager.init()
   })
   it('tag正确性检测', async function () {
     assert.deepStrictEqual(linkManager.findTags(), ['aaa', 'b', 'c', 'a'])
@@ -29,7 +32,7 @@ describe('links初始化测试', function () {
     assert.deepStrictEqual(linkManager.findTags('a'), ['aaa', 'a'])
   })
   it('删除某个文件后tag搜索检测', async function () {
-    linkManager.delFile(path.resolve('test', 'main', 'data/3.md'))
+    linkManager.removeFile(path.resolve('test', 'main', 'data', '3.md'))
     assert.deepStrictEqual(linkManager.findTags('c'), ['c'])
   })
 })

@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const path = require('path')
-const linkManager = require('./linkManager')
 const {
   isValidMarkdownFilePath,
   isMarkdownExtname,
@@ -72,7 +71,6 @@ function makeFolderStat (dirPath) {
         folderChildren.push(makeFolderStat(subItemPath))
       } else if (isValidMarkdownFilePath(subItemPath)) {
         fileChildren.push(makeMarkdownFileStat(subItemPath))
-        linkManager.addValidFilePath(subItemPath)
       }
     }
     return {
@@ -92,15 +90,13 @@ function makeFolderStat (dirPath) {
 }
 
 /**
- * 打开一个项目（会刷新links信息）
+ * 打开一个项目
  * @param {string} folderPath
  * @returns
  */
 async function getProject (folderPath) {
-  linkManager.resetValidFilePaths()
   const dirPath = path.resolve(folderPath)
   const fileJson = makeFolderStat(dirPath)
-  linkManager.init()
   return fileJson
 }
 
