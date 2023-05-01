@@ -16,10 +16,9 @@ class App {
   }
 
   init () {
-    this.watcher.on('add', (filepath) => this.linkManager.addValidFilePath(filepath))
+    this.watcher.on('add', (filepath) => this.linkManager.addFile(filepath))
     this.watcher.on('change', (filepath) => this.linkManager.updateFile(filepath))
     this.watcher.on('unlink', (filepath) => this.linkManager.removeFile(filepath))
-    this.watcher.on('ready', () => this.linkManager.init())
   }
 
   quit () {
@@ -29,7 +28,7 @@ class App {
   _listenForIpcMain () {
     ipcMain.handle('newProject', async (e, data) => {
       this.watcher.close()
-      this.linkManager.resetValidFilePaths()
+      this.linkManager.reset()
       const relation = await initFromFolder(data)
       this.watcher.watch(relation.relation.root.path, 'dir')
       return relation

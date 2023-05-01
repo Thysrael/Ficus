@@ -1,6 +1,6 @@
 const { app, dialog } = require('electron')
 const fs = require('fs-extra')
-const { getProject, makeMarkdownFileStat, makeFileStat } = require('./getFileTree')
+const { makeFolderStat, makeMarkdownFileStat, makeFileStat } = require('./statistic')
 const path = require('path')
 const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } = require('../helper/path')
 
@@ -169,7 +169,7 @@ exports.saveToTarget = async (fileContent, projPath) => {
     } else {
       fs.writeFileSync(result.filePath, fileContent)
       if (isFileInDirectory(result.filePath, projPath)) {
-        const tree = await getProject(projPath)
+        const tree = await makeFolderStat(projPath)
         return tree.children
       } else {
         return []

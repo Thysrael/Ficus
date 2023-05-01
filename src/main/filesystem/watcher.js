@@ -48,7 +48,6 @@ class Watcher extends EventEmitter {
       .on('change', pathname => this.change(pathname))
       .on('unlink', pathname => this.unlink(pathname))
       .on('error', error => console.log(`Watcher error: ${error}`))
-      .on('ready', () => this.ready())
     if (type !== 'file') {
       watcher
         .on('addDir', pathname => this.addDir(pathname))
@@ -99,11 +98,6 @@ class Watcher extends EventEmitter {
   unlinkDir (pathname) {
     console.log(`Directory ${pathname} has been removed`)
     this.emit('unlinkDir', pathname)
-  }
-
-  ready () {
-    console.log('ready')
-    this.emit('ready')
   }
 
   /* private */
