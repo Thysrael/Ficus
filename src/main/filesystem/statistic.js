@@ -89,20 +89,8 @@ function makeFolderStat (dirPath) {
   }
 }
 
-/**
- * 打开一个项目
- * @param {string} folderPath
- * @returns
- */
-async function getProject (folderPath) {
-  const dirPath = path.resolve(folderPath)
-  const fileJson = makeFolderStat(dirPath)
-  return fileJson
-}
-
 module.exports = {
   makeFileStat,
   makeFolderStat,
-  makeMarkdownFileStat,
-  getProject
+  makeMarkdownFileStat
 }

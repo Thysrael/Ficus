@@ -1,10 +1,10 @@
 const { app, dialog } = require('electron')
 const path = require('path')
-const { getProject } = require('./getFileTree')
+const { makeFolderStat } = require('./statistic')
 const { default: accessor } = require('../accessor')
 
 exports.refresh = async (projPath) => {
-  const tree = await getProject(projPath)
+  const tree = await makeFolderStat(projPath)
   return tree.children
 }
 
@@ -25,7 +25,7 @@ exports.initFromFolder = async () => {
     accessor.menu.addRecentlyUsedDocument(result.filePaths[0])
 
     const folderName = path.basename(result.filePaths[0])
-    const tree = await getProject(result.filePaths[0])
+    const tree = await makeFolderStat(result.filePaths[0])
     const projectStat = {
       version: 1,
       root: {

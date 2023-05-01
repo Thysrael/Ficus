@@ -9,7 +9,7 @@ import { hasSameKey } from '../helper/container'
  * 实现参考：https://github.com/marktext/marktext/blob/develop/src/main/preferences
  */
 class Preference {
-  constructor (preferencePath) {
+  constructor (preferencePath = '') {
     this._preferencePath = path.resolve(preferencePath, 'preferences.json')
     this._defaultPreferencePath = path.resolve(__dirname, '..', 'static', 'preferences.json')
     // 注：electron-store有性能问题（IO），但支持JSON scheme验证

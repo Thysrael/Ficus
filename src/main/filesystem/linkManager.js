@@ -9,43 +9,18 @@ class LinkManager {
    * 管理tag和cites
    */
   constructor () {
-    this.validFilePaths = new Set()
     this.reset()
     this._listenForIpcMain()
   }
 
-  resetValidFilePaths () {
-    this.validFilePaths = new Set()
-  }
-
   reset () {
+    this.validFilePaths = new Set()
+
     this.fileToTags = new Map()
     this.tagToFiles = new Map()
 
     this.citingMap = new Map()
     this.citedMap = new Map()
-  }
-
-  addValidFilePath (filepath) {
-    console.log(filepath)
-    if (isValidMarkdownFilePath(filepath)) {
-      this.validFilePaths.add(filepath)
-    }
-  }
-
-  init () {
-    this.reset()
-    for (const path of this.validFilePaths) {
-      try {
-        const content = readFileSync(path).toString()
-        const { aerials, tags } = getLinksInFile(content)
-        this._addFileTags(path, tags)
-        this._addFileAerials(path, aerials)
-      } catch (e) {
-        console.log(e)
-        console.log('INVALID FILE PATH ' + path)
-      }
-    }
   }
 
   /**
@@ -114,18 +89,32 @@ class LinkManager {
   }
 
   /**
+   * 添加某个文件的信息
+   * @param {string} filepath
+   */
+  addFile (filepath) {
+    if (isValidMarkdownFilePath(filepath) && !this.validFilePaths.has(filepath)) {
+      try {
+        this.validFilePaths.add(filepath)
+        const content = readFileSync(filepath).toString()
+        const { aerials, tags } = getLinksInFile(content)
+        this._addFileTags(filepath, tags)
+        this._addFileAerials(filepath, aerials)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }
+
+  /**
    * 刷新某个文件的信息
    * @param {string} filepath
    */
   updateFile (filepath) {
     if (isValidMarkdownFilePath(filepath)) {
       try {
-        this.validFilePaths.add(filepath)
-        const content = readFileSync(filepath).toString()
-        const { aerials, tags } = getLinksInFile(content)
         this.removeFile(filepath)
-        this._addFileTags(filepath, tags)
-        this._addFileAerials(filepath, aerials)
+        this.addFile(filepath)
       } catch (e) {
         console.log(e)
       }
@@ -137,23 +126,34 @@ class LinkManager {
    * @param {string} filepath
    */
   removeFile (filepath) {
-    if (this.fileToTags.has(filepath)) {
-      for (const tag of this.fileToTags.get(filepath)) {
-        const fileList = this.tagToFiles.get(tag)
-        fileList.splice(fileList.indexOf(filepath), 1)
-      }
-    }
-    this.fileToTags.delete(filepath)
+    if (isValidMarkdownFilePath(filepath) && this.validFilePaths.delete(filepath)) {
+      this.validFilePaths.delete(filepath)
+      if (this.fileToTags.has(filepath)) {
+        for (const tag of this.fileToTags.get(filepath)) {
+          const fileList = this.tagToFiles.get(tag)
+          fileList.splice(fileList.indexOf(filepath), 1)
 
-    if (this.citingMap.has(filepath)) {
-      for (const citedInfo of this.citingMap.get(filepath)) {
-        if (this.citedMap.has(citedInfo.path)) {
-          const citedList = this.citedMap.get(citedInfo.path)
-          citedList.splice(citedList.indexOf({ name: citedInfo.name, path: filepath }), 1)
+          if (fileList.length === 0) {
+            this.tagToFiles.delete(tag)
+          }
         }
       }
+      this.fileToTags.delete(filepath)
+
+      if (this.citingMap.has(filepath)) {
+        for (const citedInfo of this.citingMap.get(filepath)) {
+          if (this.citedMap.has(citedInfo.path)) {
+            const citedList = this.citedMap.get(citedInfo.path)
+            citedList.splice(citedList.indexOf({ name: citedInfo.name, path: filepath }), 1)
+
+            if (citedList.length === 0) {
+              this.citedMap.delete(citedInfo.path)
+            }
+          }
+        }
+      }
+      this.citingMap.delete(filepath)
     }
-    this.citingMap.delete(filepath)
   }
 
   /* private */
