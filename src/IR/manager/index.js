@@ -1,6 +1,6 @@
-const { buildGraphFromFileTree } = require('../block/factory/filesToGraph')
-const { IRTree } = require('../component/tree')
-const { IdMarker } = require('../helper/counter')
+import { buildGraphFromFileTree } from '../block/factory/filesToGraph'
+import { IRTree } from '../component/tree'
+import { IdMarker } from '../helper/counter'
 
 const DEFAULT_OPTIONS = {
   replaced: false
@@ -174,4 +174,4 @@ class DataManager {
   }
 }
 
-module.exports = DataManager
+export default DataManager

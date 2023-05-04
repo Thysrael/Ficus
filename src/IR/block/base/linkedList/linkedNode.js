@@ -1,5 +1,5 @@
-const LinkedList = require('./linkedList')
-class LinkedNode {
+import LinkedList from './linkedList'
+export default class LinkedNode {
   constructor () {
     this.prev = this.next = null
     this.parent = null
@@ -10,6 +10,10 @@ class LinkedNode {
     newNode.parent = this
     this.children.insertBefore(newNode, refNode)
     return newNode
+  }
+
+  insertAtHead (newNode) {
+    this.insertBefore(newNode, this.children.head)
   }
 
   insertAfter (newNode, refNode) {
@@ -31,4 +35,3 @@ class LinkedNode {
     return this.children.head
   }
 }
-module.exports = LinkedNode

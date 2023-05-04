@@ -1,12 +1,10 @@
-const { markdownToTree } = require('../block/factory/markdownToTree')
-const { mindToTree } = require('../block/factory/mindToTree')
-
+import { markdownToTree } from '../block/factory/markdownToTree'
+import { mindToTree } from '../block/factory/mindToTree'
 const DEFAULT_OPTIONS = {
   delay: 1000,
   maxStack: 100,
   userOnly: false
 }
-
 class History {
   /**
    *
@@ -19,11 +17,12 @@ class History {
     this.irtree = irtree
     // 时间戳
     this.lastRecorded = 0
-
     this.initdoc = doc
     this.updateTree(doc)
-
-    this.stack = { undo: [], redo: [] }
+    this.stack = {
+      undo: [],
+      redo: []
+    }
 
     // FIXME: 因为每次undo/redo后会被立刻调用record
     this.ignoreRecord = false
@@ -37,18 +36,13 @@ class History {
     this.stack.redo = []
     const timestamp = Date.now()
     // 如果两次操作延迟足够短则不记录之前的操作
-    if (
-      this.lastRecorded + this.options.delay > timestamp &&
-        this.stack.undo.length > 0
-    ) {
+    if (this.lastRecorded + this.options.delay > timestamp && this.stack.undo.length > 0) {
       this.stack.undo.pop()
     } else {
       this.lastRecorded = timestamp
     }
-
     this.stack.undo.push(doc)
     this.updateTree(doc)
-
     if (this.stack.undo.length > this.options.maxStack) {
       this.stack.undo.shift()
     }
@@ -62,7 +56,6 @@ class History {
     const doc = this.stack.redo.pop()
     this.stack.undo.push(doc)
     this.updateTree(doc)
-
     this.lastRecorded = 0
   }
 
@@ -73,13 +66,11 @@ class History {
     }
     const doc = this.stack.undo.pop()
     this.stack.redo.push(doc)
-
     if (this.stack.undo.length === 0) {
       this.updateTree(this.initdoc)
     } else {
       this.updateTree(this.stack.undo[this.stack.undo.length - 1])
     }
-
     this.lastRecorded = 0
   }
 
@@ -94,7 +85,4 @@ class History {
     }
   }
 }
-
-module.exports = {
-  History
-}
+export default History

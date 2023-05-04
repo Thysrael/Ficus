@@ -38,6 +38,6 @@ class IdMarker {
   }
 }
 
-module.exports = {
+export {
   IdMarker
 }

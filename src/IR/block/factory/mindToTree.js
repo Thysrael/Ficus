@@ -1,41 +1,12 @@
-const {
-  buildRootNode,
-  buildFrontMatter,
-  buildThematicBreak,
-  buildCodeBlock,
-  buildMathBlock,
-  buildHtmlBlock,
-  buildHeading,
-  buildParagraph,
-  buildDiagramBlock,
-  buildTable,
-  buildListBlock,
-  buildQuoteBlock,
-  buildListItemBlock
-} = require('./buildNode')
-const {
-  rootTypeName,
-  frontmatterTypeName,
-  thematicBreakTypeName,
-  codeblockTypeName,
-  mathblockTypeName,
-  htmlblockTypeName,
-  headingTypeName,
-  paragraphTypeName,
-  diagramTypeName,
-  tableTypeName,
-  bulletlistTypeName,
-  orderlistTypeName,
-  quoteTypeName,
-  tasklistTypeName,
-  listItemTypeName,
-  taskListItemTypeName
-} = require('../base/type/constant')
-
-exports.mindToTree = function (mindJson) {
-  return mindToTreeRecursion(mindJson)
+import { buildRootNode, buildFrontMatter, buildThematicBreak, buildCodeBlock, buildMathBlock, buildHtmlBlock, buildHeading, buildParagraph, buildDiagramBlock, buildTable, buildListBlock, buildQuoteBlock, buildListItemBlock } from './buildNode'
+import { rootTypeName, frontmatterTypeName, thematicBreakTypeName, codeblockTypeName, mathblockTypeName, htmlblockTypeName, headingTypeName, paragraphTypeName, diagramTypeName, tableTypeName, bulletlistTypeName, orderlistTypeName, quoteTypeName, tasklistTypeName, listItemTypeName, taskListItemTypeName } from '../base/type/constant'
+function mindToTree (mindJson) {
+  const rootNode = mindToTreeRecursion(mindJson)
+  if (mindJson.frontmatter) {
+    rootNode.insertAtHead(buildFrontMatter(mindJson.frontmatter.text))
+  }
+  return rootNode
 }
-
 function mindToTreeRecursion (mindJson) {
   let nowNode
   let nowLevel
@@ -94,7 +65,6 @@ function mindToTreeRecursion (mindJson) {
       console.log('mindToTree: unknown type ' + mindJson.type)
       break
   }
-
   let level
   mindJson.children.forEach(mjson => {
     const chnode = mindToTreeRecursion(mjson)
@@ -116,3 +86,4 @@ function mindToTreeRecursion (mindJson) {
   })
   return nowNode
 }
+export { mindToTree }

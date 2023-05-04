@@ -6,27 +6,20 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
   getFileFromUser,
-  getFolderFromUser, linkToFile, newFileFromDialog,
-  newFileFromSidebar, newFolderFromDialog, newFolderFromSidebar, renameFileOrFolder,
+  linkToFile, newFileFromDialog,
+  newFileFromSidebar, newFolder, renameFileOrFolder,
   saveFile,
   saveToTarget,
   saveToPDFTarget,
   readFile, paste, move
 } from './main/filesystem/fileManipulate'
-import {
-  addTag2File,
-  deleteTag,
-  findTags, getCiteInfo,
-  getLinks,
-  initFromFolder,
-  refresh,
-  sendTags
-} from '@/main/filesystem/database'
+import { refresh } from './main/filesystem/database'
 import EAU from './main/update'
 
 import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
+import App from './main/app'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 let ficusPath = ''
@@ -62,11 +55,14 @@ async function createWindow () {
   win.setMinimumSize(800, 600)
   win.setMenu(null)
   win.removeMenu()
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('ficus://')) {
+  win.webContents.setWindowOpenHandler((detail) => {
+    if (detail.url === undefined) {
       return { action: 'deny' }
     }
-    shell.openExternal(url)
+    if (detail.url.startsWith('ficus://')) {
+      return { action: 'deny' }
+    }
+    shell.openExternal(detail.url)
     return { action: 'deny' }
   })
 
@@ -193,8 +189,6 @@ app.on('ready', async () => {
 
   ipcMain.handle('paste', async (e, userSelect, tarPath, projPath) => {
     await paste(userSelect, tarPath, projPath)
-    // const win = BrowserWindow.fromWebContents(e.sender)
-    // win.webContents.send('refreshTree', newChildren)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {
@@ -206,29 +200,8 @@ app.on('ready', async () => {
     return path.sep
   })
 
-  ipcMain.handle('getLinksAndTags', async (e, file) => {
-    return await getLinks(file)
-  })
-
-  ipcMain.handle('ficus::getCites', async (e, filePath) => {
-    return getCiteInfo(filePath)
-  })
-
-  ipcMain.handle('ficus::getTags', async (e, tagName) => {
-    return findTags(tagName)
-  })
-
-  ipcMain.handle('ficus::getLinks', async (e) => {
-    return getLinks()
-  })
-
   ipcMain.handle('refresh', async (e, projPath) => {
     return await refresh(projPath)
-  })
-
-  ipcMain.handle('sendTags', async (e, projPath) => {
-    const tags = await sendTags(projPath)
-    return tags
   })
 
   ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {
@@ -249,50 +222,17 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
-    newFolderFromSidebar(filePath, fileName)
+    newFolder(filePath, fileName)
   })
 
   ipcMain.handle('newFileFromDialog', async (e, projPath) => {
     const tree = await newFileFromDialog(projPath)
-    // console.log(fileObjs)
     return tree
   })
 
-  ipcMain.handle('newFolderFromDialog', async (e, projPath) => {
-    const tree = await newFolderFromDialog(projPath)
-    // console.log(fileObjs)
-    return tree
-  })
-
-  ipcMain.handle('delete_tag', async (e, filePath, tagName, folderPath) => {
-    deleteTag(tagName, folderPath, filePath)
-  })
-
-  ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
-    const tags = await findTags(tagName, folderPath)
-    // console.log(fileObjs)
-    return tags
-  })
-
-  ipcMain.handle('addTagToFile', async (e, filePath, tagName, isNewTag, folderPath) => {
-    addTag2File(filePath, tagName, isNewTag, folderPath)
-  })
-
-  ipcMain.handle('newProject', async (e, data) => {
-    const relation = await initFromFolder(data)
-    return relation
-  })
   ipcMain.handle('dialog:openFile', async (e) => {
     const fileObjs = await getFileFromUser()
-    // console.log(fileObjs)
     return fileObjs
-  })
-  ipcMain.handle('dialog:openFolder', async (e) => {
-    const folderObj = await getFolderFromUser()
-    console.log(folderObj.children.children[0])
-    console.log(folderObj.absolutePath)
-    ficusPath = folderObj.absolutePath
-    return folderObj
   })
   ipcMain.handle('save_file', (e, path, content) => {
     saveFile(path, content)
@@ -304,11 +244,17 @@ app.on('ready', async () => {
   ipcMain.handle('main::about', () => {
     shell.openExternal('https://ficus.world/')
   })
-  const win = await createWindow()
-  ipcMain.handle('window-min', () => {
+  /* window */
+  const win = createWindow()
+  ipcMain.on('window-min', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
+    if (isOsx && win.isFullScreen()) {
+      win.setFullScreen(false)
+    }
     win.minimize()
   })
-  ipcMain.handle('window-max', () => {
+  ipcMain.on('window-max', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     if (isOsx) {
       if (win.isFullScreen()) {
         win.setFullScreen(false)
@@ -323,13 +269,16 @@ app.on('ready', async () => {
       }
     }
   })
-  ipcMain.handle('window-close', () => {
+  ipcMain.on('window-close', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     win.close()
   })
-  ipcMain.handle('dev-open', () => {
+  ipcMain.on('dev-open', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.openDevTools()
   })
-  ipcMain.handle('dev-close', () => {
+  ipcMain.on('dev-close', (e) => {
+    const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.closeDevTools()
   })
 })
@@ -348,3 +297,6 @@ if (isDevelopment) {
     })
   }
 }
+
+const ficus = new App()
+ficus.init()

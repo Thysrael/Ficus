@@ -1,5 +1,5 @@
-const { Lexer } = require('../../utils/marked/lexer.js')
-const { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildTable, buildThematicBreak } = require('./buildNode.js')
+import { Lexer } from '../../utils/marked'
+import { buildCodeBlock, buildDiagramBlock, buildFrontMatter, buildHeading, buildHtmlBlock, buildListBlock, buildListItemBlock, buildMathBlock, buildParagraph, buildQuoteBlock, buildRootNode, buildTable, buildThematicBreak } from './buildNode.js'
 
 const restoreTableEscapeCharacters = text => {
   // NOTE: markedjs replaces all escaped "|" ("\|") characters inside a cell with "|".
@@ -7,7 +7,7 @@ const restoreTableEscapeCharacters = text => {
   return text.replace(/\|/g, '\\|')
 }
 
-exports.markdownToTree = function (markdown) {
+export function markdownToTree (markdown) {
   const root = buildRootNode()
   const tokens = new Lexer({
     disableInline: true,

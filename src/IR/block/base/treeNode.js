@@ -1,6 +1,6 @@
-const LinkedNode = require('./linkedList/linkedNode.js')
-const { headingTypeName, listTypeName, listItemTypeName } = require('./type/constant.js')
-class TreeNode extends LinkedNode {
+import LinkedNode from './linkedList/linkedNode.js'
+import { headingTypeName, listTypeName, listItemTypeName, frontmatterTypeName } from './type/constant.js'
+export default class TreeNode extends LinkedNode {
   /**
    *
    * @param {string} nodeType
@@ -69,7 +69,9 @@ class TreeNode extends LinkedNode {
   toMindJson () {
     const res = this.content.getMindJson()
     this.children.forEach(ch => {
-      res.children.push(ch.toMindJson())
+      if (ch.nodeType !== frontmatterTypeName) {
+        res.children.push(ch.toMindJson())
+      }
     })
     return res
   }
@@ -92,4 +94,3 @@ class TreeNode extends LinkedNode {
     return this.content.getNodeJson()
   }
 }
-module.exports = TreeNode
