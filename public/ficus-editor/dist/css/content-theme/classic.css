@@ -16,6 +16,7 @@
 
 .vditor {
   border: none;
+  --toolbar-icon-hover-color: #2bb680;
 }
 
 .vditor-sv {
@@ -28,7 +29,7 @@
 
 .vditor-reset {
   font-family: "Noto Serif SC";
-  font-weight: 400px;
+  font-weight: 400;
 }
 
 .vditor-wysiwyg pre.vditor-reset:focus,
