@@ -16,6 +16,8 @@
 
 .vditor {
   border: none;
+  --toolbar-icon-hover-color: #2bb680;
+  --panel-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .vditor-sv {
@@ -28,12 +30,39 @@
 
 .vditor-reset {
   font-family: "Noto Sans SC";
-  font-weight: 400px;
+  font-weight: 400;
+}
+
+.vditor-panel {
+  border-radius: 8px;
+  padding: 7px;
+  font-size: 16px;
+  align-content: center;
+  justify-content: center;
+}
+
+.vditor-input {
+  font-size: 14px;
+  padding: 3px 5px;
+}
+
+.vditor-icon {
+  align-self: center;
+  justify-self: center;
+  float: none;
+}
+
+.vditor-icon svg {
+  height: 15px;
+  width: 15px;
+  float: none;
 }
 
 .vditor-wysiwyg pre.vditor-reset:focus,
 .vditor-ir pre.vditor-reset:focus,
 pre.vditor-sv:focus {
+  font-size: 16px;
+  line-height: 30px;
   background: var(--White);
 }
 
@@ -200,7 +229,8 @@ pre.vditor-sv:focus {
 
 .vditor-reset code[data-type="math-inline"] {
   background-color: var(--SwissCoffee-500);
-  line-height: 16px;
+  font-size: 16px;
+  line-height: 30px;
   padding: 0.2em 0.4em !important;
 }
 
@@ -208,7 +238,8 @@ pre.vditor-sv:focus {
 
 .vditor-reset code[data-type="math-block"] {
   background-color: var(--SwissCoffee-500);
-  line-height: 16px;
+  font-size: 16px;
+  line-height: 30px;
   padding: 0.2em 0.4em !important;
 }
 
@@ -234,6 +265,11 @@ pre.vditor-sv:focus {
 
 .vditor-wysiwyg div.vditor-wysiwyg__block[data-type="code-block"]:before {
   content: "";
+}
+
+.vditor-wysiwyg__block pre:first-child {
+  font-size: 18px;
+  line-height: 30px;
 }
 
 /** 表格 **/
