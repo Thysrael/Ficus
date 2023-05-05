@@ -81,7 +81,7 @@ export default {
 .openFolderBtn {
   margin-left: 10px;
   margin-top: 10px;
-  width: 130px;
+  width: 150px;
   height: 25px;
   border-radius: 3px;
   opacity: 1;

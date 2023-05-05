@@ -476,9 +476,9 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  margin-left: 230px;
+  margin-left: 250px;
   padding-top: 65px;
-  width: calc(100% - 230px);
+  width: calc(100% - 250px);
   height: 100%;
   opacity: 1;
 }

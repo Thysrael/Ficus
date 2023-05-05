@@ -1,5 +1,5 @@
 <template>
-  <div class="flexStyle" style="margin-right: 20px; left: 230px; position: fixed"
+  <div class="flexStyle" style="margin-right: 20px; left: 250px; position: fixed"
   :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 2">
     <ol class="flex">
       <li
