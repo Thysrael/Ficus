@@ -61,6 +61,8 @@
 .vditor-wysiwyg pre.vditor-reset:focus,
 .vditor-ir pre.vditor-reset:focus,
 pre.vditor-sv:focus {
+  font-size: 16px;
+  line-height: 30px;
   background: var(--White);
 }
 
@@ -227,7 +229,8 @@ pre.vditor-sv:focus {
 
 .vditor-reset code[data-type="math-inline"] {
   background-color: var(--SwissCoffee-500);
-  line-height: 16px;
+  font-size: 16px;
+  line-height: 30px;
   padding: 0.2em 0.4em !important;
 }
 
@@ -235,7 +238,8 @@ pre.vditor-sv:focus {
 
 .vditor-reset code[data-type="math-block"] {
   background-color: var(--SwissCoffee-500);
-  line-height: 16px;
+  font-size: 16px;
+  line-height: 30px;
   padding: 0.2em 0.4em !important;
 }
 
@@ -261,6 +265,11 @@ pre.vditor-sv:focus {
 
 .vditor-wysiwyg div.vditor-wysiwyg__block[data-type="code-block"]:before {
   content: "";
+}
+
+.vditor-wysiwyg__block pre:first-child {
+  font-size: 18px;
+  line-height: 30px;
 }
 
 /** 表格 **/
