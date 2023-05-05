@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex" class="Sidebar h-full pb-4 relative">
     <div class="toolsBar items-center content-center" style="z-index: 10">
-      <button class="myButton" @click="isFile = 2">
+      <button class="myButton" @click="isFile = 2" :title="'文档大纲'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_480)">
@@ -17,7 +17,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 0">
+      <button class="myButton"  @click="isFile = 0" :title="'资源管理器'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_426)">
@@ -29,7 +29,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 1" v-if="false">
+      <button class="myButton"  @click="isFile = 1" v-if="false" >
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_1317)">
@@ -42,7 +42,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="getRelation">
+      <button class="myButton"  @click="getRelation" :title="'引用与被引用'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -57,7 +57,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="getTags">
+      <button class="myButton"  @click="getTags" :title="'标签管理器'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -73,7 +73,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 5" v-if="false">
+      <button class="myButton"  @click="isFile = 5" v-if="false" >
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_462)">
@@ -89,7 +89,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton" @click="getGraph">
+      <button class="myButton" @click="getGraph" :title="'工作区榕图'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_487)">
@@ -411,7 +411,7 @@ export default {
 .Sidebar {
   opacity: 1;
   background: #F4F4F3;
-  width: 230px;
+  width: 250px;
 }
 
 .toolsBar {
@@ -437,7 +437,7 @@ export default {
   position: absolute;
   left: 60px;
   top: 45px;
-  width: 160px;
+  width: 180px;
   height: 25px;
   opacity: 1;
 }
@@ -448,7 +448,7 @@ export default {
   overflow: auto;
   left: 60px;
   top: 70px;
-  width: 160px;
+  width: 180px;
   height: 90%;
   opacity: 1;
   /*border: 1px solid #D8D8D8;*/

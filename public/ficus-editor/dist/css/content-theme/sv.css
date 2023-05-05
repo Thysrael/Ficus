@@ -1,45 +1,90 @@
 
 .vditor-sv.vditor-reset span,
 .vditor-sv.vditor-reset div {
-  font-weight: 400; /* Regular */
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: "JetBrains Mono", "Noto Sans SC";
 }
 
 /* 标题 */
 
 .vditor-sv.vditor-reset .h1 {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 28px;
   line-height: 32px;
+  color: #DF6FA6;
 }
 
 .vditor-sv.vditor-reset .h2 {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 24px;
   line-height: 28px;
+  color: #DF6FA6;
 }
 
 .vditor-sv.vditor-reset .h3 {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 20px;
   line-height: 24px;
+  color: #DF6FA6;
 }
 
 .vditor-sv.vditor-reset .h4 {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 18px;
   line-height: 22px;
+  color: #DF6FA6;
 }
 
 .vditor-sv.vditor-reset .h5 {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 16px;
   line-height: 20px;
+  color: #DF6FA6;
 }
 
 .vditor-sv.vditor-reset .h6 {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
   line-height: 18px;
+  color: #DF6FA6;
+}
+
+.vditor-sv__marker--paren {
+  color: #FADE8C;
+}
+
+.vditor-sv__marker--bracket {
+  color: #4a72d3;
+}
+
+.vditor-sv__marker--info {
+  color: #a46fd3;
+}
+
+.vditor-sv__marker--link {
+  color: #23C99A;
+}
+
+.vditor-sv__marker--strong {
+  font-weight: 600;
+}
+
+.vditor-sv__marker {
+  color: #DF6FA6;
+  font-weight: 600;
+}
+
+.vditor-sv .strong {
+  font-weight: 600;
+  color: #4a72d3;
+}
+
+.vditor-sv .mark:not(.vditor-sv__marker) {
+  background-color: #FADE8C;
+  color: black;
+}
+
+.vditor-sv blockquote p {
+  color: #AAAAAA;
 }
