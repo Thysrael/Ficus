@@ -18,6 +18,7 @@ jobs:
           node-version: 16
           cache: 'yarn'
       - run: yarn install
+      - run: export CSC_IDENTITY_AUTO_DISCOVERY=false
       - run: yarn electron:build --publish=never
       - uses: actions/upload-artifact@v3
         with:
