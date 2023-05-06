@@ -174,7 +174,7 @@
 
 import FileNav from '@/renderer/components/sideBar/FileNav'
 import OutLine from '@/renderer/components/sideBar/OutLine'
-import { computed, getCurrentInstance, ref, watch } from 'vue'
+import { computed, getCurrentInstance, onMounted, ref, watch } from 'vue'
 import { directive, Contextmenu, ContextmenuItem } from 'v-contextmenu'
 import 'v-contextmenu/dist/themes/default.css'
 import bus from 'vue3-eventbus'
@@ -295,6 +295,7 @@ export default {
         bus.emit('showDialogForNewFile', { type, father: props.data[0] })
       }
     }
+
     function getTags () {
       isFile.value = 4
       bus.emit('changeToTag')
@@ -383,6 +384,54 @@ export default {
       bus.emit('changeToRelation')
     }
 
+    onMounted(() => {
+      const sideBar = document.querySelector('.Sidebar')
+      let startX, startWidth
+
+      function changeCurSor (e) {
+        const leftWidth = sideBar.offsetWidth
+        if (e.clientX <= sideBar.offsetLeft + leftWidth + 15 && e.clientX >= sideBar.offsetLeft + leftWidth - 15) {
+          sideBar.style.cursor = 'ew-resize'
+        } else {
+          sideBar.style.cursor = 'default'
+        }
+      }
+
+      sideBar.addEventListener('mouseover', changeCurSor)
+      sideBar.addEventListener('mouseout', changeCurSor)
+
+      sideBar.addEventListener('mousedown', function (e) {
+        startX = e.clientX
+        const leftWidth = sideBar.offsetWidth
+        if (e.clientX <= sideBar.offsetLeft + leftWidth + 15 && e.clientX >= sideBar.offsetLeft + leftWidth - 15) {
+          startWidth = parseInt(document.defaultView.getComputedStyle(sideBar).width, 10)
+          document.addEventListener('mousemove', mousemove)
+          document.addEventListener('mouseup', mouseup)
+        }
+      })
+
+      function mousemove (e) {
+        let newWidth = startWidth + e.clientX - startX
+        // const windowWidth = window.innerWidth
+        // if (newWidth > windowWidth / 2) {
+        //   newWidth = windowWidth / 2
+        // }
+        if (newWidth > 400) {
+          newWidth = 400
+        } else if (newWidth < 250) {
+          newWidth = 250
+        }
+        sideBar.style.width = newWidth + 'px'
+        store.dispatch('updateSideBarWidth', { value: newWidth })
+        // rightChild.style.width = 1152 - newWidth + 'px'
+      }
+
+      function mouseup () {
+        document.removeEventListener('mousemove', mousemove)
+        document.removeEventListener('mouseup', mouseup)
+      }
+    })
+
     return {
       isFile,
       titles,
@@ -412,6 +461,7 @@ export default {
   opacity: 1;
   background: #F4F4F3;
   width: 250px;
+  resize: horizontal;
 }
 
 .toolsBar {
@@ -437,7 +487,7 @@ export default {
   position: absolute;
   left: 60px;
   top: 45px;
-  width: 180px;
+  width: calc(100% - 60px);
   height: 25px;
   opacity: 1;
 }
@@ -448,7 +498,7 @@ export default {
   overflow: auto;
   left: 60px;
   top: 70px;
-  width: 180px;
+  width: calc(100% - 60px);
   height: 90%;
   opacity: 1;
   /*border: 1px solid #D8D8D8;*/

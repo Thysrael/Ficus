@@ -53,7 +53,7 @@
 
 <script>
 
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { getCurrentInstance, onMounted, ref, watch } from 'vue'
 import MyHeader from '@/renderer/components/header/MyHeader'
 import SideBar from '@/renderer/components/sideBar/SideBar'
 import TextArea from '@/renderer/components/textArea/TextArea'
@@ -165,6 +165,12 @@ export default {
         father.value = obj
         mode = 1
         openModal()
+      })
+
+      const myTextArea = document.querySelector('.myTextArea')
+      // 更新textUI的宽度
+      watch(() => store.state.sideBarWidth, (newValue, oldValue) => {
+        myTextArea.style.width = 'calc(100% - ' + store.getters.getSideBarWidth + 'px)'
       })
     })
 
