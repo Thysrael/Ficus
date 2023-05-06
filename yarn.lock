@@ -5839,6 +5839,23 @@ ejs@^3.1.6, ejs@^3.1.8:
   dependencies:
     jake "^10.8.5"
 
+electron-builder@24.3.0:
+  version "24.3.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-builder/-/electron-builder-24.3.0.tgz#9eb298b7d27bdfdf12f0278f06b98833cc3f091e"
+  integrity sha512-+MD9hRsoN1c4Fi/fyKredXgy3Bu6IGgd2nbc40FY7Pgi4Vthvnq0e5pql4BgwFUxBrspuvEB+tiH5QU3ZPq0zA==
+  dependencies:
+    app-builder-lib "24.3.0"
+    builder-util "24.3.0"
+    builder-util-runtime "9.2.1"
+    chalk "^4.1.2"
+    dmg-builder "24.3.0"
+    fs-extra "^10.1.0"
+    is-ci "^3.0.0"
+    lazy-val "^1.0.5"
+    read-config-file "6.3.2"
+    simple-update-notifier "^1.1.0"
+    yargs "^17.6.2"
+
 electron-builder@^22.2.0:
   version "22.14.13"
   resolved "https://mirrors.cloud.tencent.com/npm/electron-builder/-/electron-builder-22.14.13.tgz#fd40564685cf5422a8f8d667940af3d3776f4fb8"
@@ -5856,23 +5873,6 @@ electron-builder@^22.2.0:
     read-config-file "6.2.0"
     update-notifier "^5.1.0"
     yargs "^17.0.1"
-
-electron-builder@^24.3.0:
-  version "24.3.0"
-  resolved "https://mirrors.cloud.tencent.com/npm/electron-builder/-/electron-builder-24.3.0.tgz#9eb298b7d27bdfdf12f0278f06b98833cc3f091e"
-  integrity sha512-+MD9hRsoN1c4Fi/fyKredXgy3Bu6IGgd2nbc40FY7Pgi4Vthvnq0e5pql4BgwFUxBrspuvEB+tiH5QU3ZPq0zA==
-  dependencies:
-    app-builder-lib "24.3.0"
-    builder-util "24.3.0"
-    builder-util-runtime "9.2.1"
-    chalk "^4.1.2"
-    dmg-builder "24.3.0"
-    fs-extra "^10.1.0"
-    is-ci "^3.0.0"
-    lazy-val "^1.0.5"
-    read-config-file "6.3.2"
-    simple-update-notifier "^1.1.0"
-    yargs "^17.6.2"
 
 electron-devtools-installer@^3.1.0:
   version "3.2.0"
