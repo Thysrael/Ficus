@@ -13,6 +13,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-      - run: npm install eslint --force
-      - run: node_modules/eslint/bin/eslint.js .
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn eslint
