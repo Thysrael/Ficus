@@ -290,3 +290,17 @@ pre.vditor-sv:focus {
 .vditor-reset ol {
   list-style-type: decimal;
 }
+
+/** 普通连接 **/
+
+.vditor-reset a {
+  color: #23C99A;
+  text-decoration: underline;
+}
+
+/** 文件引用 **/
+
+.vditor-reset a.ficus-filelink {
+  color: #4a72d3;
+  text-decoration: underline;
+}
