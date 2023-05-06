@@ -1,5 +1,5 @@
 <template>
-  <div class="flexStyle" style="margin-right: 20px; left: 250px; position: fixed"
+  <div class="flexStyle" :style="`margin-right: 20px; left: ${store.getters.getSideBarWidth}px; position: fixed`"
   :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 2">
     <ol class="flex">
       <li
@@ -146,6 +146,7 @@ export default {
 
     return {
       mode,
+      store,
       dragstart,
       dragenter,
       dragover,

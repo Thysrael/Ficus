@@ -9,7 +9,7 @@
           :key="index"
       />
     </ul>
-    <div v-if="navItems.length === 0">
+    <div v-if="navItems.length === 0" style="width: 100%;">
       <div style="display: flex; font-size: 13px" class="items-center content-center">
         <p class="pl-2">
           无打开的文件夹。
@@ -73,6 +73,7 @@ export default {
   display: flex;
   justify-content: space-between;
   height: 100%;
+  width: 100%;
   /* 设置超出滚动 */
   overflow-x: hidden;
   overflow-y: auto;
@@ -81,7 +82,7 @@ export default {
 .openFolderBtn {
   margin-left: 10px;
   margin-top: 10px;
-  width: 150px;
+  width: 80%;
   height: 25px;
   border-radius: 3px;
   opacity: 1;
