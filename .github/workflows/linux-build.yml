@@ -1,0 +1,25 @@
+name: linux-build
+
+on:
+  push:
+    branches:
+      - master
+      - release
+      - 'cicd/**'
+
+jobs:
+  linux-pack: # 打包任务
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn electron:build --publish=never
+      - uses: actions/upload-artifact@v3
+        with:
+          name: linux-appImage
+          path: dist_electron/*.AppImage
+

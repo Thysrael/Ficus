@@ -121,5 +121,8 @@
     },
     "linux": {
         "icon": "build/icon.png"
+    },
+    "mac": {
+        "icon": "build/icon.png"
     }
 }
