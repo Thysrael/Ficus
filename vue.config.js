@@ -14,8 +14,19 @@ module.exports = defineConfig({
         extraResources: {
           from: './build/exec/updater.exe',
           to: '../'
+        },
+        mac: {
+          target: [
+            {
+              target: 'mas',
+              arch: [
+                'universal'
+              ]
+            }
+          ]
         }
-      }
+      },
+      externals: ['chokidar']
     }
   },
   productionSourceMap: false
