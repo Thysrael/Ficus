@@ -323,7 +323,7 @@ class TableContent extends Content {
         result.push(cutOff)
       }
     })
-    return result.join('\n') + '\n'
+    return result.join('\n') + '\n\n'
   }
 
   getMindJson () {
