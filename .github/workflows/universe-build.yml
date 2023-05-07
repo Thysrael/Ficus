@@ -1,14 +1,28 @@
-name: mac-universe-build
+name: build
 
 on:
   push:
     branches:
-      - master
-      - release
       - dev
-      - 'cicd/**'
+      - release
+  workflow_dispatch:
 
 jobs:
+  win-pack: # 打包任务
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install
+      - run: yarn electron:build --publish=never
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-installer
+          path: dist_electron/*.exe
   linux-pack: # 打包任务
     runs-on: ubuntu-latest
     steps:
@@ -17,17 +31,13 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
+      - run: rm .npmrc
       - run: yarn install
       - run: yarn electron:build --publish=never
       - uses: actions/upload-artifact@v3
         with:
           name: linux-appImage
           path: dist_electron/*.AppImage
-      - uses: actions/upload-artifact@v3
-        with:
-          name: linux-appImage
-          path: dist_electron/*.AppImage
-
   mac-pack: # 打包任务
     runs-on: macos-latest
     env:
@@ -38,6 +48,7 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
+      - run: rm .npmrc
       - run: yarn install
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
       - run: yarn electron:build --publish=never --skipElectronBuild
