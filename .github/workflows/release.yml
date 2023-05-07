@@ -1,10 +1,12 @@
 name: release
 
+permissions:
+   contents: write
+
 on:
   push:
-    branches:
-      - master
-      - 'cicd/release'
+    tags:
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -56,6 +58,7 @@ jobs:
       - run: yarn install
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
       - run: yarn electron:build --publish=never --skipElectronBuild
+      - run: cp -r build dist_electron/bundled/build
       - run: npx electron-builder --project dist_electron/bundled/ --universal || true
       - uses: actions/upload-artifact@v3
         with:
@@ -68,9 +71,15 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
       - run: ls -R
-      - uses: softprops/action-gh-release@v0.1.15
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          body: New Release.
+          draft: false
+          prerelease: false
           files: |
             ./app.asar/*.asar
             ./linux-appImage/*.AppImage

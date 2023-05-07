@@ -52,6 +52,7 @@ jobs:
       - run: yarn install
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
       - run: yarn electron:build --publish=never --skipElectronBuild
+      - run: cp -r build dist_electron/bundled/build
       - run: npx electron-builder --project dist_electron/bundled/ --universal || true
       - uses: actions/upload-artifact@v3
         with:
