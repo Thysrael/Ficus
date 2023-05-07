@@ -21,9 +21,10 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
-      - run: yarn electron:build --publish=never || true
+      - run: yarn electron:build --publish=never --skipElectronBuild
+      - run: npx electron-builder --project dist_electron/bundled/ || true
       - uses: actions/upload-artifact@v3
         with:
-          name: windows-installer
-          path: dist_electron/*.dmg
+          name: mac-dmg
+          path: dist_electron/bundled/dist/*.dmg
 

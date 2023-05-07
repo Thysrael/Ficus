@@ -5939,7 +5939,7 @@ electron-to-chromium@^1.4.284:
   resolved "https://mirrors.cloud.tencent.com/npm/electron-to-chromium/-/electron-to-chromium-1.4.371.tgz#393983ef087268a20c926a89be30e9f0bfc803b0"
   integrity sha512-jlBzY4tFcJaiUjzhRTCWAqRvTO/fWzjA3Bls0mykzGZ7zvcMP7h05W6UcgzfT9Ca1SW2xyKDOFRyI0pQeRNZGw==
 
-electron@^13.0.0:
+electron@13.6.9:
   version "13.6.9"
   resolved "https://mirrors.cloud.tencent.com/npm/electron/-/electron-13.6.9.tgz#7bd83cc1662ceaaa09dcd132a7b507cec888b028"
   integrity sha512-Es/sBy85NIuqsO9MW41PUCpwIkeinlTQ7g0ainfnmRAM2rmog3GBxVCaoV5dzEjwTF7TKG1Yr/E7Z3qHmlfWAg==
@@ -6659,10 +6659,10 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-ficus-editor@^1.1.6:
-  version "1.1.6"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.6.tgz#e852e68463306d74c24005a12b0fda47d6d0df47"
-  integrity sha512-KZ9oRj0CBESbgJxxtCjTbYC8j2vFIu7NUElpS2CmCPwLJ8wQ2S+LDrybqWCMaHFhUOP8SP8UyneXnvqql7md0Q==
+ficus-editor@^1.1.4:
+  version "1.1.8"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.8.tgz#5b3c4b7ee6b61ec37a7633f8c123faa7ec3f3877"
+  integrity sha512-R/t9ksEh2FMdfr2S7LfJ0CoU48vA6smnS2P7AwpwcTEfVuFKb2eG+MGSBcw+Eu1oufXpbLocYkO4AZUnSwAjxA==
   dependencies:
     diff-match-patch "^1.0.5"
 
