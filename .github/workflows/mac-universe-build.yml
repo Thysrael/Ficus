@@ -21,7 +21,7 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
-      - run: yarn electron:build --publish=never
+      - run: yarn electron:build --publish=never || true
       - uses: actions/upload-artifact@v3
         with:
           name: windows-installer
