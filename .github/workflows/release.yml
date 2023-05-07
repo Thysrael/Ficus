@@ -1,0 +1,78 @@
+name: release
+
+on:
+  push:
+    branches:
+      - master
+      - 'cicd/release'
+  workflow_dispatch:
+
+jobs:
+  win-pack: # 打包任务
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install
+      - run: yarn electron:build --publish=never
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-installer
+          path: dist_electron/*.exe
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app.asar
+          path: dist_electron/win-unpacked/resources/app.asar
+  linux-pack: # 打包任务
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install
+      - run: yarn electron:build --publish=never
+      - uses: actions/upload-artifact@v3
+        with:
+          name: linux-appImage
+          path: dist_electron/*.AppImage
+  mac-pack: # 打包任务
+    runs-on: macos-latest
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install
+      - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
+      - run: yarn electron:build --publish=never --skipElectronBuild
+      - run: npx electron-builder --project dist_electron/bundled/ --universal || true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: mac-dmg
+          path: dist_electron/bundled/dist/*.dmg
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [win-pack, linux-pack, mac-pack]
+    steps:
+      - uses: actions/download-artifact@v3
+      - run: ls -R
+      - uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ./app.asar/*.asar
+            ./linux-appImage/*.AppImage
+            ./mac-dmg/*.dmg
+            ./windows-installer/*.exe
