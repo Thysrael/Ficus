@@ -22,9 +22,8 @@ jobs:
       - run: yarn install
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
       - run: yarn electron:build --publish=never --skipElectronBuild
-      - run: npx electron-builder --project dist_electron/bundled/ || true
+      - run: npx electron-builder --project dist_electron/bundled/ --universal || true
       - uses: actions/upload-artifact@v3
         with:
           name: mac-dmg
           path: dist_electron/bundled/dist/*.dmg
-
