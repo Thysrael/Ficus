@@ -13,8 +13,12 @@ class TreeManager {
 
   setTreeFromCached (filepath) {
     if (this.containsCached(filepath)) {
-      this._tree = this._cached[filepath]
+      this._tree = this._cached.get(filepath)
     }
+  }
+
+  _getTreeFromCached (filepath) {
+    this._tree = this._cached.get(filepath)
   }
 
   deleteCached (filepath) {
@@ -23,7 +27,7 @@ class TreeManager {
 
   /**
    *
-   * @param {content|mindJson} doc
+   * @param {{content|mindJson}} doc
    * @param options
    * @returns
    */
@@ -34,12 +38,19 @@ class TreeManager {
 
   /**
    *
-   * @param {content|mindJson} doc
+   * @param {{content|mindJson}} doc
    */
-  update (doc) {
-    if (this._isValid()) {
-      this._tree.update(doc)
+  update (filepath, doc) {
+    if (this.containsCached(filepath)) {
+      const tree = this._getTreeFromCached(filepath)
+      tree.update(doc)
       this._addCached(this._tree)
+    }
+  }
+
+  updateCurrent (doc) {
+    if (this._tree) {
+      this.update(this._tree.filepath, doc)
     }
   }
 
@@ -104,7 +115,7 @@ class TreeManager {
       const outlineInfo = this._tree.toOutlineJson()
       const idMarker = new IdMarker()
       idMarker.markId(outlineInfo)
-      return outlineInfo
+      return outlineInfo.children
     } else {
       return {}
     }
