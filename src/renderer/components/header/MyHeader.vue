@@ -255,22 +255,11 @@ export default {
     // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
     bus.on('deleteTab', (obj) => {
       obj.offset = -1
-      let index = -1
-      for (let i = 0; i < openFiles.value.length; i++) {
-        if (openFiles.value[i].path === obj.path) {
-          index = i
-          break
-        }
-      }
-      if (index !== -1) {
-        openFiles.value.splice(index, 1)
-      } else {
-        return
-      }
+      let index = openFiles.value.findIndex(file => file.path === obj.path)
+      openFiles.value.splice(index, 1)
+
       if (curObj.value.path === obj.path) {
-        if (index === openFiles.value.length) {
-          index = 0
-        }
+        index = Math.max(index - 1, 0)
         if (openFiles.value.length !== 0) {
           bus.emit('sendToTextUI', openFiles.value[index])
         } else {
@@ -327,13 +316,13 @@ export default {
     }
 
     function getTags () {
-      const array = store.getters['filesManager/tags']
-      bus.emit('editTags', { res: array })
+      const tags = store.getters['filesManager/tags']
+      bus.emit('editTags', { res: tags })
     }
 
     function getOutLine () {
-      const res = store.getters['filesManager/outline']
-      bus.emit('openOutLine', res)
+      const outline = store.getters['filesManager/outline']
+      bus.emit('openOutLine', outline)
     }
 
     bus.on('addTags', (tagName) => {
@@ -358,12 +347,7 @@ export default {
 
     // 对于一个待打开的文件，判断是否已经包含在已打开的文件中
     function contain (file) {
-      for (let i = 0; i < openFiles.value.length; i++) {
-        if (openFiles.value[i].path === file.path) {
-          return true
-        }
-      }
-      return false
+      return openFiles.value.find(openfile => openfile.path === file.path) !== undefined
     }
 
     bus.on('updateTabName', () => {
@@ -422,10 +406,7 @@ export default {
     function update () {
       // 第一步，将所有对象按名字分组
       const sameNameArrays = []
-      const flag = []
-      for (let i = 0; i < openFiles.value.length; i++) {
-        flag.push(false)
-      }
+      const flag = Array(openFiles.value.length).fill(false)
 
       for (let i = 0; i < openFiles.value.length; i++) {
         if (flag[i]) {
@@ -512,6 +493,7 @@ export default {
         content.value = store.getters['filesManager/markdown']
         sendContentByMode()
         getOutLine()
+        getTags()
       }
     })
 
