@@ -110,6 +110,7 @@ import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
 import TabList from '@/renderer/components/header/TabList'
 import DataManager from '@/IR/manager'
+import TreeManager from '@/IR/manager/treeManager'
 import store from '@/renderer/store'
 
 export default {
@@ -130,6 +131,7 @@ export default {
       }, 30000)
     })
     const dataManager = new DataManager()
+    const treeManager = new TreeManager()
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
@@ -150,14 +152,17 @@ export default {
         openFiles.value.push(obj)
         update()
       }
-      if (obj.content === undefined) {
+      if (treeManager.containsCached(obj.path)) {
+        treeManager.setTreeFromCached(obj.path)
+      } else {
         const res = await window.electronAPI.readFile(obj.path)
         if (res.error === -1) {
           return bus.emit('deleteTab', obj)
         } else if (res.error === 0) {
-          obj.content = res.content
+          treeManager.build(obj.path, { content: res.content })
         }
       }
+      obj.content = treeManager.markdown
       if (store.getters.getMode === -1) {
         // 正在展示欢迎界面，默认进入纯文本模式
         bus.emit('changeMode', 0)
@@ -196,7 +201,7 @@ export default {
     // TextUI接口：TextUI实时将工作区修改保存到content中
     bus.on('saveChange', (obj) => {
       content.value = obj.content
-      dataManager.updateTreeFromMarkdown(content.value)
+      treeManager.update({ content: content.value })
       getOutLine()
       getTags()
       bus.emit('getInfoOfFile', obj) // 更新信息栏
@@ -204,8 +209,8 @@ export default {
 
     // MindUI接口：MindUI实时将工作区修改保存到content中
     bus.on('saveChangeMindUI', (json) => {
-      dataManager.updateTreeFromMindJson(json)
-      content.value = dataManager.getTreeMarkdown()
+      treeManager.update({ mindJson: json })
+      content.value = treeManager.markdown
       getOutLine()
     })
 
@@ -213,9 +218,6 @@ export default {
     async function writeBack () {
       // 有可能路径不存在
       if (curObj.value.path) {
-        // if (content.value === '' || content.value === '\n') {
-        //   bus.emit('showMyAlert', { message: '检测到写回文件内容为空，请检查是否为误操作！' })
-        // }
         window.electronAPI.saveFile(curObj.value.path, content.value)
         curObj.value.content = content.value
       }
@@ -224,7 +226,7 @@ export default {
     // 传参给，根据mode选择传参给哪个组件
     function sendContentByMode () {
       if (store.getters.getMode === 2) {
-        const obj = dataManager.getTreeMindJson()
+        const obj = treeManager.mind
         bus.emit('sendToFicTree', obj)
       } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
@@ -244,12 +246,11 @@ export default {
     bus.on('sendToTextUI', (obj) => {
       // 写回content
       writeBack()
-
       content.value = obj.content
       curObj.value = obj
       window.electronAPI.changePath(curObj.value.path)
       if (curObj.value.name !== '') {
-        dataManager.buildTreeFromMarkdown({ content: content.value, path: curObj.value.path }, { replaced: true })
+        treeManager.build(curObj.value.path, { content: content.value })
         getOutLine()
         getTags()
         getCites()
@@ -301,14 +302,6 @@ export default {
       bus.emit('showMenu')
     }
 
-    // // 监听content变化
-    // watch(content, (newValue, oldValue) => {
-    //   // 调用得到children，传递给sidebar
-    //   dataManager.buildTreeFromMarkdown(newValue, true)
-    //   const obj = dataManager.getTreeOutline()
-    //   bus.emit('openOutLine', obj.children)
-    // })
-
     function myMin () {
       window.electronAPI.minWindow()
     }
@@ -341,24 +334,24 @@ export default {
     }
 
     function getTags () {
-      const array = dataManager.getTags()
+      const array = treeManager.tags
       bus.emit('editTags', { res: array })
     }
 
     function getOutLine () {
-      const res = dataManager.getTreeOutline()
+      const res = treeManager.outline
       bus.emit('openOutLine', res.children)
     }
 
     bus.on('addTags', (tagName) => {
-      dataManager.addTag(tagName)
-      content.value = dataManager.getTreeMarkdown()
+      treeManager.addTag(tagName)
+      content.value = treeManager.markdown
       sendContentByMode()
     })
 
     bus.on('removeTags', (tagName) => {
-      dataManager.removeTag(tagName)
-      content.value = dataManager.getTreeMarkdown()
+      treeManager.removeTag(tagName)
+      content.value = treeManager.markdown
       sendContentByMode()
     })
 
@@ -511,8 +504,8 @@ export default {
     // 暴露给菜单栏撤销
     bus.on('undoCurTab', () => {
       if (openFiles.value.length !== 0) {
-        dataManager.undoTree()
-        content.value = dataManager.getTreeMarkdown()
+        treeManager.undo()
+        content.value = treeManager.markdown
         sendContentByMode()
         getOutLine()
         getTags()
@@ -522,8 +515,8 @@ export default {
     // 暴露给菜单栏重做
     bus.on('redoCurTab', () => {
       if (openFiles.value.length !== 0) {
-        dataManager.redoTree()
-        content.value = dataManager.getTreeMarkdown()
+        treeManager.redo()
+        content.value = treeManager.markdown
         sendContentByMode()
         getOutLine()
       }

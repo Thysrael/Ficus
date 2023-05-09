@@ -3,7 +3,8 @@ import { buildFrontMatter } from '../block/factory/buildNode'
 import History from '../history/index'
 
 class IRTree {
-  constructor (doc, options = {}) {
+  constructor (filepath, doc, options = {}) {
+    this.filepath = filepath
     this.root = null
     this.history = new History(this, doc, options)
   }
