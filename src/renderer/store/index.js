@@ -1,5 +1,6 @@
 import { bus } from 'vue3-eventbus'
 import { createStore } from 'vuex'
+import filesManager from './dataManager'
 
 const state = {
   xy: {
@@ -66,5 +67,7 @@ export default createStore({
   mutations,
   actions,
   getters,
-  modules: {}
+  modules: {
+    filesManager
+  }
 })

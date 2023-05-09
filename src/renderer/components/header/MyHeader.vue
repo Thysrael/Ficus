@@ -12,7 +12,7 @@
                 top: 10px; left: 40px"></MenuList>
       <BreadCrumb :items="data" style="position: relative; margin-left: 60px;-webkit-app-region: no-drag" class="items-center content-center"></BreadCrumb>
       <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
-      <button @click="myMin" style="-webkit-app-region: no-drag" class="tr1-element">
+      <button @click="minimizeWindow" style="-webkit-app-region: no-drag" class="tr1-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
           <defs>
@@ -34,7 +34,7 @@
           </g>
         </svg>
       </button>
-      <button @click="myMax" style="-webkit-app-region: no-drag" class="tr2-element">
+      <button @click="maximizeWindow" style="-webkit-app-region: no-drag" class="tr2-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
           <defs>
@@ -56,7 +56,7 @@
           </g>
         </svg>
       </button>
-      <button @click="myClose" style="-webkit-app-region: no-drag" class="tr3-element">
+      <button @click="closeWindow" style="-webkit-app-region: no-drag" class="tr3-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
           <defs>
@@ -110,7 +110,6 @@ import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
 import TabList from '@/renderer/components/header/TabList'
 import DataManager from '@/IR/manager'
-import TreeManager from '@/IR/manager/treeManager'
 import store from '@/renderer/store'
 
 export default {
@@ -131,7 +130,6 @@ export default {
       }, 30000)
     })
     const dataManager = new DataManager()
-    const treeManager = new TreeManager()
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
@@ -152,22 +150,16 @@ export default {
         openFiles.value.push(obj)
         update()
       }
-      if (treeManager.containsCached(obj.path)) {
-        treeManager.setTreeFromCached(obj.path)
-      } else {
-        const res = await window.electronAPI.readFile(obj.path)
-        if (res.error === -1) {
-          return bus.emit('deleteTab', obj)
-        } else if (res.error === 0) {
-          treeManager.build(obj.path, { content: res.content })
+      store.dispatch('filesManager/setCurrentFile', obj.path).then(() => {
+        obj.content = store.getters['filesManager/markdown']
+        if (store.getters.getMode === -1) {
+          // 正在展示欢迎界面，默认进入纯文本模式
+          bus.emit('changeMode', 0)
         }
-      }
-      obj.content = treeManager.markdown
-      if (store.getters.getMode === -1) {
-        // 正在展示欢迎界面，默认进入纯文本模式
-        bus.emit('changeMode', 0)
-      }
-      bus.emit('sendToTextUI', obj)
+        bus.emit('sendToTextUI', obj)
+      }, () => {
+        return bus.emit('deleteTab', obj)
+      })
     })
 
     // 模式改变核心逻辑
@@ -201,7 +193,7 @@ export default {
     // TextUI接口：TextUI实时将工作区修改保存到content中
     bus.on('saveChange', (obj) => {
       content.value = obj.content
-      treeManager.update({ content: content.value })
+      store.commit('filesManager/updateByMarkdown', { content: content.value })
       getOutLine()
       getTags()
       bus.emit('getInfoOfFile', obj) // 更新信息栏
@@ -209,8 +201,9 @@ export default {
 
     // MindUI接口：MindUI实时将工作区修改保存到content中
     bus.on('saveChangeMindUI', (json) => {
-      treeManager.update({ mindJson: json })
-      content.value = treeManager.markdown
+      // FIXME: 在构建时会触发这个时间
+      store.commit('filesManager/updateByMind', { mindJson: json })
+      content.value = store.getters['filesManager/markdown']
       getOutLine()
     })
 
@@ -226,7 +219,7 @@ export default {
     // 传参给，根据mode选择传参给哪个组件
     function sendContentByMode () {
       if (store.getters.getMode === 2) {
-        const obj = treeManager.mind
+        const obj = store.getters['filesManager/mind']
         bus.emit('sendToFicTree', obj)
       } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
@@ -250,7 +243,7 @@ export default {
       curObj.value = obj
       window.electronAPI.changePath(curObj.value.path)
       if (curObj.value.name !== '') {
-        treeManager.build(curObj.value.path, { content: content.value })
+        store.dispatch('filesManager/setCurrentFile', obj.path)
         getOutLine()
         getTags()
         getCites()
@@ -302,15 +295,15 @@ export default {
       bus.emit('showMenu')
     }
 
-    function myMin () {
+    function minimizeWindow () {
       window.electronAPI.minWindow()
     }
 
-    function myMax () {
+    function maximizeWindow () {
       window.electronAPI.maxWindow()
     }
 
-    function myClose () {
+    function closeWindow () {
       window.electronAPI.closeWindow()
     }
 
@@ -334,24 +327,24 @@ export default {
     }
 
     function getTags () {
-      const array = treeManager.tags
+      const array = store.getters['filesManager/tags']
       bus.emit('editTags', { res: array })
     }
 
     function getOutLine () {
-      const res = treeManager.outline
-      bus.emit('openOutLine', res.children)
+      const res = store.getters['filesManager/outline']
+      bus.emit('openOutLine', res)
     }
 
     bus.on('addTags', (tagName) => {
-      treeManager.addTag(tagName)
-      content.value = treeManager.markdown
+      store.commit('filesManager/addTag', tagName)
+      content.value = store.getters['filesManager/markdown']
       sendContentByMode()
     })
 
     bus.on('removeTags', (tagName) => {
-      treeManager.removeTag(tagName)
-      content.value = treeManager.markdown
+      store.commit('filesManager/removeTag', tagName)
+      content.value = store.getters['filesManager/markdown']
       sendContentByMode()
     })
 
@@ -504,8 +497,8 @@ export default {
     // 暴露给菜单栏撤销
     bus.on('undoCurTab', () => {
       if (openFiles.value.length !== 0) {
-        treeManager.undo()
-        content.value = treeManager.markdown
+        store.commit('filesManager/undo')
+        content.value = store.getters['filesManager/markdown']
         sendContentByMode()
         getOutLine()
         getTags()
@@ -515,8 +508,8 @@ export default {
     // 暴露给菜单栏重做
     bus.on('redoCurTab', () => {
       if (openFiles.value.length !== 0) {
-        treeManager.redo()
-        content.value = treeManager.markdown
+        store.commit('filesManager/redo')
+        content.value = store.getters['filesManager/markdown']
         sendContentByMode()
         getOutLine()
       }
@@ -575,7 +568,7 @@ export default {
       bus.emit('changeName', curObj.value.name)
     }
 
-    return { openFiles, update, curObj, content, mode, showMenu, myMin, myClose, myMax, changeTheme }
+    return { openFiles, update, curObj, content, mode, showMenu, minimizeWindow, maximizeWindow, closeWindow, changeTheme }
   }
 }
 </script>
