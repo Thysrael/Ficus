@@ -7,18 +7,24 @@ class TreeManager {
     this._cached = new Map()
   }
 
+  /**
+   * 判断缓存中有某个
+   * @param {string} filepath
+   * @returns
+   */
   containsCached (filepath) {
     return this._cached.has(filepath)
   }
 
+  /**
+   * 从缓存中设置当前树
+   * @param {string} filepath
+   * @returns
+   */
   setTreeFromCached (filepath) {
     if (this.containsCached(filepath)) {
-      this._tree = this._cached.get(filepath)
+      this._tree = this._getTreeFromCached(filepath)
     }
-  }
-
-  _getTreeFromCached (filepath) {
-    this._tree = this._cached.get(filepath)
   }
 
   deleteCached (filepath) {
@@ -27,9 +33,8 @@ class TreeManager {
 
   /**
    *
+   * @param {string} filepath
    * @param {{content|mindJson}} doc
-   * @param options
-   * @returns
    */
   build (filepath, doc) {
     this._tree = new IRTree(filepath, doc)
@@ -38,6 +43,7 @@ class TreeManager {
 
   /**
    *
+   * @param {string} filepath
    * @param {{content|mindJson}} doc
    */
   update (filepath, doc) {
@@ -48,6 +54,10 @@ class TreeManager {
     }
   }
 
+  /**
+   *
+   * @param {{content|mindJson}} doc
+   */
   updateCurrent (doc) {
     if (this._tree) {
       this.update(this._tree.filepath, doc)
@@ -67,7 +77,7 @@ class TreeManager {
   }
 
   /**
-   *
+   * 重做
    */
   undo () {
     if (this._tree !== undefined) {
@@ -76,7 +86,7 @@ class TreeManager {
   }
 
   /**
-   *
+   * 撤销
    */
   redo () {
     if (this._tree !== undefined) {
@@ -84,17 +94,27 @@ class TreeManager {
     }
   }
 
+  /**
+   * 增加tag
+   * @param {string} tagname
+   */
   addTag (tagname) {
     if (this._tree) {
       this._tree.addTag(tagname)
     }
   }
 
+  /**
+   * 删除tag
+   * @param {string} tagname
+   */
   removeTag (tagname) {
     if (this._tree) {
       this._tree.removeTag(tagname)
     }
   }
+
+  /* ----- get ----- */
 
   get tags () {
     if (this._isValid()) {
@@ -103,8 +123,6 @@ class TreeManager {
       return []
     }
   }
-
-  /* ----- get ----- */
 
   /**
    *
@@ -145,6 +163,10 @@ class TreeManager {
 
   _removeCached (filepath) {
     return this._cached.delete(filepath)
+  }
+
+  _getTreeFromCached (filepath) {
+    return this._cached.get(filepath)
   }
 }
 
