@@ -30,7 +30,7 @@ class App {
   _listenForIpcMain () {
     ipcMain.handle('newProject', async (e, data) => {
       const win = BrowserWindow.fromWebContents(e.sender)
-      this.watcher.close()
+      await this.watcher.close()
       this.linkManager.reset()
       const relation = await initFromFolder(data)
       if (relation.relation.root) {
