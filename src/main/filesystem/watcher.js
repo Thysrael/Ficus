@@ -72,9 +72,10 @@ class Watcher extends EventEmitter {
     }
   }
 
-  close () {
+  async close () {
+    this.rootPath = null
     for (const watcher of Object.values(this.watchers)) {
-      watcher.close()
+      await watcher.close()
     }
 
     this.watchId = 0
