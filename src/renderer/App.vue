@@ -59,6 +59,7 @@ import SideBar from '@/renderer/components/sideBar/SideBar'
 import TextArea from '@/renderer/components/textArea/TextArea'
 import bus from 'vue3-eventbus'
 import store from '@/renderer/store'
+import { namifyMarkdownFile } from './utils/pathHelpter'
 
 export default {
   name: 'App',
@@ -83,18 +84,7 @@ export default {
 
     onMounted(async () => {
       store.dispatch('LISTEN_REFRESH')
-      window.electronAPI.updateTree((sender, newChildren) => {
-        data.value[0] = {
-          name: data.value[0].name,
-          path: data.value[0],
-          children: newChildren,
-          curChild: -1,
-          absolutePath: data.value[0].absolutePath,
-          offset: -1,
-          type: 'folder'
-        }
-        bus.emit('updateOpenFiles', data.value[0])
-      })
+
       pathSeq = await window.electronAPI.getPathSep()
       window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight + 'px'
@@ -191,16 +181,8 @@ export default {
       if (arr === undefined) {
         console.log('bug: 尝试从undefined中删除')
       }
-      let index = -1
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].path === obj.path) {
-          index = i
-          break
-        }
-      }
-      if (index !== -1) {
-        arr.splice(index, 1)
-      }
+      const index = arr.findIndex(file => file.path === obj.path)
+      arr.splice(index, 1)
       // 删除一个对象也需要在工作区关闭其本身和其孩子节点
       closeTab(obj)
       // 从后端删除
@@ -252,37 +234,25 @@ export default {
       data.value.length = 0
     })
 
-    function validTest (name) {
-      if (name === '') {
-        return false
-      }
-      return !name.includes(pathSeq)
+    function nameValidTest (name) {
+      return name.trim() && !name.includes(pathSeq)
     }
 
     // 新建文件/文件夹
     function handleNew () {
-      if (dialogName.value === '新建文件（以.md为后缀）' && fileName.value.includes('.')) {
-        message.value = '文件名或文件夹名非法'
-        myAlert.value = true
-        fileName.value = ''
-        return
-      }
       if (dialogName.value === '新建文件（以.md为后缀）') {
-        fileName.value = fileName.value.concat('.md')
+        fileName.value = namifyMarkdownFile(fileName.value)
       }
-      if (!validTest(fileName.value)) {
-        message.value = '文件名或文件夹名非法'
-        myAlert.value = true
+      if (!nameValidTest(fileName.value)) {
+        bus.emit('showMyAlert', { message: '文件名或文件夹名非法' })
         fileName.value = ''
       } else {
-        for (let i = 0; i < father.value.children.length; i++) {
-          if (father.value.children[i].name === fileName.value) {
-            message.value = '输入的名称已存在'
-            myAlert.value = true
-            fileName.value = ''
-            return
-          }
+        if (father.value.children.find(stat => stat.name === fileName.value)) {
+          bus.emit('showMyAlert', { message: '输入的名称已存在' })
+          fileName.value = ''
+          return
         }
+
         if (dialogName.value === '新建文件（以.md为后缀）') {
           window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
         } else {
@@ -317,31 +287,31 @@ export default {
 
     // 重命名文件
     function renameFile () {
-      const obj = father.value
-      if (fileName.value === '') {
-        message.value = '文件名或文件夹名'
-        myAlert.value = true
+      const { type, path: oldPath } = father.value
+      // 文件后缀非markdown时自动添加
+      if (type === 'file') {
+        fileName.value = namifyMarkdownFile(fileName.value)
+      }
+      if (!nameValidTest(fileName.value)) {
+        bus.emit('showMyAlert', { message: '请输入合法的文件名或文件夹名' })
         fileName.value = ''
       } else {
-        let newPath = window.pathAPI.join(obj.path, '..', fileName.value)
-        if (obj.type === 'file' && !window.pathAPI.isMarkdownExtname(newPath)) {
-          newPath += '.md' // 文件后缀非markdown时自动添加
-        }
-        if (window.pathAPI.existSync(newPath)) {
-          message.value = '输入的名称已存在'
-          myAlert.value = true
-          fileName.value = ''
-          return
-        }
-        const oldPath = obj.path
-        window.electronAPI.renameFileOrFolder(newPath, oldPath)
-        
-        // 刷新缓存
-        store.commit('filesManager/rename', { oldPath, newPath })
+        const newPath = window.pathAPI.join(oldPath, '..', fileName.value)
 
-        bus.emit('updateTabName')
-        fileName.value = ''
-        showDialog.value = false
+        // 判断路径存在
+        if (window.pathAPI.existSync(newPath)) {
+          bus.emit('showMyAlert', { message: '输入的名称已存在' })
+          fileName.value = ''
+        } else {
+          window.electronAPI.renameFileOrFolder(newPath, oldPath)
+
+          // 刷新缓存
+          store.commit('filesManager/rename', { oldPath, newPath })
+
+          bus.emit('updateTabName')
+          fileName.value = ''
+          showDialog.value = false
+        }
       }
     }
 

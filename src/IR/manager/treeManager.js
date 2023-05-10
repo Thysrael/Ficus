@@ -42,7 +42,7 @@ class TreeManager {
   }
 
   _replacePath (oldPath, newPath, value) {
-    this._cached.remove(oldPath)
+    this._cached.delete(oldPath)
     this._cached.set(newPath, value)
   }
 

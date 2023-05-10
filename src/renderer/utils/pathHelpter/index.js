@@ -22,3 +22,15 @@ export function getRenamePath (oldPath, newPath, filePath) {
     return filePath
   }
 }
+
+/**
+ * md文件自动添加.md后缀
+ * @param {string} fileName
+ * @returns
+ */
+export function namifyMarkdownFile (fileName) {
+  if (!window.pathAPI.isMarkdownExtname(fileName)) {
+    return fileName.trim() + '.md'
+  }
+  return fileName.trim()
+}
