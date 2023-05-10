@@ -55,12 +55,12 @@ function buildTable (cells) {
   return new TreeNode(paragraphTypeName, new TableContent(cells))
 }
 
-function buildFileNode (id, name, path, content) {
-  return new TreeNode(fileTypeName, new FileContent(id, name, path, content))
+function buildFileNode (id, name, path, depth) {
+  return new TreeNode(fileTypeName, new FileContent(id, name, path, depth))
 }
 
-function buildFolderNode (id, name, path) {
-  return new TreeNode(folderTypeName, new FolderContent(id, name, path))
+function buildFolderNode (id, name, path, depth) {
+  return new TreeNode(folderTypeName, new FolderContent(id, name, path, depth))
 }
 
 function buildTagNode (id, name) {

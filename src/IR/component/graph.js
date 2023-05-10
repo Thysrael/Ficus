@@ -21,23 +21,23 @@ export default class IRGraph {
      * @param {{name: string, path: string, children: [any], type: string}} files
      * @returns
      */
-  parseFileTree (files) {
+  parseFileTree (files, depth) {
     let newNode
     if (files.type === 'folder') {
-      newNode = buildFolderNode(this.allocNodeID(), files.name, files.path)
+      newNode = buildFolderNode(this.allocNodeID(), files.name, files.path, depth)
       this.treenodes.push(newNode)
       files.children.forEach(e => {
-        newNode.insertAtLast(this.parseFileTree(e))
+        newNode.insertAtLast(this.parseFileTree(e, depth + 1))
       })
     } else {
-      newNode = buildFileNode(this.allocNodeID(), files.name, files.path, files.content)
+      newNode = buildFileNode(this.allocNodeID(), files.name, files.path, depth)
       this.treenodes.push(newNode)
     }
     return newNode
   }
 
   addFiles (files) {
-    this.graph = this.parseFileTree(files)
+    this.graph = this.parseFileTree(files, 1)
     this.makeEdges()
   }
 
@@ -118,12 +118,6 @@ export default class IRGraph {
 
   getLinks () {
     return this.edges.concat(this.relations).concat(this.aerials)
-  }
-
-  getFileTreeJson () {
-    if (this.graph) {
-      return this.graph.toFileTreeJson()
-    }
   }
 
   /**

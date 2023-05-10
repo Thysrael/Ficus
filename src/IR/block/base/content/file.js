@@ -1,59 +1,49 @@
 import { folderTypeName, tagTypeName, fileTypeName } from '../type/constant'
 import { Content } from './base'
-const category = {
-  folder: 0,
-  file: 1,
-  tag: 2
+const CATEGORY = {
+  FOLDER: 0,
+  FILE: 1,
+  TAG: 2
 }
 
 class FileContent extends Content {
-  constructor (id, name, path, content) {
-    super(fileTypeName, content)
+  constructor (id, name, path, depth) {
+    super(fileTypeName, name)
     this.id = id
     this.name = name
     this.path = path
-  }
-
-  getFileJson () {
-    return {
-      name: this.name,
-      path: this.path,
-      content: this.text
-    }
+    this.depth = depth
   }
 
   getNodeJson () {
     return {
       id: this.id,
       name: this.name,
-      category: category.file
+      category: CATEGORY.FILE,
+      depth: this.depth
     }
   }
 }
+
 class FolderContent extends Content {
-  constructor (id, name, path) {
+  constructor (id, name, path, depth) {
     super(folderTypeName, name)
     this.id = id
     this.name = name
     this.path = path
-  }
-
-  getFileJson () {
-    return {
-      name: this.text,
-      path: this.path,
-      children: []
-    }
+    this.depth = depth
   }
 
   getNodeJson () {
     return {
       id: this.id,
       name: this.name,
-      category: category.folder
+      category: CATEGORY.FOLDER,
+      depth: this.depth
     }
   }
 }
+
 class TagContent extends Content {
   constructor (id, name) {
     super(tagTypeName, name)
@@ -65,7 +55,7 @@ class TagContent extends Content {
     return {
       id: this.id,
       name: this.name,
-      category: category.tag
+      category: CATEGORY.TAG
     }
   }
 }
