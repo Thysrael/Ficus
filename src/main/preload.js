@@ -1,4 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import fs from 'fs-extra'
+import path from 'path'
+import { isFileInDirectory, isMarkdownExtname } from './helper/path'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   minWindow: () => ipcRenderer.send('window-min'),
@@ -40,4 +43,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   aboutUs: () => ipcRenderer.invoke('main::about'),
 
   passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback)
+})
+
+contextBridge.exposeInMainWorld('pathAPI', {
+  join: path.join,
+  relative: path.relative,
+  existSync: fs.pathExistsSync,
+  isMarkdownExtname,
+  sep: () => path.sep,
+  isFileInDirectory
 })
