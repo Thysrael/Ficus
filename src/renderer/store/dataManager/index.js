@@ -38,6 +38,10 @@ const mutations = {
   },
   redo (state) {
     state.treeManager.redo()
+  },
+
+  rename (state, pathInfo) {
+    state.treeManager.rename(pathInfo.oldPath, pathInfo.newPath)
   }
 }
 

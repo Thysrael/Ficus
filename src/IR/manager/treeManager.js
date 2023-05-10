@@ -1,3 +1,4 @@
+import { getRenamePath } from '@/renderer/utils/pathHelpter'
 import { IRTree } from '../component/tree'
 import { IdMarker } from '../helper/counter'
 
@@ -29,6 +30,20 @@ class TreeManager {
 
   deleteCached (filepath) {
     this._removeCached(filepath)
+  }
+
+  rename (oldPath, newPath) {
+    this._cached.forEach((value, oldFilePath) => {
+      const newFilePath = getRenamePath(oldPath, newPath, oldFilePath)
+      if (newFilePath !== oldFilePath) {
+        this._replacePath(oldFilePath, newFilePath, value)
+      }
+    })
+  }
+
+  _replacePath (oldPath, newPath, value) {
+    this._cached.remove(oldPath)
+    this._cached.set(newPath, value)
   }
 
   /**

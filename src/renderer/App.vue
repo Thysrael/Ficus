@@ -323,46 +323,25 @@ export default {
         myAlert.value = true
         fileName.value = ''
       } else {
-        const father = findFather(obj, data.value[0]).res
-        for (let i = 0; i < father.children.length; i++) {
-          if (father.children[i].name === fileName.value) {
-            message.value = '输入的名称已存在'
-            myAlert.value = true
-            fileName.value = ''
-            return
-          }
+        let newPath = window.pathAPI.join(obj.path, '..', fileName.value)
+        if (obj.type === 'file' && !window.pathAPI.isMarkdownExtname(newPath)) {
+          newPath += '.md' // 文件后缀非markdown时自动添加
+        }
+        if (window.pathAPI.existSync(newPath)) {
+          message.value = '输入的名称已存在'
+          myAlert.value = true
+          fileName.value = ''
+          return
         }
         const oldPath = obj.path
-        obj.name = fileName.value
-        obj.absolutePath.pop()
-        obj.absolutePath.push(fileName.value)
-        // obj.path = path.join(father.path, fileName.value)
-        obj.path = father.path + pathSeq + fileName.value
-        const newPath = obj.path
         window.electronAPI.renameFileOrFolder(newPath, oldPath)
-        if (obj.type === 'folder') {
-          // 需要递归地修改孩子节点的path和absolutePath
-          for (let i = 0; i < obj.children.length; i++) {
-            changePathAfterFatherRename(obj.children[i], obj)
-          }
-        }
+        
+        // 刷新缓存
+        store.commit('filesManager/rename', { oldPath, newPath })
+
         bus.emit('updateTabName')
         fileName.value = ''
         showDialog.value = false
-      }
-    }
-
-    function changePathAfterFatherRename (obj, father) {
-      // obj.path = path.join(father.path, obj.name)
-      obj.path = father.path + pathSeq + obj.name
-      const last = obj.absolutePath.pop()
-      obj.absolutePath.pop()
-      obj.absolutePath.push(father.name)
-      obj.absolutePath.push(last)
-      if (obj.type === 'folder') {
-        for (let i = 0; i < obj.children.length; i++) {
-          changePathAfterFatherRename(obj.children[i], obj)
-        }
       }
     }
 
