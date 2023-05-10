@@ -24,7 +24,7 @@ class FileContent extends Content {
 
   getNodeJson () {
     return {
-      id: `${this.id}`,
+      id: this.id,
       name: this.name,
       category: category.file
     }
@@ -48,7 +48,7 @@ class FolderContent extends Content {
 
   getNodeJson () {
     return {
-      id: `${this.id}`,
+      id: this.id,
       name: this.name,
       category: category.folder
     }
@@ -63,7 +63,7 @@ class TagContent extends Content {
 
   getNodeJson () {
     return {
-      id: `${this.id}`,
+      id: this.id,
       name: this.name,
       category: category.tag
     }
