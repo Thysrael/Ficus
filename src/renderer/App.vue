@@ -223,7 +223,6 @@ export default {
     // 打开文件夹
     bus.on('openDir', (obj) => {
       data.value = [obj]
-      bus.emit('updateOpenFiles', obj)
       if (store.getters.getMode === 3) {
         bus.emit('changeToGraph')
       }

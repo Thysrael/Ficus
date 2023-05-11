@@ -295,28 +295,6 @@ export default {
       }
     }
 
-    // 如果在文件夹中已经打开，则返回文件夹内的对象，否则返回files[i]
-    function contain (file, arr) {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].path === file.path) {
-          return {
-            has: true,
-            res: arr[i]
-          }
-        }
-        if (arr[i].type === 'folder') {
-          const obj = contain(file, arr[i].children)
-          if (obj.has) {
-            return obj
-          }
-        }
-      }
-      return {
-        has: false,
-        res: file
-      }
-    }
-
     // 新建项目
     async function newMyProject () {
       const obj = await window.electronAPI.newFicusVault()
@@ -339,11 +317,7 @@ export default {
     async function openMyFile () {
       const files = await window.electronAPI.openFile()
       for (let i = 0; i < files.length; i++) {
-        // 特殊场景：打开文件夹，再次从本地打开文件夹中已有的文件
-        // 策略：如果在文件夹中已经打开，则使用文件夹内的对象，否则使用files[i]
-        // 必要性：确保前端对每一个文件只维护一个缓存，保证rename的同步
-        const obj = contain(files[i], props.data)
-        bus.emit('openNewTab', obj.res)
+        bus.emit('openNewTab', files[i])
       }
     }
 
