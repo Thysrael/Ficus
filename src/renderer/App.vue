@@ -84,7 +84,7 @@ export default {
 
     onMounted(async () => {
       store.dispatch('LISTEN_REFRESH')
-
+      store.dispatch('LISTEN_OPENINITFILE')
       pathSeq = await window.electronAPI.getPathSep()
       window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight + 'px'

@@ -42,7 +42,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getLinks: () => ipcRenderer.invoke('ficus::getLinks'),
   aboutUs: () => ipcRenderer.invoke('main::about'),
 
-  passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback)
+  passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback),
+  openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback)
 })
 
 contextBridge.exposeInMainWorld('pathAPI', {
