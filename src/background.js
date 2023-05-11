@@ -66,9 +66,10 @@ async function createWindow () {
     shell.openExternal(detail.url)
     return { action: 'deny' }
   })
-  const initInfo = initPath('C:\\Users\\10901\\Documents\\MDTest\\1.md')
-  await win.webContents.send('ficus::open-init-file', initInfo)
-
+  if (process.argv.length > 1) {
+    const initInfo = initPath(process.argv[1])
+    await win.webContents.send('ficus::open-init-file', initInfo)
+  }
   // 令窗口初始为最大
   if (isOsx) {
     win.setFullScreen(true)
