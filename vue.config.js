@@ -9,7 +9,8 @@ module.exports = defineConfig({
         nsis: {
           // allowToChangeInstallationDirectory: true,
           oneClick: true,
-          perMachine: false
+          perMachine: false,
+          include: './build/installer.nsh'
         },
         extraResources: {
           from: './build/exec/updater.exe',
