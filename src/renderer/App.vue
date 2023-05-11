@@ -305,10 +305,10 @@ export default {
         } else {
           window.electronAPI.renameFileOrFolder(newPath, oldPath)
 
-          // 刷新缓存
+          // 刷新缓存和打开的文件夹
           store.commit('filesManager/rename', { oldPath, newPath })
+          bus.emit('renameOpenFiles', { oldPath, newPath })
 
-          bus.emit('updateTabName')
           fileName.value = ''
           showDialog.value = false
         }

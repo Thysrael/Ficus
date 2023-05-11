@@ -49,6 +49,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 contextBridge.exposeInMainWorld('pathAPI', {
   join: path.join,
   relative: path.relative,
+  basename: path.basename,
   existSync: fs.pathExistsSync,
   isMarkdownExtname,
   sep: () => path.sep,

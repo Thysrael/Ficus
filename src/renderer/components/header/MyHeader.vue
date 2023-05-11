@@ -111,6 +111,7 @@ import ModeChoose from '@/renderer/components/header/ModeChoose'
 import TabList from '@/renderer/components/header/TabList'
 import DataManager from '@/IR/manager'
 import store from '@/renderer/store'
+import { getRenamePath } from '@/renderer/utils/pathHelpter'
 
 export default {
   name: 'MyHeader',
@@ -350,10 +351,6 @@ export default {
       return openFiles.value.find(openfile => openfile.path === file.path) !== undefined
     }
 
-    bus.on('updateTabName', () => {
-      update()
-    })
-
     // 保证openFiles和打开的文件夹同引用，不同引用只是会使得rename出问题
     function inDirTree (file, arr) {
       for (let i = 0; i < arr.length; i++) {
@@ -385,6 +382,15 @@ export default {
         }
         bus.emit('openNewTab', file)
       }
+    })
+
+    bus.on('renameOpenFiles', ({ oldPath, newPath }) => {
+      for (const file of openFiles.value) {
+        file.path = getRenamePath(oldPath, newPath, file.path)
+        file.absolutePath = file.path.split(window.pathAPI.sep)
+        file.name = window.pathAPI.basename(file.path)
+      }
+      update()
     })
 
     bus.on('updateOpenFiles', (root) => {
