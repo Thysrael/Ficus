@@ -52,6 +52,6 @@ contextBridge.exposeInMainWorld('pathAPI', {
   basename: path.basename,
   existSync: fs.pathExistsSync,
   isMarkdownExtname,
-  sep: () => path.sep,
+  sep: path.sep,
   isFileInDirectory
 })

@@ -134,8 +134,7 @@ export default {
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
-      path: '',
-      content: '未打开任何文件'
+      path: ''
     }) // 维护现在打开的文件对象
     const content = ref('') // 当前工作区文本内容
     const theme = ref('classic') // 当前主题
@@ -148,10 +147,11 @@ export default {
       if (contain(obj)) {
         console.log('file already open!')
       } else {
-        openFiles.value.push(obj)
+        const { absolutePath, path, name, type, offset } = obj
+        openFiles.value.push({ absolutePath, path, name, type, offset })
         update()
       }
-      store.dispatch('filesManager/setCurrentFile', obj.path).then(() => {
+      store.dispatch('filesManager/setCurrentFile', { filepath: obj.path }).then(() => {
         obj.content = store.getters['filesManager/markdown']
         if (store.getters.getMode === -1) {
           // 正在展示欢迎界面，默认进入纯文本模式
@@ -213,7 +213,6 @@ export default {
       // 有可能路径不存在
       if (curObj.value.path) {
         window.electronAPI.saveFile(curObj.value.path, content.value)
-        curObj.value.content = content.value
       }
     }
 
@@ -240,17 +239,18 @@ export default {
     bus.on('sendToTextUI', (obj) => {
       // 写回content
       writeBack()
-      content.value = obj.content
-      curObj.value = obj
-      window.electronAPI.changePath(curObj.value.path)
-      if (curObj.value.name !== '') {
-        store.dispatch('filesManager/setCurrentFile', obj.path)
-        getOutLine()
-        getTags()
-        getCites()
-      }
-      updateBread()
-      sendContentByMode()
+      store.dispatch('filesManager/setCurrentFile', { filepath: obj.path }).then(() => {
+        content.value = store.getters['filesManager/markdown']
+        curObj.value = obj
+        window.electronAPI.changePath(curObj.value.path)
+        if (curObj.value.name !== '') {
+          getOutLine()
+          getTags()
+          getCites()
+        }
+        updateBread()
+        sendContentByMode()
+      })
     })
 
     // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
@@ -351,59 +351,23 @@ export default {
       return openFiles.value.find(openfile => openfile.path === file.path) !== undefined
     }
 
-    // 保证openFiles和打开的文件夹同引用，不同引用只是会使得rename出问题
-    function inDirTree (file, arr) {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].path === file.path) {
-          return {
-            has: true,
-            res: arr[i]
-          }
-        }
-        if (arr[i].type === 'folder') {
-          const obj = inDirTree(file, arr[i].children)
-          if (obj.has) {
-            return obj
-          }
-        }
-      }
-      return {
-        has: false,
-        res: file
-      }
-    }
-
     bus.on('openRefFile', async (obj) => {
-      let file = await window.electronAPI.linkToFile(curObj.value.path, obj.path)
+      const file = await window.electronAPI.linkToFile(curObj.value.path, obj.path)
       if (file !== undefined) {
-        const obj = inDirTree(file, props.data)
-        if (obj.has) {
-          file = obj.res
-        }
         bus.emit('openNewTab', file)
       }
     })
 
     bus.on('renameOpenFiles', ({ oldPath, newPath }) => {
       for (const file of openFiles.value) {
+        if (file.path === curObj.value.path) {
+          curObj.value.path = getRenamePath(oldPath, newPath, file.path)
+          curObj.value.absolutePath = file.path.split(window.pathAPI.sep)
+          curObj.value.name = window.pathAPI.basename(file.path)
+        }
         file.path = getRenamePath(oldPath, newPath, file.path)
         file.absolutePath = file.path.split(window.pathAPI.sep)
         file.name = window.pathAPI.basename(file.path)
-      }
-      update()
-    })
-
-    bus.on('updateOpenFiles', (root) => {
-      for (let i = 0; i < openFiles.value.length; i++) {
-        const obj = inDirTree(openFiles.value[i], [root])
-        if (obj.has) {
-          // 指向不同引用
-          if (obj.res.content === undefined) {
-            // 新打开的文件夹没有content字段
-            obj.res.content = openFiles.value[i].content
-          }
-          openFiles.value[i] = obj.res
-        }
       }
       update()
     })
