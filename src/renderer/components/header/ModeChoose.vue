@@ -36,8 +36,18 @@ export default {
 
     function changeEditMode (mode) {
       editMode.value = mode
+      bus.emit('changeShowMode', mode)
       bus.emit('changeMode', mode)
     }
+
+    /**
+     * 模式切换
+     * @param obj {{mode: int}}
+     */
+
+    bus.on('changeModeChoose', (mode) => {
+      changeEditMode(mode)
+    })
 
     // // 回到进入榕视图之前的模式
     bus.on('backToEditMode', () => {

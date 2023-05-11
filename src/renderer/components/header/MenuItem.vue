@@ -1,11 +1,16 @@
 <template>
   <li>
-    <div
+    <div style="display: flex">
+      <div style="width: 10px;padding-left: 5px">
+        {{ item.selected ? `√`: ``}}
+      </div>
+      <div
         style="width: 200px;height: 23px;"
         @mouseenter="hover = true"
         @mouseout="hover = false"
         class="flex content-center items-center"
     >
+
       <p class="ml-4" style="width: 170px; font-size: 12px; user-select: none;">
         {{ item.name }}
       </p>
@@ -22,6 +27,7 @@
           <path d="M6.5,8.5l6,7l6-7H6.5z"></path>
         </g>
       </svg>
+    </div>
     </div>
   </li>
 </template>

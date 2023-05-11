@@ -567,7 +567,7 @@ export default {
 .header1-button {
   position: absolute;
   top: 1px;
-  right: 0;
+  right: 5px;
 }
 
 .header1-button:hover path {
