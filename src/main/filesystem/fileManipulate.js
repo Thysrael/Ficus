@@ -227,6 +227,18 @@ exports.paste = async (srcPath, destDir, projPath) => {
 }
 
 /**
+ * 获得初始文件及其所在文件夹信息
+ * @param {string} initPath 初始文件/文件夹路径
+ */
+exports.initPath = (initPath) => {
+  if (isValidFolderPath(initPath)) {
+    return [makeFolderStat(initPath), null]
+  } else {
+    return [makeFolderStat(path.join(initPath, '..')), makeFileStat(initPath)]
+  }
+}
+
+/**
  * 获得一个不存在的文件路径
  * @param {string} filePath
  * @returns

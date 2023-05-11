@@ -6,6 +6,7 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
   getFileFromUser,
+  initPath,
   linkToFile, newFileFromDialog,
   newFileFromSidebar, newFolder, renameFileOrFolder,
   saveFile,
@@ -46,11 +47,11 @@ async function createWindow () {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    // if (!process.env.IS_TEST) win.webContents.openDevTools()
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://.de/index.html')
+    await win.loadURL('app://.de/index.html')
   }
   win.setMinimumSize(800, 600)
   win.setMenu(null)
@@ -65,6 +66,8 @@ async function createWindow () {
     shell.openExternal(detail.url)
     return { action: 'deny' }
   })
+  const initInfo = initPath('C:\\Users\\10901\\Documents\\MDTest\\1.md')
+  await win.webContents.send('ficus::open-init-file', initInfo)
 
   // 令窗口初始为最大
   if (isOsx) {
