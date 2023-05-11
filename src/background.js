@@ -47,7 +47,7 @@ async function createWindow () {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    // if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -66,7 +66,7 @@ async function createWindow () {
     shell.openExternal(detail.url)
     return { action: 'deny' }
   })
-  if (process.argv.length > 1) {
+  if (!isDevelopment && process.argv.length > 1) {
     const initInfo = initPath(process.argv[1])
     await win.webContents.send('ficus::open-init-file', initInfo)
   }
