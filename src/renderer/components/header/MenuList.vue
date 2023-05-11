@@ -15,7 +15,7 @@
           class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
-    <ul v-if="secondShow">
+    <ul v-if="secondShow" :style="`margin-top: ${secondOffset}px`">
       <MenuItem
           :item="navItem"
           v-for="(navItem, index) in secondItems"
@@ -25,7 +25,7 @@
           class="hover:bg-gray-200 bg-white shadow-md"
       />
     </ul>
-    <ul v-if="thirdShow">
+    <ul v-if="thirdShow" :style="`margin-top: ${secondOffset + thirdOffset}px`">
       <MenuItem
           :item="navItem"
           v-for="(navItem, index) in thirdItems"
@@ -204,11 +204,14 @@ export default {
     }, {
       name: '视图和布局',
       children: [{
-        name: 'Ficus模式'
+        name: '文本模式',
+        selected: false
       }, {
-        name: '源码模式'
+        name: '源码模式',
+        selected: false
       }, {
-        name: '文本模式'
+        name: 'Ficus模式',
+        selected: false
       },
       //   {
       //   name: '主题偏好',
@@ -219,9 +222,11 @@ export default {
       //   }]
       // },
       {
-        name: '开发者工具'
+        name: '开发者工具',
+        selected: false
       }, {
-        name: '打字机模式'
+        name: '打字机模式',
+        selected: false
       }]
     }, {
       name: '帮助',
@@ -236,12 +241,15 @@ export default {
         }]
     }]
 
+    const modeArray = items[4].children
+
     const secondItems = ref([{}])
     const secondShow = ref(false)
+    const secondOffset = ref(0)
+    const thirdOffset = ref(0)
     const thirdItems = ref([{}])
     const thirdShow = ref(false)
     const menu = ref(false)
-    let isTypeWriteMode = false
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = proxy
@@ -268,17 +276,23 @@ export default {
         if (layer === 1) {
           secondItems.value = op.children
           secondShow.value = true
+          secondOffset.value = index * 23
           thirdShow.value = false
+          thirdOffset.value = 0
         } else {
           thirdItems.value = op.children
           thirdShow.value = true
+          thirdOffset.value = index * 23
         }
       } else {
         if (layer === 1) {
           secondShow.value = false
           thirdShow.value = false
+          secondOffset.value = 0
+          thirdOffset.value = 0
         } else if (layer === 2) {
           thirdShow.value = false
+          thirdOffset.value = 0
         }
       }
     }
@@ -452,10 +466,16 @@ export default {
             break
           case '开发者工具':
             bus.emit('cmd::execute', 'window.open-dev-tool')
+            if (op.selected) {
+              window.electronAPI.closeDev()
+            } else {
+              window.electronAPI.openDev()
+            }
+            op.selected = !op.selected
             break
           case '打字机模式':
-            isTypeWriteMode = !isTypeWriteMode
-            bus.emit('setTypewriterMode', { enable: isTypeWriteMode })
+            op.selected = !op.selected
+            bus.emit('setTypewriterMode', { enable: op.selected })
             break
           case '导出HTML文件':
             if (mode === 0 || mode === 1) {
@@ -481,14 +501,14 @@ export default {
               bus.emit('showMyAlert', { message: '当前不在树视图或图视图，不能导出PNG' })
             }
             break
-          case 'Ficus模式':
-            bus.emit('changeMode', 2)
-            break
           case '文本模式':
-            bus.emit('changeMode', 0)
+            bus.emit('changeModeChoose', 0)
             break
           case '源码模式':
-            bus.emit('changeMode', 1)
+            bus.emit('changeModeChoose', 1)
+            break
+          case 'Ficus模式':
+            bus.emit('changeModeChoose', 2)
             break
           case '关于':
             await window.electronAPI.aboutUs()
@@ -500,8 +520,24 @@ export default {
       }
     }
 
+    /**
+     * 模式显示
+     * @param obj {{mode: int}}
+     */
+
+    bus.on('changeShowMode', (mode) => {
+      console.log(modeArray)
+      for (let i = 0; i <= 2; i++) {
+        modeArray[i].selected = (i === mode)
+      }
+    })
+
     function closeMenu () {
       menu.value = false
+      secondOffset.value = 0
+      thirdOffset.value = 0
+      secondShow.value = false
+      thirdShow.value = false
       const selection = window.getSelection()
       selection.removeAllRanges()
       if (range instanceof Range) {
@@ -518,7 +554,9 @@ export default {
       secondItems,
       thirdItems,
       secondShow,
+      secondOffset,
       thirdShow,
+      thirdOffset,
       menu,
       closeMenu,
       show,
