@@ -81,6 +81,7 @@ const getters = {
   getXY (state) {
     return state.xy.x + '+' + state.xy.y
   },
+  // -1：表示当前模式为欢迎界面，0表示纯文本，1表示源码，2表示树形，3表示图
   getMode (state) {
     return state.mode.value
   },
