@@ -1,11 +1,11 @@
 <template>
   <div class="items-center content-center"
-       :class="showPage === 0 ? `bg-SwissCoffee-500` : ``">
-    <WelcomePage style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="showPage === 0"></WelcomePage>
-    <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="showPage === 1"></TextUI>
-    <FicTree v-show="showPage === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
-    <FicGraph v-show="showPage === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
-    <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="showPage === 1">
+       :class="mode === -1 ? `bg-SwissCoffee-500` : ``">
+    <WelcomePage style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === -1"></WelcomePage>
+    <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === 1 || mode === 0"></TextUI>
+    <FicTree v-show="mode === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
+    <FicGraph v-show="mode === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
+    <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1">
       <div class="myText items-center content-center text-center w-full col-span-3">
         {{ wordCnt }} 词
       </div>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="allInformation"
-           v-if="showPage === 1 && showInfoWin === true"
+           v-if="(mode === 1 || mode === 0) && showInfoWin === true"
            id="popoverRef">
       <div>
           字数统计信息
@@ -37,22 +37,25 @@ import { computed, ref } from 'vue'
 import bus from 'vue3-eventbus'
 import FicGraph from '@/renderer/components/mindEditor/FicGraph'
 import WelcomePage from '@/renderer/components/textArea/WelcomePage.vue'
+import store from '@/renderer/store'
 
 export default {
   name: 'TextArea',
   components: { WelcomePage, FicGraph, FicTree, TextUI },
   setup () {
     const showInfoWin = ref(false)
-    const showPage = ref(0) // 0表示默认显示欢迎界面，1表示textUI，2表示ficus视图
+    const mode = computed(() => {
+      return store.getters.getMode
+    })
     const wordCnt = ref(0)
     const lineCnt = ref(0)
     const time = computed(() => {
       return Math.floor(wordCnt.value / 300)
     })
 
-    bus.on('chooseToShowPage', (num) => {
-      showPage.value = num
-    })
+    // bus.on('chooseToShowPage', (num) => {
+    //   showPage.value = num
+    // })
 
     bus.on('getInfoOfFile', (obj) => {
       wordCnt.value = obj.wordCnt
@@ -60,10 +63,10 @@ export default {
     })
 
     bus.on('exportPNG', () => {
-      if (showPage.value === 2) {
+      if (mode.value === 2) {
         // 树视图
         bus.emit('exportTreePNG')
-      } else if (showPage.value === 3) {
+      } else if (mode.value === 3) {
         // 图视图
         bus.emit('exportGraphPNG')
       } else {
@@ -73,7 +76,7 @@ export default {
 
     return {
       showInfoWin,
-      showPage,
+      mode,
       wordCnt,
       lineCnt,
       time
