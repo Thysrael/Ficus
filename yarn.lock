@@ -5360,7 +5360,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@4.3.4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4:
+debug@4, debug@4.3.4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4:
   version "4.3.4"
   resolved "https://mirrors.cloud.tencent.com/npm/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -5883,6 +5883,21 @@ electron-devtools-installer@^3.1.0:
     semver "^7.2.1"
     tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
+
+electron-is-accelerator@^0.1.0:
+  version "0.1.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
+  integrity sha1-UJ5RDCala1Xhf4Y6SwThEYRqsns=
+
+electron-localshortcut@^3.2.1:
+  version "3.2.1"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-localshortcut/-/electron-localshortcut-3.2.1.tgz#cfc83a3eff5e28faf98ddcc87f80a2ce4f623cd3"
+  integrity sha512-DWvhKv36GsdXKnaFFhEiK8kZZA+24/yFLgtTwJJHc7AFgDjNRIBJZ/jq62Y/dWv9E4ypYwrVWN2bVrCYw1uv7Q==
+  dependencies:
+    debug "^4.0.1"
+    electron-is-accelerator "^0.1.0"
+    keyboardevent-from-electron-accelerator "^2.0.0"
+    keyboardevents-areequal "^0.2.1"
 
 electron-log@^4.0.6:
   version "4.4.8"
@@ -8655,6 +8670,16 @@ jszip@^3.1.0:
     readable-stream "~2.3.6"
     setimmediate "^1.0.5"
 
+keyboardevent-from-electron-accelerator@^2.0.0:
+  version "2.0.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/keyboardevent-from-electron-accelerator/-/keyboardevent-from-electron-accelerator-2.0.0.tgz#ace21b1aa4e47148815d160057f9edb66567c50c"
+  integrity sha512-iQcmNA0M4ETMNi0kG/q0h/43wZk7rMeKYrXP7sqKIJbHkTU8Koowgzv+ieR/vWJbOwxx5nDC3UnudZ0aLSu4VA==
+
+keyboardevents-areequal@^0.2.1:
+  version "0.2.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/keyboardevents-areequal/-/keyboardevents-areequal-0.2.2.tgz#88191ec738ce9f7591c25e9056de928b40277194"
+  integrity sha512-Nv+Kr33T0mEjxR500q+I6IWisOQ0lK1GGOncV0kWE6n4KFmpcu7RUX5/2B0EUtX51Cb0HjZ9VJsSY3u4cBa0kw==
+
 keyv@^3.0.0:
   version "3.1.0"
   resolved "https://mirrors.cloud.tencent.com/npm/keyv/-/keyv-3.1.0.tgz#ecc228486f69991e49e9476485a5be1e8fc5c4d9"
@@ -9493,11 +9518,6 @@ module-alias@^2.2.2:
   version "2.2.2"
   resolved "https://mirrors.cloud.tencent.com/npm/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
-
-mousetrap@^1.6.5:
-  version "1.6.5"
-  resolved "https://mirrors.cloud.tencent.com/npm/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
-  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
