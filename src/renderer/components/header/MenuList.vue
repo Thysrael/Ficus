@@ -554,7 +554,6 @@ export default {
      */
 
     bus.on('changeShowMode', (mode) => {
-      console.log(modeArray)
       for (let i = 0; i <= 2; i++) {
         modeArray[i].selected = (i === mode)
       }
