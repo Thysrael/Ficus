@@ -1,7 +1,9 @@
 <template>
-  <div class="h-full"
-       style="margin: 0; padding: 0; width: 800px"
-       id="mindMapContainer">
+  <div class="flex flex-wrap block place-content-center align-middle content-center px-8"
+       style="margin: 0; padding: 0; width: 100%; height: 100%">
+    <div id="mindMapContainer"
+         style="margin: 0; padding: 0; width: 800px; height: 100%">
+    </div>
   </div>
 </template>
 
@@ -23,6 +25,7 @@ export default defineComponent({
     let ficTree = null
 
     onMounted(() => {
+      console.log('test')
       ficTree = new MindMap({
         el: document.getElementById('mindMapContainer'),
         data: {
@@ -55,6 +58,36 @@ export default defineComponent({
       ficTree.on('node_active', (node, nodeList) => {
         activeNodes.value = nodeList
       })
+      ficTree.on('data_change', (data, dataList) => {
+        ficTree.resize()
+      })
+    })
+
+    // 监听data变化
+    bus.on('sendToFicTree', (obj) => {
+      // getData(obj).then(drawFicTree)
+      // console.log(ficTree)
+      ficTree.setData({
+        data: {
+          text: '根节点'
+        },
+        children: [
+          {
+            data: {
+              text: '二级节点'
+            },
+            children: []
+          },
+          {
+            data: {
+              text: Math.random().toString()
+            },
+            children: []
+          }
+        ]
+      })
+
+      ficTree.render()
     })
 
     // bus.emit('saveChangeMindUI', msg[0])
@@ -100,43 +133,6 @@ export default defineComponent({
 
     bus.on('exportTreePNG', () => {
       exportImg('png')
-    })
-
-    // 监听data变化
-    bus.on('sendToFicTree', (obj) => {
-      // getData(obj).then(drawFicTree)
-      ficTree = new MindMap({
-        el: document.getElementById('mindMapContainer'),
-        data: {
-          data: {
-            text: '根节点'
-          },
-          children: [
-            {
-              data: {
-                text: '二级节点'
-              },
-              children: [
-                {
-                  data: {
-                    text: '三级节点'
-                  },
-                  children: []
-                }
-              ]
-            }
-          ]
-        },
-        mousewheelAction: 'zoom',
-        mousewheelMoveStep: 100,
-        initRootNodePosition: ['left', 'center']
-      })
-
-      ficTree.render()
-
-      ficTree.on('node_active', (node, nodeList) => {
-        activeNodes.value = nodeList
-      })
     })
 
     return {
