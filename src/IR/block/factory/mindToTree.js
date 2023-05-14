@@ -15,29 +15,29 @@ function mindToTreeRecursion (mindJson) {
       nowNode = buildRootNode()
       break
     case paragraphTypeName:
-      nowNode = buildParagraph(mindJson.text)
+      nowNode = buildParagraph(mindJson.data.text)
       break
     case headingTypeName:
-      nowNode = buildHeading(mindJson.text, mindJson.level)
+      nowNode = buildHeading(mindJson.data.text, mindJson.level)
       nowLevel = mindJson.level
       break
     case frontmatterTypeName:
-      nowNode = buildFrontMatter(mindJson.text)
+      nowNode = buildFrontMatter(mindJson.data.text)
       break
     case thematicBreakTypeName:
-      nowNode = buildThematicBreak(mindJson.text)
+      nowNode = buildThematicBreak(mindJson.data.text)
       break
     case codeblockTypeName:
-      nowNode = buildCodeBlock(mindJson.text, mindJson.style, mindJson.lang)
+      nowNode = buildCodeBlock(mindJson.data.text, mindJson.style, mindJson.lang)
       break
     case mathblockTypeName:
-      nowNode = buildMathBlock(mindJson.text, mindJson.style)
+      nowNode = buildMathBlock(mindJson.data.text, mindJson.style)
       break
     case htmlblockTypeName:
-      nowNode = buildHtmlBlock(mindJson.text)
+      nowNode = buildHtmlBlock(mindJson.data.text)
       break
     case diagramTypeName:
-      nowNode = buildDiagramBlock(mindJson.text, mindJson.style, mindJson.lang)
+      nowNode = buildDiagramBlock(mindJson.data.text, mindJson.style, mindJson.lang)
       break
     case tableTypeName:
       nowNode = buildTable(mindJson.cells)

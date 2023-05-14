@@ -14,9 +14,11 @@ class Content {
 
   getMindJson () {
     return {
-      name: this.text,
-      text: this.text,
-      type: this.typename,
+      data: {
+        name: this.text,
+        text: this.text,
+        type: this.typename
+      },
       children: []
     }
   }
@@ -145,7 +147,7 @@ class HeadingContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.level = this.depth
+    mindJson.data.level = this.depth
     return mindJson
   }
 
