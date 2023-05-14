@@ -13,7 +13,7 @@
       </div>
       <div id="popoverRef"
            v-show="popoverShow && hasChildren"
-           class="fixed items-center overflow-y-auto content-center transition-all border-0 shadow-xl z-50 font-normal text-sm text-left no-underline break-words rounded-lg "
+           class="fixed items-center overflow-y-auto content-center transition-all border-0 shadow-xl z-50 font-normal text-sm text-left no-underline break-words"
            @mouseleave.stop="togglePopover()"
            style="font-family: 'Noto Sans SC'; background-color: #727B85; max-height: 500px">
         <div class="px-3 py-2">

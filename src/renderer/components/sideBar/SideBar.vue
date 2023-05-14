@@ -109,13 +109,13 @@
     </div>
     <div>
       <div class="header items-center content-center" style="z-index: 10">
-        <div class="manage items-center content-center" style="display: flex">
+        <div class="manage items-center content-center mr-2" style="display: flex">
           <text class="myText pl-2" style="user-select: none;">
             {{ textWords }}
           </text>
           <button class="header1-button" @click="handleFlush">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-                 width="15" height="18" viewBox="0 0 9.848484992980957 10">
+                 width="18" height="18" viewBox="0 0 9.848484992980957 10">
               <defs>
                 <clipPath id="master_svg0_71_2057">
                   <rect x="0" y="0" width="9.848484992980957" height="10" rx="0"/>

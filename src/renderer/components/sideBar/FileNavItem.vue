@@ -15,6 +15,17 @@
         :class="isSelected ? `selectedElement` : `nonSelectedElement`"
         @click="toggle(1)"
     >
+
+      <div>
+        <svg v-if="item.type === 'folder' && hasChildren && !expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path d="M9,18l7-6L9,6V18z" fill="#474747" fill-opacity="1"></path> <rect class="st0" width="24" height="24"></rect><rect class="st0" width="24" height="24"></rect>
+          </g>
+        </svg>
+      </div>
+
       <div>
         <svg v-if="item.type === 'folder' && hasChildren && expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -270,9 +281,9 @@ export default {
 }
 
 .nonSelectedElement:hover {
-  color: #a8a8a8;
   background-color: #efefef;
   border-radius: 6px;
+  font-weight: 900;
   -webkit-transition: background-color .2s;
   -webkit-transition:left .3s, background-color .2s;
 }
