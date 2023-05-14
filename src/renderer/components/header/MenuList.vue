@@ -39,11 +39,9 @@
 </template>
 
 <script>
-import { getCurrentInstance, ref, watch, onMounted } from 'vue'
+import { getCurrentInstance, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuItem from '@/renderer/components/header/MenuItem'
-import Mousetrap from 'mousetrap'
-import keyBoardMap from '@/renderer/utils/keyboardbinding/keyBoardMap'
 import store from '@/renderer/store'
 
 export default {
@@ -248,16 +246,6 @@ export default {
     const { proxy, ctx } = getCurrentInstance()
     const _this = proxy
     let range = ''
-
-    onMounted(() => {
-      Mousetrap.reset()
-      Mousetrap.bind(keyBoardMap.get('edit.undo'), function () {
-        bus.emit('undoCurTab')
-      })
-      Mousetrap.bind(keyBoardMap.get('edit.redo'), function () {
-        bus.emit('redoCurTab')
-      })
-    })
 
     watch(menu, (newValue, oldValue) => {
       if (newValue) {

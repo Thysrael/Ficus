@@ -1,6 +1,7 @@
 import { bus } from 'vue3-eventbus'
 import { createStore } from 'vuex'
 import filesManager from './dataManager'
+import commands from '../commands'
 
 const state = {
   xy: {
@@ -56,6 +57,14 @@ const actions = {
   LISTEN_OPENINITFILE ({ commit }) {
     window.electronAPI.openInitFile((e, value) => {
       commit('OPENINITFILE', value)
+    })
+  },
+  LISTEN_KEYBOARD_EVENT () {
+    window.electronAPI.keyboardEvent((e, eventId) => {
+      const command = commands.filter(e => e.id === eventId)
+      if (command[0]) {
+        command[0].execute()
+      }
     })
   }
 }

@@ -43,7 +43,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   aboutUs: () => ipcRenderer.invoke('main::about'),
 
   passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback),
-  openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback)
+  openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback),
+  keyboardEvent: (callback) => ipcRenderer.on('ficus::keyboard-event', callback)
 })
 
 contextBridge.exposeInMainWorld('pathAPI', {

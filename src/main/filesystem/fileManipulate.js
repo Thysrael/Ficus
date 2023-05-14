@@ -261,5 +261,5 @@ function makeValidFilePath (filePath) {
     }
     id += 1
   }
-  return 'ficus.md' // FIXME
+  return 'ficus-error.md'
 }

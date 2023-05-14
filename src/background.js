@@ -21,6 +21,7 @@ import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
 import App from './main/app'
+import KeyBinding from './main/keybinding'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 let ficusPath = ''
@@ -249,7 +250,7 @@ app.on('ready', async () => {
     shell.openExternal('https://ficus.world/')
   })
   /* window */
-  const win = createWindow()
+  const win = await createWindow()
   ipcMain.on('window-min', (e) => {
     const win = BrowserWindow.fromWebContents(e.sender)
     if (isOsx && win.isFullScreen()) {
@@ -285,6 +286,9 @@ app.on('ready', async () => {
     const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.closeDevTools()
   })
+
+  const keyBinding = new KeyBinding()
+  keyBinding.registerKeyHandlers(win)
 })
 
 // Exit cleanly on request from parent process in development mode.
