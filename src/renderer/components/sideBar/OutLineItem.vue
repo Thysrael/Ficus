@@ -62,6 +62,7 @@ export default {
 .outlineItem:hover {
   background-color: #e3e3e3;
   border-radius: 6px;
+  font-weight: 900;
   -webkit-transition: background-color .2s;
   -webkit-transition:left .3s, background-color .2s;
 }

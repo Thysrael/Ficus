@@ -4,6 +4,7 @@
     <div class="area-header-top flex flex-wrap content-center items-center" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
       <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
+           class="appIcon"
            style="position: absolute; left: 5px; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
       <MenuList :data="data"
                 class="absolute"
@@ -604,6 +605,11 @@ export default {
 .theme-element path {
   fill: #474747;
   fill-opacity: 1;
+}
+
+.appIcon:hover {
+  filter: invert(100%);
+  -webkit-transition: .3s, left .3s;
 }
 
 </style>
