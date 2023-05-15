@@ -9,7 +9,7 @@
 
 <script>
 import { defineComponent, onMounted, ref, shallowRef } from 'vue'
-import MindMap from 'simple-mind-map/dist/simpleMindMap.umd.min'
+import MindMap from 'simple-mind-map'
 import bus from 'vue3-eventbus'
 
 export default defineComponent({
@@ -38,12 +38,6 @@ export default defineComponent({
                 text: '二级节点'
               },
               children: []
-            },
-            {
-              data: {
-                text: '二级节点'
-              },
-              children: []
             }
           ]
         },
@@ -60,34 +54,16 @@ export default defineComponent({
       })
       ficTree.on('data_change', (data, dataList) => {
         ficTree.resize()
-      })
-    })
-
-    // 监听data变化
-    bus.on('sendToFicTree', (obj) => {
-      // getData(obj).then(drawFicTree)
-      // console.log(ficTree)
-      ficTree.setData({
-        data: {
-          text: '根节点'
-        },
-        children: [
-          {
-            data: {
-              text: '二级节点'
-            },
-            children: []
-          },
-          {
-            data: {
-              text: Math.random().toString()
-            },
-            children: []
-          }
-        ]
+        ficTree.view.reset()
       })
 
-      ficTree.render()
+      // 监听data变化
+      bus.on('sendToFicTree', (obj) => {
+        // getData(obj).then(drawFicTree)
+        // console.log(JSON.stringify(obj))
+        ficTree.setData(obj.children[0])
+        ficTree.render()
+      })
     })
 
     // bus.emit('saveChangeMindUI', msg[0])
@@ -120,15 +96,6 @@ export default defineComponent({
         )
         lnk.dispatchEvent(e)
       }
-    }
-
-    function drawFicTree () {
-      // ficTree.setData(data)
-      // ficTree.view.reset()
-    }
-
-    async function getData (obj) {
-      // data.value = obj
     }
 
     bus.on('exportTreePNG', () => {
