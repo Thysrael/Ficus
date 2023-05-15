@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-wrap block place-content-center align-middle content-center px-8"
-       style="margin: 0; padding: 0; width: 100%; height: 100%; background-color: white">
+       style="margin: 0; padding: 0; width: 100%; height: 100%">
     <div id="mindMapContainer"
-         style="margin: 0; padding: 0; width: 800px; height: 100%; background-color: white">
+         style="margin: 0; padding: 0; width: 800px; height: 100%">
     </div>
   </div>
 </template>
@@ -10,8 +10,8 @@
 <script>
 import { defineComponent, onMounted, ref, shallowRef } from 'vue'
 import MindMap from 'simple-mind-map'
+import Drag from 'simple-mind-map/src/Drag.js'
 import bus from 'vue3-eventbus'
-import test from './test_mind.json'
 
 export default defineComponent({
   setup () {
@@ -27,6 +27,7 @@ export default defineComponent({
 
     onMounted(() => {
       console.log('test')
+      MindMap.usePlugin(Drag)
       ficTree = new MindMap({
         el: document.getElementById('mindMapContainer'),
         data: {
@@ -55,7 +56,7 @@ export default defineComponent({
       })
       ficTree.on('data_change', (data, dataList) => {
         ficTree.resize()
-        ficTree.view.reset()
+        // ficTree.view.reset()
         // console.log(ficTree.getData(false))
         // bus.emit('saveChangeMindUI', ficTree.getData(false))
       })
@@ -63,8 +64,9 @@ export default defineComponent({
       // 监听data变化
       bus.on('sendToFicTree', (obj) => {
         // getData(obj).then(drawFicTree)
-        // console.log(JSON.stringify(obj))
-        ficTree.setData(test)
+        // console.log(test)
+        // console.log(obj.children[0])
+        ficTree.setData(JSON.parse(JSON.stringify(obj.children[0])))
         ficTree.render()
       })
     })
