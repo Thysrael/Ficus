@@ -194,12 +194,8 @@ pre.vditor-sv:focus {
   font-weight: 400; /* Regular */
   font-size: 16px;
   line-height: 24px;
-<<<<<<< HEAD
   padding: 0.2em 0.4em !important;
   background-color: var(--SwissCoffee-500);
-=======
-  padding: 20px;
->>>>>>> 884688f (fix: 修复资源管理器缩进和FrontMatter边距)
 }
 
 /** 代码块编辑区域 **/
@@ -233,13 +229,9 @@ pre.vditor-sv:focus {
 
 .vditor-reset code[data-type="math-inline"] {
   background-color: var(--SwissCoffee-500);
-<<<<<<< HEAD
   font-size: 16px;
   line-height: 24px;
   padding: 0.4em 0.4em !important;
-=======
-  padding: 1px 1px;
->>>>>>> 884688f (fix: 修复资源管理器缩进和FrontMatter边距)
 }
 
 /** 公式块编辑区域 **/
