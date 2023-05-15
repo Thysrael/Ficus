@@ -85,6 +85,7 @@ export default new Map([
   ['window.zoom-in', ''],
   ['window.zoom-out', ''],
   ['window.toggle-full-screen', 'F11'],
+  ['window.open-dev-tool', 'F12'],
 
   // View menu
   ['view.command-palette', 'Ctrl+Shift+P'],

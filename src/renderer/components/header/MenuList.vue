@@ -342,7 +342,6 @@ export default {
         closeMenu() // 点击叶节点关闭菜单
         // 根据index找相应的函数执行
         const mode = store.getters.getMode
-        let openDev = false
         switch (op.name) {
           case '新建文件':
             await newFile()
@@ -465,12 +464,7 @@ export default {
             bus.emit('removeFormat')
             break
           case '开发者工具':
-            if (openDev) {
-              await window.electronAPI.closeDev()
-            } else {
-              await window.electronAPI.openDev()
-            }
-            openDev = !openDev
+            store.commit('executeEvent', 'window.open-dev-tool')
             break
           case '打字机模式':
             isTypeWriteMode = !isTypeWriteMode
