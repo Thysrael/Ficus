@@ -11,6 +11,7 @@
 import { defineComponent, onMounted, ref, shallowRef } from 'vue'
 import MindMap from 'simple-mind-map'
 import bus from 'vue3-eventbus'
+import test from './test_mind.json'
 
 export default defineComponent({
   setup () {
@@ -55,14 +56,15 @@ export default defineComponent({
       ficTree.on('data_change', (data, dataList) => {
         ficTree.resize()
         ficTree.view.reset()
-        bus.emit('saveChangeMindUI', ficTree.getData(false))
+        // console.log(ficTree.getData(false))
+        // bus.emit('saveChangeMindUI', ficTree.getData(false))
       })
 
       // 监听data变化
       bus.on('sendToFicTree', (obj) => {
         // getData(obj).then(drawFicTree)
         // console.log(JSON.stringify(obj))
-        ficTree.setData(obj.children[0])
+        ficTree.setData(test)
         ficTree.render()
       })
     })

@@ -28,8 +28,14 @@
         </div>
       </div>
     </div>
-    <div v-if="hasChildren && item.curChild >= 0" class="flex ml-1 mr-1">
-      >
+    <div v-if="hasChildren && item.curChild >= 0" class="flex ml-1 mr-1 place-content-center content-center align-middle">
+      <div>
+        <svg fill="#FFFFFF" viewBox="0 0 32 16" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier"><path d="M22.314 16l-8.485 8.485-2.829-2.828 5.657-5.657-5.657-5.657 2.828-2.828 8.486 8.485z"></path></g>
+        </svg>
+      </div>
       <ul>
         <BreadCrumbItem
             :item="item.children[item.curChild]"
