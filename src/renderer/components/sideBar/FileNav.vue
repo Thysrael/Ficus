@@ -26,7 +26,7 @@
 <script>
 
 import FileNavItem from '@/renderer/components/sideBar/FileNavItem'
-import bus from 'vue3-eventbus'
+import store from '@/renderer/store'
 
 export default {
   name: 'FileNav',
@@ -45,20 +45,7 @@ export default {
   },
   setup () {
     async function handleOpenDir () {
-      const obj = await window.electronAPI.newFicusVault()
-      if (obj.error === 0) {
-        const root = obj.relation
-        const openDir = [{
-          name: root.root.folderName,
-          path: root.root.path,
-          children: root.root.tree,
-          curChild: -1,
-          absolutePath: [root.root.folderName],
-          offset: -1,
-          type: 'folder'
-        }]
-        bus.emit('openDir', openDir[0])
-      }
+      store.commit('executeEvent', 'file.open-folder')
     }
 
     return {

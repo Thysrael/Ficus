@@ -5,6 +5,15 @@ import { bus } from 'vue3-eventbus'
  */
 const commands = [
   {
+    id: 'file.open-folder',
+    execute: async () => {
+      try {
+        const projectStat = await window.electronAPI.newFicusVault()
+        bus.emit('openDir', projectStat)
+      } catch {}
+    }
+  },
+  {
     id: 'format.strong',
     execute: async () => {
       bus.emit('addFormat', { type: 'bold' })

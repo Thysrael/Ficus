@@ -27,6 +27,12 @@ const mutations = {
   updateSideBarWidth (state, sideBarWidth) {
     state.sideBarWidth = sideBarWidth
   },
+  executeEvent (state, eventId) {
+    const command = commands.filter(e => e.id === eventId)
+    if (command[0]) {
+      command[0].execute()
+    }
+  },
   REFRESH (state, status) {
     bus.emit('openDir', status)
   },
@@ -59,12 +65,9 @@ const actions = {
       commit('OPENINITFILE', value)
     })
   },
-  LISTEN_KEYBOARD_EVENT () {
+  LISTEN_KEYBOARD_EVENT ({ commit }) {
     window.electronAPI.keyboardEvent((e, eventId) => {
-      const command = commands.filter(e => e.id === eventId)
-      if (command[0]) {
-        command[0].execute()
-      }
+      commit('executeEvent', eventId)
     })
   }
 }

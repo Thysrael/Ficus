@@ -285,20 +285,7 @@ export default {
 
     // 新建项目
     async function newMyProject () {
-      const obj = await window.electronAPI.newFicusVault()
-      if (obj.error === 0) {
-        const root = obj.relation
-        const openDir = [{
-          name: root.root.folderName,
-          path: root.root.path,
-          children: root.root.tree,
-          curChild: -1,
-          absolutePath: [root.root.folderName],
-          offset: -1,
-          type: 'folder'
-        }]
-        bus.emit('openDir', openDir[0])
-      }
+      store.commit('executeEvent', 'file.open-folder')
     }
 
     // 打开文件，可以一次打开多个
