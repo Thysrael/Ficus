@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-wrap block place-content-center align-middle content-center px-8"
-       style="margin: 0; padding: 0; width: 100%; height: 100%">
+       style="margin: 0; padding: 0; width: 100%; height: 100%; background-color: white">
     <div id="mindMapContainer"
-         style="margin: 0; padding: 0; width: 800px; height: 100%">
+         style="margin: 0; padding: 0; width: 800px; height: 100%; background-color: white">
     </div>
   </div>
 </template>
@@ -55,6 +55,7 @@ export default defineComponent({
       ficTree.on('data_change', (data, dataList) => {
         ficTree.resize()
         ficTree.view.reset()
+        bus.emit('saveChangeMindUI', ficTree.getData(false))
       })
 
       // 监听data变化
