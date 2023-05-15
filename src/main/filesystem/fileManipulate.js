@@ -238,6 +238,11 @@ exports.initPath = (initPath) => {
   }
 }
 
+exports.refresh = async (projPath) => {
+  const { children } = await makeFolderStat(projPath)
+  return children
+}
+
 /**
  * 获得一个不存在的文件路径
  * @param {string} filePath

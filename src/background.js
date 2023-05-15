@@ -12,9 +12,8 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile, paste, move
+  readFile, paste, move, refresh
 } from './main/filesystem/fileManipulate'
-import { refresh } from './main/filesystem/database'
 import EAU from './main/update'
 
 import path from 'path'
