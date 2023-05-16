@@ -33,25 +33,25 @@ $\tt{Ficus}$ 基于 `Vue3, Electron` 框架开发，提供 Windows、macOS 和 L
 **富文本模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/vZZqrjcy/rtext.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/28715e85-9617-4c5c-850a-293bf0e0ce68"/>
 </p>
 
 **源码模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/CKbbpQkf/fcode.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/6cd566ea-c0d2-4d5e-b7e7-b3061a174308"/>
 </p>
 
 **榕树模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/856p026q/ftree.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/3694c7ea-baee-4fab-8362-aa343976ac03"/>
 </p>
 
 **榕图模式**
 
 <p align = "center">
-<img src="https://i.postimg.cc/GpyL90mq/fgraph.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/cba6f839-92fd-40bc-b8f0-96c0245b52ec"/>
 </p>
 
 
@@ -95,7 +95,7 @@ yarn electron:serve
 项目的架构图如图所示
 
 <p align = "center">
-<img src="https://i.postimg.cc/3rjtxS26/ficus-arch.png" />
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/71ae0189-964d-429c-8715-7bb4b8dd381a" />
 </p>
 
 项目目录架构如下：
@@ -185,7 +185,9 @@ yarn electron:serve
 
 ## 团队
 
-<img src="https://i.postimg.cc/hvFgCKQh/Untitled.png" width="450px" />
+<p align = "center">
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/77105ff0-c34e-4807-bbf5-2216dab57dfc" width="450px" />
+</p>
 
 gg=G 是由北京航空航天大学 2020 级计算机系 7 人组成的软件工程团队，这是我们的[团队博客](https://blog.csdn.net/gg_equal_G)。
 
