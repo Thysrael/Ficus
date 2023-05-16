@@ -29,55 +29,6 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-async function createWindow () {
-  // Create the browser window.
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    frame: false,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
-    }
-  })
-  if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
-  } else {
-    createProtocol('app')
-    // Load the index.html when not in development
-    await win.loadURL('app://.de/index.html')
-  }
-  win.setMinimumSize(800, 600)
-  win.setMenu(null)
-  win.removeMenu()
-  win.webContents.setWindowOpenHandler((detail) => {
-    if (detail.url === undefined) {
-      return { action: 'deny' }
-    }
-    if (detail.url.startsWith('ficus://')) {
-      return { action: 'deny' }
-    }
-    shell.openExternal(detail.url)
-    return { action: 'deny' }
-  })
-  if (!isDevelopment && process.argv.length > 1) {
-    const initInfo = initPath(process.argv[1])
-    await win.webContents.send('ficus::open-init-file', initInfo)
-  }
-  // 令窗口初始为最大
-  if (isOsx) {
-    win.setFullScreen(true)
-  } else {
-    win.maximize()
-  }
-  return win
-}
-
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
