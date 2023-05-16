@@ -33,7 +33,6 @@ export default {
       return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
     }
 
-
     const ficGraph = ForceGraph()(document.getElementById('ficGraph'))
         .cooldownTicks(100)
         .onNodeClick(node => {
