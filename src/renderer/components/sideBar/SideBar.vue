@@ -57,7 +57,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="getTags" :title="'标签管理器'">
+      <button class="myButton"  @click="getTags" :title="'榕须管理器'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g>
@@ -239,7 +239,7 @@ export default {
         case 3:
           return '引用与被引用'
         case 4:
-          return '标签管理器'
+          return '榕须管理器'
         case 5:
           return '榕林'
         case 6:

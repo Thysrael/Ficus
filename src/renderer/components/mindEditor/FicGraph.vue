@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap place-content-center py-2 mx-4"
-       style="height: calc(100% + 200px); width: calc(100% + 200px)">
-    <div class="flex flex-wrap relative" id="ficGraph"/>
+       style="height: calc(100% + 200px); width: 1000px">
+    <div id="ficGraph"/>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
     let zoomLevel = 0
     const nodeRelMaximum = 45
     const tagNodeRelSize = 10
-    const nodeRelLimit = 1
+    const nodeRelLimit = 5
 
     const ficGraph = ForceGraph()(document.getElementById('ficGraph'))
         .cooldownTicks(100)
@@ -36,7 +36,7 @@ export default {
         })
         .onZoom(zoom => zoomLevel = zoom.k)
         .d3AlphaDecay(0.01)
-        .d3VelocityDecay(0.08)
+        .d3VelocityDecay(0.1)
         .nodeCanvasObjectMode(() => "after")
         .linkColor(link => rootLinks.has(link) ? '#d7d7bf' : tagLinks.has(link) ? '#c9ece1' : '#cccccc')
         .linkWidth(link => rootLinks.has(link) ? link.weight : 2)
@@ -46,8 +46,8 @@ export default {
         .linkDirectionalArrowRelPos(0.9)
         .linkDirectionalArrowLength(link => tagLinks.has(link) ? 0 : link.weight * 5)
     ficGraph.d3Force('link').distance(40)
-    ficGraph.d3Force('center').strength(0.4)
-    ficGraph.d3Force('charge').distanceMax(300)
+    ficGraph.d3Force('center').strength(0.2)
+    ficGraph.d3Force('charge').distanceMax(1000)
 
     bus.on('exportGraphPNG', () => {
       // exportPNG()
@@ -110,35 +110,27 @@ export default {
         ctx.beginPath()
         if (type === 0) {
           // folder
-          let fontSize = size + globalScale * 0.04
+          let fontSize = size + globalScale * 0.05
           ctx.font = `${fontSize}px Sans-Serif`
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
-          if (level <= 3) {
-            ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
-          } else {
-            ctx.fillText(label, node.x, node.y + Math.round(fontSize * 3))
-          }
+          ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
         } else if (type === 1) {
           // file
           if (size > tagNodeRelSize) {
             size = size - 10 < nodeRelLimit ? nodeRelLimit : size - 10
           }
           if (zoomLevel >= 3) {
-            let fontSize = size + globalScale * 0.02
+            let fontSize = size + globalScale * 0.03
             ctx.font = `${fontSize}px Sans-Serif`
             ctx.textAlign = 'center'
             ctx.textBaseline = 'middle'
-            if (level <= 3) {
-              ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
-            } else {
-              ctx.fillText(label, node.x, node.y + Math.round(fontSize * 3))
-            }
+            ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
           }
         } else {
           // tag
           size = tagNodeRelSize
-          let fontSize = size + globalScale * 0.02
+          let fontSize = size + globalScale * 0.04
           ctx.font = `${fontSize}px Sans-Serif`
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
@@ -148,10 +140,13 @@ export default {
         ctx.fill()
       })
       .zoomToFit(400, 0, node => node.depth === 0)
-      const magnifiedRatio = Math.pow((data.length / link.length), 5)
-      const charge = -20 / magnifiedRatio
-      const boundedCharge = Math.min(-30, charge)
+      const magnifiedRatio = Math.pow((data.length / link.length), 6)
+      const charge = -30 / magnifiedRatio
+      const boundedCharge = Math.min(-60, charge)
       ficGraph.d3Force('charge').strength(boundedCharge)
+      if (link.length < 30) {
+        ficGraph.d3VelocityDecay(0.4)
+      }
     })
   }
 }

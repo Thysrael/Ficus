@@ -296,7 +296,7 @@ export default {
 }
 
 .fileTreeElementText {
-  max-width: 130px;
+  max-width: 150px;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;

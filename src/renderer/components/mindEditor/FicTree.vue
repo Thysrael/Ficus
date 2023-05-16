@@ -2,7 +2,7 @@
   <div class="flex flex-wrap block place-content-center align-middle content-center px-8"
        style="margin: 0; padding: 0; width: 100%; height: 100%">
     <div id="mindMapContainer"
-         style="margin: 0; padding: 0; width: 800px; height: 100%">
+         style="margin: 0; padding: 0; width: 1000px; height: 100%">
     </div>
   </div>
 </template>
@@ -58,7 +58,15 @@ export default defineComponent({
         ficTree.resize()
         // ficTree.view.reset()
         // console.log(ficTree.getData(false))
-        // bus.emit('saveChangeMindUI', ficTree.getData(false))
+        const newData = {
+          data: {
+            name: '',
+            text: '',
+            type: 'root'
+          },
+          children: [ficTree.getData(false)]
+        }
+        // bus.emit('saveChangeMindUI', newData)
       })
 
       // 监听data变化
