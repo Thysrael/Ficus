@@ -5,7 +5,7 @@
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === 1 || mode === 0"></TextUI>
     <FicTree v-show="mode === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
     <FicGraph v-show="mode === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
-    <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1">
+    <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1 || mode === 0">
       <div class="myText items-center content-center text-center w-full col-span-3">
         {{ wordCnt }} 词
       </div>

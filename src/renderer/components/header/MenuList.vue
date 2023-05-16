@@ -364,15 +364,6 @@ export default {
       }
     }
 
-    async function devMode () {
-      const isOpen = await window.electronAPI.devIsOpened()
-      if (isOpen) {
-        window.electronAPI.closeDev()
-      } else {
-        window.electronAPI.openDev()
-      }
-    }
-
     // 菜单栏核心逻辑分发函数
     async function show (layer, index) {
       // 导航
@@ -506,17 +497,7 @@ export default {
             bus.emit('cmd::execute', 'format.clear-format')
             break
           case '开发者工具':
-<<<<<<< HEAD
             bus.emit('cmd::execute', 'window.open-dev-tool')
-            if (op.selected) {
-              window.electronAPI.closeDev()
-            } else {
-              window.electronAPI.openDev()
-            }
-            op.selected = !op.selected
-=======
-            devMode()
->>>>>>> 4b3750b (refactor: 合并快捷键)
             break
           case '打字机模式':
             op.selected = !op.selected

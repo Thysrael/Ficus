@@ -1,5 +1,5 @@
 <template>
-  <div class="searchBar content-center items-center w-full mt-2 pl-2">
+  <div class="searchBar content-center items-center w-full mt-2 pl-2 pr-4">
     <button class="searchBtn">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
            width="15" height="15" viewBox="0 0 10 10">

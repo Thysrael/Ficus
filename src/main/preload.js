@@ -10,7 +10,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   openDev: () => ipcRenderer.send('dev-open'),
   closeDev: () => ipcRenderer.send('dev-close'),
-  devIsOpened: () => ipcRenderer.invoke('dev-isOpened'),
 
   newFicusVault: () => ipcRenderer.invoke('newProject'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),

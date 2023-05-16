@@ -1,6 +1,6 @@
 <template>
   <div class="flexStyle" :style="`margin-right: 20px; left: ${store.getters.getSideBarWidth}px; position: fixed`"
-  :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`" @click="isFile = 2">
+       v-show="(mode >= 0 && mode <= 2)">
     <ol class="flex">
       <li
           class="items-center content-center shadow-sm"
