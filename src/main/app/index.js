@@ -4,6 +4,8 @@ import LinkManager from '../filesystem/linkManager'
 import Preference from '../preferences'
 import AppMenu from '../menu'
 import FileSystem from '../filesystem'
+import FicusWindow from '../windows'
+import KeyBinding from '../keybinding'
 
 /**
  *
@@ -15,6 +17,8 @@ class App {
     this.preferences = new Preference()
     this.menu = new AppMenu()
     this.filesystem = new FileSystem()
+    this.keyBinding = new KeyBinding()
+    this.ficusWindow = null
     this._listenForIpcMain()
   }
 
@@ -22,10 +26,26 @@ class App {
     this.watcher.on('add', (filepath) => this.linkManager.addFile(filepath))
     this.watcher.on('change', (filepath) => this.linkManager.updateFile(filepath))
     this.watcher.on('unlink', (filepath) => this.linkManager.removeFile(filepath))
+
+    this._createFicusWindow()
+  }
+
+  reinit () {
+    this._createFicusWindow()
   }
 
   quit () {
     this.watcher.close()
+  }
+
+  getFocusWin () {
+    return this.ficusWindow.browserWindow
+  }
+
+  async _createFicusWindow () {
+    const editor = new FicusWindow()
+    editor.init(this.keyBinding)
+    this.ficusWindow = editor
   }
 
   _listenForIpcMain () {
