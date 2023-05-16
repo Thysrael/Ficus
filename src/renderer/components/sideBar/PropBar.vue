@@ -31,8 +31,8 @@
               type="text"
               class="block text-gray-700 text-xs font-normal mr-2 my-2 px-3 py-1 inline-flex items-center hover:shadow-sm transition duration placeholder-gray focus:ring-0 rounded-md"
               id="newTag"
-              placeholder="输入新标签..."
-              style="width: 100px"
+              placeholder="输入新榕须..."
+              style="width: 130px"
           />
           <button type="button"
                   class="inline-flex transition items-center text-sm text-blueGray-300 bg-transparent rounded-md hover:text-blueGray-800"
@@ -46,10 +46,10 @@
     </div>
     <div v-bind:class="{'hidden': !showM, 'block': showM}"
          @mouseleave="handleSearch"
-         class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
-         style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px">
+         class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 py-2 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
+         style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px; width: 150px">
       <div v-for="(item, index) in resTags"
-           class="px-3 py-1 option rounded-lg"
+           class="px-3 py-1 option"
           :key="index"
           @click="handleAddTag(index)">
         {{ item }}
@@ -123,11 +123,13 @@ export default {
 
 .tag:hover {
   background-color: #d6ece3;
+  font-weight: 900;
   -webkit-transition: .3s;
 }
 
 .option:hover {
   background-color: #e5e5e5;
+  font-weight: 900;
   -webkit-transition: background-color .3s;
   -webkit-transition:left .3s, background-color .3s;
 }
