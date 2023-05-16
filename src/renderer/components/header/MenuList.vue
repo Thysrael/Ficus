@@ -255,7 +255,6 @@ export default {
       // },
       {
         name: '开发者工具',
-        selected: false,
         keyBoard: 'Shift+F12'
       }, {
         name: '打字机模式',
@@ -365,6 +364,15 @@ export default {
       }
     }
 
+    async function devMode () {
+      const isOpen = await window.electronAPI.devIsOpened()
+      if (isOpen) {
+        window.electronAPI.closeDev()
+      } else {
+        window.electronAPI.openDev()
+      }
+    }
+
     // 菜单栏核心逻辑分发函数
     async function show (layer, index) {
       // 导航
@@ -374,7 +382,6 @@ export default {
       const op = (layer === 1) ? items[index] : (layer === 2) ? secondItems.value[index] : thirdItems.value[index]
 
       if (!(op.children && op.children.length)) {
-        closeMenu() // 点击叶节点关闭菜单
         // 根据index找相应的函数执行
         const mode = store.getters.getMode
         switch (op.name) {
@@ -545,6 +552,7 @@ export default {
             await window.electronAPI.aboutUs()
             break
         }
+        closeMenu() // 点击叶节点关闭菜单
       }
     }
 
