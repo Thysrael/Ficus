@@ -1,7 +1,7 @@
 <template>
   <div class="pl-2 pr-4">
     <div style="font-size: 12px">
-      当前文档下共有 {{ tags.length }} 个标签
+      当前文档下共有 {{ tags.length }} 根榕须
     </div>
     <div class="items-center content-center my-2">
       <!-- 在具体实现方面，可以通过一个 v-for 维护 -->
