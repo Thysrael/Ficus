@@ -58,20 +58,11 @@
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
+                "name": "New series now **streaming**.",
+                "text": "New series now **streaming**.",
                 "type": "list-item"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "New series now **streaming**.",
-                    "text": "New series now **streaming**.",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
             }
           ],
           "loose": false,
