@@ -174,6 +174,9 @@ export default {
         },
         // 设置回调延迟
         undoDelay: 50,
+        upload: {
+          url: 'ficusapi://upload'
+        },
         // 预览模式选项
         preview: {
           // 设置预览最大宽度
