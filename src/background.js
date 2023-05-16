@@ -29,8 +29,6 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-<<<<<<< HEAD
-=======
 async function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -80,7 +78,6 @@ async function createWindow () {
   return win
 }
 
->>>>>>> 4b3750b (refactor: 合并快捷键)
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -285,14 +282,8 @@ app.on('ready', async () => {
     const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.closeDevTools()
   })
-<<<<<<< HEAD
+
   ficusApp.init()
-=======
-  ipcMain.handle('dev-isOpened', (e) => {
-    const win = BrowserWindow.fromWebContents(e.sender)
-    return win.webContents.isDevToolsOpened()
-  })
->>>>>>> 4b3750b (refactor: 合并快捷键)
 })
 
 // Exit cleanly on request from parent process in development mode.

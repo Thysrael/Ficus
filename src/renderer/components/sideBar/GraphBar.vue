@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2" style="font-family: 'Noto Sans SC'">
+  <div class="pl-2 pr-4" style="font-family: 'Noto Sans SC'">
     <div style="font-size: 13px" class="my-2">
       节点详情信息
     </div>

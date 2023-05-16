@@ -88,7 +88,7 @@
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
               class="theme-element;"
-              :class="(mode === 0 || mode === 1) ? `pointer-events-auto` : `pointer-events-none`"
+              v-show="(mode === 0 || mode === 1)"
               style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">

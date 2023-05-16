@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2">
+  <div class="pl-2 pr-4">
     <div style="font-size: 12px">
       当前文档共引用 {{ cites.length }} 个文档
     </div>

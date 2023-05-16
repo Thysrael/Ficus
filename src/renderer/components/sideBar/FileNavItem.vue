@@ -79,13 +79,14 @@
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete" v-if="item.path !== topItem.path">删除</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename" v-if="item.path !== topItem.path">重命名</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type ==='file'" @click="handleCopyAbsolutePath">复制路径</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
+<!--        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>-->
       </v-contextmenu>
     </div>
-    <ul v-if="hasChildren && expanded">
+    <ul v-if="(hasChildren && expanded)">
       <FileNavItem
           :top-item="topItem"
           :selected="selected"
+          :init="false"
           v-for="(child, index) in item.children"
           :key="index"
           :item="child"
@@ -124,10 +125,14 @@ export default {
     topItem: {
       type: Object,
       required: true
+    },
+    init: {
+      type: Boolean,
+      required: true
     }
   },
   setup (props) {
-    const expanded = ref(false) // 控制是否显示孩子节点
+    const expanded = ref(props.init) // 控制是否显示孩子节点
     const curItem = ref(props.item)
     const selectedList = ref(props.selected)
     const store = useStore()

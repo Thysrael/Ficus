@@ -1,7 +1,7 @@
 <template>
   <div class="text-sm items-center content-center text-sm"
        :style= "`max-width: ${windowWidth};overflow-x:auto;`"
-       :class="(mode !== 3) ? `pointer-events-auto` : `pointer-events-none`"
+       v-show="(mode >= 0 && mode <= 2)"
        style="user-select: none; color: #F4F4F3; font-family: 'Noto Sans SC'; font-size: 12px;">
     <div v-show="enable">
       <ul>
