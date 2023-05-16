@@ -29,25 +29,27 @@ Detailed information can be obtained on the [ficus website](https://ficus.world/
 **Rich Text Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/vZZqrjcy/rtext.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/28715e85-9617-4c5c-850a-293bf0e0ce68"/>
 </p>
+
 
 **Source Code Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/CKbbpQkf/fcode.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/6cd566ea-c0d2-4d5e-b7e7-b3061a174308"/>
 </p>
 
 **Ficus Tree Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/856p026q/ftree.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/3694c7ea-baee-4fab-8362-aa343976ac03"/>
 </p>
+
 
 **Ficus Graph Mode**
 
 <p align = "center">
-<img src="https://i.postimg.cc/GpyL90mq/fgraph.png"/>
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/cba6f839-92fd-40bc-b8f0-96c0245b52ec"/>
 </p>
 
 
@@ -89,7 +91,7 @@ yarn electron:serve
 The project architecture is as shown in the figure.
 
 <p align = "center">
-<img src="https://i.postimg.cc/3rjtxS26/ficus-arch.png" />
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/71ae0189-964d-429c-8715-7bb4b8dd381a" />
 </p>
 
 The project directory structure is as follows:
@@ -166,12 +168,13 @@ For specific contributions or ways to support us, please refer to [here](https:/
 
 ## Team
 
-<img src="https://i.postimg.cc/hvFgCKQh/Untitled.png" width="450px" />
+<p align = "center">
+<img src="https://github.com/Thysrael/Ficus/assets/72613958/504bc6aa-607c-417d-b6a5-87d18c7d8f9c" width="450px" />
+</p>
 
 gg=G is a software engineering team consisting of seven members from the Beijing University of Aeronautics and Astronautics, Department of Computer Science, Class of 2020. This is our [team blog](https://blog.csdn.net/gg_equal_G).
 
 ## License
 
 [MIT](LICENSE) © gg=G
-
 
