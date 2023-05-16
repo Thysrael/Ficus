@@ -283,19 +283,6 @@ export default {
       }
     }
 
-    // 新建项目
-    async function newMyProject () {
-      store.commit('executeEvent', 'file.open-folder')
-    }
-
-    // 打开文件，可以一次打开多个
-    async function openMyFile () {
-      const files = await window.electronAPI.openFile()
-      for (let i = 0; i < files.length; i++) {
-        bus.emit('openNewTab', files[i])
-      }
-    }
-
     function findFatherByPath (index, paths, father) {
       if (index === paths.length - 1) {
         return father
@@ -347,10 +334,10 @@ export default {
             await newFile()
             break
           case '打开文件夹':
-            await newMyProject()
+            bus.emit('cmd::execute', 'file.open-folder')
             break
           case '打开文件':
-            await openMyFile()
+            bus.emit('cmd::execute', 'file.open-file')
             break
           case '退出':
             await window.electronAPI.closeWindow()
@@ -371,100 +358,100 @@ export default {
             bus.emit('redoCurTab')
             break
           case '剪切':
-            bus.emit('cutSelectedText')
+            bus.emit('cmd::execute', 'edit.cut')
             break
           case '复制为纯文本':
-            bus.emit('copySelectedText', { type: 'text' })
+            bus.emit('cmd::execute', 'edit.copy')
             break
           case '复制为 Markdown Text':
-            bus.emit('copySelectedText', { type: 'md' })
+            bus.emit('cmd::execute', 'edit.copy-as-markdown')
             break
           case '复制为 HTML 代码':
-            bus.emit('copySelectedText', { type: 'html' })
+            bus.emit('cmd::execute', 'copy-as-markdown')
             break
           case '粘贴':
-            bus.emit('pasteSelectedText', { type: 'origin' })
+            bus.emit('cmd::execute', 'edit.paste')
             break
           case '粘贴为纯文本':
-            bus.emit('pasteSelectedText', { type: 'plain' })
+            bus.emit('cmd::execute', 'edit.paste-as-plaintext')
             break
           case '删除':
             bus.emit('deleteSelectedText')
             break
           case '一级标题':
-            bus.emit('addBlock', { type: 'heading-1' })
+            bus.emit('cmd::execute', 'paragraph.heading-1')
             break
           case '二级标题':
-            bus.emit('addBlock', { type: 'heading-2' })
+            bus.emit('cmd::execute', 'paragraph.heading-2')
             break
           case '三级标题':
-            bus.emit('addBlock', { type: 'heading-3' })
+            bus.emit('cmd::execute', 'paragraph.heading-3')
             break
           case '四级标题':
-            bus.emit('addBlock', { type: 'heading-4' })
+            bus.emit('cmd::execute', 'paragraph.heading-4')
             break
           case '五级标题':
-            bus.emit('addBlock', { type: 'heading-5' })
+            bus.emit('cmd::execute', 'paragraph.heading-5')
             break
           case '六级标题':
-            bus.emit('addBlock', { type: 'heading-6' })
+            bus.emit('cmd::execute', 'paragraph.heading-6')
             break
           case '表格':
-            bus.emit('addBlock', { type: 'table' })
+            bus.emit('cmd::execute', 'paragraph.table')
             break
           case '数学公式块':
-            bus.emit('addBlock', { type: 'math-block' })
+            bus.emit('cmd::execute', 'paragraph.math-formula')
             break
           case '代码块':
-            bus.emit('addBlock', { type: 'code-block' })
+            bus.emit('cmd::execute', 'paragraph.code-fence')
             break
           case '引用':
-            bus.emit('addBlock', { type: 'quote' })
+            bus.emit('cmd::execute', 'paragraph.quote-block')
             break
           case '有序列表':
-            bus.emit('addBlock', { type: 'ordered-list' })
+            bus.emit('cmd::execute', 'paragraph.order-list')
             break
           case '无序列表':
-            bus.emit('addBlock', { type: 'unordered-list' })
+            bus.emit('cmd::execute', 'paragraph.bullet-list')
             break
           case '任务清单':
-            bus.emit('addBlock', { type: 'task-list' })
+            bus.emit('cmd::execute', 'paragraph.task-list')
             break
           case '水平线':
-            bus.emit('addBlock', { type: 'horizontal-line' })
+            bus.emit('cmd::execute', 'paragraph.horizontal-line')
             break
           case '加粗':
-            bus.emit('addFormat', { type: 'bold' })
+            bus.emit('cmd::execute', 'format.strong')
             break
           case '斜体':
-            bus.emit('addFormat', { type: 'italic' })
+            bus.emit('cmd::execute', 'format.emphasis')
             break
           case '删除线':
-            bus.emit('addFormat', { type: 'strike' })
+            bus.emit('cmd::execute', 'format.strike')
             break
           case '行内代码':
-            bus.emit('addFormat', { type: 'inline-code' })
+            bus.emit('cmd::execute', 'format.inline-code')
             break
           case '行内数学公式':
-            bus.emit('addFormat', { type: 'inline-math' })
+            bus.emit('cmd::execute', 'format.inline-math')
             break
           case '高亮':
-            bus.emit('addFormat', { type: 'highlight' })
+            bus.emit('cmd::execute', 'format.highlight')
             break
           case '超链接':
-            bus.emit('addFormat', { type: 'link' })
+            bus.emit('cmd::execute', 'format.hyperlink')
             break
           case '图像':
-            bus.emit('addFormat', { type: 'img-link' })
+            bus.emit('cmd::execute', 'format.image')
             break
           case '引用文件':
             bus.emit('addFormat', { type: 'file-link' })
             break
           case '清除样式':
-            bus.emit('removeFormat')
+            bus.emit('cmd::execute', 'format.clear-format')
             break
           case '开发者工具':
-            store.commit('executeEvent', 'window.open-dev-tool')
+            bus.emit('cmd::execute', 'window.open-dev-tool')
             break
           case '打字机模式':
             isTypeWriteMode = !isTypeWriteMode

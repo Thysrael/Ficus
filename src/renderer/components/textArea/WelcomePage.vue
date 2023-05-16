@@ -66,13 +66,13 @@
 </template>
 
 <script>
-import store from '@/renderer/store'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'WelcomePage',
   setup () {
     async function handleOpenDir () {
-      store.commit('executeEvent', 'file.open-folder')
+      bus.emit('cmd::execute', 'file.open-folder')
     }
 
     return {
