@@ -212,7 +212,6 @@ export default {
     function sendContentByMode () {
       if (store.getters.getMode === 2) {
         const obj = store.getters['filesManager/mind']
-        console.log(toRaw(obj))
         bus.emit('sendToFicTree', toRaw(obj))
       } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
