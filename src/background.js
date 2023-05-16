@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol, dialog, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, dialog, shell, session } from 'electron'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
@@ -18,6 +18,19 @@ import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
 import App from './main/app'
+import express from 'express'
+
+const uploadServer = express()
+uploadServer.use(express.static('public'))
+uploadServer.post('/upload', function (req, res) {
+  console.log(req)
+  setTimeout(function () {
+    res.send({ status: 'ok' })
+  }, 2000)
+})
+
+const uploadListener = uploadServer.listen('0', () => { console.log('server_up' + uploadListener.address().port) })
+
 
 const ficusApp = new App()
 
@@ -69,7 +82,7 @@ app.on('ready', async () => {
         return false
       }
 
-      EAU.progress((state) => {})
+      EAU.progress((state) => { })
 
       dialog.showMessageBoxSync(ficusApp.getFocusWin(), {
         type: 'warning',
@@ -127,6 +140,22 @@ app.on('ready', async () => {
       generalPath = path.resolve(ficusPath, generalPath)
       const filePath = url.fileURLToPath('file://' + generalPath)
       callback(filePath)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+
+  protocol.interceptHttpProtocol('ficusapi', (request, callback) => {
+    try {
+      console.log(request)
+      const apiName = request.url.slice('ficusapi://'.length)
+      const apiUrl = 'http://localhost:' + uploadListener.address().port + '/' + apiName
+      console.log(apiUrl)
+      callback({
+        url: apiUrl, // 将 3030 的请求转发到 4040 端口
+        method: request.method,
+        session: null,
+      })
     } catch (error) {
       console.log(error)
     }
