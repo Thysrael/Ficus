@@ -26,7 +26,7 @@
 <script>
 
 import FileNavItem from '@/renderer/components/sideBar/FileNavItem'
-import store from '@/renderer/store'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'FileNav',
@@ -45,7 +45,7 @@ export default {
   },
   setup () {
     async function handleOpenDir () {
-      store.commit('executeEvent', 'file.open-folder')
+      bus.emit('cmd::execute', 'file.open-folder')
     }
 
     return {

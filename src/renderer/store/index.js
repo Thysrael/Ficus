@@ -3,6 +3,13 @@ import { createStore } from 'vuex'
 import filesManager from './dataManager'
 import commands from '../commands'
 
+const executeCommand = (state, eventId) => {
+  const command = commands.filter(e => e.id === eventId)
+  if (command[0]) {
+    command[0].execute()
+  }
+}
+
 const state = {
   xy: {
     x: 0,
@@ -26,12 +33,6 @@ const mutations = {
   },
   updateSideBarWidth (state, sideBarWidth) {
     state.sideBarWidth = sideBarWidth
-  },
-  executeEvent (state, eventId) {
-    const command = commands.filter(e => e.id === eventId)
-    if (command[0]) {
-      command[0].execute()
-    }
   },
   REFRESH (state, status) {
     bus.emit('openDir', status)
@@ -67,7 +68,10 @@ const actions = {
   },
   LISTEN_KEYBOARD_EVENT ({ commit }) {
     window.electronAPI.keyboardEvent((e, eventId) => {
-      commit('executeEvent', eventId)
+      executeCommand(state, eventId)
+    })
+    bus.on('cmd::execute', eventId => {
+      executeCommand(state, eventId)
     })
   }
 }
