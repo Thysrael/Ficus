@@ -1,5 +1,5 @@
 <template>
-  <div class="flex object-contain px-2 py-1" :class="(mode >= 0 && mode <= 2) ? `pointer-events-auto` : `pointer-events-none`">
+  <div class="flex object-contain px-2 py-1" v-show="(mode >= 0 && mode <= 2)">
     <button class="flex-grow modeTab hover:text-blueGray-800 text-gray-500 font-semibold shadow-sm"
             :class="editMode === 0 ? `text-blueGray-800` : ``"
             :style="editMode === 0 ? `background-color: white; border-radius: 5px;` : ``"
@@ -36,10 +36,20 @@ export default {
 
     function changeEditMode (mode) {
       editMode.value = mode
+      bus.emit('changeShowMode', mode)
       bus.emit('changeMode', mode)
     }
 
-    // // 回到进入榕视图之前的模式
+    /**
+     * 模式切换
+     * @param obj {{mode: int}}
+     */
+
+    bus.on('changeModeChoose', (mode) => {
+      changeEditMode(mode)
+    })
+
+    // 回到进入榕视图之前的模式
     bus.on('backToEditMode', () => {
       bus.emit('changeMode', editMode.value)
     })

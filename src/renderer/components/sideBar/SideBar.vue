@@ -29,7 +29,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 1" v-if="false" >
+      <button class="myButton"  @click="isFile = 1" >
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_1317)">
@@ -73,7 +73,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 5" v-if="false" >
+      <button class="myButton"  @click="isFile = 5">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_462)">
@@ -567,7 +567,7 @@ export default {
 .header1-button {
   position: absolute;
   top: 1px;
-  right: 0;
+  right: 5px;
 }
 
 .header1-button:hover path {
@@ -607,7 +607,7 @@ export default {
 .header3-button {
   position: absolute;
   top: 1px;
-  right: 50px;
+  right: 48px;
 }
 
 .header3-button:hover path {

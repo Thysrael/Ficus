@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2">
+  <div class="pl-2 pr-4">
     <div style="font-size: 12px">
       当前文档下共有 {{ tags.length }} 个标签
     </div>
@@ -26,6 +26,7 @@
             </button>
       </span>
 
+      <br/>
       <!-- 点击叶子按钮时需要将输入框内容添加到标签组中，注意绑定事件 -->
       <div class="items-center flex flex-wrap">
         <div>

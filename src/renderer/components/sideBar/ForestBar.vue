@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2 content-center items-center w-full mt-2">
+  <div class="pl-2 pr-4 content-center items-center w-full mt-2">
     <div style="display: flex">
       <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
              style="font-family: 'Noto Sans SC'; font-weight: lighter"

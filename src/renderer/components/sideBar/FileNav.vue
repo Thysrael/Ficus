@@ -4,6 +4,7 @@
       <FileNavItem
           :topItem="navItems[0]"
           :selected="selected"
+          :init="true"
           :item="navItem"
           v-for="(navItem, index) in navItems"
           :key="index"

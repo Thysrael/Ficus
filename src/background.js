@@ -233,6 +233,7 @@ app.on('ready', async () => {
     const win = BrowserWindow.fromWebContents(e.sender)
     win.webContents.closeDevTools()
   })
+
   ficusApp.init()
 })
 

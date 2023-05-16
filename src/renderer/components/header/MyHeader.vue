@@ -88,7 +88,7 @@
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
               class="theme-element;"
-              :class="(mode === 0 || mode === 1) ? `pointer-events-auto` : `pointer-events-none`"
+              v-show="(mode === 0 || mode === 1)"
               style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
@@ -169,19 +169,10 @@ export default {
       const mode = store.getters.getMode
       if (openFiles.value.length === 0 && value !== -1) {
         store.dispatch('updateMode', { value: -1 })
-        bus.emit('chooseToShowPage', 0) // 展示欢迎界面
         return
       }
       if (mode !== value) {
         // 模式改变 0表示纯文本，1表示源码，2表示树形
-        if (value === 2) {
-          bus.emit('chooseToShowPage', 2) // 展示树型组件
-        } else if (value === 0 || value === 1) {
-          // bus.emit('changeEditMode', { mode: value }) // 切换textUI的模式
-          bus.emit('chooseToShowPage', 1) // 展示编辑器组件
-        } else if (value === -1) {
-          bus.emit('chooseToShowPage', 0)
-        }
         if (mode !== -1) {
           // 工作区有打开文件
           store.dispatch('updateMode', { value })
@@ -308,7 +299,6 @@ export default {
       info.files = props.data[0]
       dataManager.buildGraphFromFiles(info, { replaced: true })
       bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
-      bus.emit('chooseToShowPage', 3)
       await store.dispatch('updateMode', { value: 3 })
     })
 

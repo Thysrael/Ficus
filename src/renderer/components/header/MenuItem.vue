@@ -1,19 +1,31 @@
 <template>
   <li>
-    <div
+    <div style="display: flex">
+      <div style="width: 10px;padding-left: 5px">
+        {{ item.selected ? `√`: ``}}
+      </div>
+      <div
         style="width: 200px;height: 23px;"
         @mouseenter="hover = true"
         @mouseout="hover = false"
         class="flex content-center items-center"
     >
-      <p class="ml-4" style="width: 170px; font-size: 12px; user-select: none;">
-        {{ item.name }}
-      </p>
 
+      <div class="ml-4" style="width: 150px; font-size: 12px; user-select: none;display: flex;justify-content: space-between;">
+        <div style="text-align: left">
+          {{item.name}}
+        </div>
+        <div style="text-align: right">
+        {{item.keyBoard}}
+        </div>
+      </div>
+<!--      <div class="ml-4" style="margin-left: 50px; width: 170px; font-size: 10px; user-select: none;">-->
+<!--        -->
+<!--      </div>-->
       <svg fill="#000000"
            v-if="hasChildren"
            :class="[(hover) ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
-           style="height: 12px;width: 12px;"
+           style="height: 12px;width: 12px;margin-left: 20px"
            viewBox="0 0 24 24"
            xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -22,6 +34,7 @@
           <path d="M6.5,8.5l6,7l6-7H6.5z"></path>
         </g>
       </svg>
+    </div>
     </div>
   </li>
 </template>
