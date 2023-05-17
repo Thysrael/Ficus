@@ -47,29 +47,6 @@ exports.deleteFolder = async (folderPath) => {
   fs.removeSync(folderPath)
 }
 
-// 新建文件1
-exports.newFileFromDialog = async (projPath) => {
-  return await dialog.showSaveDialog({
-    buttonLabel: '新建',
-    defaultPath: app.getPath('desktop'),
-    properties: ['showHiddenFiles'],
-    filters: markdownFilters
-  }).then(async (result) => {
-    if (result.canceled === true) {
-      return []
-    }
-
-    fs.createFileSync(result.filePath)
-    const file = makeFileStat(result.filePath)
-
-    if (isFileInDirectory(result.filePath, projPath)) {
-      return [{ file, in: true }]
-    } else {
-      return [{ file, in: false }]
-    }
-  })
-}
-
 // 新建文件2
 exports.newFileFromSidebar = async (folderPath, fileName) => {
   const filePath = path.resolve(folderPath, fileName)

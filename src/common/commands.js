@@ -47,7 +47,7 @@ const COMMANDS = Object.freeze({
   FORMAT_INLINE_CODE: 'format.inline-code',
   FORMAT_INLINE_MATH: 'format.inline-math',
   FORMAT_HIGHLIGHT: 'format.highlight',
-  FORMAT_CITE_FILE: 'format.cite-file',
+  FORMAT_FILELINK: 'format.filelink',
   FORMAT_HYPERLINK: 'format.hyperlink',
   FORMAT_IMAGE: 'format.image',
   FORMAT_CLEAR_FORMAT: 'format.clear-format',
@@ -93,9 +93,9 @@ const COMMANDS = Object.freeze({
 
   VIEW_TEXT_MODE: 'view.text-mode',
   VIEW_SOURCE_CODE_MODE: 'view.source-code-mode',
-  VIEW_FOCUS_MODE: 'view.focus-mode',
+  VIEW_FICUS_MODE: 'view.ficus-mode',
   VIEW_TOGGLE_DEV_TOOLS: 'view.toggle-dev-tools',
-  VIEW_TYPEWRITER_MODE: 'view.typewriter-mode'
+  VIEW_TYPEWRITER_MODE: 'view.typewriter-mode',
   // VIEW_COMMAND_PALETTE: 'view.command-palette',
   // VIEW_DEV_RELOAD: 'view.dev-reload',
   // VIEW_FORCE_RELOAD_IMAGES: 'view.reload-images',
@@ -109,6 +109,8 @@ const COMMANDS = Object.freeze({
   // WINDOW_ZOOM_IN: 'window.zoom-in',
   // WINDOW_ZOOM_OUT: 'window.zoom-out',
   // WINDOW_OPEN_DEV_TOOL: 'view.toggle-dev-tools'
+
+  HELP_ABOUT: 'help.about'
 })
 
 export default COMMANDS

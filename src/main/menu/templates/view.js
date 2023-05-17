@@ -5,7 +5,7 @@ export default function (keybindings) {
       label: '文本模式',
       id: 'view.text-mode',
       type: 'checkbox',
-      checked: false,
+      checked: false, // TODO: 互斥判断
       accelerator: keybindings.getAccelerator('view.text-mode'),
       click (menuItem, browserWindow) {
         browserWindow.webContents.send('ficus::keyboard-event', menuItem.id)
@@ -21,10 +21,10 @@ export default function (keybindings) {
       }
     }, {
       label: 'Ficus模式',
-      id: 'view.focus-mode',
+      id: 'view.ficus-mode',
       type: 'checkbox',
       checked: false,
-      accelerator: keybindings.getAccelerator('view.focus-mode'),
+      accelerator: keybindings.getAccelerator('view.ficus-mode'),
       click (menuItem, browserWindow) {
         browserWindow.webContents.send('ficus::keyboard-event', menuItem.id)
       }

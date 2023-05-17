@@ -5,7 +5,7 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
   getFileFromUser,
-  linkToFile, newFileFromDialog,
+  linkToFile,
   newFileFromSidebar, newFolder, renameFileOrFolder,
   saveFile,
   saveToTarget,
@@ -176,11 +176,6 @@ app.on('ready', async () => {
 
   ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
     newFolder(filePath, fileName)
-  })
-
-  ipcMain.handle('newFileFromDialog', async (e, projPath) => {
-    const tree = await newFileFromDialog(projPath)
-    return tree
   })
 
   ipcMain.handle('dialog:openFile', async (e) => {
