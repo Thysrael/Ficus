@@ -144,7 +144,6 @@ export default {
     bus.on('changeShowTypewriterMode', (enable) => {
       if (items.value) {
         const modeArray = items.value[4].submenu
-        console.log(modeArray)
         modeArray[4].checked = enable // FIXME
       }
     })
