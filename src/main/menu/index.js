@@ -1,9 +1,16 @@
 import { Menu, app } from 'electron'
 import { isOsx, isWindows } from '../config'
+import { getMenuTemplates, toRawMenuTemplates } from './templates'
 
 class AppMenu {
   constructor () {
     this.isOsxOrWindows = isOsx || isWindows
+    this.keybinding = null
+  }
+
+  init (keybinding) {
+    this.keybinding = keybinding
+
     if (isOsx) {
       Menu.setApplicationMenu(null)
     }
@@ -26,6 +33,13 @@ class AppMenu {
     if (this.isOsxOrWindows) {
       app.clearRecentDocuments()
     }
+  }
+
+  _buildMenu () {
+    const menuTemplate = getMenuTemplates(this.keybinding)
+    console.log(toRawMenuTemplates(menuTemplate))
+    const menu = Menu.buildFromTemplate(menuTemplate)
+    return menu
   }
 }
 
