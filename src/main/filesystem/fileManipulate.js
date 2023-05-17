@@ -245,3 +245,23 @@ function makeValidFilePath (filePath) {
   }
   return 'ficus-error.md'
 }
+
+exports.makeValidFolderPath = (folderPath) => {
+  if (!fs.existsSync(folderPath)) {
+    return folderPath
+  }
+  let newPath = `${folderPath}${path.sep}new`
+  if (!fs.existsSync(newPath)) {
+    return newPath
+  }
+
+  let id = 2
+  while (id <= 100000) {
+    newPath = `${folderPath}${path.sep}new ${id}`
+    if (!fs.existsSync(newPath)) {
+      return newPath
+    }
+    id += 1
+  }
+  return 'ficus-error.md'
+}

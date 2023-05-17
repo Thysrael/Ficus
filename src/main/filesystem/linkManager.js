@@ -3,8 +3,7 @@ import { getLinksInFile } from '../../common/parseLinks'
 import fs, { readFileSync } from 'fs-extra'
 import { isLeaveDirectory, isValidMarkdownFilePath } from '../helper/path'
 import { ipcMain } from 'electron'
-import { deleteFolder, move } from '@/main/filesystem/fileManipulate'
-
+import { deleteFolder, move, makeValidFolderPath, newFolder } from '@/main/filesystem/fileManipulate'
 class LinkManager {
   /**
    * 管理tag和cites
@@ -105,6 +104,22 @@ class LinkManager {
         console.log(e)
       }
     }
+  }
+
+  /**
+   *  将标签转成文件夹，文件夹中的文件是有此标签的全部文件
+   *  @returns
+   */
+  async tagToFolder (tagName, targetPath) {
+    if (this.tagToFiles.has(tagName)) {
+      const files = this.tagToFiles.get(tagName)
+      const newTarPath = makeValidFolderPath(path.resolve(targetPath, tagName))
+      await newFolder(path.dirname(newTarPath), /* newTarPath.substring(newTarPath.lastIndexOf(path.sep) + 1) */ path.basename(newTarPath))
+      for (const filePath of files) {
+        await move(filePath, newTarPath)
+      }
+      return true
+    } else { return false }
   }
 
   /**
@@ -231,6 +246,10 @@ class LinkManager {
   _listenForIpcMain () {
     // 测试环境下 ipcMain 为undifined
     if (ipcMain) {
+      ipcMain.handle('ficus::tagToFolder', async (e, tagName, targetPath) => {
+        return await this.tagToFolder(tagName, targetPath)
+      })
+
       ipcMain.handle('ficus::getCites', async (e, filePath) => {
         return this.getCiteInfo(filePath)
       })
