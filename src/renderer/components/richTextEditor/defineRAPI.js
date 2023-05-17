@@ -1,6 +1,6 @@
 import bus from 'vue3-eventbus'
 
-export default function defineRAPI (vditor) {
+export default function defineRAPI (vditor, searchData) {
   /** 设置编辑器内容 **/
   bus.on('setEditorContent', ({ content }) => {
     vditor.setValue(content)
@@ -20,6 +20,12 @@ export default function defineRAPI (vditor) {
       vditor.changeEditMode('sv')
     } else {
       vditor.changeEditMode('ir')
+    }
+    // 如果用户正在搜索，则实时返回最新的搜索结果
+    if (vditor.vditor.search.isSearching) {
+      const res = vditor.vditor.search.getSearchCounter()
+      searchData.current = res.current
+      searchData.total = res.total
     }
   })
 

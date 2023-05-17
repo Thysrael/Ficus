@@ -304,3 +304,13 @@ pre.vditor-sv:focus {
   color: #4a72d3;
   text-decoration: underline;
 }
+
+/** 搜索高亮 **/
+
+.vditor-reset span.vditor-search__result {
+  background-color: #c8e6d2;
+}
+
+.vditor-reset span.vditor-search__current {
+  background-color: #b6f07c;
+}
