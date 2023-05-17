@@ -1,6 +1,6 @@
 <template>
   <li>
-    <div style="display: flex">
+    <div class="flex flex-wrap items-center">
       <div style="width: 10px;padding-left: 5px">
         {{ item.selected ? `√`: ``}}
       </div>
