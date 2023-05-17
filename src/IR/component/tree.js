@@ -37,7 +37,6 @@ class IRTree {
     }
     mindJson.data.name = this.name
     mindJson.data.text = this.name
-    console.log(mindJson)
     return mindJson
   }
 
