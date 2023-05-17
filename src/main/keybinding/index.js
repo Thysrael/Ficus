@@ -9,6 +9,14 @@ class KeyBinding {
     this._keys = this._loadDefaultKeybingdings()
   }
 
+  getAccelerator (id) {
+    const accelerator = this._keys.get(id)
+    if (!accelerator) {
+      return null
+    }
+    return accelerator
+  }
+
   registerKeyHandlers (win) {
     for (const [id, accelerator] of this._keys) {
       if (accelerator && accelerator.length > 1) {

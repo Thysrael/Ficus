@@ -15,9 +15,9 @@ class App {
     this.watcher = new Watcher()
     this.linkManager = new LinkManager()
     this.preferences = new Preference()
-    this.menu = new AppMenu()
     this.filesystem = new FileSystem()
     this.keyBinding = new KeyBinding()
+    this.menu = new AppMenu()
     this.ficusWindow = null
     this._listenForIpcMain()
   }
@@ -27,6 +27,7 @@ class App {
     this.watcher.on('change', (filepath) => this.linkManager.updateFile(filepath))
     this.watcher.on('unlink', (filepath) => this.linkManager.removeFile(filepath))
 
+    this.menu.init(this.keyBinding)
     this._createFicusWindow()
   }
 
