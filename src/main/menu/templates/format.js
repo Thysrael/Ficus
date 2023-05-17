@@ -45,8 +45,8 @@ export default function (keybindings) {
       }
     }, {
       label: '引用文件',
-      id: 'format.cite-file',
-      accelerator: keybindings.getAccelerator('format.cite-file'),
+      id: 'format.filelink',
+      accelerator: keybindings.getAccelerator('format.filelink'),
       click (menuItem, browserWindow) {
         browserWindow.webContents.send('ficus::keyboard-event', menuItem.id)
       }

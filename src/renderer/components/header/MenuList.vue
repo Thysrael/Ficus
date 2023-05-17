@@ -42,7 +42,6 @@
 import { getCurrentInstance, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuItem from '@/renderer/components/header/MenuItem'
-import store from '@/renderer/store'
 
 export default {
   name: 'MenuList',
@@ -114,197 +113,16 @@ export default {
       }
     }
 
-    // 新建文件
-    async function newFile () {
-      let path = ''
-      if (props.data.length !== 0) {
-        path = props.data[0].path
-      }
-      const obj = await window.electronAPI.newFileFromDialog(path)
-      for (let i = 0; i < obj.length; i++) {
-        bus.emit('openNewTab', obj[i].file)
-      }
-    }
-
     // 菜单栏核心逻辑分发函数
     async function show (layer, index) {
       // 导航
       mouseIn(layer, index)
 
       // 功能
-      const op = (layer === 1) ? items[index] : (layer === 2) ? secondItems.value[index] : thirdItems.value[index]
+      const op = (layer === 1) ? items.value[index] : (layer === 2) ? secondItems.value[index] : thirdItems.value[index]
 
       if (!(op.submenu && op.submenu.length)) {
-        // 根据index找相应的函数执行
-        const mode = store.getters.getMode
-        switch (op.label) {
-          case '新建文件':
-            await newFile()
-            break
-          case '打开文件夹':
-            bus.emit('cmd::execute', 'file.open-folder')
-            break
-          case '打开文件':
-            bus.emit('cmd::execute', 'file.open-file')
-            break
-          case '退出':
-            await window.electronAPI.closeWindow()
-            break
-          case '保存当前标签页':
-            bus.emit('writeBackForMenu')
-            break
-          case '关闭当前标签页':
-            bus.emit('closeCurTab')
-            break
-          case '重命名当前文件':
-            bus.emit('renameCurTabForMenu')
-            break
-          case '撤销':
-            bus.emit('undoCurTab')
-            break
-          case '重做':
-            bus.emit('redoCurTab')
-            break
-          case '剪切':
-            bus.emit('cmd::execute', 'edit.cut')
-            break
-          case '复制为纯文本':
-            bus.emit('cmd::execute', 'edit.copy')
-            break
-          case '复制为 Markdown Text':
-            bus.emit('cmd::execute', 'edit.copy-as-markdown')
-            break
-          case '复制为 HTML 代码':
-            bus.emit('cmd::execute', 'copy-as-markdown')
-            break
-          case '粘贴':
-            bus.emit('cmd::execute', 'edit.paste')
-            break
-          case '粘贴为纯文本':
-            bus.emit('cmd::execute', 'edit.paste-as-plaintext')
-            break
-          case '删除':
-            bus.emit('deleteSelectedText')
-            break
-          case '一级标题':
-            bus.emit('cmd::execute', 'paragraph.heading-1')
-            break
-          case '二级标题':
-            bus.emit('cmd::execute', 'paragraph.heading-2')
-            break
-          case '三级标题':
-            bus.emit('cmd::execute', 'paragraph.heading-3')
-            break
-          case '四级标题':
-            bus.emit('cmd::execute', 'paragraph.heading-4')
-            break
-          case '五级标题':
-            bus.emit('cmd::execute', 'paragraph.heading-5')
-            break
-          case '六级标题':
-            bus.emit('cmd::execute', 'paragraph.heading-6')
-            break
-          case '表格':
-            bus.emit('cmd::execute', 'paragraph.table')
-            break
-          case '数学公式块':
-            bus.emit('cmd::execute', 'paragraph.math-formula')
-            break
-          case '代码块':
-            bus.emit('cmd::execute', 'paragraph.code-fence')
-            break
-          case '引用':
-            bus.emit('cmd::execute', 'paragraph.quote-block')
-            break
-          case '有序列表':
-            bus.emit('cmd::execute', 'paragraph.order-list')
-            break
-          case '无序列表':
-            bus.emit('cmd::execute', 'paragraph.bullet-list')
-            break
-          case '任务清单':
-            bus.emit('cmd::execute', 'paragraph.task-list')
-            break
-          case '水平线':
-            bus.emit('cmd::execute', 'paragraph.horizontal-line')
-            break
-          case '加粗':
-            bus.emit('cmd::execute', 'format.strong')
-            break
-          case '斜体':
-            bus.emit('cmd::execute', 'format.emphasis')
-            break
-          case '删除线':
-            bus.emit('cmd::execute', 'format.strike')
-            break
-          case '行内代码':
-            bus.emit('cmd::execute', 'format.inline-code')
-            break
-          case '行内数学公式':
-            bus.emit('cmd::execute', 'format.inline-math')
-            break
-          case '高亮':
-            bus.emit('cmd::execute', 'format.highlight')
-            break
-          case '超链接':
-            bus.emit('cmd::execute', 'format.hyperlink')
-            break
-          case '图像':
-            bus.emit('cmd::execute', 'format.image')
-            break
-          case '引用文件':
-            bus.emit('addFormat', { type: 'file-link' })
-            break
-          case '清除样式':
-            bus.emit('cmd::execute', 'format.clear-format')
-            break
-          case '开发者工具':
-            bus.emit('cmd::execute', 'view.toggle-dev-tools')
-            break
-          case '打字机模式':
-            op.selected = !op.selected
-            bus.emit('setTypewriterMode', { enable: op.selected })
-            break
-          case '导出HTML文件':
-            if (mode === 0 || mode === 1) {
-              bus.emit('exportHTML')
-            } else {
-              bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出HTML' })
-            }
-            break
-          case '导出PDF文件':
-            if (mode === 0 || mode === 1) {
-              bus.emit('exportPDF')
-            } else {
-              bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出PDF' })
-            }
-            break
-          case '导出PNG':
-            // 只支持树模式和图模式
-            if (mode === 2) {
-              bus.emit('exportTreePNG')
-            } else if (mode === 3) {
-              bus.emit('exportGraphPNG')
-            } else {
-              bus.emit('showMyAlert', { message: '当前不在树视图或图视图，不能导出PNG' })
-            }
-            break
-          case '文本模式':
-            bus.emit('changeModeChoose', 0)
-            break
-          case '源码模式':
-            bus.emit('changeModeChoose', 1)
-            break
-          case 'Ficus模式':
-            bus.emit('changeModeChoose', 2)
-            break
-          case '关于':
-            await window.electronAPI.aboutUs()
-            break
-          case '文档':
-            await window.electronAPI.aboutUs()
-            break
-        }
+        bus.emit('cmd::execute', op.id)
         closeMenu() // 点击叶节点关闭菜单
       }
     }
@@ -315,9 +133,19 @@ export default {
      */
 
     bus.on('changeShowMode', (mode) => {
-      const modeArray = items.value[4].submenu
-      for (let i = 0; i <= 2; i++) {
-        modeArray[i].selected = (i === mode)
+      if (items.value) {
+        const modeArray = items.value[4].submenu
+        for (let i = 0; i <= 2; i++) {
+          modeArray[i].checked = (i === mode)
+        }
+      }
+    })
+
+    bus.on('changeShowTypewriterMode', (enable) => {
+      if (items.value) {
+        const modeArray = items.value[4].submenu
+        console.log(modeArray)
+        modeArray[4].checked = enable // FIXME
       }
     })
 

@@ -29,7 +29,7 @@ export default function (keybindings) {
     }, {
       type: 'separator'
     }, {
-      label: '保存文件',
+      label: '保存当前文件',
       id: 'file.save',
       accelerator: keybindings.getAccelerator('file.save'),
       click (menuItem, browserWindow) {
@@ -39,6 +39,13 @@ export default function (keybindings) {
       label: '重命名当前文件',
       id: 'file.rename-file',
       accelerator: keybindings.getAccelerator('file.rename-file'),
+      click (menuItem, browserWindow) {
+        browserWindow.webContents.send('ficus::keyboard-event', menuItem.id)
+      }
+    }, {
+      label: '关闭当前标签页',
+      id: 'file.close-tab',
+      accelerator: keybindings.getAccelerator('file.close-tab'),
       click (menuItem, browserWindow) {
         browserWindow.webContents.send('ficus::keyboard-event', menuItem.id)
       }

@@ -27,10 +27,11 @@ const isValidMenuItemLabel = (label) => {
 export function toRawMenuTemplates (menuTemplates) {
   const rawMenu = []
   for (const item of menuTemplates) {
-    const { label, accelerator, submenu } = item
+    const { label, id, accelerator, submenu } = item
     if (isValidMenuItemLabel(label)) {
       const rawItem = {
         label,
+        id,
         accelerator: accelerator ? simplifyAccelerator(accelerator) : undefined,
         submenu: submenu ? toRawMenuTemplates(submenu) : undefined
       }

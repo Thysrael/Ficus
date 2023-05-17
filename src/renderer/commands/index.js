@@ -1,13 +1,24 @@
 import { bus } from 'vue3-eventbus'
+import store from '../store'
 
 const state = {
   openDev: false
 }
 
-/**
- * FIXME: 请在这里添加事件
- */
 const commands = [
+  /** 编辑 */
+  {
+    id: 'edit.undo',
+    execute: async () => {
+      bus.emit('undoCurTab')
+    }
+  },
+  {
+    id: 'edit.redo',
+    execute: async () => {
+      bus.emit('redoCurTab')
+    }
+  },
   {
     id: 'edit.cut',
     execute: async () => {
@@ -45,6 +56,22 @@ const commands = [
     }
   },
   {
+    id: 'edit.delete',
+    execute: async () => {
+      bus.emit('deleteSelectedText')
+    }
+  },
+  /** 文件 */
+  {
+    id: 'file.new-file',
+    execute: async () => {
+      const files = await window.electronAPI.newFileFromDialog()
+      for (const file of files) {
+        bus.emit('openNewTab', file)
+      }
+    }
+  },
+  {
     id: 'file.open-file',
     execute: async () => {
       const files = await window.electronAPI.openFile()
@@ -62,6 +89,67 @@ const commands = [
       } catch {}
     }
   },
+  {
+    id: 'file.save',
+    execute: async () => {
+      bus.emit('writeBackForMenu')
+    }
+  },
+  {
+    id: 'file.rename-file',
+    execute: async () => {
+      bus.emit('renameCurTabForMenu')
+    }
+  },
+  {
+    id: 'file.close-tab',
+    execute: async () => {
+      bus.emit('closeCurTab')
+    }
+  },
+  {
+    id: 'file.export-as-html',
+    execute: async () => {
+      const mode = store.getters.getMode
+      if (mode === 0 || mode === 1) {
+        bus.emit('exportHTML')
+      } else {
+        bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出HTML' })
+      }
+    }
+  },
+  {
+    id: 'file.export-as-pdf',
+    execute: async () => {
+      const mode = store.getters.getMode
+      if (mode === 0 || mode === 1) {
+        bus.emit('exportPDF')
+      } else {
+        bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出PDF' })
+      }
+    }
+  },
+  {
+    id: 'file.export-as-png',
+    execute: async () => {
+      const mode = store.getters.getMode
+      // 只支持树模式和图模式
+      if (mode === 2) {
+        bus.emit('exportTreePNG')
+      } else if (mode === 3) {
+        bus.emit('exportGraphPNG')
+      } else {
+        bus.emit('showMyAlert', { message: '当前不在树视图或图视图，不能导出PNG' })
+      }
+    }
+  },
+  {
+    id: 'file.quit',
+    execute: async () => {
+      await window.electronAPI.closeWindow()
+    }
+  },
+  /** 段落 */
   {
     id: 'paragraph.heading-1',
     execute: async () => {
@@ -195,9 +283,34 @@ const commands = [
     }
   },
   {
+    id: 'format.filelink',
+    execute: async () => {
+      bus.emit('addFormat', { type: 'file-link' })
+    }
+  },
+  {
     id: 'format.clear-format',
     execute: async () => {
       bus.emit('removeFormat')
+    }
+  },
+  /** 视图 */
+  {
+    id: 'view.text-mode',
+    execute: async () => {
+      bus.emit('changeModeChoose', 0)
+    }
+  },
+  {
+    id: 'view.source-code-mode',
+    execute: async () => {
+      bus.emit('changeModeChoose', 1)
+    }
+  },
+  {
+    id: 'view.ficus-mode',
+    execute: async () => {
+      bus.emit('changeModeChoose', 2)
     }
   },
   {
@@ -209,6 +322,19 @@ const commands = [
         await window.electronAPI.openDev()
       }
       state.openDev = !state.openDev
+    }
+  },
+  {
+    id: 'view.typewriter-mode',
+    execute: async () => {
+      bus.emit('toggleTypewriterMode')
+    }
+  },
+  /** 帮助 */
+  {
+    id: 'help.about',
+    execute: async () => {
+      window.electronAPI.aboutUs()
     }
   }
 ]

@@ -1,6 +1,9 @@
 import bus from 'vue3-eventbus'
 
 export default function defineRAPI (vditor, searchData) {
+  const config = {
+    typewriterMode: false
+  }
   /** 设置编辑器内容 **/
   bus.on('setEditorContent', ({ content }) => {
     vditor.setValue(content)
@@ -121,8 +124,10 @@ export default function defineRAPI (vditor, searchData) {
     vditor.removeFormat()
   })
 
-  /** 设置打字机模式 **/
-  bus.on('setTypewriterMode', ({ enable }) => {
-    vditor.setTypewriterMode(enable)
+  /** 改变打字机模式 **/
+  bus.on('toggleTypewriterMode', () => {
+    config.typewriterMode = !config.typewriterMode
+    vditor.setTypewriterMode(config.typewriterMode)
+    bus.emit('changeShowTypewriterMode', config.typewriterMode)
   })
 }
