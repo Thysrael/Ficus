@@ -8,37 +8,43 @@
 
 /* 标题 */
 
-.vditor-sv.vditor-reset .h1 {
+.vditor-sv.vditor-reset .h1,
+.vditor-sv.vditor-reset .h1 * {
   font-size: 40px;
   font-weight: 900;
   color: #DF6FA6;
 }
 
-.vditor-sv.vditor-reset .h2 {
+.vditor-sv.vditor-reset .h2,
+.vditor-sv.vditor-reset .h2 * {
   font-size: 32px;
   font-weight: 900;
   color: #DF6FA6;
 }
 
-.vditor-sv.vditor-reset .h3 {
+.vditor-sv.vditor-reset .h3,
+.vditor-sv.vditor-reset .h3 * {
   font-size: 24px;
   font-weight: 900;
   color: #DF6FA6;
 }
 
-.vditor-sv.vditor-reset .h4 {
+.vditor-sv.vditor-reset .h4,
+.vditor-sv.vditor-reset .h4 * {
   font-size: 20px;
   font-weight: 900;
   color: #DF6FA6;
 }
 
-.vditor-sv.vditor-reset .h5 {
+.vditor-sv.vditor-reset .h5,
+.vditor-sv.vditor-reset .h5 * {
   font-size: 18px;
   font-weight: 900;
   color: #DF6FA6;
 }
 
-.vditor-sv.vditor-reset .h6 {
+.vditor-sv.vditor-reset .h6,
+.vditor-sv.vditor-reset .h6 * {
   font-size: 16px;
   font-weight: 900;
   color: #DF6FA6;
