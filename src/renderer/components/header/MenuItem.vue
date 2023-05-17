@@ -2,7 +2,7 @@
   <li>
     <div class="flex flex-wrap items-center">
       <div style="width: 10px;padding-left: 5px">
-        {{ item.selected ? `√`: ``}}
+        {{ item.checked ? `√`: ``}}
       </div>
       <div
         style="width: 200px;height: 23px;"
@@ -13,10 +13,10 @@
 
       <div class="ml-4" style="width: 150px; font-size: 12px; user-select: none;display: flex;justify-content: space-between;">
         <div style="text-align: left">
-          {{item.name}}
+          {{ item.label }}
         </div>
         <div style="text-align: right">
-        {{item.keyBoard}}
+        {{ item.accelerator }}
         </div>
       </div>
 <!--      <div class="ml-4" style="margin-left: 50px; width: 170px; font-size: 10px; user-select: none;">-->
@@ -55,7 +55,7 @@ export default {
 
     // 创建一个计算属性，用于判断当前项是否有子节点
     const hasChildren = computed(() => {
-      return props.item.children && props.item.children.length
+      return props.item.submenu && props.item.submenu.length
     })
 
     return {

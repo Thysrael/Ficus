@@ -56,3 +56,7 @@ contextBridge.exposeInMainWorld('pathAPI', {
   sep: path.sep,
   isFileInDirectory
 })
+
+contextBridge.exposeInMainWorld('menuAPI', {
+  setAppMenu: (callback) => ipcRenderer.on('set-app-menu', callback)
+})
