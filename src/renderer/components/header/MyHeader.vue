@@ -598,7 +598,7 @@ export default {
 }
 
 .appIcon:hover {
-  filter: invert(100%);
+  filter: hue-rotate(295);
   -webkit-transition: .3s, left .3s;
 }
 

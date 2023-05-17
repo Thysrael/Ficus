@@ -73,8 +73,8 @@ export default defineComponent({
       bus.on('sendToFicTree', (obj) => {
         // getData(obj).then(drawFicTree)
         // console.log(test)
-        // console.log(obj.children[0])
-        ficTree.setData(JSON.parse(JSON.stringify(obj.children[0])))
+        console.log(JSON.stringify(obj))
+        ficTree.setData(JSON.parse(JSON.stringify(obj)))
         ficTree.render()
       })
     })
