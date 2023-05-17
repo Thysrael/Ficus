@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, toRaw } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
@@ -212,7 +212,7 @@ export default {
     function sendContentByMode () {
       if (store.getters.getMode === 2) {
         const obj = store.getters['filesManager/mind']
-        bus.emit('sendToFicTree', obj)
+        bus.emit('sendToFicTree', toRaw(obj))
       } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
           (async () => {
@@ -598,7 +598,7 @@ export default {
 }
 
 .appIcon:hover {
-  filter: invert(100%);
+  filter: hue-rotate(295);
   -webkit-transition: .3s, left .3s;
 }
 
