@@ -7,7 +7,7 @@
     <FicGraph v-show="mode === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
     <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1 || mode === 0">
       <div class="myText items-center content-center text-center w-full col-span-3">
-        {{ wordCnt }} 词
+        {{ focusInfo === 0 ? (time + ' 分钟') : focusInfo === 1 ? (lineCnt + ' 行') : (wordCnt + ' 词') }}
       </div>
       <div class="infoBtn">
         <button @click="showInfoWin = !showInfoWin"
@@ -19,12 +19,18 @@
     <div class="allInformation"
            v-if="(mode === 1 || mode === 0) && showInfoWin === true"
            id="popoverRef">
-      <div>
-          字数统计信息
-          <hr style="border: none;border-top: 2px solid #ccc;height: 1px;" class="py-1">
-          {{ time }} 分钟<br>
-          {{ lineCnt }} 行<br>
-          {{ wordCnt }} 字符<br>
+      <div class="shadow-lg rounded-md py-2">
+        <b class="mr-2 text-gray-700">字数统计</b>
+        <hr style="border: none; border-top: 1px solid #ccc; height: 1px;" class="py-1 mt-2">
+        <div class="infoText px-2" @click="focusInfo = 0">
+          {{ time + ' 分钟' }}
+        </div>
+        <div class="infoText px-2" @click="focusInfo = 1">
+          {{ lineCnt + ' 行' }}
+        </div>
+        <div class="infoText px-2" @click="focusInfo = 2">
+          {{ wordCnt + ' 词' }}
+        </div>
       </div>
     </div>
   </div>
@@ -44,6 +50,7 @@ export default {
   components: { WelcomePage, FicGraph, FicTree, TextUI },
   setup () {
     const showInfoWin = ref(false)
+    const focusInfo = ref(2)
     const mode = computed(() => {
       return store.getters.getMode
     })
@@ -76,6 +83,7 @@ export default {
 
     return {
       showInfoWin,
+      focusInfo,
       mode,
       wordCnt,
       lineCnt,
@@ -103,9 +111,9 @@ export default {
 
 .allInformation {
   position: fixed;
-  bottom: 130px;
+  bottom: 150px;
   right: 20px;
-  width: 80px;
+  width: 120px;
   height: 20px;
   opacity: 1;
   background: #FFFFFF;
@@ -123,15 +131,6 @@ export default {
   opacity: 1;
 }
 
-.information {
-  position: relative;
-  width: 70px;
-  right: 0px;
-  top: 0px;
-  height: 20px;
-  opacity: 1;
-}
-
 .myText {
   opacity: 1;
   font-family: "Noto Sans SC";
@@ -145,5 +144,18 @@ export default {
   fill-opacity: 1;
   -webkit-transition: fill .3s;
   -webkit-transition:left .3s, fill .3s;
+}
+
+.infoText {
+  font-size: 13px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: #666A70;
+}
+
+.infoText:hover {
+  background-color: #e5e5e5;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
 }
 </style>
