@@ -5,6 +5,7 @@ import History from '../history/index'
 class IRTree {
   constructor (filepath, doc, options = {}) {
     this.filepath = filepath
+    this.name = window.pathAPI.basename(filepath)
     this.root = null
     this.history = new History(this, doc, options)
   }
@@ -34,6 +35,9 @@ class IRTree {
     if (this.hasFrontMatter()) {
       mindJson.frontmatter = this.root.getChildrenHead().toMindJson()
     }
+    mindJson.data.name = this.name
+    mindJson.data.text = this.name
+    console.log(mindJson)
     return mindJson
   }
 
