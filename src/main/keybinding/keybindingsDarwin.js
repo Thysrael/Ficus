@@ -5,7 +5,7 @@
 
 export default new Map([
   // File menu
-  ['file.new-window', 'Command+N'],
+  ['file.new-file', 'Command+N'],
   ['file.new-tab', 'Command+T'],
   ['file.open-file', 'Command+O'],
   ['file.open-folder', 'Command+Shift+O'],
@@ -17,6 +17,9 @@ export default new Map([
   ['file.close-tab', 'Command+W'],
   ['file.close-window', 'Command+Shift+W'],
   ['file.quit', 'Command+Q'],
+  ['file.export-as-html', ''],
+  ['file.export-as-pdf', ''],
+  ['file.export-as-png', ''],
 
   // Edit menu
   ['edit.undo', 'Command+Z'],
@@ -37,6 +40,7 @@ export default new Map([
   ['edit.replace', 'Command+Option+F'],
   ['edit.find-in-folder', 'Shift+Command+F'],
   ['edit.screenshot', 'Command+Option+A'], // macOS only
+  ['edit.delete', ''],
 
   // Paragraph menu
   ['paragraph.heading-1', 'Command+1'],
@@ -80,7 +84,6 @@ export default new Map([
   ['window.zoom-in', ''],
   ['window.zoom-out', ''],
   ['window.toggle-full-screen', 'Ctrl+Command+F'],
-  ['window.open-dev-tool', 'F12'],
 
   // View menu
   ['view.command-palette', 'Command+Shift+P'],
@@ -90,7 +93,8 @@ export default new Map([
   ['view.toggle-sidebar', 'Command+J'],
   ['view.toggle-toc', 'Command+K'],
   ['view.toggle-tabbar', 'Command+Option+B'],
-  ['view.toggle-dev-tools', 'Command+Option+I'],
+  // ['view.toggle-dev-tools', 'Command+Option+I'],
+  ['view.toggle-dev-tools', 'F12'],
   ['view.dev-reload', 'Command+Option+R'],
   ['view.reload-images', 'Command+R'],
 

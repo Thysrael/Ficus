@@ -6,7 +6,7 @@
 
 export default new Map([
   // File menu
-  ['file.new-window', 'Ctrl+N'],
+  ['file.new-file', 'Ctrl+N'],
   ['file.new-tab', 'Ctrl+T'],
   ['file.open-file', 'Ctrl+O'],
   ['file.open-folder', 'Ctrl+Shift+O'],
@@ -19,6 +19,9 @@ export default new Map([
   ['file.close-tab', 'Ctrl+W'],
   ['file.close-window', 'Ctrl+Shift+W'],
   ['file.quit', 'Ctrl+Q'],
+  ['file.export-as-html', ''],
+  ['file.export-as-pdf', ''],
+  ['file.export-as-png', ''],
 
   // Edit menu
   ['edit.undo', 'Ctrl+Z'],
@@ -39,6 +42,7 @@ export default new Map([
   ['edit.replace', 'Ctrl+R'],
   ['edit.find-in-folder', 'Ctrl+Shift+F'],
   ['edit.screenshot', ''], // macOS only
+  ['edit.delete', ''],
 
   // Paragraph menu
   // NOTE: We cannot set a default value for heading size because `Ctrl+Alt` is an alias
@@ -84,7 +88,6 @@ export default new Map([
   ['window.zoom-in', ''],
   ['window.zoom-out', ''],
   ['window.toggle-full-screen', 'F11'],
-  ['window.open-dev-tool', 'F12'],
 
   // View menu
   ['view.command-palette', 'Ctrl+Shift+P'],
@@ -94,7 +97,8 @@ export default new Map([
   ['view.toggle-sidebar', 'Ctrl+J'],
   ['view.toggle-toc', 'Ctrl+K'],
   ['view.toggle-tabbar', 'Ctrl+Shift+B'],
-  ['view.toggle-dev-tools', 'Ctrl+Alt+I'],
+  // ['view.toggle-dev-tools', 'Ctrl+Alt+I'],
+  ['view.toggle-dev-tools', 'F12'],
   ['view.dev-reload', 'Ctrl+F5'],
   ['view.reload-images', 'F5'],
 

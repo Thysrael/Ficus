@@ -497,7 +497,7 @@ export default {
             bus.emit('cmd::execute', 'format.clear-format')
             break
           case '开发者工具':
-            bus.emit('cmd::execute', 'window.open-dev-tool')
+            bus.emit('cmd::execute', 'view.toggle-dev-tools')
             break
           case '打字机模式':
             op.selected = !op.selected

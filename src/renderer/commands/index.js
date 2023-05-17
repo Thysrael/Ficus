@@ -201,7 +201,7 @@ const commands = [
     }
   },
   {
-    id: 'window.open-dev-tool',
+    id: 'view.toggle-dev-tools',
     execute: async () => {
       if (state.openDev) {
         await window.electronAPI.closeDev()
