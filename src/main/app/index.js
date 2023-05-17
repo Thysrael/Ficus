@@ -45,7 +45,7 @@ class App {
 
   async _createFicusWindow () {
     const editor = new FicusWindow()
-    editor.init(this.keyBinding)
+    await editor.init(this.keyBinding, this.menu)
     this.ficusWindow = editor
   }
 

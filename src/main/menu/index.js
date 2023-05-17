@@ -1,19 +1,24 @@
 import { Menu, app } from 'electron'
 import { isOsx, isWindows } from '../config'
-import { getMenuTemplates } from './templates'
+import { getMenuTemplates, toRawMenuTemplates } from './templates'
 
 class AppMenu {
   constructor () {
     this.isOsxOrWindows = isOsx || isWindows
     this.keybinding = null
+    this._LISTENForIpcMain()
   }
 
   init (keybinding) {
     this.keybinding = keybinding
-
     if (isOsx) {
       Menu.setApplicationMenu(this._buildMenu())
     }
+  }
+
+  setWindowRawMenu (win) {
+    const menuTemplate = getMenuTemplates(this.keybinding)
+    win.webContents.send('set-app-menu', toRawMenuTemplates(menuTemplate))
   }
 
   /**
@@ -40,6 +45,8 @@ class AppMenu {
     const menu = Menu.buildFromTemplate(menuTemplate)
     return menu
   }
+
+  _LISTENForIpcMain () {}
 }
 
 export default AppMenu

@@ -9,9 +9,10 @@ class FicusWindow {
     this.browserWindow = null
   }
 
-  async init (keyBinding) {
+  async init (keyBinding, menu) {
     this.browserWindow = await this._createWindow()
     keyBinding.registerKeyHandlers(this.browserWindow)
+    menu.setWindowRawMenu(this.browserWindow)
   }
 
   async _createWindow () {

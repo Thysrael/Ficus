@@ -6,6 +6,7 @@ import paragraph from './paragraph'
 import format from './format'
 import view from './view'
 import help from './help'
+import { simplifyAccelerator } from '@/common/keybindings'
 
 export function getMenuTemplates (keybindings) {
   return [
@@ -19,14 +20,19 @@ export function getMenuTemplates (keybindings) {
   ]
 }
 
+const isValidMenuItemLabel = (label) => {
+  return label && label !== 'Ficus'
+}
+
 export function toRawMenuTemplates (menuTemplates) {
   const rawMenu = []
   for (const item of menuTemplates) {
     const { label, accelerator, submenu } = item
-    if (label && label !== 'Ficus') {
-      const rawItem = { label, accelerator }
-      if (submenu) {
-        rawItem.submenu = toRawMenuTemplates(submenu)
+    if (isValidMenuItemLabel(label)) {
+      const rawItem = {
+        label,
+        accelerator: accelerator ? simplifyAccelerator(accelerator) : undefined,
+        submenu: submenu ? toRawMenuTemplates(submenu) : undefined
       }
       rawMenu.push(rawItem)
     }
