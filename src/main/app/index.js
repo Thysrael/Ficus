@@ -50,15 +50,15 @@ class App {
   }
 
   _listenForIpcMain () {
-    ipcMain.handle('newProject', async (e, data) => {
+    ipcMain.on('open-folder', async (e) => {
       const win = BrowserWindow.fromWebContents(e.sender)
       await this.watcher.close()
       this.linkManager.reset()
-      const relation = await this.filesystem.newProject(data)
-      if (relation) {
-        this.watcher.watch(win, relation.path, 'dir')
+      const projectStat = await this.filesystem.newProject()
+      if (projectStat) {
+        this.watcher.watch(win, projectStat.path, 'dir')
+        win.webContents.send('ficus::passive-refresh', projectStat)
       }
-      return relation
     })
   }
 }

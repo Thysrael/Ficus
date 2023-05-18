@@ -146,8 +146,8 @@ exports.saveToTarget = async (fileContent, projPath) => {
     } else {
       fs.writeFileSync(result.filePath, fileContent)
       if (isFileInDirectory(result.filePath, projPath)) {
-        const tree = await makeFolderStat(projPath)
-        return tree.children
+        const { children } = await makeFolderStat(projPath)
+        return children
       } else {
         return []
       }

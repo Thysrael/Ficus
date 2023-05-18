@@ -83,10 +83,7 @@ const commands = [
   {
     id: 'file.open-folder',
     execute: async () => {
-      try {
-        const projectStat = await window.electronAPI.newFicusVault()
-        bus.emit('openDir', projectStat)
-      } catch {}
+      await window.electronAPI.openFolder()
     }
   },
   {
