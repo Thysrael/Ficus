@@ -175,7 +175,7 @@ export default {
         // 设置回调延迟
         undoDelay: 50,
         upload: {
-          url: 'ficusapi://upload'
+          url: 'http://ficus.world/local_api/upload'
         },
         // 预览模式选项
         preview: {
