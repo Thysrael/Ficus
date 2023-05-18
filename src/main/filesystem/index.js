@@ -27,7 +27,7 @@ class FileSystem {
       properties: ['createDirectory', 'openDirectory']
     }).then(async (result) => {
       if (result.canceled === true) {
-        throw Error('cancel open folder')
+        return null
       }
       this.root = result.filePaths[0]
 
