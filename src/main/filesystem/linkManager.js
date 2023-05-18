@@ -1,8 +1,9 @@
 import path from 'path'
 import { getLinksInFile } from '../../common/parseLinks'
-import { readFileSync } from 'fs-extra'
-import { isValidMarkdownFilePath } from '../helper/path'
+import fs, { readFileSync } from 'fs-extra'
+import { isLeaveDirectory, isValidMarkdownFilePath } from '../helper/path'
 import { ipcMain } from 'electron'
+import { deleteFolder, move } from '@/main/filesystem/fileManipulate'
 
 class LinkManager {
   /**
@@ -154,6 +155,45 @@ class LinkManager {
       }
       this.citingMap.delete(filepath)
     }
+  }
+
+  /**
+   * 将叶子目录转为标签，并将其中文件移到和该目录同一级后删除该目录
+   * @param folderPath
+   * @returns {boolean}
+   */
+  async folderToTag (folderPath) {
+    if (isLeaveDirectory(folderPath)) {
+      const subFileOrFolder = fs.readdirSync(folderPath)
+      const tarPath = path.dirname(folderPath)
+      const oldPaths = []
+      const tagName = path.basename(folderPath)
+      for (const subItem of subFileOrFolder) {
+        const subItemPath = path.resolve(folderPath, subItem)
+        await move(subItemPath, tarPath)
+        oldPaths.push(subItemPath)
+      }
+      await deleteFolder(folderPath)
+      const keys = this.tagToFiles.keys()
+      for (const oldPath of oldPaths) {
+        // 更新fileToTags
+        const newPath = path.resolve(tarPath, path.basename(oldPath))
+        const tagList = this.fileToTags.get(oldPath)
+        this.fileToTags.delete(oldPath)
+        this.fileToTags.set(newPath, tagList)
+        // 更新tagToFiles
+        for (const key of keys) {
+          const value = this.tagToFiles.get(key)
+          const idx = value.indexOf(oldPath)
+          if (idx !== -1) {
+            value.splice(idx, 1, newPath)
+          }
+        }
+        // 对移动了位置的文件添加之前所在文件夹的名字的标签
+        this._addFileTags(newPath, [tagName])
+      }
+      // 添加文件夹名的标签
+    } else { return false }
   }
 
   /* private */
