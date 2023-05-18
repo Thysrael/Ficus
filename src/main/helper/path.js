@@ -1,8 +1,8 @@
 /**
  * 判断路径类型
  */
-import { existsSync, statSync } from 'fs-extra'
-import { extname, sep } from 'path'
+import fs, { existsSync, statSync } from 'fs-extra'
+import path, { extname, sep } from 'path'
 const maxFileSize = 100 * 1024
 
 /**
@@ -45,10 +45,31 @@ function isValidFolderPath (filePath) {
 function isFileInDirectory (filePath, dirPath) {
   return filePath.startsWith(dirPath + sep)
 }
+
+/**
+ * 判断文件夹路径是否是“叶子目录”
+ * @param {string} dirPath
+ * @return true | False
+ */
+function isLeaveDirectory (dirPath) {
+  if (isValidFolderPath(dirPath)) {
+    const subFileOrFolder = fs.readdirSync(dirPath)
+    for (const subItem of subFileOrFolder) {
+      const subItemPath = path.resolve(dirPath, subItem)
+      if (isValidFolderPath(subItemPath)) {
+        return false
+      }
+    }
+    return true
+  }
+  return false
+}
+
 export {
   isValidMarkdownFilePath,
   isValidFilePath,
   isMarkdownExtname,
   isValidFolderPath,
-  isFileInDirectory
+  isFileInDirectory,
+  isLeaveDirectory
 }
