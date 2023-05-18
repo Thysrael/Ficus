@@ -37,6 +37,31 @@ class LinkManager {
     return res
   }
 
+  findTagGroups () {
+    const res = []
+    for (const [tagName, attach] of this.tagToFiles.entries()) {
+      const groups = []
+      attach.sort()
+      for (const filePath of attach) {
+        const dirname = path.dirname(filePath)
+        const basename = path.basename(filePath)
+        if (groups.length > 0 && groups[groups.length - 1].dirname === dirname) {
+          groups[groups.length - 1].files.push(basename)
+        } else {
+          groups.push({
+            dirname,
+            files: [basename]
+          })
+        }
+      }
+      res.push({
+        tagName,
+        groups
+      })
+    }
+    return res
+  }
+
   getFileTags (filepath) {
     if (this.fileToTags.has(filepath)) {
       return this.fileToTags.get(filepath)
