@@ -1,7 +1,7 @@
 import path from 'path'
 import { getLinksInFile } from '../../common/parseLinks'
 import fs, { readFileSync } from 'fs-extra'
-import { isLeaveDirectory, isValidMarkdownFilePath } from '../helper/path'
+import { isLeaveDirectory, isFileInDirectory, isValidMarkdownFilePath } from '../helper/path'
 import { ipcMain } from 'electron'
 import { deleteFolder, move, makeValidFolderPath, newFolder } from '@/main/filesystem/fileManipulate'
 class LinkManager {
@@ -115,8 +115,20 @@ class LinkManager {
       const files = this.tagToFiles.get(tagName)
       const newTarPath = makeValidFolderPath(path.resolve(targetPath, tagName))
       await newFolder(path.dirname(newTarPath), /* newTarPath.substring(newTarPath.lastIndexOf(path.sep) + 1) */ path.basename(newTarPath))
-      for (const filePath of files) {
-        await move(filePath, newTarPath)
+      const oldPaths = []
+      for (const filePath of files) { // 更细tagToFiles
+        if (isFileInDirectory(filePath, targetPath)) {
+          await move(filePath, newTarPath)
+          oldPaths.push(filePath)
+        }
+      }
+      for (const oldPath of oldPaths) { // 更新fileToTags
+        const newPath = path.resolve(newTarPath, path.basename(oldPath))
+        const index = files.indexOf(oldPath)
+        files.splice(index, 1, newPath)
+        const tagList = this.fileToTags.get(oldPath)
+        this.fileToTags.delete(oldPath)
+        this.fileToTags.set(newPath, tagList)
       }
       return true
     } else { return false }
