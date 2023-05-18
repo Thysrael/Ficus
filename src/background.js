@@ -20,17 +20,24 @@ import { isOsx, isWindows } from './main/config'
 import App from './main/app'
 import express from 'express'
 
-const uploadServer = express()
-uploadServer.use(express.static('public'))
-uploadServer.post('/upload', function (req, res) {
-  console.log(req)
-  setTimeout(function () {
-    res.send({ status: 'ok' })
-  }, 2000)
+const uploadApp = express();
+uploadApp.use(express.urlencoded({ extended: true }))
+uploadApp.use(express.json())
+
+uploadApp.post('/upload', (req, res) => {
+  console.log()
+  res.send({
+    "msg": "",
+    "code": 0,
+    "data": {
+      "succMap": req.query
+    }
+  })
 })
 
-const uploadListener = uploadServer.listen('0', () => { console.log('server_up' + uploadListener.address().port) })
-
+const instanceUploadApp = uploadApp.listen(9999, () => {
+  console.log('Server is running on port ' + instanceUploadApp.address().port)
+})
 
 const ficusApp = new App()
 
@@ -145,19 +152,20 @@ app.on('ready', async () => {
     }
   })
 
-  protocol.interceptHttpProtocol('ficusapi', (request, callback) => {
-    try {
-      console.log(request)
-      const apiName = request.url.slice('ficusapi://'.length)
-      const apiUrl = 'http://localhost:' + uploadListener.address().port + '/' + apiName
-      console.log(apiUrl)
+  protocol.registerHttpProtocol('http', (request, callback) => {
+    const url = request.url
+    if (url.startsWith('http://ficus.world/local_api/upload')) {
+      const jsonData = {}
+      for (const fileInfo of request.uploadData) {
+        if (fileInfo.type === 'file') {
+          jsonData[fileInfo.file] = 'ficus://' + fileInfo.filePath
+        }
+      }
       callback({
-        url: apiUrl, // 将 3030 的请求转发到 4040 端口
-        method: request.method,
-        session: null,
+        url: 'http://localhost:9999/upload?' + new URLSearchParams(jsonData)
       })
-    } catch (error) {
-      console.log(error)
+    } else {
+      callback({ url })
     }
   })
 
