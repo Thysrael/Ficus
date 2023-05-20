@@ -142,9 +142,9 @@ export default {
       type: 'file'
     }])
 
-    bus.on('editCites', (obj) => {
-      quoted.value = obj.cited
-      cites.value = obj.citing
+    bus.on('editCites', ({ citing, cited }) => {
+      quoted.value = cited
+      cites.value = citing
     })
 
     return {
