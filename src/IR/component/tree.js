@@ -1,5 +1,3 @@
-import { frontmatterTypeName } from '../block/base/type/constant'
-import { buildFrontMatter } from '../block/factory/buildNode'
 import History from '../history/index'
 
 class IRTree {
@@ -41,35 +39,20 @@ class IRTree {
   }
 
   getTags () {
-    if (this.hasFrontMatter()) {
-      return this.root.getChildrenHead().content.getTags()
-    } else {
-      return []
-    }
+    return this.root.getTags()
   }
 
   addTag (tagname) {
-    if (this.hasFrontMatter()) {
-      this.root.getChildrenHead().content.addTag(tagname)
-    } else {
-      this.root.children.insertBefore(buildFrontMatter('', 'yaml', '-'), this.root.getChildrenHead())
-      this.root.getChildrenHead().content.addTag(tagname)
-    }
+    this.root.addTag(tagname)
   }
 
   removeTag (tagname) {
-    if (this.hasFrontMatter()) {
-      this.root.getChildrenHead().content.removeTag(tagname)
-      if (this.root.getChildrenHead().content.isEmpty()) {
-        this.root.getChildrenHead().removeSelf()
-      }
-    }
+    this.root.removeTag(tagname)
   }
 
   /* private */
   hasFrontMatter () {
-    return this.root.getChildrenHead() !== null &&
-      this.root.getChildrenHead().nodeType === frontmatterTypeName
+    this.root.hasFrontMatter()
   }
 }
 

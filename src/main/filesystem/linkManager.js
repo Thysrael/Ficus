@@ -19,8 +19,8 @@ class LinkManager {
     this.fileToTags = new Map()
     this.tagToFiles = new Map()
 
-    this.citingMap = new Map()
-    this.citedMap = new Map()
+    this.citingMap = new Map() // 文件 引用 其他文件
+    this.citedMap = new Map() // 文件 被引用 其他文件
   }
 
   /**
@@ -60,6 +60,40 @@ class LinkManager {
       })
     }
     return res
+  }
+
+  getFileAllCites (filepath) {
+    const vis = new Set()
+    const queue = [filepath]
+
+    while (queue.length !== 0) {
+      const head = queue.shift()
+      if (this.citingMap.has(head)) {
+        for (const cited of this.citingMap.get(head)) {
+          if (!vis.has(cited)) {
+            queue.push(cited)
+          }
+        }
+      }
+    }
+    return [...vis]
+  }
+
+  getFileAllCiting (filepath) {
+    const vis = new Set()
+    const queue = [filepath]
+
+    while (queue.length !== 0) {
+      const head = queue.shift()
+      if (this.citedMap.has(head)) {
+        for (const citing of this.citedMap.get(head)) {
+          if (!vis.has(citing)) {
+            queue.push(citing)
+          }
+        }
+      }
+    }
+    return [...vis]
   }
 
   getFileTags (filepath) {

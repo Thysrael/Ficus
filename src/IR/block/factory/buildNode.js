@@ -1,10 +1,10 @@
 import { CodeContent, HeadingContent, ListContent, ListItemContent, MathContent, QuoteContent, RootContent, TableContent, ParagraphContent, FrontmatterContent } from '../base/content/base'
 import { FolderContent, FileContent, TagContent } from '../base/content/file'
-import TreeNode from '../base/treeNode'
+import TreeNode, { RootNode } from '../base/treeNode'
 import { paragraphTypeName, quoteTypeName, thematicBreakTypeName, codeblockTypeName, diagramTypeName, htmlblockTypeName, rootTypeName, frontmatterTypeName, headingTypeName, listItemTypeName, listTypeName, fileTypeName, folderTypeName, tagTypeName } from '../base/type/constant'
 
 function buildRootNode () {
-  return new TreeNode(rootTypeName, new RootContent())
+  return new RootNode(rootTypeName, new RootContent())
 }
 
 function buildFrontMatter (text, lang, style) {
