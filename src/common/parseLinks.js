@@ -1,3 +1,4 @@
+import { markdownToTree } from '@/IR/block/factory/markdownToTree'
 import { Lexer } from '../IR/utils/marked'
 import { load } from 'js-yaml'
 
@@ -85,6 +86,20 @@ function getLinksInFile (doc) {
   return { aerials, tags }
 }
 
+function addTagToDoc (doc, tagName) {
+  const ir = markdownToTree(doc)
+  ir.addTag(tagName)
+  return ir.toMarkdown()
+}
+
+function removeTagFromDoc (doc, tagName) {
+  const ir = markdownToTree(doc)
+  ir.removeTag(tagName)
+  return ir.toMarkdown()
+}
+
 export {
-  getLinksInFile
+  getLinksInFile,
+  addTagToDoc,
+  removeTagFromDoc
 }

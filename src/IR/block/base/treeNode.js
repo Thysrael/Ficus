@@ -1,3 +1,4 @@
+import { buildFrontMatter } from '../factory/buildNode.js'
 import LinkedNode from './linkedList/linkedNode.js'
 import { headingTypeName, listTypeName, listItemTypeName, frontmatterTypeName } from './type/constant.js'
 export default class TreeNode extends LinkedNode {
@@ -10,10 +11,6 @@ export default class TreeNode extends LinkedNode {
     super()
     this.nodeType = nodeType
     this.content = content
-    // DOM相关
-    this.classList = []
-    this.attributes = {}
-    this.datasets = {}
   }
 
   /**
@@ -92,5 +89,38 @@ export default class TreeNode extends LinkedNode {
    */
   toNodeJson () {
     return this.content.getNodeJson()
+  }
+}
+
+export class RootNode extends TreeNode {
+  getTags () {
+    if (this.hasFrontMatter()) {
+      return this.children.head.content.getTags()
+    } else {
+      return []
+    }
+  }
+
+  addTag (tagname) {
+    if (this.hasFrontMatter()) {
+      this.children.head.content.addTag(tagname)
+    } else {
+      this.children.insertBefore(buildFrontMatter('', 'yaml', '-'), this.children.head)
+      this.children.head.content.addTag(tagname)
+    }
+  }
+
+  removeTag (tagname) {
+    if (this.hasFrontMatter()) {
+      this.children.head.content.removeTag(tagname)
+      if (this.children.head.content.isEmpty()) {
+        this.children.head.removeSelf()
+      }
+    }
+  }
+
+  hasFrontMatter () {
+    return this.children.head !== null &&
+      this.children.head.nodeType === frontmatterTypeName
   }
 }
