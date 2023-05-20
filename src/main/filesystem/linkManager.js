@@ -250,6 +250,10 @@ class LinkManager {
       ipcMain.handle('getLinksAndTags', async (e, file) => {
         return this.getLinks(file)
       })
+
+      ipcMain.handle('ficus::folderToTag', async (e, folderPath) => {
+        return this.folderToTag(folderPath)
+      })
     }
   }
 }
