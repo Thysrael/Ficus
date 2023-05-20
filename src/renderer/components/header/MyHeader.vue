@@ -303,13 +303,13 @@ export default {
     })
 
     async function getCites () {
-      const obj = await window.electronAPI.getCites(curObj.value.path)
-      bus.emit('editCites', obj)
+      const { citing, cited } = await window.electronAPI.getCites(curObj.value.path)
+      bus.emit('editCites', { citing, cited })
     }
 
     function getTags () {
       const tags = store.getters['filesManager/tags']
-      bus.emit('editTags', { res: tags })
+      bus.emit('editTags', { tags })
     }
 
     function getOutLine () {
