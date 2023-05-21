@@ -4,20 +4,20 @@
       节点详情信息
     </div>
     <div style="font-size: 12px; margin-top: 15px;">
-      <b>节点名</b>: {{ test.name }}
+      <b>节点名</b>: {{ node.name }}
     </div>
-    <div style="font-size: 12px; margin-top: 15px;">
-      <b>节点路径</b>: {{ test.path }}
+    <div style="font-size: 12px; margin-top: 15px;" v-if="type !== 2">
+      <b>节点路径</b>: {{ node.path }}
     </div>
-    <div style="font-size: 12px; margin-top: 15px;">
-      该tag下有 {{ test.fileNum }} 个文件，分别位于 {{ test.pathNum }} 个路径下
+    <div style="font-size: 12px; margin-top: 15px;" v-if="type === 2">
+      该tag下有 {{ node.fileNum }} 个文件，分别位于 {{ node.pathNum }} 个路径下
     </div>
-    <div style="font-size: 12px; margin-top: 15px;">
-      该文件共引用 {{ test.citing }} 个文件，被 {{ test.cited }} 个文件引用
+    <div style="font-size: 12px; margin-top: 15px;" v-if="type === 1">
+      该文件共引用 {{ node.citing }} 个文件，被 {{ node.cited }} 个文件引用
     </div>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
     <ul>
-      <li v-for="(item, index) in test.children" :key="index">
+      <li v-for="(item, index) in node.children" :key="index">
         <GraphItem :unit="item"></GraphItem>
       </li>
     </ul>
@@ -39,7 +39,7 @@ export default {
   setup () {
     const type = ref(0) // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
 
-    const test = ref({
+    const node = ref({
       name: '选中文件',
       path: '我在这里',
       fileNum: 2,
@@ -48,24 +48,21 @@ export default {
       cited: 3,
       children: [{
         name: '正向遍历',
-        children: [{
-          name: 'a.md',
-          path: 'c/a.md'
-        }],
+        children: [
+          'c\\a.md'
+        ],
         handle: '转变为tag'
       }, {
         name: '逆向遍历',
-        children: [{
-          name: 'b.md',
-          path: 'c/b.md'
-        }],
+        children: [
+          'c\\b.md'
+        ],
         handle: '转变为tag'
       }, {
         name: '无向遍历',
-        children: [{
-          name: 'e.md',
-          path: 'c/e.md'
-        }],
+        children: [
+          'c\\e.md'
+        ],
         handle: '转变为tag'
       }]
     })
@@ -78,21 +75,22 @@ export default {
       bus.emit('quitFromGraph', 0)
     }
 
-    bus.on('curNode', (obj) => {
+    bus.on('curNode', async (obj) => {
       console.log(obj)
-      console.log(obj.name)
-      console.log(obj.path)
-      type.value = obj.category
-
-      const me = {}
-
-      test.value = me
+      type.value = obj.category // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
+      if (obj.category === 0) { /* empty */ } else if (obj.category === 1) {
+        node.value = await window.electronAPI.getFileCiteTraverse(obj.path)
+        console.log(node.value)
+      } else if (obj.category === 2) {
+        node.value = await window.electronAPI.getTagGroups(obj.name)
+        console.log(node.value)
+      }
     })
 
     return {
       handleProcess,
       quitGraph,
-      test,
+      node,
       type
     }
   }
