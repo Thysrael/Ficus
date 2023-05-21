@@ -37,60 +37,110 @@ class LinkManager {
     return res
   }
 
-  findTagGroups () {
-    const res = []
-    for (const [tagName, attach] of this.tagToFiles.entries()) {
+  getTagGroups (tagname) {
+    const res = {
+      name: tagname,
+      fileNum: 0,
+      pathNum: 0,
+      children: []
+    }
+    if (this.tagToFiles.has(tagname)) {
+      const attach = this.tagToFiles.get(tagname).sort()
+
       const groups = []
-      attach.sort()
       for (const filePath of attach) {
         const dirname = path.dirname(filePath)
         const basename = path.basename(filePath)
-        if (groups.length > 0 && groups[groups.length - 1].dirname === dirname) {
-          groups[groups.length - 1].files.push(basename)
+
+        if (groups.length > 0 && groups[groups.length - 1].name === dirname) {
+          groups[groups.length - 1].children.push(basename)
         } else {
           groups.push({
-            dirname,
-            files: [basename]
+            name: '',
+            children: [],
+            handle: '转变为根'
           })
         }
       }
-      res.push({
-        tagName,
-        groups
-      })
+      res.fileNum = attach.length
+      res.pathNum = groups.length
+      res.children = groups
     }
     return res
   }
 
-  getFileAllCites (filepath) {
+  getFileCiteTraverseInfo (filepath) {
+    const { citing, cited } = this.getCiteInfo()
+    return {
+      name: path.basename(filepath),
+      path: filepath,
+      citing: citing.length,
+      cited: cited.length,
+      children: [{
+        name: '正向遍历',
+        children: this._getFileAllCiting(filepath),
+        handle: '转变为tag'
+      }, {
+        name: '逆向遍历',
+        children: this._getFileAllCited(filepath),
+        handle: '转变为tag'
+      }, {
+        name: '无向遍历',
+        children: this._getFileAllUndirectedCites(filepath),
+        handle: '转变为tag'
+      }]
+    }
+  }
+
+  _getFileAllUndirectedCites (filepath) {
     const vis = new Set()
     const queue = [filepath]
 
     while (queue.length !== 0) {
       const head = queue.shift()
-      if (this.citingMap.has(head)) {
-        for (const cited of this.citingMap.get(head)) {
-          if (!vis.has(cited)) {
-            queue.push(cited)
-          }
-        }
+      if (vis.has(head)) {
+        continue
+      }
+      vis.add(head)
+      for (const cited of this.citingMap.get(head) || []) {
+        queue.push(cited)
+      }
+      for (const citing of this.citedMap.get(head) || []) {
+        queue.push(citing)
       }
     }
     return [...vis]
   }
 
-  getFileAllCiting (filepath) {
+  _getFileAllCited (filepath) {
     const vis = new Set()
     const queue = [filepath]
 
     while (queue.length !== 0) {
       const head = queue.shift()
-      if (this.citedMap.has(head)) {
-        for (const citing of this.citedMap.get(head)) {
-          if (!vis.has(citing)) {
-            queue.push(citing)
-          }
-        }
+      if (vis.has(head)) {
+        continue
+      }
+      vis.add(head)
+      for (const cited of this.citingMap.get(head) || []) {
+        queue.push(cited)
+      }
+    }
+    return [...vis]
+  }
+
+  _getFileAllCiting (filepath) {
+    const vis = new Set()
+    const queue = [filepath]
+
+    while (queue.length !== 0) {
+      const head = queue.shift()
+      if (vis.has(head)) {
+        continue
+      }
+      vis.add(head)
+      for (const citing of this.citedMap.get(head) || []) {
+        queue.push(citing)
       }
     }
     return [...vis]
@@ -343,6 +393,14 @@ class LinkManager {
 
       ipcMain.handle('ficus::folderToTag', async (e, folderPath) => {
         return this.folderToTag(folderPath)
+      })
+
+      ipcMain.handle('link::get-tag-groups', async (e, tagName) => {
+        return this.getTagGroups(tagName)
+      })
+
+      ipcMain.handle('link::get-file-cite-traverse', async (e, filepath) => {
+        return this.getFileCiteTraverseInfo(filepath)
       })
     }
   }
