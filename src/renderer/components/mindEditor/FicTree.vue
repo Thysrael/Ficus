@@ -84,7 +84,7 @@ export default defineComponent({
         const newData = {
           data: ficTree.getData(false)
         }
-        // bus.emit('saveChangeMindUI', newData)
+        bus.emit('saveChangeMindUI', newData)
       })
 
       ficTree.keyCommand.addShortcut('Control+c', copy)

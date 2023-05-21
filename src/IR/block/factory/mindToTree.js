@@ -10,7 +10,7 @@ function mindToTree (mindJson) {
 function mindToTreeRecursion (mindJson) {
   let nowNode
   let nowLevel
-  switch (mindJson.type) {
+  switch (mindJson.data.type) {
     case rootTypeName:
       nowNode = buildRootNode()
       break
@@ -62,7 +62,7 @@ function mindToTreeRecursion (mindJson) {
       break
     default:
       // error
-      console.log('mindToTree: unknown type ' + mindJson.type)
+      console.log('mindToTree: unknown type ' + mindJson.data.type)
       break
   }
   let level
