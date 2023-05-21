@@ -5,6 +5,7 @@
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === 1 || mode === 0"></TextUI>
     <FicTree v-show="mode === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
     <FicGraph v-show="mode === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
+    <PreArea v-show="mode === 4" style="width: 100%; height: 100%; position: relative; overflow: auto"></PreArea>
     <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1 || mode === 0">
       <div class="myText items-center content-center text-center w-full col-span-3">
         {{ focusInfo === 0 ? (time + ' 分钟') : focusInfo === 1 ? (lineCnt + ' 行') : (wordCnt + ' 词') }}
@@ -44,10 +45,11 @@ import bus from 'vue3-eventbus'
 import FicGraph from '@/renderer/components/mindEditor/FicGraph'
 import WelcomePage from '@/renderer/components/textArea/WelcomePage.vue'
 import store from '@/renderer/store'
+import PreArea from '@/renderer/components/textArea/PreArea'
 
 export default {
   name: 'TextArea',
-  components: { WelcomePage, FicGraph, FicTree, TextUI },
+  components: { PreArea, WelcomePage, FicGraph, FicTree, TextUI },
   setup () {
     const showInfoWin = ref(false)
     const focusInfo = ref(2)

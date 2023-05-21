@@ -4,21 +4,24 @@
       节点详情信息
     </div>
     <div style="font-size: 12px; margin-top: 15px;">
-      <b>文件名</b>: 敬请期待.md
+      <b>节点名</b>: {{ test.name }}
+    </div>
+    <div style="font-size: 12px; margin-top: 15px;">
+      <b>节点路径</b>: {{ test.path }}
+    </div>
+    <div style="font-size: 12px; margin-top: 15px;">
+      该tag下有 {{ test.fileNum }} 个文件，分别位于 {{ test.pathNum }} 个路径下
+    </div>
+    <div style="font-size: 12px; margin-top: 15px;">
+      该文件共引用 {{ test.citing }} 个文件，被 {{ test.cited }} 个文件引用
     </div>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
-    <button class="optionBtn" @click="handleProcess">
-      焦点前进
-    </button>
-    <button class="optionBtn" @click="handleProcess">
-      焦点后退
-    </button>
-    <button class="optionBtn" @click="handleProcess">
-      转换为Ficus根
-    </button>
-    <button class="optionBtn" @click="handleProcess">
-      提交图修改
-    </button>
+    <ul>
+      <li v-for="(item, index) in test.children" :key="index">
+        <GraphItem :unit="item"></GraphItem>
+      </li>
+    </ul>
+    <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
     <button class="optionBtn1" @click="quitGraph">
       退出榕图
     </button>
@@ -27,10 +30,43 @@
 
 <script>
 import bus from 'vue3-eventbus'
+import GraphItem from '@/renderer/components/sideBar/GraphItem'
 
 export default {
   name: 'GraphBar',
+  components: { GraphItem },
   setup () {
+    const test = {
+      name: '选中文件',
+      path: '我在这里',
+      fileNum: 2,
+      pathNum: 3,
+      citing: 2,
+      cited: 3,
+      children: [{
+        name: '正向遍历',
+        children: [{
+          name: 'a.md',
+          path: 'c/a.md'
+        }],
+        handle: '转变为tag'
+      }, {
+        name: '逆向遍历',
+        children: [{
+          name: 'b.md',
+          path: 'c/b.md'
+        }],
+        handle: '转变为tag'
+      }, {
+        name: '无向遍历',
+        children: [{
+          name: 'e.md',
+          path: 'c/e.md'
+        }],
+        handle: '转变为tag'
+      }]
+    }
+
     function handleProcess () {
       bus.emit('showMyAlert', { message: '敬请期待！' })
     }
@@ -41,7 +77,8 @@ export default {
 
     return {
       handleProcess,
-      quitGraph
+      quitGraph,
+      test
     }
   }
 }
