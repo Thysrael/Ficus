@@ -191,7 +191,6 @@ export default defineComponent({
     }
 
      */
-
     function exportImg (type) {
       /* eslint-disable */
       const lnk = document.createElement('a')
