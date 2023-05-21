@@ -66,7 +66,7 @@ export default defineComponent({
           },
           children: [ficTree.getData(false)]
         }
-        // bus.emit('saveChangeMindUI', newData)
+        bus.emit('saveChangeMindUI', newData)
       })
 
       // 监听data变化
