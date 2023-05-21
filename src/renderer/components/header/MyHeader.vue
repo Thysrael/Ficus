@@ -5,6 +5,7 @@
       <img alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
            class="appIcon"
+           :title="'菜单'"
            style="position: absolute; left: 5px; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
       <MenuList :data="data"
                 class="absolute"
