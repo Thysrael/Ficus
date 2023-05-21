@@ -77,7 +77,7 @@ export default new Map([
   ['format.hyperlink', 'Command+L'],
   ['format.image', 'Command+Shift+I'],
   ['format.clear-format', 'Shift+Command+R'],
-
+  ['format.filelink', ''],
   // Window menu
   ['window.minimize', 'Command+M'],
   ['window.toggle-always-on-top', ''],
@@ -97,7 +97,7 @@ export default new Map([
   ['view.toggle-dev-tools', 'F12'],
   ['view.dev-reload', 'Command+Option+R'],
   ['view.reload-images', 'Command+R'],
-
+  ['view.text-mode', ''],
   // ======== Not included in application menu ========================
   ['tabs.cycle-forward', 'Ctrl+Tab'],
   ['tabs.cycle-backward', 'Ctrl+Shift+Tab'],
@@ -113,5 +113,7 @@ export default new Map([
   ['tabs.switch-to-eighth', 'Ctrl+8'],
   ['tabs.switch-to-ninth', 'Ctrl+9'],
   ['tabs.switch-to-tenth', 'Ctrl+0'],
-  ['file.quick-open', 'Command+P']
+  ['file.quick-open', 'Command+P'],
+
+  ['help.about', '']
 ])
