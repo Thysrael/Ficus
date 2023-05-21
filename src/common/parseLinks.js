@@ -3,7 +3,7 @@ import { Lexer } from '../IR/utils/marked'
 import { load } from 'js-yaml'
 
 function getAerialInBlock (blocktext) {
-  const aerialPattern = /-\[([^\]]+)\]\((.*?)\)/g
+  const aerialPattern = /-\[([^\]]+)\]\((\S*).*?\)/g
   const aerials = []
   for (const word of blocktext.matchAll(aerialPattern)) {
     aerials.push(
