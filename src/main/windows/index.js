@@ -5,7 +5,7 @@ import { isOsx, isDevelopment } from '../config'
 import { initPath } from '../filesystem/fileManipulate'
 
 class FicusWindow {
-  constructor() {
+  constructor () {
     this.browserWindow = null
   }
 
@@ -15,7 +15,7 @@ class FicusWindow {
     menu.setWindowRawMenu(this.browserWindow)
   }
 
-  async _createWindow() {
+  async _createWindow () {
     // Create the browser window.
     const win = new BrowserWindow({
       width: 800,

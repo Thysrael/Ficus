@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol, dialog, shell, session } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, dialog, shell } from 'electron'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
@@ -20,24 +20,22 @@ import { isOsx, isWindows } from './main/config'
 import App from './main/app'
 import express from 'express'
 
-const uploadApp = express();
+const uploadApp = express()
 uploadApp.use(express.urlencoded({ extended: true }))
 uploadApp.use(express.json())
 
 uploadApp.post('/upload', (req, res) => {
   console.log()
   res.send({
-    "msg": "",
-    "code": 0,
-    "data": {
-      "succMap": req.query
+    msg: '',
+    code: 0,
+    data: {
+      succMap: req.query
     }
   })
 })
 
-const instanceUploadApp = uploadApp.listen(9999, () => {
-  console.log('Server is running on port ' + instanceUploadApp.address().port)
-})
+const instanceUploadApp = uploadApp.listen(0)
 
 const ficusApp = new App()
 
@@ -153,20 +151,17 @@ app.on('ready', async () => {
   })
 
   protocol.registerHttpProtocol('http', (request, callback) => {
-    const url = request.url
-    if (url.startsWith('http://ficus.world/local_api/upload')) {
+    let newReq = { url: request.url }
+    if (newReq.url.startsWith('http://ficus.world/local_api/upload')) {
       const jsonData = {}
       for (const fileInfo of request.uploadData) {
         if (fileInfo.type === 'file') {
           jsonData[fileInfo.file] = 'ficus://' + fileInfo.filePath
         }
       }
-      callback({
-        url: 'http://localhost:9999/upload?' + new URLSearchParams(jsonData)
-      })
-    } else {
-      callback({ url })
+      newReq.url = 'http://localhost:' + instanceUploadApp.address().port + '/upload?' + new URLSearchParams(jsonData)
     }
+    callback(newReq)
   })
 
   ipcMain.handle('changePath', (e, tarPath) => {
