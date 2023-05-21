@@ -19,6 +19,7 @@ class FileContent extends Content {
     return {
       id: this.id,
       name: this.name,
+      path: this.path,
       category: CATEGORY.FILE,
       depth: this.depth
     }
@@ -38,6 +39,7 @@ class FolderContent extends Content {
     return {
       id: this.id,
       name: this.name,
+      path: this.path,
       category: CATEGORY.FOLDER,
       depth: this.depth
     }
