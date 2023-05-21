@@ -82,7 +82,7 @@ export default new Map([
   ['format.hyperlink', 'Ctrl+L'],
   ['format.image', 'Ctrl+Shift+I'],
   ['format.clear-format', 'Ctrl+Shift+R'],
-
+  ['format.filelink', ''],
   // Window menu
   ['window.minimize', 'Ctrl+M'],
   ['window.toggle-always-on-top', ''],
@@ -101,7 +101,7 @@ export default new Map([
   ['view.toggle-dev-tools', 'F12'],
   ['view.dev-reload', 'Ctrl+F5'],
   ['view.reload-images', 'F5'],
-
+  ['view.text-mode', ''],
   // ======== Not included in application menu ========================
   ['tabs.cycle-forward', 'Ctrl+Tab'],
   ['tabs.cycle-backward', 'Ctrl+Shift+Tab'],
@@ -117,5 +117,7 @@ export default new Map([
   ['tabs.switch-to-eighth', 'Ctrl+8'],
   ['tabs.switch-to-ninth', 'Ctrl+9'],
   ['tabs.switch-to-tenth', 'Ctrl+0'],
-  ['file.quick-open', 'Ctrl+P']
+  ['file.quick-open', 'Ctrl+P'],
+
+  ['help.about', '']
 ])
