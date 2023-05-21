@@ -327,10 +327,16 @@ export default {
     watch(isFile, (newValue, oldValue) => {
       const res = (newValue === 4) ? 1 : 0
       bus.emit('showAllTag', res)
+      if (oldValue === 6) {
+        if (newValue !== 7) {
+          bus.emit('backToEditMode')
+        }
+      }
     })
 
     bus.on('quitFromGraph', () => {
       isFile.value = 0
+      bus.emit('backToEditMode')
     })
 
     async function flushTree () {
