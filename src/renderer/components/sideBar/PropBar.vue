@@ -77,9 +77,9 @@ export default {
     const keyWord = ref('')
     const showM = ref(false)
 
-    bus.on('editTags', ({ tags }) => {
+    bus.on('editTags', ({ tags: tagsArray }) => {
       tags.value.length = 0
-      tags.value.push(...tags)
+      tags.value.push(...tagsArray)
     })
 
     async function handleSearch () {
