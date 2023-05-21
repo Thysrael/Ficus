@@ -3,7 +3,7 @@
     {{ unit.name }}
   </div>
   <ul style="margin-top: 15px">
-    <li v-for="(item, index) in unit.children"
+    <li v-for="(path, index) in unit.children"
         :key="index">
       <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
         <div>
@@ -43,12 +43,12 @@
             </g>
           </svg>
         </div>
-        <div class="pl-2 overflow-hidden" :title="item.path">
+        <div class="pl-2 overflow-hidden" :title="path">
           <div style="font-size: 12px; text-overflow: ellipsis;">
-            {{ getName(item.path) }}
+            {{ getName(path) }}
           </div>
           <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
-            {{ item.path }}
+            {{ path }}
           </div>
         </div>
       </div>
