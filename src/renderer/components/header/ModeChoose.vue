@@ -50,9 +50,9 @@ export default {
     })
 
     // 回到进入榕视图之前的模式
-    bus.on('backToEditMode', () => {
-      bus.emit('changeMode', editMode.value)
-    })
+    // bus.on('backToEditMode', () => {
+    //   bus.emit('changeMode', editMode.value)
+    // })
     return {
       editMode,
       mode,

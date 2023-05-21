@@ -5,7 +5,8 @@
     </div>
     <ul style="margin-top: 15px">
       <li v-for="(item, index) in cites"
-          :key="index">
+          :key="index"
+          @click="toggle(item)">
         <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -61,7 +62,8 @@
     </div>
     <ul style="margin-top: 15px">
       <li v-for="(item, index) in quoted"
-          :key="index">
+          :key="index"
+          @click="toggle(item)">
         <div style="display: flex" class="items-center content-center relBarItem">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -127,7 +129,6 @@ export default {
       path: 'app2\\src\\components\\FileNav.vue',
       absolutePath: ['app2', 'src', 'components', 'FileNav.vue'],
       offset: -1,
-      content: '4',
       children: [],
       type: 'file'
     }])
@@ -137,7 +138,6 @@ export default {
       path: 'app2\\src\\components\\FileNav.vue',
       absolutePath: ['app2', 'src', 'components', 'FileNav.vue'],
       offset: -1,
-      content: '4',
       children: [],
       type: 'file'
     }])
@@ -147,9 +147,21 @@ export default {
       cites.value = citing
     })
 
+    function toggle (item) {
+      const obj = {
+        name: window.pathAPI.basename(item.path),
+        path: item.path,
+        type: 'file',
+        offset: -1,
+        absolutePath: item.path.split(window.pathAPI.sep)
+      }
+      bus.emit('openNewTab', obj)
+    }
+
     return {
       cites,
-      quoted
+      quoted,
+      toggle
     }
   }
 }

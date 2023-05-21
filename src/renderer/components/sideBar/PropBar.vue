@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2 pr-4">
+  <div class="pl-2 pr-4" v-if="all === 1">
     <div style="font-size: 12px">
       当前文档下共有 {{ tags.length }} 个标签
     </div>
@@ -63,6 +63,91 @@
       </div>
     </div>
   </div>
+  <div class="pl-2 pr-4" v-if="all === 2">
+    <div style="font-size: 12px">
+      当前工作区共有 {{ tags.length }} 个标签
+    </div>
+    <div class="items-center content-center my-2">
+      <!-- 在具体实现方面，可以通过一个 v-for 维护 -->
+      <!-- 点击删除标签按钮时需要将其从标签组中删去，注意绑定事件 -->
+      <span
+          v-for="(tag, index) in tags"
+          :key="index"
+          class="tag text-gray-700 text-xs font-normal mr-2 my-1 px-3 py-1 rounded-full items-center inline-block"
+          :title="tag">
+            <svg class="w-3 h-3 mr-1 inline" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path
+                d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/>
+            </svg>
+            {{ tag.length > 7 ? tag.slice(0, 7) + '...' : tag }}
+            <button class="inline-flex transition items-center p-1 ml-2 text-sm bg-transparent rounded-md hover:bg-gray-400 hover:text-white"
+                    aria-label="Remove"
+                    @click="removeTag(tag, index)">
+              <svg aria-hidden="true" class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"
+                   xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"
+                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"></path>
+              </svg>
+            </button>
+      </span>
+    </div>
+    <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
+    <div style="font-size: 12px">
+      当前标签关联 {{ tagged.length }} 个文档
+    </div>
+    <ul style="margin-top: 15px">
+      <li v-for="(item, index) in tagged"
+          :key="index"
+          @click="toggle(item)">
+        <div style="display: flex" class="items-center content-center relBarItem">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
+                 width="20" height="20" viewBox="0 0 15 15">
+              <g clip-path="url(#master_svg0_93_2618)">
+                <g>
+                  <g>
+                    <g>
+                      <g>
+                        <g>
+                          <g>
+                            <path
+                                d="M13,12.500020848083496Q13,13.224920848083496,12.48744,13.737420848083497Q11.97487,14.250020848083496,11.25,14.250020848083496L3.75,14.250020848083496Q3.025126,14.250020848083496,2.5125632,13.737420848083497Q2,13.224920848083496,2,12.500020848083496L2,2.500000848083496Q2,1.7751248480834962,2.5125632,1.262561748083496Q3.025126,0.749998848083496,3.75,0.749998848083496L8.1875,0.749998848083496L8.1875,1.2499986880834961L8.16988,0.7503098480834961Q8.94202,0.7230758480834961,9.48238,1.275309348083496L12.5514,4.532100848083497Q12.5569,4.5379008480834955,12.5621,4.543870848083496Q13.0261,5.068800848083496,12.9996,5.7688708480834965L12.5,5.750000848083496L13,5.750000848083496L13,12.500020848083496ZM12,12.500020848083496L12,5.750000848083496Q12,5.740560848083496,12.00036,5.7311208480834965Q12.01169,5.431090848083496,11.81286,5.206120848083496L12.1875,4.875000848083496L11.82361,5.217900848083496L8.76762,1.9746878480834962Q8.53604,1.7380158480834962,8.20512,1.749687848083496Q8.19631,1.749998848083496,8.1875,1.749998848083496L3.75,1.749998848083496Q3.43934,1.749998848083496,3.21967,1.969668848083496Q3,2.189338848083496,3,2.500000848083496L3,12.500020848083496Q3,12.810620848083497,3.21967,13.030320848083496Q3.43934,13.250020848083496,3.75,13.250020848083496L11.25,13.250020848083496Q11.56066,13.250020848083496,11.78033,13.030320848083496Q12,12.810620848083497,12,12.500020848083496Z"
+                                fill="#000000" fill-opacity="1"/>
+                          </g>
+                          <g>
+                            <line x1="4.9375" y1="11.062499046325684" x2="10.0625" y2="11.062499046325684"
+                                  fill-opacity="0" stroke-opacity="1" stroke="#000000" fill="none" stroke-width="1"
+                                  stroke-linecap="ROUND" stroke-linejoin="round"/>
+                          </g>
+                          <g>
+                            <line x1="4.9375" y1="8.562499046325684" x2="10.0625" y2="8.562499046325684"
+                                  fill-opacity="0" stroke-opacity="1" stroke="#000000" fill="none" stroke-width="1"
+                                  stroke-linecap="ROUND" stroke-linejoin="round"/>
+                          </g>
+                          <g>
+                            <line x1="5" y1="6.062499046325684" x2="8.125" y2="6.062499046325684" fill-opacity="0"
+                                  stroke-opacity="1" stroke="#000000" fill="none" stroke-width="1"
+                                  stroke-linecap="ROUND" stroke-linejoin="round"/>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div class="pl-2 overflow-hidden" :title="item.path">
+            <div style="font-size: 12px; text-overflow: ellipsis;">
+              {{ item.name }}
+            </div>
+            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
+              {{ item.path }}
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -76,6 +161,19 @@ export default {
     const resTags = ref(['a', 'b', 'c'])
     const keyWord = ref('')
     const showM = ref(false)
+    const all = ref(0)
+    const tagged = ref([{
+      name: 'FileNavItem.vue',
+      path: 'app2\\src\\components\\FileNav.vue'
+    }])
+
+    /**
+     *
+     * @param {int} value: 0-nothing, 1-curTag, 2-allTag
+     */
+    bus.on('showAllTag', (value) => {
+      all.value = value
+    })
 
     bus.on('editTags', ({ tags: tagsArray }) => {
       tags.value.length = 0
@@ -110,14 +208,28 @@ export default {
       tags.value.splice(index, 1)
     }
 
+    function toggle (item) {
+      const obj = {
+        name: window.pathAPI.basename(item.path),
+        path: item.path,
+        type: 'file',
+        offset: -1,
+        absolutePath: item.path.split(window.pathAPI.sep)
+      }
+      bus.emit('openNewTab', obj)
+    }
+
     return {
       tags,
       resTags,
       keyWord,
       showM,
+      all,
+      tagged,
       handleSearch,
       handleAddTag,
-      removeTag
+      removeTag,
+      toggle
     }
   }
 }
