@@ -1,4 +1,5 @@
 import IRGraph from '../../component/graph'
+
 function buildGraphFromFileTree (files, relations = [], aerials = []) {
   const res = new IRGraph()
   res.addFiles(files)
@@ -7,12 +8,4 @@ function buildGraphFromFileTree (files, relations = [], aerials = []) {
   return res
 }
 
-// TODO
-function buildGraphFromNodes (nodes, links = {}) {
-  const res = new IRGraph()
-  return res
-}
-export {
-  buildGraphFromFileTree,
-  buildGraphFromNodes
-}
+export default buildGraphFromFileTree

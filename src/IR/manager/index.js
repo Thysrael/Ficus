@@ -1,4 +1,4 @@
-import { buildGraphFromFileTree } from '../block/factory/filesToGraph'
+import buildGraphFromFileTree from '../block/factory/filesToGraph'
 
 const DEFAULT_OPTIONS = {
   replaced: false
