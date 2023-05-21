@@ -36,7 +36,8 @@ export default {
     const ficGraph = ForceGraph()(document.getElementById('ficGraph'))
         .cooldownTicks(100)
         .onNodeClick(node => {
-          // TODO: Focus on this node
+          // Focus on this node
+          bus.emit('curNode', node)
         })
         .onNodeHover(node => {
           highlightNodes.clear()
