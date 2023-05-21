@@ -103,10 +103,10 @@ class LinkManager {
       }
       vis.add(head)
       for (const cited of this.citingMap.get(head) || []) {
-        queue.push(cited)
+        queue.push(cited.path)
       }
       for (const citing of this.citedMap.get(head) || []) {
-        queue.push(citing)
+        queue.push(citing.path)
       }
     }
     return [...vis]
@@ -123,7 +123,7 @@ class LinkManager {
       }
       vis.add(head)
       for (const cited of this.citingMap.get(head) || []) {
-        queue.push(cited)
+        queue.push(cited.path)
       }
     }
     return [...vis]
@@ -140,7 +140,7 @@ class LinkManager {
       }
       vis.add(head)
       for (const citing of this.citedMap.get(head) || []) {
-        queue.push(citing)
+        queue.push(citing.path)
       }
     }
     return [...vis]
@@ -160,14 +160,8 @@ class LinkManager {
    * @returns {{cited: [{name: string, path: string}], citing: [{name: string, path: string}]}}
    */
   getCiteInfo (filepath) {
-    let cited = []
-    let citing = []
-    if (this.citingMap.has(filepath)) {
-      citing = this.citingMap.get(filepath)
-    }
-    if (this.citedMap.has(filepath)) {
-      cited = this.citedMap.get(filepath)
-    }
+    const cited = this.citedMap.get(filepath) || []
+    const citing = this.citingMap.get(filepath) || []
     return { citing, cited }
   }
 
