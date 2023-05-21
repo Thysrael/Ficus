@@ -31,12 +31,15 @@
 <script>
 import bus from 'vue3-eventbus'
 import GraphItem from '@/renderer/components/sideBar/GraphItem'
+import { ref } from 'vue'
 
 export default {
   name: 'GraphBar',
   components: { GraphItem },
   setup () {
-    const test = {
+    const type = ref(0) // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
+
+    const test = ref({
       name: '选中文件',
       path: '我在这里',
       fileNum: 2,
@@ -65,7 +68,7 @@ export default {
         }],
         handle: '转变为tag'
       }]
-    }
+    })
 
     function handleProcess () {
       bus.emit('showMyAlert', { message: '敬请期待！' })
@@ -75,10 +78,22 @@ export default {
       bus.emit('quitFromGraph', 0)
     }
 
+    bus.on('curNode', (obj) => {
+      console.log(obj)
+      console.log(obj.name)
+      console.log(obj.path)
+      type.value = obj.category
+
+      const me = {}
+
+      test.value = me
+    })
+
     return {
       handleProcess,
       quitGraph,
-      test
+      test,
+      type
     }
   }
 }
