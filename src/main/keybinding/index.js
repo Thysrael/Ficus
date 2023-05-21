@@ -18,12 +18,14 @@ class KeyBinding {
   }
 
   registerKeyHandlers (win) {
-    for (const [id, accelerator] of this._keys) {
-      if (accelerator && accelerator.length > 1) {
-        electronLocalshortcut.register(win, accelerator, () => {
-          console.log(id)
-          win.webContents.send('ficus::keyboard-event', id)
-        })
+    // macOS上菜单栏也会触发一次事件
+    if (!isOsx) {
+      for (const [id, accelerator] of this._keys) {
+        if (accelerator && accelerator.length > 1) {
+          electronLocalshortcut.register(win, accelerator, () => {
+            win.webContents.send('ficus::keyboard-event', id)
+          })
+        }
       }
     }
   }
