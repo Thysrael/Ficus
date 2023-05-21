@@ -56,7 +56,7 @@ class LinkManager {
           groups[groups.length - 1].children.push(basename)
         } else {
           groups.push({
-            name: '',
+            name: dirname,
             children: [],
             handle: '转变为根'
           })
