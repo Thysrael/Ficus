@@ -37,6 +37,10 @@ class LinkManager {
     return res
   }
 
+  getFilesByTag (tagname) {
+    return this.tagToFiles.get(tagname) || []
+  }
+
   getTagGroups (tagname) {
     const res = {
       name: tagname,
@@ -385,6 +389,10 @@ class LinkManager {
 
       ipcMain.handle('link::get-file-cite-traverse', async (e, filepath) => {
         return this.getFileCiteTraverseInfo(filepath)
+      })
+
+      ipcMain.handle('link::get-files-by-tag', async (e, tagname) => {
+        return this.getFilesByTag(tagname)
       })
     }
   }
