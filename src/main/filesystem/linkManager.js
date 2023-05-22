@@ -57,7 +57,7 @@ class LinkManager {
         } else {
           groups.push({
             name: dirname,
-            children: [],
+            children: [basename],
             handle: '转变为根'
           })
         }
@@ -70,7 +70,7 @@ class LinkManager {
   }
 
   getFileCiteTraverseInfo (filepath) {
-    const { citing, cited } = this.getCiteInfo()
+    const { citing, cited } = this.getCiteInfo(filepath)
     return {
       name: path.basename(filepath),
       path: filepath,

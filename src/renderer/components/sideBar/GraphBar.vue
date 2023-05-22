@@ -40,31 +40,8 @@ export default {
     const type = ref(0) // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
 
     const node = ref({
-      name: '选中文件',
-      path: '我在这里',
-      fileNum: 2,
-      pathNum: 3,
-      citing: 2,
-      cited: 3,
-      children: [{
-        name: '正向遍历',
-        children: [
-          'c\\a.md'
-        ],
-        handle: '转变为tag'
-      }, {
-        name: '逆向遍历',
-        children: [
-          'c\\b.md'
-        ],
-        handle: '转变为tag'
-      }, {
-        name: '无向遍历',
-        children: [
-          'c\\e.md'
-        ],
-        handle: '转变为tag'
-      }]
+      name: '未选中任何节点',
+      path: '无'
     })
 
     function handleProcess () {
