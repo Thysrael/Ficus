@@ -25,7 +25,6 @@ import { defineComponent, onMounted, ref, shallowRef } from 'vue'
 import MindMap from 'simple-mind-map'
 import Drag from 'simple-mind-map/src/Drag.js'
 import bus from 'vue3-eventbus'
-import RichText from 'simple-mind-map/src/RichText'
 
 export default defineComponent({
   setup () {
@@ -52,7 +51,6 @@ export default defineComponent({
 
     onMounted(() => {
       MindMap.usePlugin(Drag)
-      MindMap.usePlugin(RichText)
       MindMap.defineTheme('ficTheme', {
         backgroundColor: '',
       })
@@ -86,7 +84,7 @@ export default defineComponent({
       ficTree.on('data_change', (data, dataList) => {
         ficTree.resize()
         // ficTree.view.reset()
-        // console.log(ficTree.getData(false))
+        console.log(ficTree.getData(false))
         const newData = {
           data: ficTree.getData(false)
         }
@@ -135,7 +133,7 @@ export default defineComponent({
       bus.on('sendToFicTree', (obj) => {
         // getData(obj).then(drawFicTree)
         // console.log(test)
-        // console.log(JSON.stringify(obj))
+        console.log(JSON.parse(JSON.stringify(obj)))
         ficTree.setData(JSON.parse(JSON.stringify(obj)))
         ficTree.render()
       })
@@ -171,6 +169,28 @@ export default defineComponent({
       ficTree.execCommand('REMOVE_NODE')
       hide()
     }
+
+    /*
+
+    function stripHTMLTags (str) {
+      return str.replace(/<[^>]+>/g, '')
+    }
+
+    function simplifyTreeData (nodeData = {}) {
+      // { data: ''; children: '' }
+      console.log(nodeData.data)
+      if (nodeData.data.text !== null) {
+        nodeData.data.text = stripHTMLTags(nodeData.data.text)
+      }
+      if (nodeData.children !== null && nodeData.children.length > 0) {
+        nodeData.children.forEach(child => {
+          child = simplifyTreeData(child)
+        })
+      }
+      return nodeData
+    }
+
+     */
 
     function exportImg (type) {
       /* eslint-disable */
