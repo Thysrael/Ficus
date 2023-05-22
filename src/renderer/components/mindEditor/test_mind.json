@@ -1,113 +1,179 @@
 {
   "data": {
-    "name": "",
-    "text": "",
+    "name": "办公工具-PPT.md",
+    "text": "办公工具-PPT.md",
     "type": "root"
   },
   "children": [
     {
       "data": {
-        "name": "Wired USA",
-        "text": "Wired USA",
-        "type": "heading",
-        "level": 1
+        "name": "一、PPT 总论",
+        "text": "一、PPT 总论",
+        "type": "heading"
       },
       "children": [
         {
           "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
+            "name": "<b>1.1 排版解偶联</b>",
+            "text": "<b>1.1 排版解偶联</b>",
+            "type": "heading"
           },
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "​    在 LATEX 的讲解中，我意识到了可以将 <b> 信息 </b> 和**排版**解偶联，在PPT的学习中，我发觉似乎可以进一步解偶联，对于排版来说，可以解偶联成**排版设计**和**排版实现**两个部分，比如说对于以下这张slide",
+                "text": "​    在 LATEX 的讲解中，我意识到了可以将 <u> 信息 </u> 和**排版**解偶联，在PPT的学习中，我发觉似乎可以进一步解偶联，对于排版来说，可以解偶联成**排版设计**和**排版实现**两个部分，比如说对于以下这张slide",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "The WARTHOG M12 **annihilates** all competition!",
-                    "text": "The WARTHOG M12 **annihilates** all competition!",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ],
-          "loose": false,
-          "marker": "*"
-        },
-        {
-          "data": {
-            "name": "似乎 annihilate 注重于战争层面上的那种“歼灭”。e.g.) annihilate an enemy regiment 歼灭敌人一个团",
-            "text": "似乎 annihilate 注重于战争层面上的那种“歼灭”。e.g.) annihilate an enemy regiment 歼灭敌人一个团",
-            "type": "paragraph"
-          },
-          "children": []
-        },
-        {
-          "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
-          },
-          "children": [
+              "children": []
+            },
             {
               "data": {
-                "name": "New series now **streaming**.",
-                "text": "New series now **streaming**.",
-                "type": "list-item"
+                "name": "![image-20220210112013792](办公工具-PPT/image-20220210112013792.png)",
+                "text": "![image-20220210112013792](办公工具-PPT/image-20220210112013792.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    **排版设计**指的是选用大背景，背景图片要采用发布会图片（然后具体到某一章特定的图片），标题底下要有一个衬板，衬板的颜色要选择主题色，也就是橙色，衬板要有一个比较好的透明度，衬板要选择平行四边形，因此字体应应该选择斜体，然后主标题应该加粗，右上角要采用 AMD 的图标。这些称为排版设计。",
+                "text": "​    **排版设计**指的是选用大背景，背景图片要采用发布会图片（然后具体到某一章特定的图片），标题底下要有一个衬板，衬板的颜色要选择主题色，也就是橙色，衬板要有一个比较好的透明度，衬板要选择平行四边形，因此字体应应该选择斜体，然后主标题应该加粗，右上角要采用 AMD 的图标。这些称为排版设计。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    **排版实现**指的是要把上面的设计**需求**实现所需要的技术，可以是用PPT，也可以用latex，用 PPT 有很多种方法，比如说这个四边形，我可以用矩形然后调整角度实现，也可以直接用四边形工具，里面的标题，我可以直接打在四边形的形状里，也可以放一个文本框，然后里面打字。AMD的图标，我可以截图以后抠图，也可以从图标官网上下载。这些具体的实现方法就被称为**排版实现**。",
+                "text": "​    **排版实现**指的是要把上面的设计**需求**实现所需要的技术，可以是用PPT，也可以用latex，用 PPT 有很多种方法，比如说这个四边形，我可以用矩形然后调整角度实现，也可以直接用四边形工具，里面的标题，我可以直接打在四边形的形状里，也可以放一个文本框，然后里面打字。AMD的图标，我可以截图以后抠图，也可以从图标官网上下载。这些具体的实现方法就被称为**排版实现**。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    为什么要将这两个部分解偶联呢，是因为这两个部分其实对能力的要求是不同的。对于**排版设计**而言，更多的要求体现在美学素养和排版积累上面；对于**排版实现**而言，更多的体现在PPT工具的流畅使用和对素材的检索能力上面。如果把制作PPT看成浑然一体的一个东西，很容易陷入“太复杂了，选择太多了，我不行”的困境，而将其分开来看，则可以逐个击破，达到提高PPT水平的目的。",
+                "text": "​    为什么要将这两个部分解偶联呢，是因为这两个部分其实对能力的要求是不同的。对于**排版设计**而言，更多的要求体现在美学素养和排版积累上面；对于**排版实现**而言，更多的体现在PPT工具的流畅使用和对素材的检索能力上面。如果把制作PPT看成浑然一体的一个东西，很容易陷入“太复杂了，选择太多了，我不行”的困境，而将其分开来看，则可以逐个击破，达到提高PPT水平的目的。",
+                "type": "paragraph"
               },
               "children": []
             }
           ],
-          "loose": false,
-          "marker": "*"
+          "level": 3
         },
         {
           "data": {
-            "name": "新剧集正在流媒体上播放。注意 stream 的用法。",
-            "text": "新剧集正在流媒体上播放。注意 stream 的用法。",
-            "type": "paragraph"
-          },
-          "children": []
-        },
-        {
-          "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
+            "name": "1.2 PPT 中的信息",
+            "text": "1.2 PPT 中的信息",
+            "type": "heading"
           },
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "​    PPT 与论文的信息是不同的，其**本质区别**在于，论文中呈现了作者想要表达的全部的信息，而 PPT 只有作者想要表达的部分信息，另一部分信息需要通过作者的**讲演**来进行传递。所以对于呈现在 PPT 上的信息，我觉得只有两种（稍微不严谨，下一段修正），一种是**提纲**，即文本内容的提纲，表现为**无序列表**的形式；另一种是图表，用来**直观**的提供信息，图表包括：图标、图片、表格、概念图、衬板等设计元素。",
+                "text": "​    PPT 与论文的信息是不同的，其**本质区别**在于，论文中呈现了作者想要表达的全部的信息，而 PPT 只有作者想要表达的部分信息，另一部分信息需要通过作者的**讲演**来进行传递。所以对于呈现在 PPT 上的信息，我觉得只有两种（稍微不严谨，下一段修正），一种是**提纲**，即文本内容的提纲，表现为**无序列表**的形式；另一种是图表，用来**直观**的提供信息，图表包括：图标、图片、表格、概念图、衬板等设计元素。",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "financial clarity",
-                    "text": "financial clarity",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    此外，PPT 与 论文还有一个重要区别是论文是**静态**的，而 PPT 是动态的，这就要求 PPT 可以有时间序列上的设计（即哲学思想：人不可能踏入相同的河流）。比较直观的是动画的设计，其次还有一些**强调**设计，比如说下面的示例：",
+                "text": "​    此外，PPT 与 论文还有一个重要区别是论文是**静态**的，而 PPT 是动态的，这就要求 PPT 可以有时间序列上的设计（即哲学思想：人不可能踏入相同的河流）。比较直观的是动画的设计，其次还有一些**强调**设计，比如说下面的示例：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210173409474](办公工具-PPT/image-20220210173409474.png)",
+                "text": "![image-20220210173409474](办公工具-PPT/image-20220210173409474.png)",
+                "image": "C:\\Users\\HJinKuo\\Desktop\\fkmt.png",
+                "imageTitle": "image-20220210173409474",
+                "imageSize": {
+                  "width": 1152,
+                  "height": 1152
+                },
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210173444749](办公工具-PPT/image-20220210173444749.png)",
+                "text": "![image-20220210173444749](办公工具-PPT/image-20220210173444749.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    这两张幻灯片的相似度即高，可以说当进行幻灯片切换的时候，让人又一种橘色光标由 HHC 移位到 ROCm 上的感觉，这就是动态的感觉。",
+                "text": "​    这两张幻灯片的相似度即高，可以说当进行幻灯片切换的时候，让人又一种橘色光标由 HHC 移位到 ROCm 上的感觉，这就是动态的感觉。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    这只是动态的一种巧妙利用，我因为也是刚刚入门，所以只是粗浅的记录一下小小的心得，以后有机会再补充。",
+                "text": "​    这只是动态的一种巧妙利用，我因为也是刚刚入门，所以只是粗浅的记录一下小小的心得，以后有机会再补充。",
+                "type": "paragraph"
+              },
+              "children": []
             }
           ],
-          "loose": false,
-          "marker": "*"
+          "level": 3
         },
         {
           "data": {
-            "name": "注意这个 clarity，有那种“清晰明了”的感觉。这里的背景是某个理财软件 give customers financial clarity.",
-            "text": "注意这个 clarity，有那种“清晰明了”的感觉。这里的背景是某个理财软件 give customers financial clarity.",
+            "name": "1.3 PPT 的提高",
+            "text": "1.3 PPT 的提高",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    PPT 的排版设计跟所有的艺术创作一样，技术的高低跟记忆的数量有很大关系，面对一个题目，能不能迅速反应出相应的解决办法，是衡量水平的最重要评判标准。于此同时，排版设计有充满了固定性，只要稍微积累一些**套路**，就可以制作出工业级的PPT，可以说学习的周期和门槛并不高。",
+                "text": "​    PPT 的排版设计跟所有的艺术创作一样，技术的高低跟记忆的数量有很大关系，面对一个题目，能不能迅速反应出相应的解决办法，是衡量水平的最重要评判标准。于此同时，排版设计有充满了固定性，只要稍微积累一些**套路**，就可以制作出工业级的PPT，可以说学习的周期和门槛并不高。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    PPT 的排版实现其实也不难，只是市面上的教程多为**奇技淫巧**，比如说用形状画一个蒙娜丽莎之类的在实践中完全不会用到的东西，或者是极其炫酷的动画，我反正觉得没啥用。实现应该看重的是**效率**，那么其实是操作的快捷键和母版的设计占大头，这个东西，当越精越好。",
+                "text": "​    PPT 的排版实现其实也不难，只是市面上的教程多为**奇技淫巧**，比如说用形状画一个蒙娜丽莎之类的在实践中完全不会用到的东西，或者是极其炫酷的动画，我反正觉得没啥用。实现应该看重的是**效率**，那么其实是操作的快捷键和母版的设计占大头，这个东西，当越精越好。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "---",
+                "text": "---",
+                "type": "thematic-break"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        }
+      ],
+      "level": 2
+    },
+    {
+      "data": {
+        "name": "二、PPT 结构",
+        "text": "二、PPT 结构",
+        "type": "heading"
+      },
+      "children": [
+        {
+          "data": {
+            "name": "如果只是工作型PPT的话，那么可以将一个PPT的不同slide进行如下分类：",
+            "text": "如果只是工作型PPT的话，那么可以将一个PPT的不同slide进行如下分类：",
             "type": "paragraph"
           },
           "children": []
@@ -115,21 +181,21 @@
         {
           "data": {
             "name": "",
-            "text": "",
+            "text": "bullet-list",
             "type": "bullet-list"
           },
           "children": [
             {
               "data": {
                 "name": "",
-                "text": "",
+                "text": "list-item",
                 "type": "list-item"
               },
               "children": [
                 {
                   "data": {
-                    "name": "net worth 净资产",
-                    "text": "net worth 净资产",
+                    "name": "封面页",
+                    "text": "封面页",
                     "type": "paragraph"
                   },
                   "children": []
@@ -139,14 +205,14 @@
             {
               "data": {
                 "name": "",
-                "text": "",
+                "text": "list-item",
                 "type": "list-item"
               },
               "children": [
                 {
                   "data": {
-                    "name": "take the guesswork out of … 不必再猜测 …",
-                    "text": "take the guesswork out of … 不必再猜测 …",
+                    "name": "目录页",
+                    "text": "目录页",
                     "type": "paragraph"
                   },
                   "children": []
@@ -156,14 +222,14 @@
             {
               "data": {
                 "name": "",
-                "text": "",
+                "text": "list-item",
                 "type": "list-item"
               },
               "children": [
                 {
                   "data": {
-                    "name": "be born **to** a family / in a place",
-                    "text": "be born **to** a family / in a place",
+                    "name": "过渡页",
+                    "text": "过渡页",
                     "type": "paragraph"
                   },
                   "children": []
@@ -173,14 +239,14 @@
             {
               "data": {
                 "name": "",
-                "text": "",
+                "text": "list-item",
                 "type": "list-item"
               },
               "children": [
                 {
                   "data": {
-                    "name": "At Facebook since 2011, he **holds veto authority over** the platform's policies on political speech, **runs its Washington lobbying juggernaut**, and guides Mark Zuckerberg through (and sometimes into) scandal—all while avoiding the spotlight.",
-                    "text": "At Facebook since 2011, he **holds veto authority over** the platform's policies on political speech, **runs its Washington lobbying juggernaut**, and guides Mark Zuckerberg through (and sometimes into) scandal—all while avoiding the spotlight.",
+                    "name": "正文页",
+                    "text": "正文页",
                     "type": "paragraph"
                   },
                   "children": []
@@ -190,31 +256,14 @@
             {
               "data": {
                 "name": "",
-                "text": "",
+                "text": "list-item",
                 "type": "list-item"
               },
               "children": [
                 {
                   "data": {
-                    "name": "depict … as … 把 … 描绘 / 描述成 …",
-                    "text": "depict … as … 把 … 描绘 / 描述成 …",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
-            },
-            {
-              "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
-              },
-              "children": [
-                {
-                  "data": {
-                    "name": "show what is hidden in **this monochromatic and sanitized universe**",
-                    "text": "show what is hidden in **this monochromatic and sanitized universe**",
+                    "name": "结尾页",
+                    "text": "结尾页",
                     "type": "paragraph"
                   },
                   "children": []
@@ -223,334 +272,1009 @@
             }
           ],
           "loose": true,
-          "marker": "*"
+          "marker": "-"
         },
         {
           "data": {
-            "name": "很有意思的是用“单色的”、“清洁或消毒过的”这种词汇来描述被言论管制了的社交平台……这个 universe 就是 Facebook",
-            "text": "很有意思的是用“单色的”、“清洁或消毒过的”这种词汇来描述被言论管制了的社交平台……这个 universe 就是 Facebook",
+            "name": "而每一种类型会分别对应特定的文字内容和排版设计，这个部分其实就是**套路**的积攒。",
+            "text": "而每一种类型会分别对应特定的文字内容和排版设计，这个部分其实就是**套路**的积攒。",
             "type": "paragraph"
           },
           "children": []
         },
         {
           "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
+            "name": "2.1 封面页",
+            "text": "2.1 封面页",
+            "type": "heading"
           },
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "**全图型**的封面是心头好啊，包括的元素是",
+                "text": "**全图型**的封面是心头好啊，包括的元素是",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "So you can stop at nothing for your customers.",
-                    "text": "So you can stop at nothing for your customers.",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
             },
             {
               "data": {
                 "name": "",
-                "text": "",
-                "type": "list-item"
+                "text": "bullet-list",
+                "type": "bullet-list"
               },
               "children": [
                 {
                   "data": {
-                    "name": "pull back the curtain on … 揭露了……，理解了……",
-                    "text": "pull back the curtain on … 揭露了……，理解了……",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                },
-                {
-                  "data": {
                     "name": "",
-                    "text": "",
-                    "type": "bullet-list"
+                    "text": "list-item",
+                    "type": "list-item"
                   },
                   "children": [
                     {
                       "data": {
-                        "name": "",
-                        "text": "",
-                        "type": "list-item"
+                        "name": "一张高清的背景图",
+                        "text": "一张高清的背景图",
+                        "type": "paragraph"
                       },
-                      "children": [
-                        {
-                          "data": {
-                            "name": "Darren Loucaides pulled back the curtain on Telegram",
-                            "text": "Darren Loucaides pulled back the curtain on Telegram",
-                            "type": "paragraph"
-                          },
-                          "children": []
-                        }
-                      ]
-                    },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
                     {
                       "data": {
-                        "name": "",
-                        "text": "",
-                        "type": "list-item"
+                        "name": "一个半透明的，主体颜色的衬布（衬布要是还有边缘的衬线就更好了）",
+                        "text": "一个半透明的，主体颜色的衬布（衬布要是还有边缘的衬线就更好了）",
+                        "type": "paragraph"
                       },
-                      "children": [
-                        {
-                          "data": {
-                            "name": "This course will uncover the ways organizations are leveraging intelligence programs to pull back the curtain on customer, employee, and competitor insights.",
-                            "text": "This course will uncover the ways organizations are leveraging intelligence programs to pull back the curtain on customer, employee, and competitor insights.",
-                            "type": "paragraph"
-                          },
-                          "children": []
-                        }
-                      ]
+                      "children": []
                     }
-                  ],
-                  "loose": true,
-                  "marker": "*"
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "一个标题",
+                        "text": "一个标题",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
                 }
-              ]
+              ],
+              "loose": true,
+              "marker": "-"
             },
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "![image-20220210112013792](办公工具-PPT/image-20220210112013792.png)",
+                "text": "![image-20220210112013792](办公工具-PPT/image-20220210112013792.png)",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "注意 field 在实地 / 现场上的释义",
-                    "text": "注意 field 在实地 / 现场上的释义",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
             },
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "**半图型**感觉会跟目录页冲突，",
+                "text": "**半图型**感觉会跟目录页冲突，",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "be seized by a whim 一时心血来潮",
-                    "text": "be seized by a whim 一时心血来潮",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
             },
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "![image-20220210193713202](办公工具-PPT/image-20220210193713202.png)",
+                "text": "![image-20220210193713202](办公工具-PPT/image-20220210193713202.png)",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "**Framing** every tech platform **story in terms of** Facebook is unhelpful.",
-                    "text": "**Framing** every tech platform **story in terms of** Facebook is unhelpful.",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    要是找不到图，那么可以用大色块来充数，注意后面的图案，其实是**图标放大**的效果，可以说是非常牛逼了，商务感一下子就出来了。",
+                "text": "​    要是找不到图，那么可以用大色块来充数，注意后面的图案，其实是**图标放大**的效果，可以说是非常牛逼了，商务感一下子就出来了。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210193858916](办公工具-PPT/image-20220210193858916.png)",
+                "text": "![image-20220210193858916](办公工具-PPT/image-20220210193858916.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    **图片墙**也是一种好方法，其实不用垫一层蒙版，直接选择中间部分敲标题也不是不行",
+                "text": "​    **图片墙**也是一种好方法，其实不用垫一层蒙版，直接选择中间部分敲标题也不是不行",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![preview](办公工具-PPT/v2-38a246c40727b3e3d1a32361ea56f30b_r.jpg)",
+                "text": "![preview](办公工具-PPT/v2-38a246c40727b3e3d1a32361ea56f30b_r.jpg)",
+                "type": "paragraph"
+              },
+              "children": []
             }
           ],
-          "loose": true,
-          "marker": "*"
+          "level": 3
         },
         {
           "data": {
-            "name": "Frame 的用法比较有意思。",
-            "text": "Frame 的用法比较有意思。",
-            "type": "paragraph"
-          },
-          "children": []
-        },
-        {
-          "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
+            "name": "2.2 目录页",
+            "text": "2.2 目录页",
+            "type": "heading"
           },
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "首先明晰目录中有哪些元素",
+                "text": "首先明晰目录中有哪些元素",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "**genuinely** useful 真的有用",
-                    "text": "**genuinely** useful 真的有用",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![preview](办公工具-PPT/v2-b740f34ff80cfadb338169ba46a665c3_r.jpg)",
+                "text": "![preview](办公工具-PPT/v2-b740f34ff80cfadb338169ba46a665c3_r.jpg)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "我们的设计其实就是围绕这三个元素进行的。",
+                "text": "我们的设计其实就是围绕这三个元素进行的。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "最简单的是**半图型**，包括：",
+                "text": "最简单的是**半图型**，包括：",
+                "type": "paragraph"
+              },
+              "children": []
             },
             {
               "data": {
                 "name": "",
-                "text": "",
-                "type": "list-item"
+                "text": "bullet-list",
+                "type": "bullet-list"
               },
               "children": [
                 {
                   "data": {
-                    "name": "Let us disperse and dispense with this insidious notion of regulation of free, open, honest speech",
-                    "text": "Let us disperse and dispense with this insidious notion of regulation of free, open, honest speech",
-                    "type": "paragraph"
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
                   },
-                  "children": []
+                  "children": [
+                    {
+                      "data": {
+                        "name": "半个高清图",
+                        "text": "半个高清图",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "一个主题颜色的衬板",
+                        "text": "一个主题颜色的衬板",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "一些分割线，用于使目录挺拔",
+                        "text": "一些分割线，用于使目录挺拔",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "不同小节前的图标（这个图标其实可以按时后面的内容形式）",
+                        "text": "不同小节前的图标（这个图标其实可以按时后面的内容形式）",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "节标题",
+                        "text": "节标题",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
                 }
-              ]
+              ],
+              "loose": true,
+              "marker": "-"
+            },
+            {
+              "data": {
+                "name": "![image-20220210194401515](办公工具-PPT/image-20220210194401515.png)",
+                "text": "![image-20220210194401515](办公工具-PPT/image-20220210194401515.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    当然这种形式的目录所包含的信息会比较少，而且冲击力就很弱，而且太依赖图片。",
+                "text": "​    当然这种形式的目录所包含的信息会比较少，而且冲击力就很弱，而且太依赖图片。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    四图型对信息的包含度会更高，而且更牛逼，而且可以兼有更多的信息。",
+                "text": "​    四图型对信息的包含度会更高，而且更牛逼，而且可以兼有更多的信息。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![preview](办公工具-PPT/v2-a0fc26fafcfe9e3aac1b4deb7686d137_r.jpg)",
+                "text": "![preview](办公工具-PPT/v2-a0fc26fafcfe9e3aac1b4deb7686d137_r.jpg)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    **奇异型**属于是骚出天际",
+                "text": "​    **奇异型**属于是骚出天际",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210195003354](办公工具-PPT/image-20220210195003354.png)",
+                "text": "![image-20220210195003354](办公工具-PPT/image-20220210195003354.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    如果啥图都没有的话，那么就一定要利用好图标和色块，这样才能让整个目录页显得有条理：（这个slide没有**线**的元素，加上会更好），这张还为了提高逼格，用了大写英文。",
+                "text": "​    如果啥图都没有的话，那么就一定要利用好图标和色块，这样才能让整个目录页显得有条理：（这个slide没有**线**的元素，加上会更好），这张还为了提高逼格，用了大写英文。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![preview](办公工具-PPT/v2-0bf9a01d9f8ff5995998661e218ae693_r.jpg)",
+                "text": "![preview](办公工具-PPT/v2-0bf9a01d9f8ff5995998661e218ae693_r.jpg)",
+                "type": "paragraph"
+              },
+              "children": []
             }
           ],
-          "loose": true,
-          "marker": "*"
+          "level": 3
         },
         {
           "data": {
-            "name": "总之写得挺好",
-            "text": "总之写得挺好",
-            "type": "paragraph"
-          },
-          "children": []
-        },
-        {
-          "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
+            "name": "2.3 过渡页",
+            "text": "2.3 过渡页",
+            "type": "heading"
           },
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "​    这是我自己想到的，用来将演讲的结构划分的更加彻底（我不太喜欢顶部进度条的形式），所以只想出了一种设计，其实就是封面设计的退化版，这章里面用到了六边形衬布，并且把目录序号移到背景中，防止对题目造成干扰",
+                "text": "​    这是我自己想到的，用来将演讲的结构划分的更加彻底（我不太喜欢顶部进度条的形式），所以只想出了一种设计，其实就是封面设计的退化版，这章里面用到了六边形衬布，并且把目录序号移到背景中，防止对题目造成干扰",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "As an alternative addict, I enjoy any excuse to discriminate against alcoholics, despite contrived logic.",
-                    "text": "As an alternative addict, I enjoy any excuse to discriminate against alcoholics, despite contrived logic.",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210201206220](办公工具-PPT/image-20220210201206220.png)",
+                "text": "![image-20220210201206220](办公工具-PPT/image-20220210201206220.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    上面这种虽然很帅，但是蕴含的信息太少了，如果PPT的体积比较庞大的话，除了每节的标题以外，还有属于每一节的小标题，其实都可以在过渡页上显示，比如：",
+                "text": "​    上面这种虽然很帅，但是蕴含的信息太少了，如果PPT的体积比较庞大的话，除了每节的标题以外，还有属于每一节的小标题，其实都可以在过渡页上显示，比如：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220213151938090](办公工具-PPT/image-20220213151938090.png)",
+                "text": "![image-20220213151938090](办公工具-PPT/image-20220213151938090.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    这样处理的话，小标题信息也可以得到处理。甚至可以用“强调”的方式说明比较重要的小标题。",
+                "text": "​    这样处理的话，小标题信息也可以得到处理。甚至可以用“强调”的方式说明比较重要的小标题。",
+                "type": "paragraph"
+              },
+              "children": []
             }
           ],
-          "loose": false,
-          "marker": "*"
+          "level": 3
         },
         {
           "data": {
-            "name": "笑得，好刻薄的话……",
-            "text": "笑得，好刻薄的话……",
-            "type": "paragraph"
-          },
-          "children": []
-        },
-        {
-          "data": {
-            "name": "",
-            "text": "",
-            "type": "bullet-list"
+            "name": "2.4 正文页",
+            "text": "2.4 正文页",
+            "type": "heading"
           },
           "children": [
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "​    正文页比较关键的配置是“**进度提示符**”，比如说底下这个slide左上角提示这张slide属于“计算单元”这一节中的“CU结构”这一部分。",
+                "text": "​    正文页比较关键的配置是“**进度提示符**”，比如说底下这个slide左上角提示这张slide属于“计算单元”这一节中的“CU结构”这一部分。",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "hold one's buzz 保持清醒",
-                    "text": "hold one's buzz 保持清醒",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    此外，正文页中因为信息会比较多，所以跟要求大量的信息能够层次分明的显示，必须有所**强调**，强调的方法比较常见的：",
+                "text": "​    此外，正文页中因为信息会比较多，所以跟要求大量的信息能够层次分明的显示，必须有所**强调**，强调的方法比较常见的：",
+                "type": "paragraph"
+              },
+              "children": []
             },
             {
               "data": {
                 "name": "",
-                "text": "",
-                "type": "list-item"
+                "text": "bullet-list",
+                "type": "bullet-list"
               },
               "children": [
                 {
                   "data": {
-                    "name": "This rings true.",
-                    "text": "This rings true.",
-                    "type": "paragraph"
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
                   },
-                  "children": []
+                  "children": [
+                    {
+                      "data": {
+                        "name": "单独把强调内容放到一个色块中",
+                        "text": "单独把强调内容放到一个色块中",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "用主体色强调内容",
+                        "text": "用主体色强调内容",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "用加粗或者斜体强调",
+                        "text": "用加粗或者斜体强调",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "用不同字体强调",
+                        "text": "用不同字体强调",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
                 }
-              ]
+              ],
+              "loose": true,
+              "marker": "-"
             },
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "![image-20220210201413251](办公工具-PPT/image-20220210201413251.png)",
+                "text": "![image-20220210201413251](办公工具-PPT/image-20220210201413251.png)",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "exclusively - only",
-                    "text": "exclusively - only",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
             },
             {
               "data": {
-                "name": "",
-                "text": "",
-                "type": "list-item"
+                "name": "​    上面这个slide采用的是高清图加半透明蒙版的设置，我觉得还行。    ",
+                "text": "​    上面这个slide采用的是高清图加半透明蒙版的设置，我觉得还行。    ",
+                "type": "paragraph"
               },
-              "children": [
-                {
-                  "data": {
-                    "name": "pitch one's tent in  扎堆、聚集在……",
-                    "text": "pitch one's tent in  扎堆、聚集在……",
-                    "type": "paragraph"
-                  },
-                  "children": []
-                }
-              ]
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    如果是大段的文本信息，那么显然适合简单的无序列表的SmartArt就没法用来摆烂了，所以可以下图方法进行处理，简约整齐：",
+                "text": "​    如果是大段的文本信息，那么显然适合简单的无序列表的SmartArt就没法用来摆烂了，所以可以下图方法进行处理，简约整齐：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220213152314031](办公工具-PPT/image-20220213152314031.png)",
+                "text": "![image-20220213152314031](办公工具-PPT/image-20220213152314031.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    或者再花哨一些：",
+                "text": "​    或者再花哨一些：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220213152352771](办公工具-PPT/image-20220213152352771.png)",
+                "text": "![image-20220213152352771](办公工具-PPT/image-20220213152352771.png)",
+                "type": "paragraph"
+              },
+              "children": []
             }
           ],
-          "loose": true,
-          "marker": "*"
+          "level": 3
+        },
+        {
+          "data": {
+            "name": "2.5 结尾页",
+            "text": "2.5 结尾页",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    我个人觉得，如果是科研PPT，那么全篇没有图是一个很正常的现象，那么如果不骚一下实在难受，所以想到可以在结尾的时候骚一下。",
+                "text": "​    我个人觉得，如果是科研PPT，那么全篇没有图是一个很正常的现象，那么如果不骚一下实在难受，所以想到可以在结尾的时候骚一下。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220213152941685](办公工具-PPT/image-20220213152941685.png)",
+                "text": "![image-20220213152941685](办公工具-PPT/image-20220213152941685.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    高清图加半透明蒙版，骚一下很开行。",
+                "text": "​    高清图加半透明蒙版，骚一下很开行。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "---",
+                "text": "---",
+                "type": "thematic-break"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
         }
-      ]
+      ],
+      "level": 2
+    },
+    {
+      "data": {
+        "name": "三、PPT 技术",
+        "text": "三、PPT 技术",
+        "type": "heading"
+      },
+      "children": [
+        {
+          "data": {
+            "name": "3.1 快捷键",
+            "text": "3.1 快捷键",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "",
+                "text": "bullet-list",
+                "type": "bullet-list"
+              },
+              "children": [
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "`Ctrl + G` 合并形状，`Ctrl + Shift + G` 解除合并形状。",
+                        "text": "`Ctrl + G` 合并形状，`Ctrl + Shift + G` 解除合并形状。",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "`Ctrl + 鼠标点击` 拖拽多重复制。",
+                        "text": "`Ctrl + 鼠标点击` 拖拽多重复制。",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ],
+              "loose": true,
+              "marker": "-"
+            }
+          ],
+          "level": 3
+        },
+        {
+          "data": {
+            "name": "3.2 资源网站",
+            "text": "3.2 资源网站",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "",
+                "text": "bullet-list",
+                "type": "bullet-list"
+              },
+              "children": [
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "灵感：www.zcool.com.cn",
+                        "text": "灵感：www.zcool.com.cn",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "图标：http://iconfont.cn （其实PPT内置的图标搜索功能还行）",
+                        "text": "图标：http://iconfont.cn （其实PPT内置的图标搜索功能还行）",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "高清图片搜索：https://pixabay.com/",
+                        "text": "高清图片搜索：https://pixabay.com/",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "普通图片搜索：https://cn.bing.com/images/trending?form=Z9LH（**过滤器功能强大**）",
+                        "text": "普通图片搜索：https://cn.bing.com/images/trending?form=Z9LH（**过滤器功能强大**）",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "配色：https://www.materialpalette.com/colors",
+                        "text": "配色：https://www.materialpalette.com/colors",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "data": {
+                    "name": "",
+                    "text": "list-item",
+                    "type": "list-item"
+                  },
+                  "children": [
+                    {
+                      "data": {
+                        "name": "模板：http://www.yanj.cn/",
+                        "text": "模板：http://www.yanj.cn/",
+                        "type": "paragraph"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ],
+              "loose": true,
+              "marker": "-"
+            },
+            {
+              "data": {
+                "name": "​    有了资源网站还不够，还必须要**学会搜索素材**，比如说如果直接搜GPU，并不会跳出很多好东西，但是如果搜芯片，图片会更多，但是科技感不够，那么如果搜《黑客帝国》，那么就很容易解决问题了。如果搜索的东西是比较抽象的，比如“努力”，那么不如**联想**到其他具象的事务中，比如马拉松，但是要是我，我就搜《爆裂鼓手》。",
+                "text": "​    有了资源网站还不够，还必须要**学会搜索素材**，比如说如果直接搜GPU，并不会跳出很多好东西，但是如果搜芯片，图片会更多，但是科技感不够，那么如果搜《黑客帝国》，那么就很容易解决问题了。如果搜索的东西是比较抽象的，比如“努力”，那么不如**联想**到其他具象的事务中，比如马拉松，但是要是我，我就搜《爆裂鼓手》。",
+                "type": "paragraph"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        },
+        {
+          "data": {
+            "name": "3.3 使用母版",
+            "text": "3.3 使用母版",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    母版其实就是网上说的模板的**原理**，这是一种特殊的视图，这样打开",
+                "text": "​    母版其实就是网上说的模板的**原理**，这是一种特殊的视图，这样打开",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210204947802](办公工具-PPT/image-20220210204947802.png)",
+                "text": "![image-20220210204947802](办公工具-PPT/image-20220210204947802.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    打开以后就会发现类似于PPT的slide，其实就是**样式**的概念，如下",
+                "text": "​    打开以后就会发现类似于PPT的slide，其实就是**样式**的概念，如下",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210205057410](办公工具-PPT/image-20220210205057410.png)",
+                "text": "![image-20220210205057410](办公工具-PPT/image-20220210205057410.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    有两种插入操作，一种是插入母版（就是直接插入一整套样式），一种是插入版式，就是插入一个类型（比如封面，目录页啥的）。然后当回到普通模式之后，可以用一下操作调用设置好的版式：",
+                "text": "​    有两种插入操作，一种是插入母版（就是直接插入一整套样式），一种是插入版式，就是插入一个类型（比如封面，目录页啥的）。然后当回到普通模式之后，可以用一下操作调用设置好的版式：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210205355751](办公工具-PPT/image-20220210205355751.png)",
+                "text": "![image-20220210205355751](办公工具-PPT/image-20220210205355751.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    需要注意的是，版式的内容在正常模式下是没有办法修改的，除非使用**占位符**。",
+                "text": "​    需要注意的是，版式的内容在正常模式下是没有办法修改的，除非使用**占位符**。",
+                "type": "paragraph"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        },
+        {
+          "data": {
+            "name": "3.4 SmartArt",
+            "text": "3.4 SmartArt",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    只能所SmartArt的应用很神奇，我并没有完全掌握，只能说这样可以用：",
+                "text": "​    只能所SmartArt的应用很神奇，我并没有完全掌握，只能说这样可以用：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210210318208](办公工具-PPT/image-20220210210318208.png)",
+                "text": "![image-20220210210318208](办公工具-PPT/image-20220210210318208.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    对于修改SmartArt中的内容，可以采用这种方式：",
+                "text": "​    对于修改SmartArt中的内容，可以采用这种方式：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220213153113375](办公工具-PPT/image-20220213153113375.png)",
+                "text": "![image-20220213153113375](办公工具-PPT/image-20220213153113375.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    点击左侧的箭头，可以在弹出的侧栏修改内容。",
+                "text": "​    点击左侧的箭头，可以在弹出的侧栏修改内容。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "---",
+                "text": "---",
+                "type": "thematic-break"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        }
+      ],
+      "level": 2
+    },
+    {
+      "data": {
+        "name": "四、排版思想",
+        "text": "四、排版思想",
+        "type": "heading"
+      },
+      "children": [
+        {
+          "data": {
+            "name": "4.1 重章叠句",
+            "text": "4.1 重章叠句",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    具体的原理已经在 1.2 节举例的时候介绍过了，就不在此赘述了。",
+                "text": "​    具体的原理已经在 1.2 节举例的时候介绍过了，就不在此赘述了。",
+                "type": "paragraph"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        },
+        {
+          "data": {
+            "name": "4.2 配色",
+            "text": "4.2 配色",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    首先科普一下颜色的知识，颜色有三个维度：**色相，明度，灰度**，色相就是用三原色不同比例调出来的颜色，明度是往颜色里面混黑色或者白色，灰度是往颜色里面混灰色。",
+                "text": "​    首先科普一下颜色的知识，颜色有三个维度：**色相，明度，灰度**，色相就是用三原色不同比例调出来的颜色，明度是往颜色里面混黑色或者白色，灰度是往颜色里面混灰色。",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    然后关于不同颜色的关系，大概就是这样：",
+                "text": "​    然后关于不同颜色的关系，大概就是这样：",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "![image-20220210210718030](办公工具-PPT/image-20220210210718030.png)",
+                "text": "![image-20220210210718030](办公工具-PPT/image-20220210210718030.png)",
+                "type": "paragraph"
+              },
+              "children": []
+            },
+            {
+              "data": {
+                "name": "​    同一个PPT，最好不出现多于5中颜色，而且最好确定一个主题色。",
+                "text": "​    同一个PPT，最好不出现多于5中颜色，而且最好确定一个主题色。",
+                "type": "paragraph"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        },
+        {
+          "data": {
+            "name": "4.3 字体选择",
+            "text": "4.3 字体选择",
+            "type": "heading"
+          },
+          "children": [
+            {
+              "data": {
+                "name": "​    一般所有的字都用黑体，黑体中我偏爱微软雅黑。",
+                "text": "​    一般所有的字都用黑体，黑体中我偏爱微软雅黑。",
+                "type": "paragraph"
+              },
+              "children": []
+            }
+          ],
+          "level": 3
+        }
+      ],
+      "level": 2
     }
   ]
 }

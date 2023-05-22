@@ -25,6 +25,7 @@ import { defineComponent, onMounted, ref, shallowRef } from 'vue'
 import MindMap from 'simple-mind-map'
 import Drag from 'simple-mind-map/src/Drag.js'
 import bus from 'vue3-eventbus'
+import RichText from 'simple-mind-map/src/RichText'
 
 export default defineComponent({
   setup () {
@@ -51,8 +52,13 @@ export default defineComponent({
 
     onMounted(() => {
       MindMap.usePlugin(Drag)
+      MindMap.usePlugin(RichText)
+      MindMap.defineTheme('ficTheme', {
+        backgroundColor: '',
+      })
       ficTree = new MindMap({
         el: document.getElementById('mindMapContainer'),
+        theme: 'ficTheme',
         data: {
           data: {
             text: '根节点'
@@ -97,21 +103,11 @@ export default defineComponent({
       // 实现右键菜单
       ficTree.on('node_contextmenu', (e, node) => {
         clickType.value = 'node'
-        menuLeft.value = e.offsetX + 150
-        menuTop.value = e.offsetY + 10
+        menuLeft.value = e.clientX + 10
+        menuTop.value = e.clientY + 10
         menuShow.value = true
         clickNode.value = node
-        console.log(e.offsetX)
-      })
-
-      ficTree.on('svg_mousedown', (e) => {
-        // 如果不是右键点击直接返回
-        if (e.which !== 3) {
-          return
-        }
-        mousedownX.value = e.offsetX
-        mousedownY.value = e.offsetY
-        isMousedown.value = true
+        console.log(e.clientX)
       })
 
       ficTree.on('mouseup', (e) => {
@@ -120,14 +116,14 @@ export default defineComponent({
         }
         isMousedown.value = false
         // 如果鼠标松开和按下的距离大于 3 ，则不认为是点击事件
-        if (Math.abs(mousedownX.value - e.offsetX) > 3 ||
-            Math.abs(mousedownY.value - e.offsetY) > 3) {
+        if (Math.abs(mousedownX.value - e.clientX) > 3 ||
+            Math.abs(mousedownY.value - e.clientY) > 3) {
           hide()
           return
         }
         clickType.value = 'svg'
-        menuLeft.value = e.offsetX + 150
-        menuTop.value = e.offsetY + 10
+        menuLeft.value = e.clientX + 10
+        menuTop.value = e.clientY + 10
         menuShow.value = true
       })
 
@@ -229,7 +225,7 @@ export default defineComponent({
 
 <style>
 .contextMenu {
-  position: absolute;
+  position: fixed;
   z-index: 999;
   background: #fff;
 }
