@@ -84,6 +84,7 @@
 <script>
 import { getCurrentInstance, ref } from 'vue'
 import bus from 'vue3-eventbus'
+import store from '@/renderer/store'
 
 export default {
   name: 'PreArea',
@@ -91,6 +92,8 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const { proxy, ctx } = getCurrentInstance()
     const _this = proxy
+    const common = store.getters.getCommon
+    console.log(common)
     const preMode = ref(0) // 0-通用，1-编辑器，2-快捷键，3-榕功能
     const fontSize = ref(14)
     const showLineNumbers = ref(true)

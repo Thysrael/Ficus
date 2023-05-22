@@ -9,14 +9,15 @@ categories: IEArch
 abbrlink: d7aec70a
 date: 2022-10-26T17:43:46.000Z
 ---
+
 ## 一、思考题
 
 > 回答 4.1.5 疑问中的疑问,
->
+> 
 > 问题 1 —— 第二个矩阵计算为何出错,
->
+> 
 > 问题 2 —— MAC.v 是否有修改的必要
-
+> 
 ### 1.1 问题 1
 
 第一个矩阵出错的原因是在第二个矩阵计算中，在第一个矩阵中涉及到了负数
@@ -111,83 +112,83 @@ $F \cdot W$ 。从上面的分析可以看出，这个模块未修改前对于 $
 
 对于 `Multiply_8x8`  模块有
 
-| 名称          | 位宽 | 符号     | 方向   | 含义                                              |
-| ------------- | ---- | -------- | ------ | ------------------------------------------------- |
-| clk           | 1    | unsigned | input  | 时钟信号                                          |
-| rst           | 1    | unsigned | input  | 复位信号                                          |
-| fvalid0       | 1    | unsigned | input  | $F$ 矩阵的第 0 行输入是否有效                   |
-| fdata0        | 8    | unsigned | input  | $F$ 矩阵的第 0 行输入数据                       |
-| fvalid1       | 1    | unsigned | input  | $F$ 矩阵的第 1 行输入是否有效                   |
-| fdata1        | 8    | unsigned | input  | $F$ 矩阵的第 1 行输入数据                       |
-| fvalid2       | 1    | unsigned | input  | $F$ 矩阵的第 2 行输入是否有效                   |
-| fdata2        | 8    | unsigned | input  | $F$ 矩阵的第 2 行输入数据                       |
-| fvalid3       | 1    | unsigned | input  | $F$ 矩阵的第 3 行输入是否有效                   |
-| fdata3        | 8    | unsigned | input  | $F$ 矩阵的第 3 行输入数据                       |
-| fvalid4       | 1    | unsigned | input  | $F$ 矩阵的第 4 行输入是否有效                   |
-| fdata4        | 8    | unsigned | input  | $F$ 矩阵的第 4 行输入数据                       |
-| fvalid5       | 1    | unsigned | input  | $F$ 矩阵的第 5 行输入是否有效                   |
-| fdata5        | 8    | unsigned | input  | $F$ 矩阵的第 5 行输入数据                       |
-| fvalid6       | 1    | unsigned | input  | $F$ 矩阵的第 6 行输入是否有效                   |
-| fdata6        | 8    | unsigned | input  | $F$ 矩阵的第 6 行输入数据                       |
-| fvalid7       | 1    | unsigned | input  | $F$ 矩阵的第 7 行输入是否有效                   |
-| fdata7        | 8    | unsigned | input  | $F$ 矩阵的第 7 行输入数据                       |
-| wvalid0       | 1    | unsigned | input  | $W$ 矩阵的第 0 列输入是否有效                   |
-| wdata0        | 8    | signed   | input  | $W$ 矩阵的第 0 列输入数据                       |
-| wvalid1       | 1    | unsigned | input  | $W$ 矩阵的第 1 列输入是否有效                   |
-| wdata1        | 8    | signed   | input  | $W$ 矩阵的第 1 列输入数据                       |
-| wvalid2       | 1    | unsigned | input  | $W$ 矩阵的第 2 列输入是否有效                   |
-| wdata2        | 8    | signed   | input  | $W$ 矩阵的第 2 列输入数据                       |
-| wvalid3       | 1    | unsigned | input  | $W$ 矩阵的第 3 列输入是否有效                   |
-| wdata3        | 8    | signed   | input  | $W$ 矩阵的第 3 列输入数据                       |
-| wvalid4       | 1    | unsigned | input  | $W$ 矩阵的第 4 列输入是否有效                   |
-| wdata4        | 8    | signed   | input  | $W$ 矩阵的第 4 列输入数据                       |
-| wvalid5       | 1    | unsigned | input  | $W$ 矩阵的第 5 列输入是否有效                   |
-| wdata5        | 8    | signed   | input  | $W$ 矩阵的第 5 列输入数据                       |
-| wvalid6       | 1    | unsigned | input  | $W$ 矩阵的第 6 列输入是否有效                   |
-| wdata6        | 8    | signed   | input  | $W$ 矩阵的第 6 列输入数据                       |
-| wvalid7       | 1    | unsigned | input  | $W$ 矩阵的第 7 列输入是否有效                   |
-| wdata7        | 8    | signed   | input  | $W$ 矩阵的第 7 列输入数据                       |
-| num_valid_ori | 1    | unsigned | input  | $W$ 矩阵的列数（同时也是 $F$ 的行数）是否有效 |
-| num_ori       | 32   | unsigned | input  | $W$ 矩阵的列数（同时也是 $F$ 的行数）         |
-| valid_o0      | 1    | unsigned | output | 结果矩阵的第 0 行是否有效                         |
-| data_o0       | 32   | signed   | output | 结果矩阵的第 0 行输出数据                         |
-| valid_o1      | 1    | unsigned | output | 结果矩阵的第 1 行是否有效                         |
-| data_o1       | 32   | signed   | output | 结果矩阵的第 1 行输出数据                         |
-| valid_o2      | 1    | unsigned | output | 结果矩阵的第 2 行是否有效                         |
-| data_o2       | 32   | signed   | output | 结果矩阵的第 2 行输出数据                         |
-| valid_o3      | 1    | unsigned | output | 结果矩阵的第 3 行是否有效                         |
-| data_o3       | 32   | signed   | output | 结果矩阵的第 3 行输出数据                         |
-| valid_o4      | 1    | unsigned | output | 结果矩阵的第 4 行是否有效                         |
-| data_o4       | 32   | signed   | output | 结果矩阵的第 4 行输出数据                         |
-| valid_o5      | 1    | unsigned | output | 结果矩阵的第 5 行是否有效                         |
-| data_o5       | 32   | signed   | output | 结果矩阵的第 5 行输出数据                         |
-| valid_o6      | 1    | unsigned | output | 结果矩阵的第 6 行是否有效                         |
-| data_o6       | 32   | signed   | output | 结果矩阵的第 6 行输出数据                         |
-| valid_o7      | 1    | unsigned | output | 结果矩阵的第 7 行是否有效                         |
-| data_o7       | 32   | signed   | output | 结果矩阵的第 7 行输出数据                         |
+| 名称            | 位宽  | 符号       | 方向     | 含义                          |
+| ------------- | --- | -------- | ------ | --------------------------- |
+| clk           | 1   | unsigned | input  | 时钟信号                        |
+| rst           | 1   | unsigned | input  | 复位信号                        |
+| fvalid0       | 1   | unsigned | input  | $F$ 矩阵的第 0 行输入是否有效          |
+| fdata0        | 8   | unsigned | input  | $F$ 矩阵的第 0 行输入数据            |
+| fvalid1       | 1   | unsigned | input  | $F$ 矩阵的第 1 行输入是否有效          |
+| fdata1        | 8   | unsigned | input  | $F$ 矩阵的第 1 行输入数据            |
+| fvalid2       | 1   | unsigned | input  | $F$ 矩阵的第 2 行输入是否有效          |
+| fdata2        | 8   | unsigned | input  | $F$ 矩阵的第 2 行输入数据            |
+| fvalid3       | 1   | unsigned | input  | $F$ 矩阵的第 3 行输入是否有效          |
+| fdata3        | 8   | unsigned | input  | $F$ 矩阵的第 3 行输入数据            |
+| fvalid4       | 1   | unsigned | input  | $F$ 矩阵的第 4 行输入是否有效          |
+| fdata4        | 8   | unsigned | input  | $F$ 矩阵的第 4 行输入数据            |
+| fvalid5       | 1   | unsigned | input  | $F$ 矩阵的第 5 行输入是否有效          |
+| fdata5        | 8   | unsigned | input  | $F$ 矩阵的第 5 行输入数据            |
+| fvalid6       | 1   | unsigned | input  | $F$ 矩阵的第 6 行输入是否有效          |
+| fdata6        | 8   | unsigned | input  | $F$ 矩阵的第 6 行输入数据            |
+| fvalid7       | 1   | unsigned | input  | $F$ 矩阵的第 7 行输入是否有效          |
+| fdata7        | 8   | unsigned | input  | $F$ 矩阵的第 7 行输入数据            |
+| wvalid0       | 1   | unsigned | input  | $W$ 矩阵的第 0 列输入是否有效          |
+| wdata0        | 8   | signed   | input  | $W$ 矩阵的第 0 列输入数据            |
+| wvalid1       | 1   | unsigned | input  | $W$ 矩阵的第 1 列输入是否有效          |
+| wdata1        | 8   | signed   | input  | $W$ 矩阵的第 1 列输入数据            |
+| wvalid2       | 1   | unsigned | input  | $W$ 矩阵的第 2 列输入是否有效          |
+| wdata2        | 8   | signed   | input  | $W$ 矩阵的第 2 列输入数据            |
+| wvalid3       | 1   | unsigned | input  | $W$ 矩阵的第 3 列输入是否有效          |
+| wdata3        | 8   | signed   | input  | $W$ 矩阵的第 3 列输入数据            |
+| wvalid4       | 1   | unsigned | input  | $W$ 矩阵的第 4 列输入是否有效          |
+| wdata4        | 8   | signed   | input  | $W$ 矩阵的第 4 列输入数据            |
+| wvalid5       | 1   | unsigned | input  | $W$ 矩阵的第 5 列输入是否有效          |
+| wdata5        | 8   | signed   | input  | $W$ 矩阵的第 5 列输入数据            |
+| wvalid6       | 1   | unsigned | input  | $W$ 矩阵的第 6 列输入是否有效          |
+| wdata6        | 8   | signed   | input  | $W$ 矩阵的第 6 列输入数据            |
+| wvalid7       | 1   | unsigned | input  | $W$ 矩阵的第 7 列输入是否有效          |
+| wdata7        | 8   | signed   | input  | $W$ 矩阵的第 7 列输入数据            |
+| num_valid_ori | 1   | unsigned | input  | $W$ 矩阵的列数（同时也是 $F$ 的行数）是否有效 |
+| num_ori       | 32  | unsigned | input  | $W$ 矩阵的列数（同时也是 $F$ 的行数）     |
+| valid_o0      | 1   | unsigned | output | 结果矩阵的第 0 行是否有效              |
+| data_o0       | 32  | signed   | output | 结果矩阵的第 0 行输出数据              |
+| valid_o1      | 1   | unsigned | output | 结果矩阵的第 1 行是否有效              |
+| data_o1       | 32  | signed   | output | 结果矩阵的第 1 行输出数据              |
+| valid_o2      | 1   | unsigned | output | 结果矩阵的第 2 行是否有效              |
+| data_o2       | 32  | signed   | output | 结果矩阵的第 2 行输出数据              |
+| valid_o3      | 1   | unsigned | output | 结果矩阵的第 3 行是否有效              |
+| data_o3       | 32  | signed   | output | 结果矩阵的第 3 行输出数据              |
+| valid_o4      | 1   | unsigned | output | 结果矩阵的第 4 行是否有效              |
+| data_o4       | 32  | signed   | output | 结果矩阵的第 4 行输出数据              |
+| valid_o5      | 1   | unsigned | output | 结果矩阵的第 5 行是否有效              |
+| data_o5       | 32  | signed   | output | 结果矩阵的第 5 行输出数据              |
+| valid_o6      | 1   | unsigned | output | 结果矩阵的第 6 行是否有效              |
+| data_o6       | 32  | signed   | output | 结果矩阵的第 6 行输出数据              |
+| valid_o7      | 1   | unsigned | output | 结果矩阵的第 7 行是否有效              |
+| data_o7       | 32  | signed   | output | 结果矩阵的第 7 行输出数据              |
 
 对于 `MAC` 模块，有
 
-| 名称        | 位宽 | 符号     | 方向   | 含义                                          |
-| ----------- | ---- | -------- | ------ | --------------------------------------------- |
-| clk         | 1    | unsigned | input  | 时钟信号                                      |
-| rst         | 1    | unsigned | input  | 复位信号                                      |
-| num_valid   | 1    | unsigned | input  | 乘累加长度 `num` 是否有效                   |
-| num         | 32   | unsigned | input  | 乘累加长度                                    |
-| num_r_valid | 1    | unsigned | output | 传播到下一 MAC 的乘累加长度是否有效           |
-| num_r       | 32   | unsigned | output | 传播到下一 MAC 的乘累加长度                   |
-| w_valid     | 1    | unsigned | input  | $W$ 矩阵的一个分量是否有效                  |
-| w           | 8    | signed   | input  | $W$ 矩阵的一个分量                          |
-| w_r_valid   | 1    | unsigned | output | 传播到下一 MAC 的$W$ 矩阵的一个分量是否有效 |
-| w_r         | 8    | signed   | output | 传播到下一 MAC 的$W$ 矩阵的一个分量长度     |
-| f_valid     | 1    | unsigned | input  | $F$ 矩阵的一个分量是否有效                  |
-| f           | 8    | unsigned | input  | $F$ 矩阵的一个分量                          |
-| f_r_valid   | 1    | unsigned | output | 传播到下一 MAC 的$F$ 矩阵的一个分量是否有效 |
-| f_r         | 8    | unsigned | output | 传播到下一 MAC 的$F$ 矩阵的一个分量长度     |
-| valid_l     | 1    | unsigned | input  | 下一个 MAC 的运算结果是否有效                 |
-| data_l      | 32   | signed   | input  | 下一个 MAC 的运算结果                         |
-| valid_o     | 1    | unsigned | output | 该 MAC 的运算结果是否有效                     |
-| data_o      | 32   | signed   | output | 该 MAC 的运算结果                             |
+| 名称          | 位宽  | 符号       | 方向     | 含义                         |
+| ----------- | --- | -------- | ------ | -------------------------- |
+| clk         | 1   | unsigned | input  | 时钟信号                       |
+| rst         | 1   | unsigned | input  | 复位信号                       |
+| num_valid   | 1   | unsigned | input  | 乘累加长度 `num` 是否有效           |
+| num         | 32  | unsigned | input  | 乘累加长度                      |
+| num_r_valid | 1   | unsigned | output | 传播到下一 MAC 的乘累加长度是否有效       |
+| num_r       | 32  | unsigned | output | 传播到下一 MAC 的乘累加长度           |
+| w_valid     | 1   | unsigned | input  | $W$ 矩阵的一个分量是否有效            |
+| w           | 8   | signed   | input  | $W$ 矩阵的一个分量                |
+| w_r_valid   | 1   | unsigned | output | 传播到下一 MAC 的$W$ 矩阵的一个分量是否有效 |
+| w_r         | 8   | signed   | output | 传播到下一 MAC 的$W$ 矩阵的一个分量长度   |
+| f_valid     | 1   | unsigned | input  | $F$ 矩阵的一个分量是否有效            |
+| f           | 8   | unsigned | input  | $F$ 矩阵的一个分量                |
+| f_r_valid   | 1   | unsigned | output | 传播到下一 MAC 的$F$ 矩阵的一个分量是否有效 |
+| f_r         | 8   | unsigned | output | 传播到下一 MAC 的$F$ 矩阵的一个分量长度   |
+| valid_l     | 1   | unsigned | input  | 下一个 MAC 的运算结果是否有效          |
+| data_l      | 32  | signed   | input  | 下一个 MAC 的运算结果              |
+| valid_o     | 1   | unsigned | output | 该 MAC 的运算结果是否有效            |
+| data_o      | 32  | signed   | output | 该 MAC 的运算结果                |
 
 ### 2.3 设计思想及流程描述
 
@@ -450,3 +451,4 @@ assign w_valid[63] = w_valid_r[55];
 ```
 
 其中比较关键的变量还有 `num` 表示计算的次数。
+

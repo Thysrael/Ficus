@@ -54,12 +54,14 @@
       </div>
     </li>
   </ul>
-  <button class="optionBtn" style="text-align: center">
+  <button class="optionBtn" style="text-align: center" @click="handle">
     {{ unit.handle }}
   </button>
 </template>
 
 <script>
+
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'GraphItem',
@@ -67,15 +69,24 @@ export default {
     unit: {
       type: Object,
       required: true
+    },
+    index: {
+      type: Number,
+      required: true
     }
   },
-  setup () {
+  setup (props) {
     function getName (path) {
       return window.pathAPI.basename(path)
     }
 
+    function handle () {
+      bus.emit('handle', props.index)
+    }
+
     return {
-      getName
+      getName,
+      handle
     }
   }
 }

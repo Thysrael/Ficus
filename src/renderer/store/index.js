@@ -20,6 +20,39 @@ const state = {
   },
   sideBarWidth: {
     value: 250
+  },
+  common: {
+    saveTime: 30, // 自动保存时间
+    autoSave: true, // 是否自动保存
+    autoFullScreen: true, // 启动时是否自动全屏
+    autoUpdate: true, // 是否自动更新
+    sideBarWidth: 250 // sideBar的初始宽度
+  },
+  editor: {
+    fontSize: 14,
+    showLineNumber: true,
+    toolBar: {
+      bold: true,
+      italic: true,
+      strike: true,
+      inlineCode: true,
+      inlineMath: true,
+      clear: true
+    },
+    imgPath: '',
+    autoSpace: true,
+    autoFixTermTypo: true,
+    latexEngine: 'Latex',
+    codeTheme: 'github'
+  },
+  shortcuts: {
+    'file.open-file': 'Ctrl+O',
+    'file.open-folder': 'Ctrl+Shift+O'
+  },
+  ficus: {
+    tree: 1,
+    forest: 2,
+    graphIgnore: '.txt'
   }
 }
 
@@ -33,6 +66,18 @@ const mutations = {
   },
   updateSideBarWidth (state, sideBarWidth) {
     state.sideBarWidth = sideBarWidth
+  },
+  updateCommon (state, common) {
+    state.common = common
+  },
+  updateEditor (state, editor) {
+    state.editor = editor
+  },
+  updateShortCuts (state, shortcuts) {
+    state.shortcuts = shortcuts
+  },
+  updateFicus (state, ficus) {
+    state.ficus = ficus
   },
   REFRESH (state, status) {
     bus.emit('openDir', status)
@@ -55,6 +100,18 @@ const actions = {
   },
   updateSideBarWidth (context, sideBarWidth) {
     context.commit('updateSideBarWidth', sideBarWidth)
+  },
+  updateCommon (context, common) {
+    context.commit('updateCommon', common)
+  },
+  updateEditor (context, editor) {
+    context.commit('updateEditor', editor)
+  },
+  updateShortCuts (context, shortcuts) {
+    context.commit('updateShortCuts', shortcuts)
+  },
+  updateFicus (context, ficus) {
+    context.commit('updateFicus', ficus)
   },
   LISTEN_REFRESH ({ commit }) {
     window.electronAPI.passiveRefresh((e, value) => {
@@ -87,6 +144,18 @@ const getters = {
   },
   getSideBarWidth (state) {
     return state.sideBarWidth.value
+  },
+  getCommon (state) {
+    return state.common
+  },
+  getEditor (state) {
+    return state.editor
+  },
+  getShortCuts (state) {
+    return state.shortcuts
+  },
+  getFicus (state) {
+    return state.ficus
   }
 }
 
