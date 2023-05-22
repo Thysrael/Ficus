@@ -226,6 +226,13 @@ pre.vditor-sv:focus {
 
 .vditor-reset span.katex-html {
   font-size: 16px;
+  padding-top: 10px;
+}
+
+.vditor-reset mjx-container svg {
+  width: 30%;
+  padding-top: 0;
+  vertical-align: 0 !important;
 }
 
 /** 内联公式编辑区域 **/
