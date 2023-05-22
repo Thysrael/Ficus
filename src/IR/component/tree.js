@@ -30,8 +30,8 @@ class IRTree {
 
   toMindJson () {
     const mindJson = this.root.toMindJson()
-    if (this.hasFrontMatter()) {
-      mindJson.frontmatter = this.root.getChildrenHead().toMindJson()
+    if (this.root.hasFrontMatter()) {
+      mindJson.data.frontmatter = this.root.getChildrenHead().toMindJson()
     }
     mindJson.data.name = this.name
     mindJson.data.text = this.name
@@ -48,11 +48,6 @@ class IRTree {
 
   removeTag (tagname) {
     this.root.removeTag(tagname)
-  }
-
-  /* private */
-  hasFrontMatter () {
-    this.root.hasFrontMatter()
   }
 }
 

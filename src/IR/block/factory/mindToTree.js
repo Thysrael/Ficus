@@ -2,8 +2,8 @@ import { buildRootNode, buildFrontMatter, buildThematicBreak, buildCodeBlock, bu
 import { rootTypeName, frontmatterTypeName, thematicBreakTypeName, codeblockTypeName, mathblockTypeName, htmlblockTypeName, headingTypeName, paragraphTypeName, diagramTypeName, tableTypeName, bulletlistTypeName, orderlistTypeName, quoteTypeName, tasklistTypeName, listItemTypeName, taskListItemTypeName } from '../base/type/constant'
 function mindToTree (mindJson) {
   const rootNode = mindToTreeRecursion(mindJson)
-  if (mindJson.frontmatter) {
-    rootNode.insertAtHead(buildFrontMatter(mindJson.frontmatter.text))
+  if (mindJson.data.frontmatter) {
+    rootNode.insertAtHead(buildFrontMatter(mindJson.data.frontmatter.text))
   }
   return rootNode
 }
@@ -18,7 +18,7 @@ function mindToTreeRecursion (mindJson) {
       nowNode = buildParagraph(mindJson.data.text)
       break
     case headingTypeName:
-      nowNode = buildHeading(mindJson.data.text, mindJson.level)
+      nowNode = buildHeading(mindJson.data.text, mindJson.data.level)
       nowLevel = mindJson.level
       break
     case frontmatterTypeName:
@@ -28,37 +28,37 @@ function mindToTreeRecursion (mindJson) {
       nowNode = buildThematicBreak(mindJson.data.text)
       break
     case codeblockTypeName:
-      nowNode = buildCodeBlock(mindJson.data.text, mindJson.style, mindJson.lang)
+      nowNode = buildCodeBlock(mindJson.data.text, mindJson.data.style, mindJson.data.lang)
       break
     case mathblockTypeName:
-      nowNode = buildMathBlock(mindJson.data.text, mindJson.style)
+      nowNode = buildMathBlock(mindJson.data.text, mindJson.data.style)
       break
     case htmlblockTypeName:
       nowNode = buildHtmlBlock(mindJson.data.text)
       break
     case diagramTypeName:
-      nowNode = buildDiagramBlock(mindJson.data.text, mindJson.style, mindJson.lang)
+      nowNode = buildDiagramBlock(mindJson.data.text, mindJson.data.style, mindJson.data.lang)
       break
     case tableTypeName:
-      nowNode = buildTable(mindJson.cells)
+      nowNode = buildTable(mindJson.data.cells)
       break
     case bulletlistTypeName:
-      nowNode = buildListBlock(bulletlistTypeName, mindJson.loose, mindJson.start, mindJson.delimiter, mindJson.marker)
+      nowNode = buildListBlock(bulletlistTypeName, mindJson.data.loose, mindJson.data.start, mindJson.data.delimiter, mindJson.data.marker)
       break
     case orderlistTypeName:
-      nowNode = buildListBlock(orderlistTypeName, mindJson.loose, mindJson.start, mindJson.delimiter, mindJson.marker)
+      nowNode = buildListBlock(orderlistTypeName, mindJson.data.loose, mindJson.data.start, mindJson.data.delimiter, mindJson.data.marker)
       break
     case tasklistTypeName:
-      nowNode = buildListBlock(tasklistTypeName, mindJson.loose, mindJson.start, mindJson.delimiter, mindJson.marker)
+      nowNode = buildListBlock(tasklistTypeName, mindJson.data.loose, mindJson.data.start, mindJson.data.delimiter, mindJson.data.marker)
       break
     case quoteTypeName:
       nowNode = buildQuoteBlock()
       break
     case listItemTypeName:
-      nowNode = buildListItemBlock(listItemTypeName, mindJson.checked)
+      nowNode = buildListItemBlock(listItemTypeName, mindJson.data.checked)
       break
     case taskListItemTypeName:
-      nowNode = buildListItemBlock(taskListItemTypeName, mindJson.checked)
+      nowNode = buildListItemBlock(taskListItemTypeName, mindJson.data.checked)
       break
     default:
       // error
@@ -71,9 +71,9 @@ function mindToTreeRecursion (mindJson) {
     // 寻找子节点最小权重
     if (mjson.level) {
       if (level) {
-        level = Math.min(mjson.level, level)
+        level = Math.min(mjson.data.level, level)
       } else {
-        level = mjson.level
+        level = mjson.data.level
       }
     }
     if (nowLevel && level) {

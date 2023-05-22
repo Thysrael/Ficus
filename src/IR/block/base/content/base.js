@@ -147,7 +147,7 @@ class HeadingContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.level = this.depth
+    mindJson.data.level = this.depth
     return mindJson
   }
 
@@ -175,8 +175,8 @@ class CodeContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.style = this.style
-    mindJson.lang = this.lang
+    mindJson.data.style = this.style
+    mindJson.data.lang = this.lang
     return mindJson
   }
 }
@@ -192,7 +192,7 @@ class MathContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.style = this.style
+    mindJson.data.style = this.style
     return mindJson
   }
 }
@@ -228,10 +228,10 @@ class ListContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.loose = this.loose
-    mindJson.start = this.start
-    mindJson.delimiter = this.delimiter
-    mindJson.marker = this.marker
+    mindJson.data.loose = this.loose
+    mindJson.data.start = this.start
+    mindJson.data.delimiter = this.delimiter
+    mindJson.data.marker = this.marker
     return mindJson
   }
 
@@ -263,7 +263,7 @@ class ListItemContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.checked = this.checked
+    mindJson.data.checked = this.checked
     return mindJson
   }
 }
@@ -330,7 +330,7 @@ class TableContent extends Content {
 
   getMindJson () {
     const mindJson = super.getMindJson()
-    mindJson.cells = this.cells
+    mindJson.data.cells = this.cells
     return mindJson
   }
 
