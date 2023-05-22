@@ -330,6 +330,9 @@ export default {
       if ((oldValue === 6 && newValue !== 7) || (oldValue === 7 && newValue !== 6)) {
         bus.emit('backToEditMode')
       }
+      if (oldValue === 7) {
+        console.log('更新后端，和store同步')
+      }
     })
 
     bus.on('quitFromGraph', () => {
@@ -365,7 +368,7 @@ export default {
       } else if (isFile.value === 4) {
         bus.emit('updateTag')
       } else if (isFile.value === 6) {
-        flushTree()
+        await flushTree()
         bus.emit('changeToGraph')
       }
     }
@@ -454,6 +457,7 @@ export default {
 
     async function getPre () {
       isFile.value = 7
+      console.log('更新store，和后端同步')
       await store.dispatch('updateMode', { value: 4 })
     }
 
