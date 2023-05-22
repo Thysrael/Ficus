@@ -40,6 +40,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getTags: (tagName) => ipcRenderer.invoke('ficus::getTags', tagName),
   findTags: (tagName, folderPath) => ipcRenderer.invoke('find_tags', tagName, folderPath),
   getLinks: () => ipcRenderer.invoke('ficus::getLinks'),
+  tagToFolder: (tagname, dirPath, filepaths) => ipcRenderer.send('link::tag-to-folder', tagname, dirPath, filepaths),
+  folderToTag: (dirPath) => ipcRenderer.send('link::folder-to-tag', dirPath),
+  citeToTag: (srcFilepath, citeFilepaths) => ipcRenderer.send('link::cite-to-tag', srcFilepath, citeFilepaths),
 
   getTagGroups: (tagName) => ipcRenderer.invoke('link::get-tag-groups', tagName),
   getFileCiteTraverse: (filepath) => ipcRenderer.invoke('link::get-file-cite-traverse', filepath),
