@@ -103,7 +103,7 @@ function makeFolderStatInGraph (dirPath) {
     for (const subItem of subFileOrFolder) {
       const subItemPath = path.resolve(dirPath, subItem)
       if (isValidMarkdownFilePath(subItemPath)) {
-        fileChildren.push(makeMarkdownFileStat(subItemPath))
+        fileChildren.push(subItemPath)
       }
     }
     return {

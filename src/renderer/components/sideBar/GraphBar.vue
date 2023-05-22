@@ -18,7 +18,7 @@
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
     <ul>
       <li v-for="(item, index) in node.children" :key="index">
-        <GraphItem :unit="item"></GraphItem>
+        <GraphItem :unit="item" :index="index"></GraphItem>
       </li>
     </ul>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
@@ -31,7 +31,7 @@
 <script>
 import bus from 'vue3-eventbus'
 import GraphItem from '@/renderer/components/sideBar/GraphItem'
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 
 export default {
   name: 'GraphBar',
@@ -52,15 +52,29 @@ export default {
       bus.emit('quitFromGraph', 0)
     }
 
+    /**
+     * @param: {obj} unit
+     */
+
+    bus.on('handle', (index) => {
+      const unit = toRaw(node.value.children[index])
+      if (type.value === 0) {
+        window.electronAPI.folderToTag(node.value.path)
+      } else if (type.value === 1) {
+        window.electronAPI.citeToTag(node.value.path, unit.children)
+      } else if (type.value === 2) {
+        window.electronAPI.tagToFolder(node.value.name, unit.path, unit.children)
+      }
+    })
+
     bus.on('curNode', async (obj) => {
-      console.log(obj)
       type.value = obj.category // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
-      if (obj.category === 0) { /* empty */ } else if (obj.category === 1) {
+      if (obj.category === 0) {
+        node.value = await window.electronAPI.getFolderStatInGraph(obj.path)
+      } else if (obj.category === 1) {
         node.value = await window.electronAPI.getFileCiteTraverse(obj.path)
-        console.log(node.value)
       } else if (obj.category === 2) {
         node.value = await window.electronAPI.getTagGroups(obj.name)
-        console.log(node.value)
       }
     })
 
