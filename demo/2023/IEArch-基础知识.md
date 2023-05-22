@@ -7,10 +7,9 @@ tags:
   - 直观理解
 categories: IEArch
 abbrlink: 963bfa61
-date: 2022-09-08T11:26:46.000Z
+date: 2022-09-08 11:26:46
 ---
-
-## 一、总论
+## 一、总论 
 
 ```
 智能体系结构（Intelligent Architecture）是我大三上学期报的一门选修课。这门课的主要实验目的是搭建一个人工神经网络（可能是卷积神经网络）的加速器。在接触这门课前我对于这个名词一无所知。
@@ -115,12 +114,11 @@ $I$ 是输入信号向量，$W$ 是输入信号权值向量，$b$ 是阈值，$f
 开始前先放上大佬的话
 
 > **年轻人，你不曾真正懂得数学，你只是习惯了而已。—冯** ⋅ **诺伊曼**
-> 
+>
 > Young man, in mathematics you don't understand things. You just get used to them.—John von Neumann
-> 
+
 ### 4.1 卷积
 
 ```
 认输，根本学不会。
 ```
-
