@@ -25,6 +25,7 @@ import { defineComponent, onMounted, ref, shallowRef } from 'vue'
 import MindMap from 'simple-mind-map'
 import Drag from 'simple-mind-map/src/Drag.js'
 import bus from 'vue3-eventbus'
+import RichText from 'simple-mind-map/src/RichText'
 
 export default defineComponent({
   setup () {
