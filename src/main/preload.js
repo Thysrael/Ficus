@@ -47,6 +47,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getTagGroups: (tagName) => ipcRenderer.invoke('link::get-tag-groups', tagName),
   getFileCiteTraverse: (filepath) => ipcRenderer.invoke('link::get-file-cite-traverse', filepath),
   getFolderStatInGraph: (dirpath) => ipcRenderer.invoke('link::get-folder-stat-in-graph', dirpath),
+  getFilesByTag: (tagName) => ipcRenderer.invoke('link::get-files-by-tag', tagName),
 
   aboutUs: () => ipcRenderer.invoke('main::about'),
 
