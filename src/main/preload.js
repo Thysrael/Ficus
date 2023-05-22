@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import fs from 'fs-extra'
 import path from 'path'
 import { isFileInDirectory, isMarkdownExtname } from './helper/path'
+import { isOsx } from './config'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   minWindow: () => ipcRenderer.send('window-min'),
@@ -53,7 +54,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback),
   openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback),
-  keyboardEvent: (callback) => ipcRenderer.on('ficus::keyboard-event', callback)
+  keyboardEvent: (callback) => ipcRenderer.on('ficus::keyboard-event', callback),
+
+  isOSx: () => isOsx
 })
 
 contextBridge.exposeInMainWorld('pathAPI', {

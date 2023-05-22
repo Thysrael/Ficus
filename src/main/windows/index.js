@@ -21,6 +21,8 @@ class FicusWindow {
       width: 800,
       height: 600,
       frame: false,
+      titleBarStyle: 'hiddenInset',
+      trafficLightPosition: { x: 5, y: 11 },
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
         // Use pluginOptions.nodeIntegration, leave this alone
@@ -55,7 +57,7 @@ class FicusWindow {
     }
     // 令窗口初始为最大
     if (isOsx) {
-      win.setFullScreen(true)
+      // win.setFullScreen(true)
     } else {
       win.maximize()
     }
