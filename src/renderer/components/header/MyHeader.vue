@@ -2,7 +2,7 @@
   <div class="flex flex-col area-header"
   >
     <div class="area-header-top flex flex-wrap content-center items-center" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
-      <img alt="logo" src="../../assets/bg_trans.png"
+      <img v-if="hiddenHeaderButton" alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
            class="appIcon"
            :title="'菜单'"
@@ -14,7 +14,7 @@
                 top: 10px; left: 40px"></MenuList>
       <BreadCrumb :items="data" style="position: relative; margin-left: 60px;-webkit-app-region: no-drag" class="items-center content-center"></BreadCrumb>
       <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
-      <button @click="minimizeWindow" style="-webkit-app-region: no-drag" class="tr1-element">
+      <button v-if="hiddenHeaderButton" @click="minimizeWindow" style="-webkit-app-region: no-drag" class="tr1-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
           <defs>
@@ -36,7 +36,7 @@
           </g>
         </svg>
       </button>
-      <button @click="maximizeWindow" style="-webkit-app-region: no-drag" class="tr2-element">
+      <button v-if="hiddenHeaderButton" @click="maximizeWindow" style="-webkit-app-region: no-drag" class="tr2-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
           <defs>
@@ -58,7 +58,7 @@
           </g>
         </svg>
       </button>
-      <button @click="closeWindow" style="-webkit-app-region: no-drag" class="tr3-element">
+      <button v-if="hiddenHeaderButton" @click="closeWindow" style="-webkit-app-region: no-drag" class="tr3-element">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="40" height="40" viewBox="0 0 40 40">
           <defs>
@@ -143,6 +143,8 @@ export default {
     const mode = computed(() => {
       return store.getters.getMode
     })
+
+    const hiddenHeaderButton = !window.electronAPI.isOSx()
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', async (obj) => {
@@ -512,7 +514,7 @@ export default {
       bus.emit('changeName', curObj.value.name)
     }
 
-    return { openFiles, update, curObj, content, mode, showMenu, minimizeWindow, maximizeWindow, closeWindow, changeTheme }
+    return { openFiles, update, curObj, content, mode, showMenu, minimizeWindow, maximizeWindow, closeWindow, changeTheme, hiddenHeaderButton }
   }
 }
 </script>
