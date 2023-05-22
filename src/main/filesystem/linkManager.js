@@ -1,7 +1,7 @@
 import path from 'path'
-import { getLinksInFile } from '../../common/parseLinks'
+import { addTagToDoc, getLinksInFile } from '../../common/parseLinks'
 import fs, { readFileSync } from 'fs-extra'
-import { isLeaveDirectory, isFileInDirectory, isValidMarkdownFilePath } from '../helper/path'
+import { isValidMarkdownFilePath } from '../helper/path'
 import { ipcMain } from 'electron'
 import { deleteFolder, move, makeValidFolderPath, newFolder } from '@/main/filesystem/fileManipulate'
 class LinkManager {
@@ -219,28 +219,54 @@ class LinkManager {
    *  将标签转成文件夹，文件夹中的文件是有此标签的全部文件
    *  @returns
    */
-  async tagToFolder (tagName, targetPath) {
-    if (this.tagToFiles.has(tagName)) {
-      const files = this.tagToFiles.get(tagName)
-      const newTarPath = makeValidFolderPath(path.resolve(targetPath, tagName))
-      await newFolder(path.dirname(newTarPath), /* newTarPath.substring(newTarPath.lastIndexOf(path.sep) + 1) */ path.basename(newTarPath))
-      const oldPaths = []
-      for (const filePath of files) { // 更细tagToFiles
-        if (isFileInDirectory(filePath, targetPath)) {
-          await move(filePath, newTarPath)
-          oldPaths.push(filePath)
-        }
+  async tagToFolder (tagname, dirPath, filepaths) {
+    if (this.tagToFiles.has(tagname)) {
+      const targetPath = makeValidFolderPath(path.resolve(dirPath, tagname))
+      await newFolder(path.dirname(targetPath), path.basename(targetPath))
+      for (const filepath of filepaths) {
+        await move(filepath, targetPath)
+        // const tagList = this.fileToTags.get(filepath)
+        // this.fileToTags.delete(filepath)
+        // const newpath = path.resolve(targetPath, path.basename(filepath))
+        // this.fileToTags.set(newpath, tagList)
       }
-      for (const oldPath of oldPaths) { // 更新fileToTags
-        const newPath = path.resolve(newTarPath, path.basename(oldPath))
-        const index = files.indexOf(oldPath)
-        files.splice(index, 1, newPath)
-        const tagList = this.fileToTags.get(oldPath)
-        this.fileToTags.delete(oldPath)
-        this.fileToTags.set(newPath, tagList)
+    }
+  }
+
+  /**
+   * 将叶子目录转为标签，若移动后目录为空删除该目录
+   * @param folderPath
+   * @returns {boolean}
+   */
+  async folderToTag (folderPath) {
+    const subFileOrFolder = fs.readdirSync(folderPath)
+    const targetPath = path.resolve(folderPath)
+    const newPaths = []
+    const tagname = path.basename(folderPath)
+    for (const subItem of subFileOrFolder) {
+      const subItemPath = path.resolve(folderPath, subItem)
+      if (isValidMarkdownFilePath(subItemPath)) {
+        const newPath = await move(subItemPath, targetPath)
+        newPaths.push(newPath)
       }
-      return true
-    } else { return false }
+    }
+    if (fs.readdirSync(folderPath).length === 0) {
+      await deleteFolder(folderPath)
+    }
+    for (const newPath of newPaths) {
+      const doc = fs.readFileSync(newPath).toString()
+      addTagToDoc(doc, tagname)
+      fs.writeFileSync(newPath)
+    }
+  }
+
+  async citeToTag (srcFilepath, citeFilepaths) {
+    const tagname = path.basename(srcFilepath)
+    for (const newPath of citeFilepaths) {
+      const doc = fs.readFileSync(newPath).toString()
+      addTagToDoc(doc, tagname)
+      fs.writeFileSync(newPath)
+    }
   }
 
   /**
@@ -293,45 +319,6 @@ class LinkManager {
     }
   }
 
-  /**
-   * 将叶子目录转为标签，并将其中文件移到和该目录同一级后删除该目录
-   * @param folderPath
-   * @returns {boolean}
-   */
-  async folderToTag (folderPath) {
-    if (isLeaveDirectory(folderPath)) {
-      const subFileOrFolder = fs.readdirSync(folderPath)
-      const tarPath = path.dirname(folderPath)
-      const oldPaths = []
-      const tagName = path.basename(folderPath)
-      for (const subItem of subFileOrFolder) {
-        const subItemPath = path.resolve(folderPath, subItem)
-        await move(subItemPath, tarPath)
-        oldPaths.push(subItemPath)
-      }
-      await deleteFolder(folderPath)
-      const keys = this.tagToFiles.keys()
-      for (const oldPath of oldPaths) {
-        // 更新fileToTags
-        const newPath = path.resolve(tarPath, path.basename(oldPath))
-        const tagList = this.fileToTags.get(oldPath)
-        this.fileToTags.delete(oldPath)
-        this.fileToTags.set(newPath, tagList)
-        // 更新tagToFiles
-        for (const key of keys) {
-          const value = this.tagToFiles.get(key)
-          const idx = value.indexOf(oldPath)
-          if (idx !== -1) {
-            value.splice(idx, 1, newPath)
-          }
-        }
-        // 对移动了位置的文件添加之前所在文件夹的名字的标签
-        this._addFileTags(newPath, [tagName])
-      }
-      // 添加文件夹名的标签
-    } else { return false }
-  }
-
   /* private */
   _addFileAerials (citingPath, citeds) {
     // newCiteds 储存绝对路径后的数据
@@ -367,14 +354,6 @@ class LinkManager {
   _listenForIpcMain () {
     // 测试环境下 ipcMain 为undifined
     if (ipcMain) {
-      ipcMain.handle('ficus::tagToFolder', async (e, tagName, targetPath) => {
-        return await this.tagToFolder(tagName, targetPath)
-      })
-
-      ipcMain.handle('ficus::getCites', async (e, filePath) => {
-        return this.getCiteInfo(filePath)
-      })
-
       ipcMain.handle('ficus::getTags', async (e, tagName) => {
         return this.findTags(tagName)
       })
@@ -391,8 +370,20 @@ class LinkManager {
         return this.getLinks(file)
       })
 
-      ipcMain.handle('ficus::folderToTag', async (e, folderPath) => {
-        return this.folderToTag(folderPath)
+      ipcMain.on('link::tag-to-folder', async (e, tagname, dirPath, filepaths) => {
+        this.tagToFolder(tagname, dirPath, filepaths)
+      })
+
+      ipcMain.on('link::folder-to-tag', async (e, dirPath) => {
+        return this.folderToTag(dirPath)
+      })
+
+      ipcMain.on('link::cite-to-tag', async (e, srcFilepath, citeFilepaths) => {
+        return this.citeToTag(srcFilepath, citeFilepaths)
+      })
+
+      ipcMain.handle('ficus::getCites', async (e, filePath) => {
+        return this.getCiteInfo(filePath)
       })
 
       ipcMain.handle('link::get-tag-groups', async (e, tagName) => {

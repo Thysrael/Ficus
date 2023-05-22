@@ -180,7 +180,9 @@ exports.saveToPDFTarget = (fileContent) => {
 exports.move = async (srcPath, destDir) => {
   try {
     const fname = path.basename(srcPath)
-    fs.moveSync(srcPath, path.resolve(destDir, fname))
+    const targetPath = makeValidFilePath(path.resolve(destDir, fname))
+    fs.moveSync(srcPath, targetPath)
+    return targetPath
   } catch (e) {
     console.log(e)
   }
