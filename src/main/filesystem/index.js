@@ -1,5 +1,5 @@
 import { app, dialog, ipcMain } from 'electron'
-import { makeFileStat, makeFolderStat } from './statistic'
+import { makeFileStat, makeFolderStat, makeFolderStatInGraph } from './statistic'
 import fs from 'fs-extra'
 
 /**
@@ -56,6 +56,10 @@ class FileSystem {
   _LISTENForIpcMain () {
     ipcMain.handle('newFileFromDialog', async (e) => {
       return await this.newFileFromDialog()
+    })
+
+    ipcMain.handle('link::get-folder-stat-in-graph', async (e, dirpath) => {
+      return makeFolderStatInGraph(dirpath)
     })
   }
 }
