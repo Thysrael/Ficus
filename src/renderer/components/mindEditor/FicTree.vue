@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap block place-content-center align-middle content-center px-8 relative w-full">
-    <div class="littleSidebar rounded-lg fixed flex flex-wrap p-2 place-content-center bg-white shadow-lg">
+    <div class="littleSidebar rounded-lg absolute flex flex-wrap p-2 place-content-center bg-white shadow-lg">
       <div class="littleSidebarItem rounded-lg my-2 place-content-center flex flex-wrap">
         <div class="flex my-1 littleSidebarIcon">
           <button @click="enlarge" :title="'放大'">
@@ -388,7 +388,7 @@ export default defineComponent({
 .contextMenuItem {
   cursor: pointer;
   font-size: 14px;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
 }
 
 .contextMenuItem:hover {
@@ -399,8 +399,8 @@ export default defineComponent({
 .littleSidebar {
   z-index: 999;
   width: 60px;
-  left: 280px;
-  top: 300px;
+  left: 20px;
+  top: 180px;
 }
 
 .littleSidebarItem {
