@@ -34,10 +34,8 @@ export default function defineRAPI (vditor, searchData) {
 
   /** 修改内容主题 **/
   bus.on('changeContentTheme', ({ theme }) => {
-    if (theme === 'classic') {
-      vditor.setTheme('classic', 'classic', 'github')
-    } else if (theme === 'modern') {
-      vditor.setTheme('classic', 'modern', 'github')
+    if (theme === 'classic' || theme === 'modern') {
+      vditor.setContentTheme(theme)
     } else {
       console.log('no match theme!')
     }
@@ -129,5 +127,39 @@ export default function defineRAPI (vditor, searchData) {
     config.typewriterMode = !config.typewriterMode
     vditor.setTypewriterMode(config.typewriterMode)
     bus.emit('changeShowTypewriterMode', config.typewriterMode)
+  })
+
+  /** 修改代码块主题 */
+  bus.on('setCodeTheme', ({ codeTheme }) => {
+    vditor.setCodeTheme(codeTheme)
+  })
+
+  /** 切换Latex引擎 */
+  bus.on('setLatexEngine', ({ engine }) => {
+    if (engine === 'KaTex' || engine === 'MathJax') {
+      vditor.setLatexEngine(engine)
+    } else {
+      console.log('切换失败')
+    }
+  })
+
+  /** 设置代码块行号的显示和隐藏 */
+  bus.on('setCodeBlockLineNumber', ({ enable }) => {
+    vditor.setCodeBlockLineNumber(enable)
+  })
+
+  /** 设置sv模式下自动加空格 */
+  bus.on('setAutoSpace', ({ enable }) => {
+    vditor.setAutoSpace(enable)
+  })
+
+  /** 设置自动矫正术语 */
+  bus.on('setAutoFixTermTypo', ({ enable }) => {
+    vditor.setAutoFixTermTypo(enable)
+  })
+
+  /** 设置悬浮工具框的功能 */
+  bus.on('setPopoverToolbar', (options) => {
+    vditor.setPopoverToolbar(options)
   })
 }
