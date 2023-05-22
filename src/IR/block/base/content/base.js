@@ -100,8 +100,8 @@ class FrontmatterContent extends Content {
   }
 }
 class RootContent extends Content {
-  constructor () {
-    super(rootTypeName, '')
+  constructor (filename) {
+    super(rootTypeName, filename)
     this.isBlock = true
   }
 

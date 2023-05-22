@@ -3,8 +3,8 @@ import { FolderContent, FileContent, TagContent } from '../base/content/file'
 import TreeNode, { RootNode } from '../base/treeNode'
 import { paragraphTypeName, quoteTypeName, thematicBreakTypeName, codeblockTypeName, diagramTypeName, htmlblockTypeName, rootTypeName, frontmatterTypeName, headingTypeName, listItemTypeName, listTypeName, fileTypeName, folderTypeName, tagTypeName } from '../base/type/constant'
 
-function buildRootNode () {
-  return new RootNode(rootTypeName, new RootContent())
+function buildRootNode (filename = '') {
+  return new RootNode(rootTypeName, new RootContent(filename))
 }
 
 function buildFrontMatter (text, lang, style) {

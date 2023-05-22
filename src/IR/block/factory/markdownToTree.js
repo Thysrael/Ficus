@@ -7,8 +7,8 @@ const restoreTableEscapeCharacters = text => {
   return text.replace(/\|/g, '\\|')
 }
 
-export function markdownToTree (markdown) {
-  const root = buildRootNode()
+export function markdownToTree (markdown, filename = '') {
+  const root = buildRootNode(filename)
   const tokens = new Lexer({
     disableInline: true,
     footnote: false,
