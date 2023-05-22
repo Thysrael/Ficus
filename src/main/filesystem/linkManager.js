@@ -1,9 +1,9 @@
 import path from 'path'
-import { addTagToDoc, getLinksInFile } from '../../common/parseLinks'
+import { addTagToDoc, getLinksInFile, removeTagFromDoc } from '../../common/parseLinks'
 import fs, { readFileSync } from 'fs-extra'
 import { isValidMarkdownFilePath } from '../helper/path'
 import { ipcMain } from 'electron'
-import { deleteFolder, move, makeValidFolderPath, newFolder } from '@/main/filesystem/fileManipulate'
+import { deleteFolder, move } from '@/main/filesystem/fileManipulate'
 class LinkManager {
   /**
    * 管理tag和cites
@@ -109,6 +109,7 @@ class LinkManager {
         queue.push(citing.path)
       }
     }
+    vis.delete(filepath)
     return [...vis]
   }
 
@@ -122,10 +123,11 @@ class LinkManager {
         continue
       }
       vis.add(head)
-      for (const cited of this.citingMap.get(head) || []) {
-        queue.push(cited.path)
+      for (const citing of this.citedMap.get(head) || []) {
+        queue.push(citing.path)
       }
     }
+    vis.delete(filepath)
     return [...vis]
   }
 
@@ -139,10 +141,11 @@ class LinkManager {
         continue
       }
       vis.add(head)
-      for (const citing of this.citedMap.get(head) || []) {
-        queue.push(citing.path)
+      for (const cited of this.citingMap.get(head) || []) {
+        queue.push(cited.path)
       }
     }
+    vis.delete(filepath)
     return [...vis]
   }
 
@@ -215,14 +218,16 @@ class LinkManager {
    */
   async tagToFolder (tagname, dirPath, filepaths) {
     if (this.tagToFiles.has(tagname)) {
-      const targetPath = makeValidFolderPath(path.resolve(dirPath, tagname))
-      await newFolder(path.dirname(targetPath), path.basename(targetPath))
-      for (const filepath of filepaths) {
-        await move(filepath, targetPath)
-        // const tagList = this.fileToTags.get(filepath)
-        // this.fileToTags.delete(filepath)
-        // const newpath = path.resolve(targetPath, path.basename(filepath))
-        // this.fileToTags.set(newpath, tagList)
+      const targetPath = path.resolve(dirPath, tagname)
+      if (!fs.existsSync(targetPath)) {
+        fs.mkdirSync(targetPath)
+      }
+      for (const filename of filepaths) {
+        const filepath = path.resolve(dirPath, filename)
+        fs.readFileSync(filepath).toString()
+        const newPath = await move(filepath, targetPath)
+        const doc = fs.readFileSync(newPath).toString()
+        fs.writeFileSync(newPath, removeTagFromDoc(doc, tagname))
       }
     }
   }
@@ -234,32 +239,26 @@ class LinkManager {
    */
   async folderToTag (folderPath) {
     const subFileOrFolder = fs.readdirSync(folderPath)
-    const targetPath = path.resolve(folderPath)
-    const newPaths = []
+    const targetPath = path.dirname(folderPath)
     const tagname = path.basename(folderPath)
     for (const subItem of subFileOrFolder) {
       const subItemPath = path.resolve(folderPath, subItem)
       if (isValidMarkdownFilePath(subItemPath)) {
         const newPath = await move(subItemPath, targetPath)
-        newPaths.push(newPath)
+        const doc = fs.readFileSync(newPath).toString()
+        fs.writeFileSync(newPath, addTagToDoc(doc, tagname))
       }
     }
     if (fs.readdirSync(folderPath).length === 0) {
       await deleteFolder(folderPath)
     }
-    for (const newPath of newPaths) {
-      const doc = fs.readFileSync(newPath).toString()
-      addTagToDoc(doc, tagname)
-      fs.writeFileSync(newPath)
-    }
   }
 
   async citeToTag (srcFilepath, citeFilepaths) {
     const tagname = path.basename(srcFilepath)
-    for (const newPath of citeFilepaths) {
-      const doc = fs.readFileSync(newPath).toString()
-      addTagToDoc(doc, tagname)
-      fs.writeFileSync(newPath)
+    for (const filePath of citeFilepaths) {
+      const doc = fs.readFileSync(filePath).toString()
+      fs.writeFileSync(filePath, addTagToDoc(doc, tagname))
     }
   }
 

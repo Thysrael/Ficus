@@ -63,7 +63,7 @@ export default {
       } else if (type.value === 1) {
         window.electronAPI.citeToTag(node.value.path, unit.children)
       } else if (type.value === 2) {
-        window.electronAPI.tagToFolder(node.value.name, unit.path, unit.children)
+        window.electronAPI.tagToFolder(node.value.name, unit.name, unit.children)
       }
     })
 
