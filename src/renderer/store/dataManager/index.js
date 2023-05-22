@@ -1,8 +1,10 @@
+import IRForest from '@/IR/component/forest'
 import TreeManager from '@/IR/manager/treeManager'
 import bus from 'vue3-eventbus'
 
 const state = {
-  treeManager: new TreeManager()
+  treeManager: new TreeManager(),
+  forest: new IRForest()
 }
 
 const mutations = {
@@ -43,6 +45,11 @@ const mutations = {
 
   rename (state, pathInfo) {
     state.treeManager.rename(pathInfo.oldPath, pathInfo.newPath)
+  },
+
+  /** forest */
+  buildForest (files) {
+    this.forest.build(files)
   }
 }
 
@@ -61,6 +68,18 @@ const actions = {
       }
       context.commit('setCurrentFile', filepath)
     }
+  },
+
+  async makeForest ({ commit }, filepaths) {
+    const files = []
+    for (const filepath of filepaths) {
+      const file = {
+        path: filepath,
+        content: await window.electronAPI.readFile(filepath)
+      }
+      files.push(file)
+    }
+    commit('buildForest', files)
   }
 }
 
@@ -68,7 +87,10 @@ const getters = {
   markdown: (state) => state.treeManager.markdown,
   mind: (state) => state.treeManager.mind,
   outline: (state) => state.treeManager.outline,
-  tags: (state) => state.treeManager.tags
+  tags: (state) => state.treeManager.tags,
+
+  graphMind: (state) => state.forest.mind,
+  graphMarkdown: (state) => state.forest.markdown
 }
 
 const filesManager = {
