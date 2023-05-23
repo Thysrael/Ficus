@@ -1,22 +1,29 @@
 import buildGraphFromFileTree from '../block/factory/filesToGraph'
 
-const DEFAULT_OPTIONS = {
-  replaced: false
-}
-
 class DataManager {
   constructor () {
-    this.forest = undefined
     this.graph = undefined
   }
 
-  buildGraphFromFiles (info, options = {}) {
-    const treeOptions = Object.assign({}, DEFAULT_OPTIONS, options)
+  buildGraph (info) {
     const newGraph = buildGraphFromFileTree(info.files, info.relations, info.aerials)
-    if (treeOptions.replaced) {
-      this.graph = newGraph
+    this.graph = newGraph
+  }
+
+  get nodes () {
+    if (this.graph) {
+      return this.graph.getNodes()
+    } else {
+      return []
     }
-    return newGraph.graph
+  }
+
+  get links () {
+    if (this.graph) {
+      return this.graph.getLinks()
+    } else {
+      return []
+    }
   }
 
   getGraphNodes () {

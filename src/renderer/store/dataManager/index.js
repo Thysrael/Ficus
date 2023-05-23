@@ -1,10 +1,12 @@
 import IRForest from '@/IR/component/forest'
+import DataManager from '@/IR/manager'
 import TreeManager from '@/IR/manager/treeManager'
 import bus from 'vue3-eventbus'
 
 const state = {
   treeManager: new TreeManager(),
-  forest: new IRForest()
+  forest: new IRForest(),
+  graph: new DataManager()
 }
 
 const mutations = {
@@ -48,8 +50,13 @@ const mutations = {
   },
 
   /** forest */
-  buildForest (files) {
-    this.forest.build(files)
+  buildForest (state, files) {
+    state.forest.build(files)
+  },
+
+  /** graph */
+  buildGraph (state, info) {
+    state.graph.buildGraph(info)
   }
 }
 
@@ -89,8 +96,11 @@ const getters = {
   outline: (state) => state.treeManager.outline,
   tags: (state) => state.treeManager.tags,
 
-  graphMind: (state) => state.forest.mind,
-  graphMarkdown: (state) => state.forest.markdown
+  forestMind: (state) => state.forest.mind,
+  forestMarkdown: (state) => state.forest.markdown,
+
+  graphNodes: (state) => state.graph.nodes,
+  graphLinks: (state) => state.graph.links
 }
 
 const filesManager = {
