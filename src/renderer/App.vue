@@ -83,6 +83,9 @@ export default {
     const message = ref('')
 
     onMounted(async () => {
+      console.log('从后端同步store配置')
+      document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
+
       store.dispatch('LISTEN_REFRESH')
       store.dispatch('LISTEN_OPENINITFILE')
       store.dispatch('LISTEN_KEYBOARD_EVENT')
@@ -423,6 +426,10 @@ export default {
   height: 100%;
 }
 
+:root {
+  --sideBarInitWidth: 250px;
+}
+
 .html, body {
   width: 100%;
   height: 100%;
@@ -432,9 +439,9 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  margin-left: 250px;
+  margin-left: var(--sideBarInitWidth);
   padding-top: 65px;
-  width: calc(100% - 250px);
+  width: calc(100% - var(--sideBarInitWidth));
   height: 100%;
   opacity: 1;
 }

@@ -19,14 +19,14 @@ const state = {
     value: -1 // -1表示当前模式为欢迎界面，0表示纯文本，1表示源码，2表示树形，3表示图
   },
   sideBarWidth: {
-    value: 250
+    value: 0
   },
   common: {
-    saveTime: 30, // 自动保存时间
+    saveTime: 10, // 自动保存时间
     autoSave: true, // 是否自动保存
     autoFullScreen: true, // 启动时是否自动全屏
     autoUpdate: true, // 是否自动更新
-    sideBarWidth: 250 // sideBar的初始宽度
+    sideBarInitWidth: 400 // sideBar的初始宽度
   },
   editor: {
     fontSize: 14,
@@ -40,9 +40,9 @@ const state = {
       clear: true
     },
     imgPath: '',
-    autoSpace: true,
-    autoFixTermTypo: true,
-    latexEngine: 'Latex',
+    autoSpace: false,
+    autoFixTermTypo: false,
+    latexEngine: 'KaTex',
     codeTheme: 'github'
   },
   shortcuts: {
@@ -143,7 +143,7 @@ const getters = {
     return state.mode.value
   },
   getSideBarWidth (state) {
-    return state.sideBarWidth.value
+    return (state.sideBarWidth.value === 0) ? state.common.sideBarInitWidth : state.sideBarWidth.value
   },
   getCommon (state) {
     return state.common
