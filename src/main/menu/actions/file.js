@@ -4,6 +4,7 @@ const openFile = async (win, id) => {
   win.webContents.send('ficus::keyboard-event', id)
 }
 
+<<<<<<< HEAD
 const openFolder = async (win, id) => {
   win.webContents.send('ficus::keyboard-event', id)
 }
@@ -40,4 +41,8 @@ export const loadFileCommands = commandManager => {
   commandManager.add(COMMANDS.FILE_EXPORT_AS_PDF, exportAsPDF)
   commandManager.add(COMMANDS.FILE_EXPORT_AS_PNG, exportAsPNG)
   commandManager.add(COMMANDS.FILE_CLOSE_TAB, closeTab)
+=======
+export const loadFileCommands = commandManager => {
+  commandManager.add(COMMANDS.FILE_OPEN_FILE, openFile)
+>>>>>>> a17492ca407605ce23b4a6e4f178a9b99b54cfb3
 }
