@@ -86,6 +86,7 @@ export default {
       store.dispatch('LISTEN_REFRESH')
       store.dispatch('LISTEN_OPENINITFILE')
       store.dispatch('LISTEN_KEYBOARD_EVENT')
+      store.dispatch('filesManager/LISTEN_FILE_MOVE')
       pathSeq = await window.electronAPI.getPathSep()
 
       window.addEventListener('resize', () => {
@@ -307,8 +308,7 @@ export default {
           window.electronAPI.renameFileOrFolder(newPath, oldPath)
 
           // 刷新缓存和打开的文件夹
-          store.commit('filesManager/rename', { oldPath, newPath })
-          bus.emit('renameOpenFiles', { oldPath, newPath })
+          store.commit('filesManager/move', { oldPath, newPath })
 
           fileName.value = ''
           showDialog.value = false

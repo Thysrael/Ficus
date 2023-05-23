@@ -55,6 +55,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback),
   openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback),
   keyboardEvent: (callback) => ipcRenderer.on('ficus::keyboard-event', callback),
+  setFilePathByMove: (callback) => ipcRenderer.on('set-file-path-by-move', callback),
 
   isOSx: () => isOsx
 })
