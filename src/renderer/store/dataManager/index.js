@@ -1,12 +1,12 @@
 import IRForest from '@/IR/component/forest'
-import DataManager from '@/IR/manager'
+import GraphManager from '@/IR/manager/graphManager'
 import TreeManager from '@/IR/manager/treeManager'
 import bus from 'vue3-eventbus'
 
 const state = {
   trees: new TreeManager(),
   forest: new IRForest(),
-  graph: new DataManager()
+  graph: new GraphManager()
 }
 
 const mutations = {
