@@ -1,4 +1,5 @@
 import { loadFileCommands } from './file'
+<<<<<<< HEAD
 import { loadParagraphCommands } from '@/main/menu/actions/paragraph'
 import { loadEditCommands } from '@/main/menu/actions/edit'
 import { loadHelpCommands } from '@/main/menu/actions/help'
@@ -12,4 +13,9 @@ export const loadMenuCommands = commandManager => {
   loadHelpCommands(commandManager)
   loadParagraphCommands(commandManager)
   loadViewCommands(commandManager)
+=======
+
+export const loadMenuCommands = commandManager => {
+  loadFileCommands(commandManager)
+>>>>>>> a17492ca407605ce23b4a6e4f178a9b99b54cfb3
 }
