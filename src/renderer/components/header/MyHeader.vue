@@ -111,7 +111,6 @@ import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
 import TabList from '@/renderer/components/header/TabList'
-import DataManager from '@/IR/manager'
 import store from '@/renderer/store'
 import { getRenamePath } from '@/renderer/utils/pathHelpter'
 
@@ -132,7 +131,6 @@ export default {
         }
       }, 30000)
     })
-    const dataManager = new DataManager()
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
@@ -300,8 +298,8 @@ export default {
     bus.on('changeToGraph', async () => {
       const info = await window.electronAPI.getLinks()
       info.files = props.data[0]
-      dataManager.buildGraphFromFiles(info, { replaced: true })
-      bus.emit('getNodeAndLink', { nodes: dataManager.getGraphNodes(), links: dataManager.getGraphLinks() })
+      store.commit('filesManager/buildGraph', info)
+      bus.emit('getNodeAndLink', { nodes: toRaw(store.getters['filesManager/graphNodes']), links: toRaw(store.getters['filesManager/graphLinks']) })
       await store.dispatch('updateMode', { value: 3 })
     })
 
