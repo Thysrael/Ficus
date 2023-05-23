@@ -404,6 +404,8 @@ export default {
     }
 
     onMounted(() => {
+      document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
+
       const sideBar = document.querySelector('.Sidebar')
       let startX, startWidth
 
@@ -457,7 +459,6 @@ export default {
 
     async function getPre () {
       isFile.value = 7
-      console.log('更新store，和后端同步')
       await store.dispatch('updateMode', { value: 4 })
     }
 
@@ -483,6 +484,10 @@ export default {
 </script>
 
 <style scoped>
+:root {
+  --sideBarInitWidth: 250px;
+}
+
 .html, body {
   width: 100%;
   height: 100%;
@@ -491,7 +496,7 @@ export default {
 .Sidebar {
   opacity: 1;
   background: #F4F4F3;
-  width: 250px;
+  width: var(--sideBarInitWidth);
   resize: horizontal;
 }
 

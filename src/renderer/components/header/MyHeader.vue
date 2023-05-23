@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, toRaw } from 'vue'
+import { computed, onMounted, ref, toRaw, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
@@ -125,11 +125,23 @@ export default {
   },
   setup (props) {
     onMounted(() => {
-      setInterval(() => {
-        if (curObj.value !== undefined && openFiles.value.length !== 0) {
+      const gap = store.getters.getCommon.saveTime
+
+      function autoSave () {
+        if (curObj.value !== undefined && openFiles.value.length !== 0 && store.getters.getCommon.autoSave) {
+          console.log('auto save')
           writeBack()
         }
-      }, 30000)
+      }
+
+      let interval = setInterval(autoSave, (gap * 1000))
+
+      watch(() => {
+        return store.getters.getCommon.saveTime
+      }, (newValue, oldValue) => {
+        clearInterval(interval) // 取消现有的定时器
+        interval = setInterval(autoSave, (newValue * 1000)) // 设置新的间隔时间
+      })
     })
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
