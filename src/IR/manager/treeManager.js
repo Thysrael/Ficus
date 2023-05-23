@@ -32,7 +32,7 @@ class TreeManager {
     this._removeCached(filepath)
   }
 
-  rename (oldPath, newPath) {
+  move (oldPath, newPath) {
     this._cached.forEach((value, oldFilePath) => {
       const newFilePath = getRenamePath(oldPath, newPath, oldFilePath)
       if (newFilePath !== oldFilePath) {

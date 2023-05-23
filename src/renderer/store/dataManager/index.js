@@ -4,49 +4,50 @@ import TreeManager from '@/IR/manager/treeManager'
 import bus from 'vue3-eventbus'
 
 const state = {
-  treeManager: new TreeManager(),
+  trees: new TreeManager(),
   forest: new IRForest(),
   graph: new DataManager()
 }
 
 const mutations = {
   buildByMarkdownContent (state, fileStats) {
-    state.treeManager.build(fileStats.filepath, { content: fileStats.content })
+    state.trees.build(fileStats.filepath, { content: fileStats.content })
   },
   updateByMarkdown (state, fileStats) {
     if (fileStats.filepath) {
-      state.treeManager.update(fileStats.filepath, { content: fileStats.content })
+      state.trees.update(fileStats.filepath, { content: fileStats.content })
     } else {
-      state.treeManager.updateCurrent({ content: fileStats.content })
+      state.trees.updateCurrent({ content: fileStats.content })
     }
   },
   updateByMind (state, fileStats) {
     if (fileStats.filepath) {
-      state.treeManager.update(fileStats.filepath, { mindJson: fileStats.mindJson })
+      state.trees.update(fileStats.filepath, { mindJson: fileStats.mindJson })
     } else {
-      state.treeManager.updateCurrent({ mindJson: fileStats.mindJson })
+      state.trees.updateCurrent({ mindJson: fileStats.mindJson })
     }
   },
 
   // 设置为当前
   setCurrentFile (state, filepath) {
-    state.treeManager.setTreeFromCached(filepath)
+    state.trees.setTreeFromCached(filepath)
   },
   addTag (state, tagname) {
-    state.treeManager.addTag(tagname)
+    state.trees.addTag(tagname)
   },
   removeTag (state, tagname) {
-    state.treeManager.removeTag(tagname)
+    state.trees.removeTag(tagname)
   },
   undo (state) {
-    state.treeManager.undo()
+    state.trees.undo()
   },
   redo (state) {
-    state.treeManager.redo()
+    state.trees.redo()
   },
 
-  rename (state, pathInfo) {
-    state.treeManager.rename(pathInfo.oldPath, pathInfo.newPath)
+  move (state, pathInfo) {
+    state.trees.move(pathInfo.oldPath, pathInfo.newPath)
+    bus.emit('renameOpenFiles', pathInfo)
   },
 
   /** forest */
@@ -65,7 +66,7 @@ const actions = {
     if (type === 'setting') {
       bus.emit('changeMode', -1)
     } else {
-      if (!context.state.treeManager.containsCached(filepath)) {
+      if (!context.state.trees.containsCached(filepath)) {
         const res = await window.electronAPI.readFile(filepath)
         if (res.error !== -1) {
           context.commit('buildByMarkdownContent', { filepath, content: res.content })
@@ -87,14 +88,20 @@ const actions = {
       files.push(file)
     }
     commit('buildForest', files)
+  },
+
+  LISTEN_FILE_MOVE ({ commit }) {
+    window.electronAPI.setFilePathByMove((e, pathInfo) => {
+      commit('move', pathInfo)
+    })
   }
 }
 
 const getters = {
-  markdown: (state) => state.treeManager.markdown,
-  mind: (state) => state.treeManager.mind,
-  outline: (state) => state.treeManager.outline,
-  tags: (state) => state.treeManager.tags,
+  markdown: (state) => state.trees.markdown,
+  mind: (state) => state.trees.mind,
+  outline: (state) => state.trees.outline,
+  tags: (state) => state.trees.tags,
 
   forestMind: (state) => state.forest.mind,
   forestMarkdown: (state) => state.forest.markdown,

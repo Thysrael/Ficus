@@ -3,17 +3,13 @@ import { isOsx, isWindows } from '../config'
 import { getMenuTemplates, toRawMenuTemplates } from './templates'
 
 class AppMenu {
-  constructor () {
+  constructor (keybinding) {
     this.isOsxOrWindows = isOsx || isWindows
-    this.keybinding = null
-    this._LISTENForIpcMain()
-  }
-
-  init (keybinding) {
     this.keybinding = keybinding
     if (isOsx) {
       Menu.setApplicationMenu(this._buildMenu())
     }
+    this._LISTENForIpcMain()
   }
 
   setWindowRawMenu (win) {
