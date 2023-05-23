@@ -8,6 +8,8 @@
 <script>
 import bus from 'vue3-eventbus'
 import ForceGraph from 'force-graph'
+import { ref } from 'vue'
+
 export default {
   name: 'FicGraph',
   mounted () {
@@ -19,7 +21,8 @@ export default {
     let branchLinks = new Set()
     let tagLinks = new Set()
     let zoomLevel = 0
-    let hoverNode = null
+    let highlightNode = null
+    const id2Node = ref(null)
     const nodeRelMaximum = 45
     const tagNodeRelSize = 10
     const nodeRelLimit = 5
@@ -38,8 +41,6 @@ export default {
         .onNodeClick(node => {
           // Focus on this node
           bus.emit('curNode', node)
-        })
-        .onNodeHover(node => {
           highlightNodes.clear()
           highlightLinks.clear()
           if (node) {
@@ -47,16 +48,13 @@ export default {
             node.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
             node.links.forEach(link => highlightLinks.add(link))
           }
-          hoverNode = node || null
+          highlightNode = node || null
+          console.log(highlightNodes)
         })
-        .onLinkHover(link => {
-          highlightNodes.clear()
+        .onBackgroundClick(() => {
           highlightLinks.clear()
-          if (link) {
-            highlightLinks.add(link)
-            highlightNodes.add(link.source)
-            highlightNodes.add(link.target)
-          }
+          highlightNodes.clear()
+          highlightNode = null
         })
         .onZoom(zoom => zoomLevel = zoom.k)
         .d3AlphaDecay(0.01)
@@ -214,6 +212,26 @@ export default {
         ficGraph.d3VelocityDecay(0.4)
       }
     })
+
+    const findObjectByIdUsingHashTable = (arr, id) => {
+      const hashTable = {};
+      // 构建哈希表
+      for (const obj of arr) {
+        hashTable[obj.id] = obj;
+      }
+      // 查找指定 id 的对象
+      return hashTable[id] || null;
+    }
+
+    function focusOnNode (target) {
+      let { nodes, links } = ficGraph.graphData()
+      // id2Node.value = Object.fromEntries(nodes.map(node => [node.id, node]))
+      target = Math.round(Math.random() * 20)
+      const randomNode = findObjectByIdUsingHashTable(nodes, target)
+      console.log(randomNode.name)
+      ficGraph.centerAt(randomNode.x, randomNode.y, 1000)
+      ficGraph.zoom(2, 2000)
+    }
   }
 }
 </script>
