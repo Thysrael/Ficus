@@ -19,10 +19,10 @@ class Preference {
     })
   }
 
-  init () {
+  async init () {
     let defaultSettings = null
     try {
-      defaultSettings = JSON.parse(fs.readFileSync(this.staticPath, { encoding: 'utf8' }) || '{}')
+      defaultSettings = JSON.parse(await fs.promises.readFile(this.staticPath, { encoding: 'utf8' }) || '{}')
     } catch (err) {
       console.log(err)
     }
@@ -31,7 +31,7 @@ class Preference {
       throw new Error('Can not load static preference.json file')
     }
 
-    if (!fs.existsSync(this._preferencePath)) {
+    if (!(await fs.pathExists(this._preferencePath))) {
       this.store.set(defaultSettings)
     } else {
       const userSetting = this.getAll()

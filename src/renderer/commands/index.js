@@ -83,7 +83,7 @@ const commands = [
   {
     id: 'file.open-folder',
     execute: async () => {
-      await window.electronAPI.openFolder()
+      window.electronAPI.openFolder()
     }
   },
   {

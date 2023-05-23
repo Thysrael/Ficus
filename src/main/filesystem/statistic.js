@@ -58,17 +58,17 @@ function makeFileStat (filePath) {
  * @param {string} dirPath
  * @returns {object?} 文件夹信息对象，路径无效返回 undifined
  */
-function makeFolderStat (dirPath) {
+async function makeFolderStat (dirPath) {
   if (isValidFolderPath(dirPath)) {
     const folderName = path.basename(dirPath)
     // 文件数组
-    const subFileOrFolder = fs.readdirSync(dirPath)
+    const subFileOrFolder = await fs.promises.readdir(dirPath)
     const folderChildren = []
     const fileChildren = []
     for (const subItem of subFileOrFolder) {
       const subItemPath = path.resolve(dirPath, subItem)
       if (isValidFolderPath(subItemPath)) {
-        folderChildren.push(makeFolderStat(subItemPath))
+        folderChildren.push(await makeFolderStat(subItemPath))
       } else if (isValidMarkdownFilePath(subItemPath)) {
         fileChildren.push(makeMarkdownFileStat(subItemPath))
       }
@@ -94,11 +94,11 @@ function makeFolderStat (dirPath) {
  * @param {string} dirPath
  * @returns {object?} 文件夹信息对象
  */
-function makeFolderStatInGraph (dirPath) {
+async function makeFolderStatInGraph (dirPath) {
   const folderName = path.basename(dirPath)
   if (isValidFolderPath(dirPath)) {
     // 文件数组
-    const subFileOrFolder = fs.readdirSync(dirPath)
+    const subFileOrFolder = await fs.promises.readdir(dirPath)
     const fileChildren = []
     for (const subItem of subFileOrFolder) {
       const subItemPath = path.resolve(dirPath, subItem)
