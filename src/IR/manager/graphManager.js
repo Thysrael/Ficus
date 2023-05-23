@@ -1,6 +1,6 @@
 import buildGraphFromFileTree from '../block/factory/filesToGraph'
 
-class DataManager {
+export default class GraphManager {
   constructor () {
     this.graph = undefined
   }
@@ -34,5 +34,3 @@ class DataManager {
     return this.graph.getLinks()
   }
 }
-
-export default DataManager
