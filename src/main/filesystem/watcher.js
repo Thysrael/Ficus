@@ -84,9 +84,9 @@ class Watcher extends EventEmitter {
 
   /* private */
   /* 处理监听事件 */
-  add (win, pathname) {
+  async add (win, pathname) {
     if (this.rootPath) {
-      const info = makeFolderStat(this.rootPath)
+      const info = await makeFolderStat(this.rootPath)
       win.webContents.send('ficus::passive-refresh', info)
     }
     this.emit('add', pathname)
@@ -96,25 +96,25 @@ class Watcher extends EventEmitter {
     this.emit('change', pathname)
   }
 
-  unlink (win, pathname) {
+  async unlink (win, pathname) {
     if (this.rootPath) {
-      const info = makeFolderStat(this.rootPath)
+      const info = await makeFolderStat(this.rootPath)
       win.webContents.send('ficus::passive-refresh', info)
     }
     this.emit('unlink', pathname)
   }
 
-  addDir (win, pathname) {
+  async addDir (win, pathname) {
     if (this.rootPath) {
-      const info = makeFolderStat(this.rootPath)
+      const info = await makeFolderStat(this.rootPath)
       win.webContents.send('ficus::passive-refresh', info)
     }
     this.emit('addDir', pathname)
   }
 
-  unlinkDir (win, pathname) {
+  async unlinkDir (win, pathname) {
     if (this.rootPath) {
-      const info = makeFolderStat(this.rootPath)
+      const info = await makeFolderStat(this.rootPath)
       win.webContents.send('ficus::passive-refresh', info)
     }
     this.emit('unlinkDir', pathname)

@@ -59,7 +59,7 @@ class FileSystem {
     })
 
     ipcMain.handle('link::get-folder-stat-in-graph', async (e, dirpath) => {
-      return makeFolderStatInGraph(dirpath)
+      return await makeFolderStatInGraph(dirpath)
     })
   }
 }
