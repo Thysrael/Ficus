@@ -55,6 +55,23 @@ const mutations = {
     state.forest.build(files)
   },
 
+  addFilesToForest (state, files) {
+    state.forest.addFiles(files)
+  },
+
+  addBaseToForest (state, filename) {
+    state.forest.addBase(filename)
+  },
+
+  clearForest (state) {
+    state.forest.clear()
+  },
+
+  exportAll (state) {
+    const files = state.forest.exportAll()
+    console.log(files) // TODO: 保存
+  },
+
   /** graph */
   buildGraph (state, info) {
     state.graph.buildGraph(info)
@@ -88,6 +105,18 @@ const actions = {
       files.push(file)
     }
     commit('buildForest', files)
+  },
+
+  async addFilesToForest ({ commit }, filepaths) {
+    const files = []
+    for (const filepath of filepaths) {
+      const file = {
+        path: filepath,
+        content: await window.electronAPI.readFile(filepath)
+      }
+      files.push(file)
+    }
+    commit('addFilesToForest', files)
   },
 
   LISTEN_FILE_MOVE ({ commit }) {

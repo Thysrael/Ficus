@@ -39,7 +39,7 @@ export default class IRForest {
     }
   }
 
-  addBase (filename) {
+  addBase (filename = 'new_base') {
     const chnode = buildRootNode(filename)
     this.filesRoot.insertAtHead(chnode)
   }
