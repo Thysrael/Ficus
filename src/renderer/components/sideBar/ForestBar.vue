@@ -1,17 +1,17 @@
 <template>
-  <button class="optionBtn" style="text-align: center">
+  <button class="optionBtn" style="text-align: center" @click="getDataBy(1)">
     从榕根选择
   </button><br>
-  <button class="optionBtn" style="text-align: center">
+  <button class="optionBtn" style="text-align: center" @click="getDataBy(2)">
     从榕柱选择
   </button><br>
-  <button class="optionBtn" style="text-align: center">
+  <button class="optionBtn" style="text-align: center" @click="handleClear">
     清除
   </button><br>
-  <button class="optionBtn" style="text-align: center">
+  <button class="optionBtn" style="text-align: center" @click="handleNewSet">
     新建基底
   </button><br>
-  <button class="optionBtn" style="text-align: center">
+  <button class="optionBtn" style="text-align: center" @click="handleOutput">
     导出
   </button><br>
   <div class="my-1 pl-2 pr-4 content-center items-center w-full mt-2">
@@ -28,6 +28,7 @@
 import ForestItem from '@/renderer/components/sideBar/ForestItem'
 import { ref } from 'vue'
 import bus from 'vue3-eventbus'
+import store from '@/renderer/store'
 export default {
   name: 'ForestBar',
   components: { ForestItem },
@@ -38,51 +39,72 @@ export default {
     }
   },
   setup (props) {
-    // const files = ref([{
-    //   name: 'components',
-    //   path: 'app2\\src\\components',
-    //   selected: false,
-    //   type: 'folder',
-    //   children: [{
-    //     name: 'File',
-    //     path: 'app2\\src\\components\\File',
-    //     selected: false,
-    //     type: 'folder',
-    //     children: [{
-    //       name: 'FileNav.vue',
-    //       path: 'app2\\src\\components\\File\\FileNav.vue',
-    //       selected: false,
-    //       children: [],
-    //       type: 'file'
-    //     }]
-    //   }]
-    // }, {
-    //   name: 'components',
-    //   path: 'app2\\src\\components',
-    //   selected: false,
-    //   type: 'folder',
-    //   children: [{
-    //     name: 'File',
-    //     path: 'app2\\src\\components\\File',
-    //     selected: false,
-    //     type: 'folder',
-    //     children: [{
-    //       name: 'FileNav.vue',
-    //       path: 'app2\\src\\components\\File\\FileNav.vue',
-    //       selected: false,
-    //       children: [],
-    //       type: 'file'
-    //     }]
-    //   }]
-    // }])
-
-    const files = ref(props.data)
-
-    // onMounted(() => {
-    //
-    // })
+    const files = ref([])
 
     const selectedList = []
+
+    /**
+     * 1: root 2: tag
+     * @param option
+     */
+
+    async function getDataBy (option) {
+      if (option === 1) {
+        if (props.data.length === 0) {
+          bus.emit('showMyAlert', { message: '请先打开文件夹' })
+        } else {
+          files.value = props.data
+        }
+      } else if (option === 2) {
+        const allTag = await window.electronAPI.getTags()
+        for (let i = 0; i < allTag.length; i++) {
+          const array = await window.electronAPI.getFilesByTag(allTag[i])
+          const res = []
+          for (let j = 0; j < array.length; j++) {
+            res.push({
+              name: window.pathAPI.basename(array[j]),
+              path: array[j],
+              selected: false,
+              type: 'file',
+              children: []
+            })
+          }
+          files.value.push({
+            name: allTag[i],
+            selected: false,
+            type: 'tag',
+            children: res
+          })
+        }
+      }
+    }
+
+    function handleClear () {
+      clearSelected(files.value)
+      store.commit('filesManager/clearForest')
+    }
+
+    function handleOutput () {
+      store.commit('filesManager/exportAll')
+    }
+
+    function handleNewSet () {
+      store.commit('filesManager/addBaseToForest')
+    }
+
+    function clearSelected (array) {
+      if (array.length === 0) {
+        return
+      }
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].selected) {
+          array[i].selected = false
+        }
+        if (array[i].type !== 'file' && array[i].children !== undefined) {
+          clearSelected(array[i].children)
+        }
+      }
+    }
 
     function getSelected (array) {
       if (array.length === 0) {
@@ -101,10 +123,15 @@ export default {
     bus.on('sendDataToForest', () => {
       selectedList.length = 0
       getSelected(files.value)
+      store.dispatch('filesManager/updateFilesOfForest', selectedList)
     })
 
     return {
-      files
+      files,
+      handleClear,
+      handleOutput,
+      handleNewSet,
+      getDataBy
     }
   }
 }

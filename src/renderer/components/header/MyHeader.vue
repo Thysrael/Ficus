@@ -223,7 +223,11 @@ export default {
 
     // 传参给，根据mode选择传参给哪个组件
     function sendContentByMode () {
-      if (store.getters.getMode === 2) {
+      if (store.getters.getMode === 5) {
+        const obj = store.getters['filesManager/forestMind']
+        console.log('得到', toRaw(obj))
+        bus.emit('sendToFicTree', toRaw(obj))
+      } else if (store.getters.getMode === 2) {
         const obj = store.getters['filesManager/mind']
         bus.emit('sendToFicTree', toRaw(obj))
       } else if (store.getters.getMode >= 0) {
@@ -313,6 +317,11 @@ export default {
       store.commit('filesManager/buildGraph', info)
       bus.emit('getNodeAndLink', { nodes: toRaw(store.getters['filesManager/graphNodes']), links: toRaw(store.getters['filesManager/graphLinks']) })
       await store.dispatch('updateMode', { value: 3 })
+    })
+
+    bus.on('changeToForest', () => {
+      store.dispatch('updateMode', { value: 5 })
+      sendContentByMode()
     })
 
     async function getCites () {

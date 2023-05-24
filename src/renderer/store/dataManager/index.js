@@ -2,6 +2,7 @@ import IRForest from '@/IR/component/forest'
 import GraphManager from '@/IR/manager/graphManager'
 import TreeManager from '@/IR/manager/treeManager'
 import bus from 'vue3-eventbus'
+import { toRaw } from 'vue'
 
 const state = {
   trees: new TreeManager(),
@@ -53,14 +54,17 @@ const mutations = {
   /** forest */
   updateForest (state, files) {
     state.forest.update(files)
+    bus.emit('sendToFicTree', toRaw(state.forest.mind))
   },
 
   addBaseToForest (state, filename) {
     state.forest.addBase(filename)
+    bus.emit('sendToFicTree', toRaw(state.forest.mind))
   },
 
   clearForest (state) {
     state.forest.clear()
+    bus.emit('sendToFicTree', toRaw(state.forest.mind))
   },
 
   exportAll (state) {
@@ -91,17 +95,17 @@ const actions = {
     }
   },
 
-  async updateFilesOfForest ({ commit }, filepaths) {
+  async updateFilesOfForest (context, filepaths) {
     const files = []
-    const validFilepaths = this.forest.filterPaths(filepaths)
+    const validFilepaths = context.state.forest.filterPaths(filepaths)
     for (const filepath of validFilepaths) {
       const file = {
         path: filepath,
-        content: await window.electronAPI.readFile(filepath)
+        content: (await window.electronAPI.readFile(filepath)).content
       }
       files.push(file)
     }
-    commit('updateForest', files)
+    context.commit('updateForest', files)
   },
 
   LISTEN_FILE_MOVE ({ commit }) {

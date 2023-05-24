@@ -3,7 +3,7 @@
        :class="mode === -1 ? `bg-SwissCoffee-500` : ``">
     <WelcomePage style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === -1"></WelcomePage>
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === 1 || mode === 0"></TextUI>
-    <FicTree v-show="mode === 2" style="width: 100%; height: 100%; position: relative; overflow: auto" />
+    <FicTree v-show="mode === 2 || mode === 5" style="width: 100%; height: 100%; position: relative; overflow: auto" />
     <FicGraph v-show="mode === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
     <PreArea v-show="mode === 4" style="width: 100%; height: 100%; position: relative; overflow: auto"></PreArea>
     <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1 || mode === 0">

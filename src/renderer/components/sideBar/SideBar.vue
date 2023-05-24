@@ -73,7 +73,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 5" :title="'榕林'">
+      <button class="myButton"  @click="getForest" :title="'榕林'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_462)">
@@ -324,10 +324,18 @@ export default {
       }
     }
 
+    function getForest () {
+      isFile.value = 5
+      bus.emit('changeToForest')
+    }
+
     watch(isFile, (newValue, oldValue) => {
       const res = (newValue === 4) ? 1 : 0
       bus.emit('showAllTag', res)
-      if ((oldValue === 6 && newValue !== 7) || (oldValue === 7 && newValue !== 6)) {
+      // if ((oldValue === 6 && newValue !== 7) || (oldValue === 7 && newValue !== 6)) {
+      //   bus.emit('backToEditMode')
+      // }
+      if (oldValue >= 5 && newValue <= 4) {
         bus.emit('backToEditMode')
       }
       if (oldValue === 7) {
@@ -473,6 +481,7 @@ export default {
       handlePaste,
       getTags,
       getGraph,
+      getForest,
       handleFlush,
       getRelation,
       handleCloseWorkArea,
