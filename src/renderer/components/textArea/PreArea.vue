@@ -6,25 +6,27 @@
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">保存</div>
         <label>自动保存时间（s）：</label>
-        <input type="number" v-model="saveTime" class="numberInput rounded-md"><br/>
+        <input type="number" v-model="common.saveTime" class="numberInput rounded-md" min="0" max="100"> s<br/>
         <label>自动保存：</label>
-        <input type="checkbox" v-model="autoSave" class="checkboxInput">
+        <input type="checkbox" v-model="common.autoSave" class="checkboxInput">
       </div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">全屏</div>
         <label>启动时自动全屏：</label>
-        <input type="checkbox" v-model="autoFullScreen" class="checkboxInput">
+        <input type="checkbox" v-model="common.autoFullScreen" class="checkboxInput">
       </div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">更新</div>
         <label>启动时自动更新：</label>
-        <input type="checkbox" v-model="autoUpdate" class="checkboxInput">
+        <input type="checkbox" v-model="common.autoUpdate" class="checkboxInput">
       </div>
 
       <div class="preference-item">
-        <button @click="savePreferences" class="optionBtn">保存</button>
+        <div class="font-bold my-4" style="font-size: 20px">侧边栏：</div>
+        <label>启动时侧边宽度：</label>
+        <input type="number" v-model="common.sideBarInitWidth" min="250" max="400"> px
       </div>
     </div>
     <div v-show="preMode === 1" class="preferences">
@@ -33,13 +35,13 @@
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">字体</div>
         <label>字体大小（px）：</label>
-        <input type="number" v-model="fontSize" class="numberInput rounded-md">
+        <input type="number" v-model="editor.fontSize" class="numberInput rounded-md">
       </div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">行号</div>
         <label>显示代码块行号：</label>
-        <input type="checkbox" v-model="showLineNumbers" class="checkboxInput">
+        <input type="checkbox" v-model="editor.showLineNumber" class="checkboxInput">
       </div>
 
       <div class="preference-item">
@@ -61,28 +63,68 @@
       </div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">源码</div>
-        <label>预览渲染结果：</label>
-        <input type="checkbox" v-model="showRender" class="checkboxInput">
+        <div class="font-bold my-4" style="font-size: 20px">悬浮栏：</div>
+        <label>加粗：</label>
+        <input type="checkbox" v-model="editor.toolBar.bold" class="checkboxInput"><br/>
+        <label>斜体：</label>
+        <input type="checkbox" v-model="editor.toolBar.italic" class="checkboxInput"><br/>
+        <label>高亮：</label>
+        <input type="checkbox" v-model="editor.toolBar.strike" class="checkboxInput"><br/>
+        <label>行内代码：</label>
+        <input type="checkbox" v-model="editor.toolBar.inlineCode" class="checkboxInput"><br/>
+        <label>行内公式：</label>
+        <input type="checkbox" v-model="editor.toolBar.inlineMath" class="checkboxInput"><br/>
+        <label>清楚样式：</label>
+        <input type="checkbox" v-model="editor.toolBar.clear" class="checkboxInput">
       </div>
 
       <div class="preference-item">
-        <button @click="savePreferences" class="optionBtn">保存</button>
+        <div class="font-bold" style="font-size: 20px">公式：</div>
+        <label>渲染器：</label>
+        <select v-model="editor.latexEngine">
+          <option value='KaTex'>KaTex</option>
+          <option value='MathJax'>MathJax</option>
+        </select>
       </div>
+
+      <div class="preference-item">
+        <div class="font-bold" style="font-size: 20px">代码：</div>
+        <label>主题：</label>
+        <select v-model="editor.codeTheme">
+          <option value='github'>github</option>
+          <option value='github-dark'>github-dark</option>
+          <option value='stackoverflow-dark'>stackoverflow-dark</option>
+          <option value='stackoverflow-light'>stackoverflow-light</option>
+        </select>
+      </div>
+
+      <div class="preference-item">
+        <div class="font-bold" style="font-size: 20px">其他：</div>
+        <label>渲染区域自动加空格：</label>
+        <input type="checkbox" v-model="editor.autoSpace"><br>
+        <label>自动矫正术语：</label>
+        <input type="checkbox" v-model="editor.autoFixTermTypo">
+      </div>
+
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">源码</div>
+        <label>预览渲染结果：</label>
+        <input type="checkbox" v-model="editor.svPreview" class="checkboxInput">
+      </div>
+
     </div>
+
     <div v-show="preMode === 2" class="preferences">
       <div class="title-font my-6" style="font-size: 33px">快捷键</div>
       <ul>
-        <li v-for="(shortcut, index) in shortcuts" :key="index" class="preference-item">
-          <label>{{ shortcut.name }}：</label>
-          <input @keydown="captureShortcut(index, $event)" ref="shortcutInput" :value="shortcut.key"
+        <li v-for="(value, key) in shortcuts" :key="key" class="preference-item">
+          <label>{{ key }}：</label>
+          <input @keydown="captureShortcut(key, $event)" ref="shortcutInput" :value="value"
                  class="numberInput rounded-md p-2 text-gray-700"><br/>
         </li>
       </ul>
-      <div class="preference-item">
-        <button @click="savePreferences" class="optionBtn">保存</button>
-      </div>
     </div>
+
     <div v-show="preMode === 3" class="preferences">
       <div class="title-font my-6" style="font-size: 33px">榕功能</div>
     </div>
@@ -90,7 +132,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, onMounted, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import store from '@/renderer/store'
 
@@ -101,36 +143,97 @@ export default {
     const { proxy, ctx } = getCurrentInstance()
     const _this = proxy
     const common = store.getters.getCommon
-    console.log(common)
     const preMode = ref(0) // 0-通用，1-编辑器，2-快捷键，3-榕功能
-    const fontSize = ref(14)
-    const showLineNumbers = ref(true)
-    const saveTime = ref(30)
-    const autoSave = ref(true)
-    const autoFullScreen = ref(true)
-    const autoUpdate = ref(true)
     const imgPath = ref(0) // 0-无特殊操作, 1-复制图片到当前文件夹, 2-复制图片到./${filename}.assets文件夹, 3-上传图片, 4-复制到指定路径
-    const showRender = ref(true)
     const showImgSelection = ref(false)
-    const shortcuts = ref([{
-      name: '打开文件',
-      key: 'ctrl + o'
-    }, {
-      name: '打开文件夹',
-      key: 'ctrl + shift + o'
-    }])
     /* eslint-disable no-template-curly-in-string */
     const imgOption = ['复制到指定路径', '复制图片到当前文件夹', '复制图片到./${filename}.assets文件夹', '上传图片', '复制到指定路径']
+    const editor = store.getters.getEditor
+    const shortcuts = store.getters.getShortCuts
+    const ficus = store.getters.getFicus
+
+    /**
+     * 对用户的修改进行监听，触发相应的事件
+     */
+    onMounted(() => {
+      // setPopoverToolbar
+      watch(() => {
+        return store.getters.getEditor.toolBar.bold
+      }, (newValue, oldValue) => {
+        bus.emit('setPopoverToolbar', store.getters.getEditor.toolBar)
+      })
+      watch(() => {
+        return store.getters.getEditor.toolBar.inlineMath
+      }, (newValue, oldValue) => {
+        bus.emit('setPopoverToolbar', store.getters.getEditor.toolBar)
+      })
+      watch(() => {
+        return store.getters.getEditor.toolBar.inlineCode
+      }, (newValue, oldValue) => {
+        bus.emit('setPopoverToolbar', store.getters.getEditor.toolBar)
+      })
+      watch(() => {
+        return store.getters.getEditor.toolBar.italic
+      }, (newValue, oldValue) => {
+        bus.emit('setPopoverToolbar', store.getters.getEditor.toolBar)
+      })
+      watch(() => {
+        return store.getters.getEditor.toolBar.clear
+      }, (newValue, oldValue) => {
+        bus.emit('setPopoverToolbar', store.getters.getEditor.toolBar)
+      })
+      watch(() => {
+        return store.getters.getEditor.toolBar.strike
+      }, (newValue, oldValue) => {
+        bus.emit('setPopoverToolbar', store.getters.getEditor.toolBar)
+      })
+
+      // setCodeTheme
+      watch(() => {
+        return store.getters.getEditor.codeTheme
+      }, (newValue, oldValue) => {
+        bus.emit('setCodeTheme', { codeTheme: newValue })
+      })
+
+      // setLatexEngine
+      watch(() => {
+        return store.getters.getEditor.latexEngine
+      }, (newValue, oldValue) => {
+        bus.emit('setLatexEngine', { engine: newValue })
+      })
+
+      // setCodeBlockLineNumber
+      watch(() => {
+        return store.getters.getEditor.showLineNumber
+      }, (newValue, oldValue) => {
+        bus.emit('setCodeBlockLineNumber', { enable: newValue })
+      })
+
+      // setAutoSpace
+      watch(() => {
+        return store.getters.getEditor.autoSpace
+      }, (newValue, oldValue) => {
+        bus.emit('setAutoSpace', { enable: newValue })
+      })
+
+      // setAutoFixTermTypo
+      watch(() => {
+        return store.getters.getEditor.autoFixTermTypo
+      }, (newValue, oldValue) => {
+        bus.emit('setAutoFixTermTypo', { enable: newValue })
+      })
+
+      // setSVPreview
+      watch(() => {
+        return store.getters.getEditor.svPreview
+      }, (newValue, oldValue) => {
+        bus.emit('setSVPreview', { enable: newValue })
+      })
+    })
 
     bus.on('changePreMode', (value) => {
       preMode.value = value
     })
-
-    function savePreferences () {
-      console.log(fontSize.value)
-      console.log(typeof imgPath.value)
-      console.log(shortcuts.value)
-    }
 
     function getKeyCombination (event) {
       let keyCombination = ''
@@ -154,14 +257,19 @@ export default {
       return keyCombination
     }
 
-    function captureShortcut (index, event) {
+    function captureShortcut (key, event) {
       event.preventDefault() // 阻止输入框默认的按键行为
       // 捕获用户按下的键位，并将其保存到对应的快捷键对象中
-      shortcuts.value[index].key = getKeyCombination(event)
+      shortcuts[key] = getKeyCombination(event)
     }
 
     const searchKeyword = ref('')
     const searchResults = ref([])
+
+    bus.on('searchByKeyWord', (obj) => {
+      searchKeyword.value = obj.keyWord
+      search()
+    })
 
     function search () {
       searchResults.value = [] // 清空搜索结果
@@ -192,21 +300,16 @@ export default {
     return {
       searchKeyword,
       searchResults,
-      preMode,
-      fontSize,
-      showLineNumbers,
-      saveTime,
-      autoSave,
-      autoFullScreen,
-      autoUpdate,
-      imgPath,
-      showRender,
+      common,
+      editor,
       shortcuts,
-      savePreferences,
+      ficus,
+      preMode,
       captureShortcut,
       search,
       getTextNodes,
       showImgSelection,
+      imgPath,
       imgOption
     }
   }
@@ -215,7 +318,7 @@ export default {
 
 <style scoped>
 .preferences {
-  max-width: 400px;
+  max-width: 600px;
   /*margin: auto;*/
   margin-left: 40px;
   padding: 20px;
@@ -224,6 +327,11 @@ export default {
 .preference-item {
   margin-top: 25px;
   margin-bottom: 20px;
+}
+
+label {
+  width: 180px;
+  display: inline-block;
 }
 
 select {
