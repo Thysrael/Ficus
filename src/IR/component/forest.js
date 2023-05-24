@@ -3,8 +3,8 @@ import { markdownToTree } from '../block/factory/markdownToTree'
 
 export default class IRForest {
   constructor () {
-    this.files = []
-    this.filesRoot = undefined
+    this.filepaths = []
+    this.filesRoot = buildRootNode('Forest')
   }
 
   /**
@@ -12,13 +12,47 @@ export default class IRForest {
    * @param {[{path: string, content: string}]} files
    */
   build (files) {
-    this.files = files
     this.filesRoot = buildRootNode('All')
-    this.filesRoot.insertAtLast(buildRootNode('新文档'))
     for (const file of files) {
       const chnode = markdownToTree(file.content, window.pathAPI.basename(file.path))
       this.filesRoot.insertAtLast(chnode)
+      this.filepaths.push(file.path)
     }
+  }
+
+  clear () {
+    this.filesRoot = buildRootNode('Forest')
+  }
+
+  /**
+   * 添加文件
+   * @param {[{path: string, content: string}]} files
+   */
+  addFiles (files) {
+    for (const file of files) {
+      if (this.filepaths.findIndex(file.path) >= 0) {
+        return
+      }
+      const chnode = markdownToTree(file.content, window.pathAPI.basename(file.path))
+      this.filesRoot.insertAtLast(chnode)
+      this.filepaths.push(file.path)
+    }
+  }
+
+  addBase (filename) {
+    const chnode = buildRootNode(filename)
+    this.filesRoot.insertAtHead(chnode)
+  }
+
+  exportAll () {
+    const exportFiles = []
+    for (const node of this.filesRoot.children) {
+      exportFiles.push({
+        name: node.content.text,
+        content: node.toMarkdown()
+      })
+    }
+    return exportFiles
   }
 
   get mindJson () {
