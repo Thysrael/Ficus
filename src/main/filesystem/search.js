@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import { isValidFolderPath, isValidMarkdownFilePath } from '../helper/path'
 
 export class SearchEngine {
-  constructor (dirPath, token) {
+  constructor (dirPath) {
     this.files = []
     this.results = []
     this._getFilePaths(dirPath)

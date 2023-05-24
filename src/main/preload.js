@@ -57,6 +57,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   keyboardEvent: (callback) => ipcRenderer.on('ficus::keyboard-event', callback),
   setFilePathByMove: (callback) => ipcRenderer.on('set-file-path-by-move', callback),
 
+  globalSearch: (token) => ipcRenderer.invoke('search-token-globally', token),
+
   isOSx: () => isOsx
 })
 
