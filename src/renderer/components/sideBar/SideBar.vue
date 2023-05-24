@@ -287,21 +287,13 @@ export default {
 
     bus.on('copyFileOrFolder', (obj) => {
       // 右键一个对象，如果对象已经在selectedList中，则不改变，如果不在，则新建一个selected
-      let index = -1
-      for (let i = 0; i < selected.value.length; i++) {
-        if (obj.path === selected.value[i].path) {
-          index = i
-          break
-        }
-      }
+      const index = selected.value.findIndex(item => item.path === obj.path)
       if (index === -1) {
         selected.value.length = 0
         selected.value.push(obj)
       }
       copied.value.length = 0
-      for (let i = 0; i < selected.value.length; i++) {
-        copied.value.push(selected.value[i].path)
-      }
+      selected.value.forEach(item => copied.value.push(item.path))
     })
 
     function handleNew (type) {
@@ -384,20 +376,13 @@ export default {
     async function handlePaste () {
       if (props.data.length !== 0) {
         const projPath = props.data[0].path
-        await window.electronAPI.paste(copied.value[0], projPath, projPath)
-        setTimeout(async () => {
-          await handleFlush()
-        }, 1500)
+        await window.electronAPI.paste(copied.value[0], projPath)
       }
     }
 
     bus.on('pasteForSpecialPath', async (path) => {
       if (props.data.length !== 0) {
-        const projPath = props.data[0].path
-        await window.electronAPI.paste(copied.value[0], path, projPath)
-        setTimeout(async () => {
-          await handleFlush()
-        }, 1500)
+        await window.electronAPI.paste(copied.value[0], path)
       }
     })
 

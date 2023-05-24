@@ -192,7 +192,7 @@ export const move = async (srcPath, destDir) => {
  * @param {string} projPath
  * @returns
  */
-export const paste = async (srcPath, destDir, projPath) => {
+exports.paste = async (srcPath, destDir) => {
   if (isValidFolderPath(srcPath)) {
     const destPath = makeValidFilePath(path.resolve(destDir, path.basename(srcPath)))
     await fs.copy(srcPath, destPath)
@@ -237,14 +237,14 @@ export function makeValidFilePath (filePath) {
     return newPath
   }
   const { dir, name, ext } = path.parse(filePath)
-  newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name} copy${ext}`)
+  newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name}-copy${ext}`)
   if (!fs.existsSync(newPath)) {
     return newPath
   }
 
   let id = 2
   while (id <= 100000) {
-    newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name} copy ${id}${ext}`)
+    newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name}-copy-${id}${ext}`)
     if (!fs.existsSync(newPath)) {
       return newPath
     }

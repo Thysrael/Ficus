@@ -10,7 +10,7 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile, paste, move, refresh
+  readFile, paste, refresh
 } from './main/filesystem/fileManipulate'
 import EAU from './main/update'
 
@@ -170,12 +170,8 @@ app.on('ready', async () => {
     ficusPath = path.dirname(tarPath)
   })
 
-  ipcMain.handle('ficus::move', async (e, srcPath, destDir) => {
-    move(srcPath, destDir)
-  })
-
-  ipcMain.handle('paste', async (e, userSelect, tarPath, projPath) => {
-    await paste(userSelect, tarPath, projPath)
+  ipcMain.handle('paste', async (e, userSelect, tarPath) => {
+    await paste(userSelect, tarPath)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {
