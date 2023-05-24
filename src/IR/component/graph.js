@@ -5,15 +5,22 @@ const linkType = {
   cite: 2
 }
 export default class IRGraph {
-  constructor () {
-    this.treenodes = []
-    this.initID()
+  constructor (files, relations = [], aerials = []) {
+    this._initID()
     this.graph = undefined
+    // node
+    this.treenodes = []
     this.tagnodes = []
+    // links
     this.edges = []
     this.relations = []
     this.aerials = []
-    this.pathToNodeId = {}
+    // init
+    this.idMap = new Map()
+
+    this.addFiles(files)
+    this.addRelations(relations)
+    this.addAerials(aerials)
   }
 
   /**
@@ -21,24 +28,28 @@ export default class IRGraph {
      * @param {{name: string, path: string, children: [any], type: string}} files
      * @returns
      */
-  parseFileTree (files, depth) {
+  _parseFileTree (files, depth) {
     let newNode
     if (files.type === 'folder') {
-      newNode = buildFolderNode(this.allocNodeID(), files.name, files.path, depth)
+      const nid = this._allocNodeID()
+      this.idMap.set(files.path, nid)
+      newNode = buildFolderNode(nid, files.name, files.path, depth)
       this.treenodes.push(newNode)
       files.children.forEach(e => {
-        newNode.insertAtLast(this.parseFileTree(e, depth + 1))
+        newNode.insertAtLast(this._parseFileTree(e, depth + 1))
       })
     } else {
-      newNode = buildFileNode(this.allocNodeID(), files.name, files.path, depth)
+      const nid = this._allocNodeID()
+      this.idMap.set(files.path, nid)
+      newNode = buildFileNode(nid, files.name, files.path, depth)
       this.treenodes.push(newNode)
     }
     return newNode
   }
 
   addFiles (files) {
-    this.graph = this.parseFileTree(files, 1)
-    this.makeEdges()
+    this.graph = this._parseFileTree(files, 1)
+    this._makeEdges()
   }
 
   /**
@@ -51,13 +62,14 @@ export default class IRGraph {
       pathToNodeId.set(node.content.path, node.content.id)
     }
     for (const tagInfo of relations) {
-      const tagNodeId = this.allocNodeID()
+      const tagNodeId = this._allocNodeID()
+      this.idMap.set(tagInfo.tagName, tagNodeId)
       const tagNode = buildTagNode(tagNodeId, tagInfo.tagName)
       this.tagnodes.push(tagNode)
       tagInfo.attach.forEach(filepath => {
         if (pathToNodeId.has(filepath)) {
           this.relations.push({
-            id: this.allocLinkID(),
+            id: this._allocLinkID(),
             source: tagNodeId,
             target: pathToNodeId.get(filepath),
             type: linkType.tag
@@ -79,7 +91,7 @@ export default class IRGraph {
     for (const aerialInfo of aerials) {
       if (pathToNodeId.has(aerialInfo.sourcePath) && pathToNodeId.has(aerialInfo.targetPath)) {
         this.aerials.push({
-          id: this.allocLinkID(),
+          id: this._allocLinkID(),
           source: pathToNodeId.get(aerialInfo.sourcePath),
           target: pathToNodeId.get(aerialInfo.targetPath),
           name: aerialInfo.name,
@@ -100,14 +112,20 @@ export default class IRGraph {
     return res
   }
 
-  /**
-   * private
-   */
-  makeEdges () {
+  getIdByName (name) {
+    return this.idMap.get(name) || -1
+  }
+
+  getLinks () {
+    return this.edges.concat(this.relations).concat(this.aerials)
+  }
+
+  /** private */
+  _makeEdges () {
     for (const node of this.treenodes) {
       node.children.forEach(chnode => {
         this.edges.push({
-          id: this.allocLinkID(),
+          id: this._allocLinkID(),
           source: node.content.id,
           target: chnode.content.id,
           type: linkType.file
@@ -116,25 +134,21 @@ export default class IRGraph {
     }
   }
 
-  getLinks () {
-    return this.edges.concat(this.relations).concat(this.aerials)
-  }
-
   /**
    * 获得一个独有的nodeID
    */
-  allocNodeID () {
+  _allocNodeID () {
     return this.nodeid++
   }
 
   /**
    * 获得一个独有的linkID
    */
-  allocLinkID () {
+  _allocLinkID () {
     return this.linkid++
   }
 
-  initID () {
+  _initID () {
     this.nodeid = 0
     this.linkid = 0
   }
