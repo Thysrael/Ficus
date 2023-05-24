@@ -27,47 +27,81 @@
 <script>
 import ForestItem from '@/renderer/components/sideBar/ForestItem'
 import { ref } from 'vue'
+import bus from 'vue3-eventbus'
 export default {
   name: 'ForestBar',
   components: { ForestItem },
-  setup () {
-    const files = ref([{
-      name: 'components',
-      path: 'app2\\src\\components',
-      selected: false,
-      type: 'folder',
-      children: [{
-        name: 'File',
-        path: 'app2\\src\\components\\File',
-        selected: false,
-        type: 'folder',
-        children: [{
-          name: 'FileNav.vue',
-          path: 'app2\\src\\components\\File\\FileNav.vue',
-          selected: false,
-          children: [],
-          type: 'file'
-        }]
-      }]
-    }, {
-      name: 'components',
-      path: 'app2\\src\\components',
-      selected: false,
-      type: 'folder',
-      children: [{
-        name: 'File',
-        path: 'app2\\src\\components\\File',
-        selected: false,
-        type: 'folder',
-        children: [{
-          name: 'FileNav.vue',
-          path: 'app2\\src\\components\\File\\FileNav.vue',
-          selected: false,
-          children: [],
-          type: 'file'
-        }]
-      }]
-    }])
+  props: {
+    data: {
+      type: Array,
+      required: true
+    }
+  },
+  setup (props) {
+    // const files = ref([{
+    //   name: 'components',
+    //   path: 'app2\\src\\components',
+    //   selected: false,
+    //   type: 'folder',
+    //   children: [{
+    //     name: 'File',
+    //     path: 'app2\\src\\components\\File',
+    //     selected: false,
+    //     type: 'folder',
+    //     children: [{
+    //       name: 'FileNav.vue',
+    //       path: 'app2\\src\\components\\File\\FileNav.vue',
+    //       selected: false,
+    //       children: [],
+    //       type: 'file'
+    //     }]
+    //   }]
+    // }, {
+    //   name: 'components',
+    //   path: 'app2\\src\\components',
+    //   selected: false,
+    //   type: 'folder',
+    //   children: [{
+    //     name: 'File',
+    //     path: 'app2\\src\\components\\File',
+    //     selected: false,
+    //     type: 'folder',
+    //     children: [{
+    //       name: 'FileNav.vue',
+    //       path: 'app2\\src\\components\\File\\FileNav.vue',
+    //       selected: false,
+    //       children: [],
+    //       type: 'file'
+    //     }]
+    //   }]
+    // }])
+
+    const files = ref(props.data)
+
+    // onMounted(() => {
+    //
+    // })
+
+    const selectedList = []
+
+    function getSelected (array) {
+      if (array.length === 0) {
+        return
+      }
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].type === 'file' && array[i].selected) {
+          selectedList.push(array[i].path)
+        }
+        if (array[i].type !== 'file' && array[i].children !== undefined) {
+          getSelected(array[i].children)
+        }
+      }
+    }
+
+    bus.on('sendDataToForest', () => {
+      selectedList.length = 0
+      getSelected(files.value)
+    })
 
     return {
       files

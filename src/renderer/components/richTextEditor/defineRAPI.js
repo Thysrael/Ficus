@@ -165,6 +165,10 @@ export default function defineRAPI (vditor, searchData) {
 
   /** SV模式下是否隐藏preview区域 */
   bus.on('setSVPreview', ({ enable }) => {
-    vditor.setSVPreview(enable)
+    if (enable) {
+      vditor.setPreviewMode('both')
+    } else {
+      vditor.setPreviewMode('editor')
+    }
   })
 }
