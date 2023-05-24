@@ -26,7 +26,7 @@ export default class IRForest {
     const filesToRemove = []
     for (const filepath of this.filesMap.keys()) {
       if (!newFilepaths.has(filepath)) {
-        filesToRemove.add(newFilepaths)
+        filesToRemove.push(newFilepaths)
       }
     }
     this.removeFiles(filesToRemove)
@@ -73,7 +73,7 @@ export default class IRForest {
     return exportFiles
   }
 
-  get mindJson () {
+  get mind () {
     if (this.filesRoot) {
       return this.filesRoot.toMindJson()
     } else {
