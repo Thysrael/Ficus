@@ -8,7 +8,6 @@
 <script>
 import bus from 'vue3-eventbus'
 import ForceGraph from 'force-graph'
-import { ref } from 'vue'
 
 export default {
   name: 'FicGraph',
@@ -22,7 +21,6 @@ export default {
     let tagLinks = new Set()
     let zoomLevel = 0
     let highlightNode = null
-    const id2Node = ref(null)
     const nodeRelMaximum = 45
     const tagNodeRelSize = 10
     const nodeRelLimit = 5
