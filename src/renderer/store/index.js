@@ -43,7 +43,8 @@ const state = {
     autoSpace: false,
     autoFixTermTypo: false,
     latexEngine: 'KaTex',
-    codeTheme: 'github'
+    codeTheme: 'github',
+    svPreview: true
   },
   shortcuts: {
     'file.open-file': 'Ctrl+O',
