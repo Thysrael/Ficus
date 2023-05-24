@@ -1,8 +1,11 @@
 <template>
-  <div style="font-size: 20px; text-align: center" class="my-2" v-if="unit.name !== undefined">
+  <div style="font-size: 14px; font-family: 'Noto Sans SC'; color: #565656"
+       class="mt-4 mb-2 font-bold"
+       v-if="unit.name !== undefined"
+       :title="unit.name">
     {{ unit.name }}
   </div>
-  <ul style="margin-top: 15px">
+  <ul style="margin-top: 15px" v-if="unit.children.length !== 0">
     <li v-for="(path, index) in unit.children"
         :key="index">
       <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
@@ -54,9 +57,17 @@
       </div>
     </li>
   </ul>
-  <button class="optionBtn" style="text-align: center" @click="handle">
-    {{ unit.handle }}
-  </button>
+
+  <div v-else style="font-size: 12px; color: #565656">
+    暂无结果
+  </div>
+
+  <div class="mt-2 mb-4 place-content-center content-center justify-center flex flex-wrap"
+       v-if="unit.children.length !== 0">
+    <button class="optionBtn flex align-middle justify-center content-center py-1" @click="handle">
+      {{ unit.handle }}
+    </button>
+  </div>
 </template>
 
 <script>
