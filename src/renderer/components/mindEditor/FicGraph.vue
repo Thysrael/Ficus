@@ -86,6 +86,7 @@ export default {
     })
 
     bus.on('getNodeAndLink', (obj) => {
+      console.log('刷新！！！')
       const data = obj.nodes
       const link = obj.links
       let id2NodeIndex = new Map()

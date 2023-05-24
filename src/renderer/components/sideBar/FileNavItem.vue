@@ -17,7 +17,7 @@
     >
 
       <div>
-        <svg v-if="item.type === 'folder' && hasChildren && !expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
+        <svg v-if="item.type === 'folder' && !expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
           <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
@@ -27,7 +27,7 @@
       </div>
 
       <div>
-        <svg v-if="item.type === 'folder' && hasChildren && expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
+        <svg v-if="item.type === 'folder' && expanded" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
           <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
           <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
@@ -169,9 +169,8 @@ export default {
     function toggle (index) {
       if (index === 1) {
         curItem.value.curChild = -1
-        if (hasChildren.value) {
-          expanded.value = !expanded.value
-        }
+        expanded.value = !expanded.value
+
         if (props.item.type === 'file') {
           bus.emit('openNewTab', props.item)
         }
