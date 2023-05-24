@@ -1,4 +1,4 @@
-import buildGraphFromFileTree from '../block/factory/filesToGraph'
+import IRGraph from '../component/graph'
 
 export default class GraphManager {
   constructor () {
@@ -6,8 +6,7 @@ export default class GraphManager {
   }
 
   buildGraph (info) {
-    const newGraph = buildGraphFromFileTree(info.files, info.relations, info.aerials)
-    this.graph = newGraph
+    this.graph = new IRGraph(info.files, info.relations, info.aerials)
   }
 
   get nodes () {
@@ -26,11 +25,11 @@ export default class GraphManager {
     }
   }
 
-  getGraphNodes () {
-    return this.graph.getNodes()
-  }
-
-  getGraphLinks () {
-    return this.graph.getLinks()
+  getNodeIdByName (name) {
+    if (this.graph) {
+      return this.graph.getIdByName(name)
+    } else {
+      return -1
+    }
   }
 }
