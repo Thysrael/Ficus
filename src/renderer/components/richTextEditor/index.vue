@@ -187,7 +187,8 @@ export default {
           actions: [],
           // 数学公式渲染选项
           math: {
-            engine: 'KaTeX'
+            engine: 'KaTeX',
+            inlineDigit: true
           },
           // 设置默认主题
           theme: {
