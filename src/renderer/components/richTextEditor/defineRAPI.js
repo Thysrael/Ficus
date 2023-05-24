@@ -162,4 +162,9 @@ export default function defineRAPI (vditor, searchData) {
   bus.on('setPopoverToolbar', (options) => {
     vditor.setPopoverToolbar(options)
   })
+
+  /** SV模式下是否隐藏preview区域 */
+  bus.on('setSVPreview', ({ enable }) => {
+    vditor.setSVPreview(enable)
+  })
 }
