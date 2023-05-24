@@ -1,7 +1,7 @@
 <template>
   <li
       class="my-1 w-full items-center content-center pr-4"
-      @click="handleSelect(item)"
+      @click.stop="handleSelect(item)"
   >
     <div
         style="display: flex;"
@@ -39,6 +39,8 @@
 
 <script>
 
+import bus from 'vue3-eventbus'
+
 export default {
   name: 'ForestItem',
   props: {
@@ -49,22 +51,27 @@ export default {
   },
   setup (props) {
     function handleSelect (item) {
-      if (item.path === props.item.path) {
+      if (props.item.selected === undefined) {
         // eslint-disable-next-line vue/no-mutating-props
+        props.item.selected = false
+      }
+      if (item.path === props.item.path) {
         item.selected = !item.selected
         changeChild(item, item.selected)
-      } else {
-        if (item.children.length === 0) {
-          return
-        }
-        const flag = item.children[0].selected
-        for (let i = 1; i < item.children.length; i++) {
-          if (item.children[i].selected !== flag) {
-            return
-          }
-        }
-        item.selected = flag
       }
+      bus.emit('sendDataToForest')
+      // else {
+      //   if (item.children === undefined || item.children.length === 0) {
+      //     return
+      //   }
+      //   const flag = item.children[0].selected
+      //   for (let i = 1; i < item.children.length; i++) {
+      //     if (item.children[i].selected !== flag) {
+      //       return
+      //     }
+      //   }
+      //   item.selected = flag
+      // }
     }
 
     function changeChild (father, value) {
