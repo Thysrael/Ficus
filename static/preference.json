@@ -1,4 +1,22 @@
 {
     "autoMaximize": false,
-    "showTrafficLights": false
+    "showTrafficLights": false,
+    "saveTime": 30,
+    "autoSave": true,
+    "autoFullScreen": true,
+    "autoUpdate": true,
+    "sideBarWidth": 250,
+    "fontSize": 14,
+    "showLineNumber": true,
+    "bold": true,
+    "italic": true,
+    "strike": true,
+    "inlineCode": true,
+    "inlineMath": true,
+    "clear": true,
+    "imgPath": "",
+    "autoSpace": true,
+    "autoFixTermTypo": true,
+    "latexEngine": "Latex",
+    "codeTheme": "github"
 }

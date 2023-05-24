@@ -1,13 +1,102 @@
 {
-    "autoMaximize": {
-      "description": "General--Auto maxmize window when start",
-      "type": "boolean",
-      "default": false
-    },
-    "showTrafficLights": {
-      "description": "General--Show traffic lights on MacOS",
-      "type": "boolean",
-      "default": false
-    }
+  "autoMaximize": {
+    "description": "General--Auto maxmize window when start",
+    "type": "boolean",
+    "default": false
+  },
+  "showTrafficLights": {
+    "description": "General--Show traffic lights on MacOS",
+    "type": "boolean",
+    "default": false
+  },
+  "saveTime": {
+    "description": "saveTime",
+    "type": "number",
+    "default": 30
+  },
+  "autoSave": {
+    "description": "autoSave",
+    "type": "boolean",
+    "default": true
+  },
+  "autoFullScreen": {
+    "description": "autoFullScreen",
+    "type": "boolean",
+    "default": true
+  },
+  "autoUpdate": {
+    "description": "autoUpdate",
+    "type": "boolean",
+    "default": true
+  },
+  "sideBarWidth": {
+    "description": "sideBarWidth",
+    "type": "number",
+    "default": 250
+  },
+  "fontSize": {
+    "description": "sideBarWidth",
+    "type": "number",
+    "default": 14
+  },
+  "showLineNumber": {
+    "description": "showLineNumber",
+    "type": "boolean",
+    "default": true
+  },
+  "bold": {
+    "description": "bold",
+    "type": "boolean",
+    "default": true
+  },
+  "italic": {
+    "description": "italic",
+    "type": "boolean",
+    "default": true
+  },
+  "strike": {
+    "description": "strike",
+    "type": "boolean",
+    "default": true
+  },
+  "inlineCode": {
+    "description": "inlineCode",
+    "type": "boolean",
+    "default": true
+  },
+  "inlineMath": {
+    "description": "inlineMath",
+    "type": "boolean",
+    "default": true
+  },
+  "clear": {
+    "description": "clear",
+    "type": "boolean",
+    "default": true
+  },
+  "imgPath": {
+    "description": "imgPath",
+    "type": "string",
+    "default": ""
+  },
+  "autoSpace": {
+    "description": "autoSpace",
+    "type": "boolean",
+    "default": true
+  },
+  "autoFixTermTypo": {
+    "description": "autoFixTermTypo",
+    "type": "boolean",
+    "default": true
+  },
+  "latexEngine": {
+    "description": "latexEngine",
+    "type": "string",
+    "default": "Latex"
+  },
+  "codeTheme": {
+    "description": "codeTheme",
+    "type": "string",
+    "default": "github"
   }
-  
+}
