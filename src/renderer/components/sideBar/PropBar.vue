@@ -65,29 +65,30 @@
   </div>
   <div class="pl-2 pr-4" v-if="all === 2">
     <div style="font-size: 12px">
-      当前工作区共有 {{ tags.length }} 个标签
+      当前工作区共有 {{ allTag.length }} 个标签
     </div>
     <div class="items-center content-center my-2">
       <!-- 在具体实现方面，可以通过一个 v-for 维护 -->
       <!-- 点击删除标签按钮时需要将其从标签组中删去，注意绑定事件 -->
       <span
-          v-for="(tag, index) in tags"
+          v-for="(tag, index) in allTag"
+          @click="getFileByTag(tag)"
           :key="index"
           class="tag text-gray-700 text-xs font-normal mr-2 my-1 px-3 py-1 rounded-full items-center inline-block"
           :title="tag">
             <svg class="w-3 h-3 mr-1 inline" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path
                 d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/>
             </svg>
-            {{ tag.length > 7 ? tag.slice(0, 7) + '...' : tag }}
-            <button class="inline-flex transition items-center p-1 ml-2 text-sm bg-transparent rounded-md hover:bg-gray-400 hover:text-white"
-                    aria-label="Remove"
-                    @click="removeTag(tag, index)">
-              <svg aria-hidden="true" class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"
-                   xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"
-                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                            clip-rule="evenodd"></path>
-              </svg>
-            </button>
+            {{ allTag.length > 7 ? tag.slice(0, 7) + '...' : tag }}
+<!--            <button class="inline-flex transition items-center p-1 ml-2 text-sm bg-transparent rounded-md hover:bg-gray-400 hover:text-white"-->
+<!--                    aria-label="Remove"-->
+<!--                    @click="removeTag(tag, index)">-->
+<!--              <svg aria-hidden="true" class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"-->
+<!--                   xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"-->
+<!--                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"-->
+<!--                                                            clip-rule="evenodd"></path>-->
+<!--              </svg>-->
+<!--            </button>-->
       </span>
     </div>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
@@ -95,9 +96,9 @@
       当前标签关联 {{ tagged.length }} 个文档
     </div>
     <ul style="margin-top: 15px">
-      <li v-for="(item, index) in tagged"
+      <li v-for="(path, index) in tagged"
           :key="index"
-          @click="toggle(item)">
+          @click="toggle(path)">
         <div style="display: flex" class="items-center content-center relBarItem">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -136,12 +137,12 @@
               </g>
             </svg>
           </div>
-          <div class="pl-2 overflow-hidden" :title="item.path">
+          <div class="pl-2 overflow-hidden" :title="path">
             <div style="font-size: 12px; text-overflow: ellipsis;">
-              {{ item.name }}
+              {{ getName(path) }}
             </div>
             <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
-              {{ item.path }}
+              {{ path }}
             </div>
           </div>
         </div>
@@ -162,17 +163,18 @@ export default {
     const keyWord = ref('')
     const showM = ref(false)
     const all = ref(0)
-    const tagged = ref([{
-      name: 'FileNavItem.vue',
-      path: 'app2\\src\\components\\FileNav.vue'
-    }])
+    const allTag = ref(['ba', 'bb'])
+    const tagged = ref([])
 
     /**
      *
      * @param {int} value: 0-nothing, 1-curTag, 2-allTag
      */
-    bus.on('showAllTag', (value) => {
+    bus.on('showAllTag', async (value) => {
       all.value = value
+      if (value === 2) {
+        allTag.value = await window.electronAPI.getTags()
+      }
     })
 
     bus.on('editTags', ({ tags: tagsArray }) => {
@@ -208,15 +210,23 @@ export default {
       tags.value.splice(index, 1)
     }
 
-    function toggle (item) {
+    async function getFileByTag (tag) {
+      tagged.value = await window.electronAPI.getFilesByTag(tag)
+    }
+
+    function toggle (path) {
       const obj = {
-        name: window.pathAPI.basename(item.path),
-        path: item.path,
+        name: window.pathAPI.basename(path),
+        path: path,
         type: 'file',
         offset: -1,
-        absolutePath: item.path.split(window.pathAPI.sep)
+        absolutePath: path.split(window.pathAPI.sep)
       }
       bus.emit('openNewTab', obj)
+    }
+
+    function getName (path) {
+      return window.pathAPI.basename(path)
     }
 
     return {
@@ -226,10 +236,13 @@ export default {
       showM,
       all,
       tagged,
+      allTag,
       handleSearch,
       handleAddTag,
       removeTag,
-      toggle
+      toggle,
+      getFileByTag,
+      getName
     }
   }
 }
@@ -257,5 +270,15 @@ export default {
   background-color: #c9c9c9;
   -webkit-transition: background-color .3s;
   -webkit-transition:left .3s, background-color .3s;
+}
+
+.relBarItem {
+  font-family: "Noto Sans SC";
+}
+
+.relBarItem:hover {
+  background-color: #e3e3e3;
+  border-radius: 6px;
+  -webkit-transition: .2s;
 }
 </style>

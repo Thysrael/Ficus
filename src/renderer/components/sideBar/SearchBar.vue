@@ -3,9 +3,10 @@
     <div class="mr-2 w-full">
       <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
              style="font-family: 'Noto Sans SC'; font-weight: lighter; font-size: 12px"
-             placeholder="全局搜索..." type="text"/>
+             v-model="keyWord"
+             placeholder="全局搜索..." type="text" @keyup.enter="handleSearch"/>
     </div>
-    <button class="searchBtn">
+    <button class="searchBtn" @click="handleSearch">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
            width="15" height="15" viewBox="0 0 10 10">
         <g style="mix-blend-mode:passthrough" clip-path="url(#master_svg0_71_1377)">
@@ -19,8 +20,9 @@
     </button>
   </div>
   <ul style="margin-top: 40px" class="pl-2">
-  <li v-for="(item, index) in searchResult"
+  <li v-for="(path, index) in searchResult"
       :key="index"
+      @click="toggle(path)"
   class="pr-4">
     <div style="display: flex" class="items-center content-center relBarItem">
       <div>
@@ -60,12 +62,12 @@
           </g>
         </svg>
       </div>
-      <div class="pl-2 overflow-hidden" :title="item.path">
+      <div class="pl-2 overflow-hidden" :title="path">
         <div style="font-size: 12px; text-overflow: ellipsis;">
-          {{ item.name }}
+          {{ getName(path) }}
         </div>
         <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
-          {{ item.path }}
+          {{ path }}
         </div>
       </div>
     </div>
@@ -75,22 +77,41 @@
 
 <script>
 import { ref } from 'vue'
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'SearchBar',
   setup () {
-    const searchResult = ref([{
-      name: 'FileNav.vue',
-      curChild: -1,
-      path: 'app2\\src\\components\\FileNav.vue',
-      absolutePath: ['app2', 'src', 'components', 'FileNav.vue'],
-      offset: -1,
-      children: [],
-      type: 'file'
-    }])
+    const keyWord = ref('')
+
+    const searchResult = ref([])
+
+    function getName (path) {
+      return window.pathAPI.basename(path)
+    }
+
+    async function handleSearch () {
+      searchResult.value = await window.electronAPI.globalSearch(keyWord.value)
+      console.log(searchResult.value)
+    }
+
+    function toggle (path) {
+      const obj = {
+        name: window.pathAPI.basename(path),
+        path,
+        type: 'file',
+        offset: -1,
+        absolutePath: path.split(window.pathAPI.sep)
+      }
+      bus.emit('openNewTab', obj)
+    }
 
     return {
-      searchResult
+      keyWord,
+      searchResult,
+      getName,
+      handleSearch,
+      toggle
     }
   }
 }
