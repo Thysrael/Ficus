@@ -151,7 +151,7 @@ app.on('ready', async () => {
   })
 
   protocol.registerHttpProtocol('http', (request, callback) => {
-    var newReq = { url: request.url }
+    let newReq = { url: request.url }
     if (newReq.url.startsWith('http://ficus.world/local_api/upload')) {
       const jsonData = {}
       for (const fileInfo of request.uploadData) {
