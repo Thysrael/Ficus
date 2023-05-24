@@ -26,7 +26,7 @@ const state = {
     autoSave: true, // 是否自动保存
     autoFullScreen: true, // 启动时是否自动全屏
     autoUpdate: true, // 是否自动更新
-    sideBarInitWidth: 400 // sideBar的初始宽度
+    sideBarInitWidth: 250 // sideBar的初始宽度
   },
   editor: {
     fontSize: 14,
