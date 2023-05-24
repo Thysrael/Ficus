@@ -162,7 +162,15 @@ export default {
         // 设置cdn
         cdn: '/ficus-editor',
         hint: {
-          emojiPath: '/ficus-editor'
+          emojiPath: '/ficus-editor',
+          // 根据用户输入的“链接url“或“图片url”生成提示列表
+          genLinkHint: (input) => {
+            // ...
+            return [
+              input + '123',
+              input + '456'
+            ]
+          }
         },
         // 编辑器高度
         height: '100%',
