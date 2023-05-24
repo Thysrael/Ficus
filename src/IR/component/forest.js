@@ -3,39 +3,57 @@ import { markdownToTree } from '../block/factory/markdownToTree'
 
 export default class IRForest {
   constructor () {
-    this.filepaths = []
     this.filesRoot = buildRootNode('Forest')
+    this.filesMap = new Map()
   }
 
   /**
-   * 构建森林
+   * 更新森林
    * @param {[{path: string, content: string}]} files
    */
-  build (files) {
-    this.filesRoot = buildRootNode('All')
+  update (files) {
+    const newFilepaths = new Set()
     for (const file of files) {
+      if (this.filesMap.has(file.path)) {
+        continue
+      }
       const chnode = markdownToTree(file.content, window.pathAPI.basename(file.path))
       this.filesRoot.insertAtLast(chnode)
-      this.filepaths.push(file.path)
+      this.filesMap.set(file.path, chnode)
+      newFilepaths.add(file.path)
     }
+
+    const filesToRemove = []
+    for (const filepath of this.filesMap.keys()) {
+      if (!newFilepaths.has(filepath)) {
+        filesToRemove.add(newFilepaths)
+      }
+    }
+    this.removeFiles(filesToRemove)
+  }
+
+  filterPaths (filepaths) {
+    const newFilepaths = []
+    for (const filepath of filepaths) {
+      if (!this.filesMap.has(filepath)) {
+        newFilepaths.push(filepath)
+      }
+    }
+    return newFilepaths
   }
 
   clear () {
     this.filesRoot = buildRootNode('Forest')
+    this.filesMap.clear()
   }
 
-  /**
-   * 添加文件
-   * @param {[{path: string, content: string}]} files
-   */
-  addFiles (files) {
-    for (const file of files) {
-      if (this.filepaths.findIndex(file.path) >= 0) {
-        return
+  removeFiles (filepaths) {
+    for (const filepath of filepaths) {
+      if (!this.filesMap.has(filepath)) {
+        continue
       }
-      const chnode = markdownToTree(file.content, window.pathAPI.basename(file.path))
-      this.filesRoot.insertAtLast(chnode)
-      this.filepaths.push(file.path)
+      const chnode = this.filesMap.get(filepath)
+      chnode.removeSelf()
     }
   }
 

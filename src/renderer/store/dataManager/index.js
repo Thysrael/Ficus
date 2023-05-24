@@ -51,12 +51,8 @@ const mutations = {
   },
 
   /** forest */
-  buildForest (state, files) {
-    state.forest.build(files)
-  },
-
-  addFilesToForest (state, files) {
-    state.forest.addFiles(files)
+  updateForest (state, files) {
+    state.forest.update(files)
   },
 
   addBaseToForest (state, filename) {
@@ -95,28 +91,17 @@ const actions = {
     }
   },
 
-  async makeForest ({ commit }, filepaths) {
+  async updateFilesOfForest ({ commit }, filepaths) {
     const files = []
-    for (const filepath of filepaths) {
+    const validFilepaths = this.forest.filterPaths(filepaths)
+    for (const filepath of validFilepaths) {
       const file = {
         path: filepath,
         content: await window.electronAPI.readFile(filepath)
       }
       files.push(file)
     }
-    commit('buildForest', files)
-  },
-
-  async addFilesToForest ({ commit }, filepaths) {
-    const files = []
-    for (const filepath of filepaths) {
-      const file = {
-        path: filepath,
-        content: await window.electronAPI.readFile(filepath)
-      }
-      files.push(file)
-    }
-    commit('addFilesToForest', files)
+    commit('updateForest', files)
   },
 
   LISTEN_FILE_MOVE ({ commit }) {
