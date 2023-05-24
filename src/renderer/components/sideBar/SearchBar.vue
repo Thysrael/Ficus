@@ -1,5 +1,10 @@
 <template>
   <div class="searchBar content-center items-center w-full mt-2 pl-2 pr-4">
+    <div class="mr-2 w-full">
+      <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
+             style="font-family: 'Noto Sans SC'; font-weight: lighter; font-size: 12px"
+             placeholder="全局搜索..." type="text"/>
+    </div>
     <button class="searchBtn">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
            width="15" height="15" viewBox="0 0 10 10">
@@ -12,11 +17,6 @@
         </g>
       </svg>
     </button>
-    <div class="pl-2 w-full">
-      <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
-             style="font-family: 'Noto Sans SC'; font-weight: lighter"
-             placeholder="全局搜索..." type="text"/>
-    </div>
   </div>
 </template>
 
@@ -37,13 +37,11 @@ export default {
   fill: #42b983;
   fill-opacity: 1;
   -webkit-transition: fill .3s;
-  -webkit-transition:left .3s, fill .3s;
 }
 
 .searchBtn:active path {
   fill: #19734b;
   fill-opacity: 1;
   -webkit-transition: fill .3s;
-  -webkit-transition:left .3s, fill .3s;
 }
 </style>
