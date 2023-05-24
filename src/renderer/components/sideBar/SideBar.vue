@@ -245,7 +245,7 @@ export default {
         case 0:
           return '资源管理器'
         case 1:
-          return '搜索与替换'
+          return '搜索'
         case 2:
           return '文档大纲'
         case 3:
