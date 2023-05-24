@@ -121,7 +121,6 @@
         <label>预览渲染结果：</label>
         <input type="checkbox" v-model="editor.svPreview" class="checkboxInput">
       </div>
-
     </div>
 
     <div v-show="preMode === 2" class="preferences">
