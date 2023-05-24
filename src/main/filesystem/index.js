@@ -1,6 +1,7 @@
 import { app, dialog, ipcMain } from 'electron'
 import { makeFileStat, makeFolderStat, makeFolderStatInGraph } from './statistic'
 import fs from 'fs-extra'
+import { SearchEngine } from './search'
 
 /**
  * 用于 showOpenDialog
@@ -53,6 +54,15 @@ class FileSystem {
     })
   }
 
+  async searchToken (token) {
+    if (!this.root) {
+      return []
+    }
+    const searchEngine = new SearchEngine(this.root)
+    await searchEngine.search(token)
+    return searchEngine.results
+  }
+
   _LISTENForIpcMain () {
     ipcMain.handle('newFileFromDialog', async (e) => {
       return await this.newFileFromDialog()
@@ -60,6 +70,10 @@ class FileSystem {
 
     ipcMain.handle('link::get-folder-stat-in-graph', async (e, dirpath) => {
       return await makeFolderStatInGraph(dirpath)
+    })
+
+    ipcMain.handle('search-token-globally', async (e, token) => {
+      return await this.searchToken(token)
     })
   }
 }
