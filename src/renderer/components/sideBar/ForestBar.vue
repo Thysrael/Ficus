@@ -5,7 +5,16 @@
   <button class="optionBtn" style="text-align: center">
     从榕柱选择
   </button><br>
-  <div class="pl-2 pr-4 content-center items-center w-full mt-2">
+  <button class="optionBtn" style="text-align: center">
+    清除
+  </button><br>
+  <button class="optionBtn" style="text-align: center">
+    新建基底
+  </button><br>
+  <button class="optionBtn" style="text-align: center">
+    导出
+  </button><br>
+  <div class="my-1 pl-2 pr-4 content-center items-center w-full mt-2">
     <ul style="margin-top: 15px">
       <ForestItem v-for="(item, index) in files"
           :key="index"
@@ -17,11 +26,12 @@
 
 <script>
 import ForestItem from '@/renderer/components/sideBar/ForestItem'
+import { ref } from 'vue'
 export default {
   name: 'ForestBar',
   components: { ForestItem },
   setup () {
-    const files = [{
+    const files = ref([{
       name: 'components',
       path: 'app2\\src\\components',
       selected: false,
@@ -39,7 +49,25 @@ export default {
           type: 'file'
         }]
       }]
-    }]
+    }, {
+      name: 'components',
+      path: 'app2\\src\\components',
+      selected: false,
+      type: 'folder',
+      children: [{
+        name: 'File',
+        path: 'app2\\src\\components\\File',
+        selected: false,
+        type: 'folder',
+        children: [{
+          name: 'FileNav.vue',
+          path: 'app2\\src\\components\\File\\FileNav.vue',
+          selected: false,
+          children: [],
+          type: 'file'
+        }]
+      }]
+    }])
 
     return {
       files
