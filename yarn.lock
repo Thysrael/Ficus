@@ -6834,10 +6834,10 @@ fflate@^0.4.8:
   resolved "https://mirrors.cloud.tencent.com/npm/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
 
-ficus-editor@^1.1.14:
-  version "1.1.14"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.14.tgz#9699279e8a2c7b8b588e7e77767bac0e325dc030"
-  integrity sha512-E6UNBM6oWs1kIrksL050ea24rGrNRTYskt5uskbD4ymt0wS+Mw+2AFDUWXfi3x9QxyGBTgITvv6G9pCW6uT68g==
+ficus-editor@^1.1.15:
+  version "1.1.15"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.15.tgz#a4599fc655edf10fe55fad108fdbeffbab0d2bcd"
+  integrity sha512-wAynhrmI9qofff5Jn+qrblnMqTwn/ACTDjn+ycUxLNLtOFHEqScZD+bFarLJjWKXiWzN5UsQu+HXzU4Extpu2Q==
   dependencies:
     diff-match-patch "^1.0.5"
 
