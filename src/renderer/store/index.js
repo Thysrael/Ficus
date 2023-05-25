@@ -119,6 +119,9 @@ const mutations = {
     state.editor.latexEngine = preferences.latexEngine
     state.editor.codeTheme = preferences.codeTheme
     state.editor.svPreview = preferences.svPreview
+    state.sideBarWidth.value = preferences.sideBarInitWidth
+
+    bus.emit('changeSideBarWidth')
   }
 }
 
@@ -210,9 +213,6 @@ const getters = {
     return state.mode.value
   },
   getSideBarWidth (state) {
-    if (state.sideBarWidth.value === 0) {
-      state.sideBarWidth.value = state.common.sideBarInitWidth
-    }
     return state.sideBarWidth.value
   },
   getCommon (state) {

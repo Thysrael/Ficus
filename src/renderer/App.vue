@@ -83,14 +83,18 @@ export default {
     const message = ref('')
 
     onMounted(async () => {
-      document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
-
       store.dispatch('LISTEN_REFRESH')
       store.dispatch('LISTEN_OPENINITFILE')
       store.dispatch('LISTEN_KEYBOARD_EVENT')
       store.dispatch('LISTEN_OPEN_FILE_TAB')
       store.dispatch('LISTEN_LOAD_PREFERENCES')
       store.dispatch('filesManager/LISTEN_FILE_MOVE')
+
+      bus.on('changeSideBarWidth', () => {
+        console.log('APP.vue', store.getters.getCommon.sideBarInitWidth)
+        document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
+      })
+
       pathSeq = await window.electronAPI.getPathSep()
 
       window.addEventListener('resize', () => {

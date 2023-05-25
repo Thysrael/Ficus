@@ -413,8 +413,6 @@ export default {
     }
 
     onMounted(() => {
-      document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
-
       const sideBar = document.querySelector('.Sidebar')
       let startX, startWidth
 
@@ -495,9 +493,6 @@ export default {
 </script>
 
 <style scoped>
-:root {
-  --sideBarInitWidth: 250px;
-}
 
 .html, body {
   width: 100%;
