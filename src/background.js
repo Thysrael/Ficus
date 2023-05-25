@@ -10,7 +10,7 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile, paste, refresh
+  readFile, paste, refresh, makePathCompletion
 } from './main/filesystem/fileManipulate'
 import EAU from './main/update'
 
@@ -113,6 +113,10 @@ app.on('ready', async () => {
 
   ipcMain.handle('exportPDF', async (event, html) => {
     const printWin = new BrowserWindow({
+      enableLargerThanScreen: true,
+      enablePreferredSizeMode: true,
+      width: 65536,
+      height: 65536,
       show: false,
       webPreferences: {
         nodeIntegration: true
@@ -126,7 +130,8 @@ app.on('ready', async () => {
       pageSize: 'A4',
       printBackground: true,
       printSelectionOnly: false,
-      landscape: false
+      landscape: false,
+      fitToPageEnabled: true
     }
 
     printWin.webContents.on('did-finish-load', async () => {
@@ -199,9 +204,11 @@ app.on('ready', async () => {
   ipcMain.handle('renameFileOrFolder', async (e, newPath, oldPath) => {
     await renameFileOrFolder(newPath, oldPath)
   })
-
   ipcMain.handle('newFileFromSidebar', async (e, filePath, fileName) => {
     await newFileFromSidebar(filePath, fileName)
+  })
+  ipcMain.handle('autoPathCompletion', async (e, partialPath) => {
+    return makePathCompletion(partialPath)
   })
 
   ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
