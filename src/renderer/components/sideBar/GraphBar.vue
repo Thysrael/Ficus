@@ -160,7 +160,7 @@ export default {
       console.log('得到', nodes)
       for (let i = 0; i < nodes.length; i++) {
         const obj = nodes[i]
-        if (obj.type === 2) {
+        if (obj.category === 2) {
           resNodes.value.push(obj.name)
         } else {
           resNodes.value.push(obj.path)
