@@ -9,6 +9,7 @@ const COMMANDS = Object.freeze({
   FILE_EXPORT_AS_PDF: 'file.export-as-pdf',
   FILE_EXPORT_AS_PNG: 'file.export-as-png',
   FILE_CLOSE_TAB: 'file.close-tab',
+  FILE_OPEN_FILE_BY_PATH: 'file.open-file-by-path',
   // FILE_CHECK_UPDATE: 'file.check-update',
   // FILE_CLOSE_WINDOW: 'file.close-window',
   // FILE_EXPORT_FILE: 'file.export-file',

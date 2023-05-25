@@ -3,10 +3,10 @@ import { createStore } from 'vuex'
 import filesManager from './dataManager'
 import commands from '../commands'
 
-const executeCommand = (state, eventId, ...arg) => {
+const executeCommand = (state, eventId, meta) => {
   const command = commands.filter(e => e.id === eventId)
   if (command[0]) {
-    command[0].execute(arg)
+    command[0].execute(meta)
   }
 }
 
@@ -139,11 +139,11 @@ const actions = {
     })
   },
   LISTEN_KEYBOARD_EVENT ({ commit }) {
-    window.electronAPI.keyboardEvent((e, eventId) => {
-      executeCommand(state, eventId)
+    window.electronAPI.keyboardEvent((e, id) => {
+      executeCommand(state, id)
     })
-    bus.on('cmd::execute', eventId => {
-      executeCommand(state, eventId)
+    bus.on('cmd::execute', ({ id, meta }) => {
+      executeCommand(state, id, meta)
     })
   }
 }

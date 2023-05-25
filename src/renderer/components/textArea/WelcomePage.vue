@@ -72,7 +72,7 @@ export default {
   name: 'WelcomePage',
   setup () {
     async function handleOpenDir () {
-      bus.emit('cmd::execute', 'file.open-folder')
+      bus.emit('cmd::execute', { id: 'file.open-folder' })
     }
 
     return {

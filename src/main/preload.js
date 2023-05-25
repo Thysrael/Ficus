@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import fs from 'fs-extra'
 import path from 'path'
 import { isFileInDirectory, isMarkdownExtname } from './helper/path'
-import { isOsx } from './config'
+import { isDevelopment, isOsx } from './config'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   minWindow: () => ipcRenderer.send('window-min'),
@@ -63,7 +63,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   globalSearch: (token) => ipcRenderer.invoke('search-token-globally', token),
 
-  isOSx: () => isOsx
+  isOSx: () => isDevelopment ? false : isOsx
 })
 
 contextBridge.exposeInMainWorld('pathAPI', {
