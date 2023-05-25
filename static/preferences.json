@@ -5,7 +5,7 @@
     "autoSave": true,
     "autoFullScreen": true,
     "autoUpdate": true,
-    "sideBarWidth": 250,
+    "sideBarInitWidth": 250,
     "fontSize": 14,
     "showLineNumber": true,
     "bold": true,
@@ -17,6 +17,7 @@
     "imgPath": "",
     "autoSpace": true,
     "autoFixTermTypo": true,
-    "latexEngine": "Latex",
-    "codeTheme": "github"
+    "latexEngine": "KaTex",
+    "codeTheme": "github",
+    "svPreview": true
 }
