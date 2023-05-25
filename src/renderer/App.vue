@@ -83,7 +83,6 @@ export default {
     const message = ref('')
 
     onMounted(async () => {
-      console.log('从后端同步store配置')
       document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
 
       store.dispatch('LISTEN_REFRESH')

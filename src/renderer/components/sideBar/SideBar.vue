@@ -331,7 +331,8 @@ export default {
         bus.emit('backToEditMode')
       }
       if (oldValue === 7) {
-        console.log('更新后端，和store同步')
+        console.log('保存到后端')
+        store.dispatch('SAVE_PREFERENCES')
       }
     })
 
