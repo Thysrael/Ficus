@@ -23,30 +23,6 @@ export default class IRGraph {
     this.addAerials(aerials)
   }
 
-  /**
-     * private
-     * @param {{name: string, path: string, children: [any], type: string}} files
-     * @returns
-     */
-  _parseFileTree (files, depth) {
-    let newNode
-    if (files.type === 'folder') {
-      const nid = this._allocNodeID()
-      this.idMap.set(files.path, nid)
-      newNode = buildFolderNode(nid, files.name, files.path, depth)
-      this.treenodes.push(newNode)
-      files.children.forEach(e => {
-        newNode.insertAtLast(this._parseFileTree(e, depth + 1))
-      })
-    } else {
-      const nid = this._allocNodeID()
-      this.idMap.set(files.path, nid)
-      newNode = buildFileNode(nid, files.name, files.path, depth)
-      this.treenodes.push(newNode)
-    }
-    return newNode
-  }
-
   addFiles (files) {
     this.graph = this._parseFileTree(files, 1)
     this._makeEdges()
@@ -112,7 +88,7 @@ export default class IRGraph {
     return res
   }
 
-  getIdByName (name) {
+  queryNodeId (name) {
     return this.idMap.get(name) || -1
   }
 
@@ -151,5 +127,29 @@ export default class IRGraph {
   _initID () {
     this.nodeid = 0
     this.linkid = 0
+  }
+
+  /**
+     * private
+     * @param {{name: string, path: string, children: [any], type: string}} files
+     * @returns
+     */
+  _parseFileTree (files, depth) {
+    let newNode
+    if (files.type === 'folder') {
+      const nid = this._allocNodeID()
+      this.idMap.set(files.path, nid)
+      newNode = buildFolderNode(nid, files.name, files.path, depth)
+      this.treenodes.push(newNode)
+      files.children.forEach(e => {
+        newNode.insertAtLast(this._parseFileTree(e, depth + 1))
+      })
+    } else {
+      const nid = this._allocNodeID()
+      this.idMap.set(files.path, nid)
+      newNode = buildFileNode(nid, files.name, files.path, depth)
+      this.treenodes.push(newNode)
+    }
+    return newNode
   }
 }

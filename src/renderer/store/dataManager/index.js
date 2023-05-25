@@ -75,6 +75,13 @@ const mutations = {
   /** graph */
   buildGraph (state, info) {
     state.graph.buildGraph(info)
+  },
+
+  /**
+   * @param {string} name 绝对路径名/tag名
+   */
+  queryNodeId (state, name) {
+    state.graph.queryNodeId(name)
   }
 }
 
