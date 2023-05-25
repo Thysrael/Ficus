@@ -22,7 +22,7 @@ const state = {
     value: 0
   },
   common: {
-    saveTime: 10, // 自动保存时间
+    saveTime: 30, // 自动保存时间
     autoSave: true, // 是否自动保存
     autoFullScreen: true, // 启动时是否自动全屏
     autoUpdate: true, // 是否自动更新
@@ -97,6 +97,28 @@ const mutations = {
       type: 'file',
       offset: -1
     })
+  },
+  SET_PREFERENCES (state, preferences) {
+    state.common.saveTime = preferences.saveTime
+    state.common.autoSave = preferences.autoSave
+    state.common.autoFullScreen = preferences.autoFullScreen
+    state.common.autoUpdate = preferences.autoUpdate
+    state.common.sideBarInitWidth = preferences.sideBarInitWidth
+
+    state.editor.fontSize = preferences.fontSize
+    state.editor.showLineNumber = preferences.showLineNumber
+    state.editor.toolBar.bold = preferences.bold
+    state.editor.toolBar.italic = preferences.italic
+    state.editor.toolBar.strike = preferences.strike
+    state.editor.toolBar.inlineCode = preferences.inlineCode
+    state.editor.toolBar.inlineMath = preferences.inlineMath
+    state.editor.toolBar.clear = preferences.clear
+    state.editor.imgPath = preferences.imgPath
+    state.editor.autoSpace = preferences.autoSpace
+    state.editor.autoFixTermTypo = preferences.autoFixTermTypo
+    state.editor.latexEngine = preferences.latexEngine
+    state.editor.codeTheme = preferences.codeTheme
+    state.editor.svPreview = preferences.svPreview
   }
 }
 
@@ -144,6 +166,12 @@ const actions = {
     })
     bus.on('cmd::execute', ({ id, meta }) => {
       executeCommand(state, id, meta)
+    })
+  },
+  LISTEN_SET_PREFERENCES ({ commit }) {
+    window.electronAPI.setPreferences((e, preferences) => {
+      console.log(preferences)
+      commit('SET_PREFERENCES', preferences)
     })
   }
 }
