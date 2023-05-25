@@ -20,6 +20,7 @@ class Preference {
       name: 'preferences'
     })
     this._loadPreferences()
+    this._listenForIpcMain()
   }
 
   _loadPreferences () {
