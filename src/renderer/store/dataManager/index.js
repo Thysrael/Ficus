@@ -82,7 +82,8 @@ const mutations = {
    * @param {string} name 绝对路径名/tag名
    */
   queryNodeId (state, name) {
-    state.graph.queryNodeId(name)
+    const id = state.graph.queryNodeId(name)
+    bus.emit('focusById', id)
   },
 
   queryNodesByToken (state, token) {
