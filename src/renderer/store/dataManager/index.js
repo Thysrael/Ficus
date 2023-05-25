@@ -69,7 +69,7 @@ const mutations = {
 
   exportAll (state) {
     const files = state.forest.exportAll()
-    console.log(files) // TODO: 保存
+    window.electronAPI.exportForest(files)
   },
 
   /** graph */

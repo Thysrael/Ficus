@@ -2,6 +2,8 @@ import { app, dialog, ipcMain } from 'electron'
 import { makeFileStat, makeFolderStat, makeFolderStatInGraph } from './statistic'
 import fs from 'fs-extra'
 import { SearchEngine } from './search'
+import path from 'path'
+import { makeValidFilePath } from './fileManipulate'
 
 /**
  * 用于 showOpenDialog
@@ -63,6 +65,23 @@ class FileSystem {
     return searchEngine.results
   }
 
+  async exportForest (files) {
+    if (!this.root) {
+      return
+    }
+    const exportPath = path.resolve(this.root, 'out')
+    if (!fs.pathExists(exportPath)) {
+      fs.mkdirSync(exportPath)
+    }
+    for (const file of files) {
+      if (file.name && file.content) {
+        const filepath = makeValidFilePath(path.resolve(exportPath, file.name))
+        await fs.createFile(filepath)
+        await fs.writeFile(filepath, file.content)
+      }
+    }
+  }
+
   _LISTENForIpcMain () {
     ipcMain.handle('newFileFromDialog', async (e) => {
       return await this.newFileFromDialog()
@@ -74,6 +93,10 @@ class FileSystem {
 
     ipcMain.handle('search-token-globally', async (e, token) => {
       return await this.searchToken(token)
+    })
+
+    ipcMain.on('export-forest', (e, files) => {
+      this.exportForest(files)
     })
   }
 }
