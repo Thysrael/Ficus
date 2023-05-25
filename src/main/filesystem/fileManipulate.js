@@ -227,7 +227,22 @@ function normalizeMarkdownFilePath (filePath) {
 }
 
 /**
- * 获得一个不存在的markdown后缀文件路径
+ * Ensure that a directory exist.
+ *
+ * @param {string} dirPath The directory path.
+ */
+export const ensureDirSync = dirPath => {
+  try {
+    fs.ensureDirSync(dirPath)
+  } catch (e) {
+    if (e.code !== 'EEXIST') {
+      throw e
+    }
+  }
+}
+
+/**
+ * 获得一个不存在的文件路径
  * @param {string} filePath
  * @returns
  */
