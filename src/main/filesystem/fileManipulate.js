@@ -1,8 +1,8 @@
-const { app, dialog } = require('electron')
-const fs = require('fs-extra')
-const { makeFolderStat, makeMarkdownFileStat, makeFileStat } = require('./statistic')
-const path = require('path')
-const { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } = require('../helper/path')
+import { app, dialog } from 'electron'
+import fs from 'fs-extra'
+import { makeFolderStat, makeMarkdownFileStat, makeFileStat } from './statistic'
+import path from 'path'
+import { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } from '../helper/path'
 
 /**
  * 用于 showOpenDialog
@@ -18,7 +18,7 @@ const markdownFilters = [
  * @param {string} citingPath
  * @returns
  */
-exports.linkToFile = async (filePath, citingPath) => {
+export const linkToFile = async (filePath, citingPath) => {
   return makeMarkdownFileStat(path.resolve(filePath, '..', citingPath))
 }
 
@@ -26,7 +26,7 @@ exports.linkToFile = async (filePath, citingPath) => {
  * 删除文件
  * @param {string} filePath
  */
-exports.deleteFile = async (filePath) => {
+export const deleteFile = async (filePath) => {
   await fs.unlink(filePath)
 }
 
@@ -35,7 +35,7 @@ exports.deleteFile = async (filePath) => {
  * @param {string} newPath
  * @param {string} oldPath
  */
-exports.renameFileOrFolder = async (newPath, oldPath) => {
+export const renameFileOrFolder = async (newPath, oldPath) => {
   await fs.rename(oldPath, newPath)
 }
 
@@ -43,12 +43,12 @@ exports.renameFileOrFolder = async (newPath, oldPath) => {
  * 删除文件夹
  * @param {string} folderPath
  */
-exports.deleteFolder = async (folderPath) => {
+export const deleteFolder = async (folderPath) => {
   await fs.remove(folderPath)
 }
 
 // 新建文件2
-exports.newFileFromSidebar = async (folderPath, fileName) => {
+export const newFileFromSidebar = async (folderPath, fileName) => {
   const filePath = path.resolve(folderPath, fileName)
   await fs.createFile(filePath)
 }
@@ -58,7 +58,7 @@ exports.newFileFromSidebar = async (folderPath, fileName) => {
  * @param {string} folderPath
  * @param {string} folderName
  */
-exports.newFolder = async (folderPath, folderName) => {
+export const newFolder = async (folderPath, folderName) => {
   const basePath = path.join(folderPath, folderName)
   fs.mkdir(basePath, { recursive: true }, err => {
     if (err) console.log(`mkdir path: ${basePath} err`)
@@ -69,7 +69,7 @@ exports.newFolder = async (folderPath, folderName) => {
  * 打开一个或多个md文件
  * @returns {[object]}
  */
-exports.getFileFromUser = async () => {
+export const getFileFromUser = async () => {
   return await dialog.showOpenDialog({
     buttonLabel: '选择',
     defaultPath: app.getPath('desktop'),
@@ -100,7 +100,7 @@ async function readMarkdownFile (filePath) {
 }
 
 // 读取文件内容:
-exports.readFile = async (filePath) => {
+export const readFile = async (filePath) => {
   if (isValidMarkdownFilePath(filePath)) {
     return { error: 0, content: await readMarkdownFile(filePath) }
   } else {
@@ -115,7 +115,7 @@ exports.readFile = async (filePath) => {
 }
 
 // 保存文件：
-exports.saveFile = async (filePath, fileContent) => {
+export const saveFile = async (filePath, fileContent) => {
   if (!fs.existsSync(filePath)) { // 文件路径不存在
     const { response } = await dialog.showMessageBox({
       type: 'error', // 图标类型
@@ -133,7 +133,7 @@ exports.saveFile = async (filePath, fileContent) => {
 }
 
 // 文件另存为：
-exports.saveToTarget = async (fileContent, projPath) => {
+export const saveToTarget = async (fileContent, projPath) => {
   const result = await dialog.showSaveDialog({
     buttonLabel: '保存',
     defaultPath: app.getPath('desktop'),
@@ -157,7 +157,7 @@ exports.saveToTarget = async (fileContent, projPath) => {
  * 导出为PDF
  * @param {*} fileContent
  */
-exports.saveToPDFTarget = async (fileContent) => {
+export const saveToPDFTarget = async (fileContent) => {
   const result = await dialog.showSaveDialog({
     buttonLabel: '保存',
     defaultPath: app.getPath('desktop'),
@@ -174,7 +174,7 @@ exports.saveToPDFTarget = async (fileContent) => {
  * @param {string} srcPath 原文件/文件夹路径
  * @param {string} destDir 目标文件夹
  */
-exports.move = async (srcPath, destDir) => {
+export const move = async (srcPath, destDir) => {
   try {
     const fname = path.basename(srcPath)
     const targetPath = makeValidFilePath(path.resolve(destDir, fname))
@@ -192,7 +192,7 @@ exports.move = async (srcPath, destDir) => {
  * @param {string} projPath
  * @returns
  */
-exports.paste = async (srcPath, destDir, projPath) => {
+export const paste = async (srcPath, destDir, projPath) => {
   if (isValidFolderPath(srcPath)) {
     const destPath = makeValidFilePath(path.resolve(destDir, path.basename(srcPath)))
     await fs.copy(srcPath, destPath)
@@ -206,7 +206,7 @@ exports.paste = async (srcPath, destDir, projPath) => {
  * 获得初始文件及其所在文件夹信息
  * @param {string} initPath 初始文件/文件夹路径
  */
-exports.initPath = async (initPath) => {
+export const initPath = async (initPath) => {
   if (isValidFolderPath(initPath)) {
     return [await makeFolderStat(initPath), null]
   } else {
@@ -214,7 +214,7 @@ exports.initPath = async (initPath) => {
   }
 }
 
-exports.refresh = async (projPath) => {
+export const refresh = async (projPath) => {
   const { children } = await makeFolderStat(projPath)
   return children
 }
@@ -224,7 +224,7 @@ exports.refresh = async (projPath) => {
  * @param {string} filePath
  * @returns
  */
-function makeValidFilePath (filePath) {
+export function makeValidFilePath (filePath) {
   if (!fs.existsSync(filePath)) {
     return filePath
   }

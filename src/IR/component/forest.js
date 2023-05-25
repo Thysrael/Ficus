@@ -64,12 +64,13 @@ export default class IRForest {
 
   exportAll () {
     const exportFiles = []
-    for (const node of this.filesRoot.children) {
+    this.filesRoot.children.forEach(node => {
       exportFiles.push({
         name: node.content.text,
         content: node.toMarkdown()
       })
-    }
+    })
+    this.clear()
     return exportFiles
   }
 

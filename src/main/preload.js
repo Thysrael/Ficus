@@ -50,6 +50,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getFolderStatInGraph: (dirpath) => ipcRenderer.invoke('link::get-folder-stat-in-graph', dirpath),
   getFilesByTag: (tagName) => ipcRenderer.invoke('link::get-files-by-tag', tagName),
 
+  exportForest: (files) => ipcRenderer.send('export-forest', files),
+
   aboutUs: () => ipcRenderer.invoke('main::about'),
 
   passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback),
