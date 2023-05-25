@@ -2,10 +2,10 @@
   <div class="searchBar content-center items-center w-full mt-2 mb-4 pl-2 pr-4" style="display: flex">
     <div class="mr-2 w-full">
       <input class="area-search-tab w-full px-2 placeholder-gray text-sm"
-             style="font-family: 'Noto Sans SC'; font-weight: lighter; font-size: 12px"
-             placeholder="搜索节点" type="text"/>
+             style="font-family: 'Noto Sans SC'; font-weight: lighter; font-size: 12px" v-model="keyWord"
+             placeholder="搜索节点" type="text" @keyup.enter="handleSearch"/>
     </div>
-    <button class="searchBtn">
+    <button class="searchBtn" @click="handleSearch">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
            width="15" height="15" viewBox="0 0 10 10">
         <g style="mix-blend-mode:passthrough" clip-path="url(#master_svg0_71_1377)">
@@ -18,7 +18,17 @@
       </svg>
     </button>
   </div>
-
+  <div v-bind:class="{'hidden': !showM, 'block': showM}"
+       @mouseleave="handleSearch"
+       class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 py-2 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
+       style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px; width: 150px">
+    <div v-for="(item, index) in resNodes"
+         class="px-3 py-1 option"
+         :key="index"
+         @click="handleAddTag(index)">
+      {{ item }}
+    </div>
+  </div>
   <div class="px-2" style="font-family: 'Noto Sans SC'">
     <div style="font-size: 14px" class="my-2 flex flex-wrap font-semibold content-center place-content-center">
       节点信息
@@ -89,6 +99,10 @@ export default {
   name: 'GraphBar',
   components: { GraphItem },
   setup () {
+    const keyWord = ref('')
+    const showM = ref(true)
+    const resNodes = ref([])
+
     const type = ref(-1) // 当前节点类型：未选中 -1， 文件夹 0 ，文件 1 ，标签 2
 
     const node = ref({
@@ -140,13 +154,21 @@ export default {
       type.value = -1
     })
 
+    function handleSearch () {
+
+    }
+
     return {
       handleProcess,
+      handleSearch,
       quitGraph,
+      keyWord,
+      resNodes,
       node,
       type,
       showInfo,
-      showOpt
+      showOpt,
+      showM
     }
   }
 }

@@ -7,7 +7,8 @@
   </div>
   <ul style="margin-top: 15px" v-if="unit.children.length !== 0">
     <li v-for="(path, index) in unit.children"
-        :key="index">
+        :key="index"
+        @click="getFocusedById(path)">
       <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -95,9 +96,14 @@ export default {
       bus.emit('handle', props.index)
     }
 
+    function getFocusedById (path) {
+      // store.commit('filesManager/q')
+    }
+
     return {
       getName,
-      handle
+      handle,
+      getFocusedById
     }
   }
 }
