@@ -83,6 +83,10 @@ const mutations = {
    */
   queryNodeId (state, name) {
     state.graph.queryNodeId(name)
+  },
+
+  queryNodesByToken (state, token) {
+    return state.graph.queryNodesByToken(token)
   }
 }
 
