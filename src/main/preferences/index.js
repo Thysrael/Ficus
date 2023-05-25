@@ -3,6 +3,7 @@ import path from 'path'
 import Store from 'electron-store'
 import schema from './schema.json'
 import { hasSameKey } from '../helper/container'
+import { ipcMain } from 'electron'
 
 /**
  * 用户偏好设置
@@ -18,12 +19,13 @@ class Preference {
       schema,
       name: 'preferences'
     })
+    this._loadPreferences()
   }
 
-  async init () {
+  _loadPreferences () {
     let defaultSettings = null
     try {
-      defaultSettings = JSON.parse(await fs.promises.readFile(this._defaultPreferencePath, { encoding: 'utf8' }) || '{}')
+      defaultSettings = JSON.parse(fs.readFileSync(this._defaultPreferencePath, { encoding: 'utf8' }) || '{}')
     } catch (err) {
       console.log(err)
     }
@@ -32,7 +34,7 @@ class Preference {
       throw new Error('Can not load static preference.json file')
     }
 
-    if (!(await fs.pathExists(this._preferencePath))) {
+    if (!(fs.existsSync(this._preferencePath))) {
       this._store.set(defaultSettings)
     } else {
       const userSetting = this.getAll()
@@ -59,23 +61,33 @@ class Preference {
         }
       }
     }
+  }
 
-    this.windows.browserWindow.webContents.send('set-preferences', this.getAll())
+  async init () {
+    this.windows.browserWindow.webContents.send('load-preferences', this.getAll())
   }
 
   setItem (key, value) {
-    return this._store.set(key, value)
+    this._store.set(key, value)
   }
 
   getItem (key) {
     return this._store.get(key)
   }
 
+  setAll (preferences) {
+    this._store.set(preferences)
+  }
+
   getAll () {
     return this._store.store
   }
 
-  _listenForIpcMain () {}
+  _listenForIpcMain () {
+    ipcMain.on('set-preferences', (e, preferences) => {
+      this.setAll(preferences)
+    })
+  }
 }
 
 export default Preference

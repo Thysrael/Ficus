@@ -98,7 +98,7 @@ const mutations = {
       offset: -1
     })
   },
-  SET_PREFERENCES (state, preferences) {
+  LOAD_PREFERENCES (state, preferences) {
     state.common.saveTime = preferences.saveTime
     state.common.autoSave = preferences.autoSave
     state.common.autoFullScreen = preferences.autoFullScreen
@@ -145,6 +145,31 @@ const actions = {
   updateFicus (context, ficus) {
     context.commit('updateFicus', ficus)
   },
+
+  SAVE_PREFERENCES ({ state }) {
+    const preferences = {
+      saveTime: state.common.saveTime,
+      autoSave: state.common.autoSave,
+      autoFullScreen: state.common.autoFullScreen,
+      autoUpdate: state.common.autoUpdate,
+      sideBarInitWidth: state.common.sideBarInitWidth,
+      fontSize: state.editor.fontSize,
+      showLineNumber: state.editor.showLineNumber,
+      bold: state.editor.toolBar.bold,
+      italic: state.editor.toolBar.italic,
+      strike: state.editor.toolBar.strike,
+      inlineCode: state.editor.toolBar.inlineCode,
+      inlineMath: state.editor.toolBar.inlineMath,
+      clear: state.editor.toolBar.clear,
+      imgPath: state.editor.imgPath,
+      autoSpace: state.editor.autoSpace,
+      autoFixTermTypo: state.editor.autoFixTermTypo,
+      latexEngine: state.editor.latexEngine,
+      codeTheme: state.editor.codeTheme,
+      svPreview: state.editor.svPreview
+    }
+    window.electronAPI.setPreferences(preferences)
+  },
   LISTEN_REFRESH ({ commit }) {
     window.electronAPI.passiveRefresh((e, value) => {
       commit('REFRESH', value)
@@ -168,10 +193,9 @@ const actions = {
       executeCommand(state, id, meta)
     })
   },
-  LISTEN_SET_PREFERENCES ({ commit }) {
-    window.electronAPI.setPreferences((e, preferences) => {
-      console.log(preferences)
-      commit('SET_PREFERENCES', preferences)
+  LISTEN_LOAD_PREFERENCES ({ commit }) {
+    window.electronAPI.loadPreferences((e, preferences) => {
+      commit('LOAD_PREFERENCES', preferences)
     })
   }
 }
