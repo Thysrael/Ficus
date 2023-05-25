@@ -111,12 +111,16 @@ const actions = {
   async updateFilesOfForest (context, filepaths) {
     const files = []
     const validFilepaths = context.state.forest.filterPaths(filepaths)
-    for (const filepath of validFilepaths) {
-      const file = {
-        path: filepath,
-        content: (await window.electronAPI.readFile(filepath)).content
+    for (const filepath of filepaths) {
+      if (validFilepaths.indexOf(filepath) !== -1) {
+        const file = {
+          path: filepath,
+          content: (await window.electronAPI.readFile(filepath)).content
+        }
+        files.push(file)
+      } else {
+        files.push({ path: filepath })
       }
-      files.push(file)
     }
     context.commit('updateForest', files)
   },

@@ -14,13 +14,13 @@ export default class IRForest {
   update (files) {
     const newFilepaths = new Set()
     for (const file of files) {
+      newFilepaths.add(file.path)
       if (this.filesMap.has(file.path)) {
         continue
       }
       const chnode = markdownToTree(file.content, window.pathAPI.basename(file.path))
       this.filesRoot.insertAtLast(chnode)
       this.filesMap.set(file.path, chnode)
-      newFilepaths.add(file.path)
     }
 
     const filesToRemove = []
