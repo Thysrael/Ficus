@@ -22,11 +22,11 @@
        @mouseleave="handleSearch"
        class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 py-2 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
        style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px; width: 150px">
-    <div v-for="(item, index) in resNodes"
+    <div v-for="(path, index) in resNodes"
          class="px-3 py-1 option"
          :key="index"
-         @click="handleAddTag(index)">
-      {{ item }}
+         @click="handleFocus(path)">
+      {{ path }}
     </div>
   </div>
   <div class="px-2" style="font-family: 'Noto Sans SC'">
@@ -94,14 +94,15 @@
 import bus from 'vue3-eventbus'
 import GraphItem from '@/renderer/components/sideBar/GraphItem'
 import { ref, toRaw } from 'vue'
+import store from '@/renderer/store'
 
 export default {
   name: 'GraphBar',
   components: { GraphItem },
   setup () {
     const keyWord = ref('')
-    const showM = ref(true)
-    const resNodes = ref([])
+    const showM = ref(false)
+    const resNodes = ref(['name', 'name2', 'name3'])
 
     const type = ref(-1) // 当前节点类型：未选中 -1， 文件夹 0 ，文件 1 ，标签 2
 
@@ -154,14 +155,28 @@ export default {
       type.value = -1
     })
 
-    function handleSearch () {
+    async function handleSearch () {
+      if (showM.value === false) {
+        showM.value = true
+        // 获取resNodes
+        // resTags.value = await window.electronAPI.getTags(keyWord.value)
+        // resTags.value = resTags.value.filter((tagName) => {
+        //   return tags.value.indexOf(tagName) === -1
+        // })
+      } else {
+        showM.value = false
+      }
+    }
 
+    function handleFocus (path) {
+      store.commit('filesManager/queryNodeId', path)
     }
 
     return {
       handleProcess,
       handleSearch,
       quitGraph,
+      handleFocus,
       keyWord,
       resNodes,
       node,
@@ -262,5 +277,18 @@ export default {
   fill: #19734b;
   fill-opacity: 1;
   -webkit-transition: fill .3s;
+}
+
+.option:hover {
+  background-color: #e5e5e5;
+  font-weight: 900;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
+}
+
+.option:active {
+  background-color: #c9c9c9;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
 }
 </style>

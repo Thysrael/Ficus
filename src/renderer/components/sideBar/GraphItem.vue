@@ -74,6 +74,7 @@
 <script>
 
 import bus from 'vue3-eventbus'
+import store from '@/renderer/store'
 
 export default {
   name: 'GraphItem',
@@ -97,7 +98,7 @@ export default {
     }
 
     function getFocusedById (path) {
-      // store.commit('filesManager/q')
+      store.commit('filesManager/queryNodeId', path)
     }
 
     return {
