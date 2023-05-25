@@ -120,9 +120,9 @@ export default {
 
       // 功能
       const op = (layer === 1) ? items.value[index] : (layer === 2) ? secondItems.value[index] : thirdItems.value[index]
-
-      if (!(op.submenu && op.submenu.length)) {
-        bus.emit('cmd::execute', op.id)
+      const { id, meta } = op
+      if (id) {
+        bus.emit('cmd::execute', { id, meta })
         closeMenu() // 点击叶节点关闭菜单
       }
     }

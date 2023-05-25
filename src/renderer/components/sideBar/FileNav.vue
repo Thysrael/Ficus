@@ -50,11 +50,11 @@ export default {
   },
   setup () {
     async function handleOpenDir () {
-      bus.emit('cmd::execute', 'file.open-folder')
+      bus.emit('cmd::execute', { id: 'file.open-folder' })
     }
 
     async function handleOpenFile () {
-      bus.emit('cmd::execute', 'file.open-file')
+      bus.emit('cmd::execute', { id: 'file.open-file' })
     }
 
     return {

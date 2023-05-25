@@ -82,7 +82,8 @@ const commands = [
   },
   {
     id: 'file.open-file-by-path',
-    execute: async (filepath) => {
+    execute: async ({ filepath }) => {
+      console.log(filepath)
       store.commit('OPEN_FILE_TAB', filepath)
     }
   },
