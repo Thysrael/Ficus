@@ -217,7 +217,7 @@ export default {
     function toggle (path) {
       const obj = {
         name: window.pathAPI.basename(path),
-        path: path,
+        path,
         type: 'file',
         offset: -1,
         absolutePath: path.split(window.pathAPI.sep)

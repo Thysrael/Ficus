@@ -44,6 +44,28 @@ export default {
     const selectedList = []
 
     /**
+     *
+     * @param: array
+     */
+    function getDataByArray (array) {
+      if (array === undefined || array.length === 0) {
+        return []
+      }
+      const res = []
+      for (let i = 0; i < array.length; i++) {
+        const obj = {
+          name: array[i].name,
+          path: array[i].path,
+          selected: false,
+          type: array[i].type,
+          children: getDataByArray(array[i].children)
+        }
+        res.push(obj)
+      }
+      return res
+    }
+
+    /**
      * 1: root 2: tag
      * @param option
      */
@@ -53,9 +75,11 @@ export default {
         if (props.data.length === 0) {
           bus.emit('showMyAlert', { message: '请先打开文件夹' })
         } else {
-          files.value = props.data
+          files.value.length = 0
+          files.value = getDataByArray(props.data)
         }
       } else if (option === 2) {
+        files.value.length = 0
         const allTag = await window.electronAPI.getTags()
         for (let i = 0; i < allTag.length; i++) {
           const array = await window.electronAPI.getFilesByTag(allTag[i])
