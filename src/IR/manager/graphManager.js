@@ -25,9 +25,9 @@ export default class GraphManager {
     }
   }
 
-  getNodeIdByName (name) {
+  queryNodeId (name) {
     if (this.graph) {
-      return this.graph.getIdByName(name)
+      return this.graph.queryNodeId(name)
     } else {
       return -1
     }
