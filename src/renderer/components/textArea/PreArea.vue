@@ -147,7 +147,7 @@ export default {
     const imgPath = ref(0) // 0-无特殊操作, 1-复制图片到当前文件夹, 2-复制图片到./${filename}.assets文件夹, 3-上传图片, 4-复制到指定路径
     const showImgSelection = ref(false)
     /* eslint-disable no-template-curly-in-string */
-    const imgOption = ['复制到指定路径', '复制图片到当前文件夹', '复制图片到./${filename}.assets文件夹', '上传图片', '复制到指定路径']
+    const imgOption = ['无特殊操作', '复制图片到当前文件夹', '复制图片到./${filename}.assets文件夹', '上传图片', '复制到指定路径']
     const editor = store.getters.getEditor
     const shortcuts = store.getters.getShortCuts
     const ficus = store.getters.getFicus
@@ -275,12 +275,18 @@ export default {
       searchResults.value = [] // 清空搜索结果
 
       const keyword = searchKeyword.value
+      if (keyword === '') {
+        return
+      }
       const textNodes = getTextNodes(_this.$refs.pageContent)
 
       textNodes.forEach(textNode => {
         const text = textNode.textContent
         if (text.includes(keyword)) {
+          console.log(text)
           textNode.parentNode.style.backgroundColor = '#d8b56d'
+        } else {
+          textNode.parentNode.style.backgroundColor = '#ffffff'
         }
       })
     }
