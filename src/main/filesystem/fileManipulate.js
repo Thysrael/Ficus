@@ -2,7 +2,7 @@ import { app, dialog } from 'electron'
 import fs from 'fs-extra'
 import { makeFolderStat, makeMarkdownFileStat, makeFileStat } from './statistic'
 import path from 'path'
-import { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath } from '../helper/path'
+import { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath, isMarkdownExtname } from '../helper/path'
 
 /**
  * 用于 showOpenDialog
@@ -219,24 +219,32 @@ export const refresh = async (projPath) => {
   return children
 }
 
+function normalizeMarkdownFilePath (filePath) {
+  if (!isMarkdownExtname(filePath)) {
+    return filePath + '.md'
+  }
+  return filePath
+}
+
 /**
- * 获得一个不存在的文件路径
+ * 获得一个不存在的markdown后缀文件路径
  * @param {string} filePath
  * @returns
  */
 export function makeValidFilePath (filePath) {
-  if (!fs.existsSync(filePath)) {
-    return filePath
+  let newPath = normalizeMarkdownFilePath(filePath)
+  if (!fs.existsSync(newPath)) {
+    return newPath
   }
   const { dir, name, ext } = path.parse(filePath)
-  let newPath = `${dir}${path.sep}${name} copy${ext}`
+  newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name} copy${ext}`)
   if (!fs.existsSync(newPath)) {
     return newPath
   }
 
   let id = 2
   while (id <= 100000) {
-    newPath = `${dir}${path.sep}${name} copy ${id}${ext}`
+    newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name} copy ${id}${ext}`)
     if (!fs.existsSync(newPath)) {
       return newPath
     }
