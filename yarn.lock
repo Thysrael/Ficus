@@ -6834,10 +6834,10 @@ fflate@^0.4.8:
   resolved "https://mirrors.cloud.tencent.com/npm/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
 
-ficus-editor@^1.1.15:
-  version "1.1.15"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.15.tgz#a4599fc655edf10fe55fad108fdbeffbab0d2bcd"
-  integrity sha512-wAynhrmI9qofff5Jn+qrblnMqTwn/ACTDjn+ycUxLNLtOFHEqScZD+bFarLJjWKXiWzN5UsQu+HXzU4Extpu2Q==
+ficus-editor@^1.1.17:
+  version "1.1.17"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.17.tgz#a1b9a26011b3cd999852285bef48389d0873df19"
+  integrity sha512-1CycNrU/+ywcghH9DRzZ6P2zm7TSpPscRkkscpEJ6K94LAm0vtjYKvKhGJeF1qYdovhqnYNUhV1acWXNx5Z3cg==
   dependencies:
     diff-match-patch "^1.0.5"
 
@@ -6859,6 +6859,14 @@ ficus-mindmap@0.6.27:
     lodash.clonedeep "^4.5.0"
     mitt "^2.1.0"
     vue "^3.0.0"
+
+ficus@^0.0.4:
+  version "0.0.4"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus/-/ficus-0.0.4.tgz#48992747297f03fa1b37f46fd29fd3d5320b59c6"
+  integrity sha1-SJknRyl/A/obN/Rv0p/T1TILWcY=
+  dependencies:
+    joi "^8.0.5"
+    lodash "^4.11.1"
 
 figgy-pudding@^3.5.1:
   version "3.5.2"
@@ -7723,6 +7731,11 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
+hoek@4.x.x:
+  version "4.2.1"
+  resolved "https://mirrors.cloud.tencent.com/npm/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
+  integrity sha512-QLg82fGkfnJ/4iy1xZ81/9SIJiq1NGFUMGs6ParyjBZr6jW2Ufj/snDqTHixNlHdPNwN2RLVD0Pi3igeK9+JfA==
+
 homedir-polyfill@^1.0.1:
   version "1.0.3"
   resolved "https://mirrors.cloud.tencent.com/npm/homedir-polyfill/-/homedir-polyfill-1.0.3.tgz#743298cef4e5af3e194161fbadcc2151d3a058e8"
@@ -8559,6 +8572,11 @@ isbinaryfile@^5.0.0:
   resolved "https://mirrors.cloud.tencent.com/npm/isbinaryfile/-/isbinaryfile-5.0.0.tgz#034b7e54989dab8986598cbcea41f66663c65234"
   integrity sha512-UDdnyGvMajJUWCkib7Cei/dvyJrrvo4FIrsvSFWdPpXSUorzXrDJ0S+X5Q4ZlasfPjca4yqCNNsjbCeiy8FFeg==
 
+isemail@2.x.x:
+  version "2.2.1"
+  resolved "https://mirrors.cloud.tencent.com/npm/isemail/-/isemail-2.2.1.tgz#0353d3d9a62951080c262c2aa0a42b8ea8e9e2a6"
+  integrity sha1-A1PT2aYpUQgMJiwqoKQrjqjp4qY=
+
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://mirrors.cloud.tencent.com/npm/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
@@ -8693,6 +8711,16 @@ joi@^17.4.0:
     "@sideway/address" "^4.1.3"
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
+
+joi@^8.0.5:
+  version "8.4.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/joi/-/joi-8.4.2.tgz#bd7774658fe99058d8994ed1d4b9962484ebb859"
+  integrity sha1-vXd0ZY/pkFjYmU7R1LmWJITruFk=
+  dependencies:
+    hoek "4.x.x"
+    isemail "2.x.x"
+    moment "2.x.x"
+    topo "2.x.x"
 
 js-message@1.0.7:
   version "1.0.7"
@@ -9153,7 +9181,7 @@ lodash.upperfirst@^4.3.1:
   resolved "https://mirrors.cloud.tencent.com/npm/lodash.upperfirst/-/lodash.upperfirst-4.3.1.tgz#1365edf431480481ef0d1c68957a5ed99d49f7ce"
   integrity sha1-E2Xt9DFIBIHvDRxolXpe2Z1J984=
 
-lodash@4.17.21, lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21:
+lodash@4.17.21, lodash@^4.11.1, lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://mirrors.cloud.tencent.com/npm/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -9960,6 +9988,11 @@ module-alias@^2.2.2:
   version "2.2.2"
   resolved "https://mirrors.cloud.tencent.com/npm/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
+
+moment@2.x.x:
+  version "2.29.4"
+  resolved "https://mirrors.cloud.tencent.com/npm/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -13246,6 +13279,13 @@ toidentifier@1.0.1:
   version "1.0.1"
   resolved "https://mirrors.cloud.tencent.com/npm/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
+
+topo@2.x.x:
+  version "2.0.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/topo/-/topo-2.0.2.tgz#cd5615752539057c0dc0491a621c3bc6fbe1d182"
+  integrity sha1-zVYVdSU5BXwNwEkaYhw7xvvh0YI=
+  dependencies:
+    hoek "4.x.x"
 
 totalist@^1.0.0:
   version "1.1.0"
