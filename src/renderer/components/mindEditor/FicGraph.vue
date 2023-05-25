@@ -222,13 +222,16 @@ export default {
       return hashTable[id] || null;
     }
 
+    bus.on('focusById', (id) => {
+      focusOnNode(id)
+    })
+
     function focusOnNode (target) {
       let { nodes, links } = ficGraph.graphData()
       // id2Node.value = Object.fromEntries(nodes.map(node => [node.id, node]))
-      target = Math.round(Math.random() * 20)
-      const randomNode = findObjectByIdUsingHashTable(nodes, target)
-      console.log(randomNode.name)
-      ficGraph.centerAt(randomNode.x, randomNode.y, 1000)
+      const targetNode = findObjectByIdUsingHashTable(nodes, target)
+      console.log(targetNode.name)
+      ficGraph.centerAt(targetNode.x, targetNode.y, 1000)
       ficGraph.zoom(2, 2000)
     }
   }
