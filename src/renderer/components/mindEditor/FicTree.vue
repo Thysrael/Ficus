@@ -144,22 +144,118 @@ export default defineComponent({
     const dropdownType = ref('')
     const dropdownShow = ref(false)
     const levels = ['一', '二', '三', '四', '五', '六']
-    const structures = ['思维导图', '逻辑结构图', '目录组织图', '时间轴', '鱼骨图']
+    const structures = ['逻辑结构图', '思维导图', '目录组织图', '时间轴', '鱼骨图']
     const structuresName = ['mindMap', 'logicalStructure', 'catalogOrganization', 'timeline', 'fishbone']
     const images = ['png', 'svg']
 
     let ficTree = null
     let copyData = null
+    let defaultLevel = -1
+    let defaultStruct = 0
+    let theme = 'theme0'
 
     onMounted(() => {
       MindMap.usePlugin(Drag)
       MindMap.usePlugin(Export)
-      MindMap.defineTheme('ficTheme', {
+      MindMap.defineTheme('theme0', {
         backgroundColor: '#fff',
+        lineColor: '#F2E3DB',
+        lineWidth: 4,
+        root: {
+          fillColor: '#E86A33', // 节点填充颜色
+          color: '#fff', // 节点文字颜色
+          fontSize: 24,
+          active: {
+            borderColor: '#a14b31',
+            borderWidth: 3,
+          }
+        },
+        second: {
+          fillColor: '#568c54', // 节点填充颜色
+          color: '#ffffff', // 节点文字颜色
+          borderColor: '#41644A',
+          borderWidth: 3,
+          fontSize: 18,
+          active: {
+            borderColor: '#263A29',
+            borderWidth: 3,
+          }
+        },
+        node: {
+          color: '#565656', // 节点文字颜色
+          active: {
+            borderColor: '#a9cb9f',
+            borderWidth: 3,
+          }
+        }
       })
+      MindMap.defineTheme('theme1', {
+        backgroundColor: '#fff',
+        lineColor: '#e1e1e1',
+        lineWidth: 4,
+        root: {
+          fillColor: '#FFD4D4', // 节点填充颜色
+          color: '#fff', // 节点文字颜色
+          fontSize: 24,
+          active: {
+            borderColor: '#c58585',
+            borderWidth: 3,
+          }
+        },
+        second: {
+          fillColor: '#CDE990', // 节点填充颜色
+          color: '#ffffff', // 节点文字颜色
+          borderColor: '#AACB73',
+          borderWidth: 3,
+          fontSize: 18,
+          active: {
+            borderColor: '#65884d',
+            borderWidth: 3,
+          }
+        },
+        node: {
+          color: '#565656', // 节点文字颜色
+          active: {
+            borderColor: '#cbc19f',
+            borderWidth: 3,
+          }
+        }
+      })
+      MindMap.defineTheme('theme2', {
+        backgroundColor: '#fff',
+        lineColor: '#e1e1e1',
+        lineWidth: 4,
+        root: {
+          fillColor: '#FFD4D4', // 节点填充颜色
+          color: '#fff', // 节点文字颜色
+          fontSize: 24,
+          active: {
+            borderColor: '#c58585',
+            borderWidth: 3,
+          }
+        },
+        second: {
+          fillColor: '#CDE990', // 节点填充颜色
+          color: '#ffffff', // 节点文字颜色
+          borderColor: '#AACB73',
+          borderWidth: 3,
+          fontSize: 18,
+          active: {
+            borderColor: '#65884d',
+            borderWidth: 3,
+          }
+        },
+        node: {
+          color: '#565656', // 节点文字颜色
+          active: {
+            borderColor: '#cbc19f',
+            borderWidth: 3,
+          }
+        }
+      })
+
       ficTree = new MindMap({
         el: document.getElementById('mindMapContainer'),
-        theme: 'ficTheme',
         data: {
           data: {
             text: '根节点'
@@ -180,6 +276,15 @@ export default defineComponent({
       ficTree.setThemeConfig({
         lineStyle: 'curve'
       })
+      ficTree.setTheme(theme)
+      ficTree.setLayout(structuresName[defaultStruct])
+      if (defaultLevel === -1) {
+        foldAll()
+      } else if (defaultLevel === 0) {
+        expandAll()
+      } else {
+        expandToLevel(defaultLevel - 1)
+      }
 
       ficTree.on('node_active', (node, nodeList) => {
         activeNodes.value = nodeList
@@ -241,6 +346,7 @@ export default defineComponent({
         // console.log(test)
         // console.log(JSON.parse(JSON.stringify(obj)))
         ficTree.setData(JSON.parse(JSON.stringify(obj)))
+        foldAll()
         ficTree.render()
       })
 
