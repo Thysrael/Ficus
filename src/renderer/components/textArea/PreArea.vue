@@ -5,7 +5,7 @@
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">保存</div>
-        <label>自动保存时间（s）：</label>
+        <label>自动保存间隔（s）：</label>
         <input type="number" v-model="common.saveTime" class="numberInput rounded-md" min="0" max="100"> s<br/>
         <label>自动保存：</label>
         <input type="checkbox" v-model="common.autoSave" class="checkboxInput">
@@ -24,7 +24,7 @@
       </div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">侧边栏：</div>
+        <div class="font-bold my-4" style="font-size: 20px">侧边栏</div>
         <label>启动时侧边宽度：</label>
         <input type="number" v-model="common.sideBarInitWidth" min="250" max="400"> px
       </div>
@@ -33,19 +33,13 @@
       <div class="title-font my-6" style="font-size: 33px">编辑器</div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">字体</div>
-        <label>字体大小（px）：</label>
-        <input type="number" v-model="editor.fontSize" class="numberInput rounded-md">
-      </div>
-
-      <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">行号</div>
         <label>显示代码块行号：</label>
         <input type="checkbox" v-model="editor.showLineNumber" class="checkboxInput">
       </div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">图片</div>
+        <div class="font-bold my-4" style="font-size: 20px">图片保存路径</div>
         <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
              @click="showImgSelection = !showImgSelection">
           {{ imgOption[imgPath] }}
@@ -63,7 +57,7 @@
       </div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">悬浮栏：</div>
+        <div class="font-bold my-4" style="font-size: 20px">悬浮栏选项</div>
         <label>加粗：</label>
         <input type="checkbox" v-model="editor.toolBar.bold" class="checkboxInput"><br/>
         <label>斜体：</label>
@@ -79,27 +73,43 @@
       </div>
 
       <div class="preference-item">
-        <div class="font-bold" style="font-size: 20px">公式：</div>
-        <label>渲染器：</label>
-        <select v-model="editor.latexEngine">
-          <option value='KaTex'>KaTex</option>
-          <option value='MathJax'>MathJax</option>
-        </select>
+        <div class="font-bold my-4" style="font-size: 20px">公式</div>
+        <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
+             @click="showLatexSelection = !showLatexSelection">
+          {{ latexOption[latexPath] }}
+          <div class="absolute align-middle py-1" style="right: 10px">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="#565656"></path> </g></svg>
+          </div>
+        </div>
+        <ul v-if="showLatexSelection" class="p-2 border-2 rounded-md shadow-md">
+          <li v-for="(option, index) in latexOption" :key="option"
+              @click="latexPath = index; editor.latexEngine = latexOption[latexPath]; showLatexSelection = !showLatexSelection"
+              class="m-2 px-2 py-1 rounded-md imgSelectionItem">
+            {{ option }}
+          </li>
+        </ul>
       </div>
 
       <div class="preference-item">
-        <div class="font-bold" style="font-size: 20px">代码：</div>
-        <label>主题：</label>
-        <select v-model="editor.codeTheme">
-          <option value='github'>github</option>
-          <option value='github-dark'>github-dark</option>
-          <option value='stackoverflow-dark'>stackoverflow-dark</option>
-          <option value='stackoverflow-light'>stackoverflow-light</option>
-        </select>
+        <div class="font-bold my-4" style="font-size: 20px">公式</div>
+        <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
+             @click="showCodeSelection = !showCodeSelection">
+          {{ codeOption[codePath] }}
+          <div class="absolute align-middle py-1" style="right: 10px">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="#565656"></path> </g></svg>
+          </div>
+        </div>
+        <ul v-if="showCodeSelection" class="p-2 border-2 rounded-md shadow-md">
+          <li v-for="(option, index) in codeOption" :key="option"
+              @click="codePath = index; editor.codeTheme = codeOption[codePath]; showCodeSelection = !showCodeSelection"
+              class="m-2 px-2 py-1 rounded-md imgSelectionItem">
+            {{ option }}
+          </li>
+        </ul>
       </div>
 
       <div class="preference-item">
-        <div class="font-bold" style="font-size: 20px">其他：</div>
+        <div class="font-bold" style="font-size: 20px">其他</div>
         <label>渲染区域自动加空格：</label>
         <input type="checkbox" v-model="editor.autoSpace"><br>
         <label>自动矫正术语：</label>
@@ -151,6 +161,16 @@ export default {
     const editor = store.getters.getEditor
     const shortcuts = store.getters.getShortCuts
     const ficus = store.getters.getFicus
+
+    const latexPath = ref(0) // 0-无特殊操作, 1-复制图片到当前文件夹
+    const showLatexSelection = ref(false)
+    /* eslint-disable no-template-curly-in-string */
+    const latexOption = ['KaTex', 'MathJax']
+
+    const codePath = ref(0) // 0-github, 1-github-dark, 2-stackoverflow-dark, 3-stackoverflow-light
+    const showCodeSelection = ref(false)
+    /* eslint-disable no-template-curly-in-string */
+    const codeOption = ['github', 'github-dark', 'stackoverflow-dark', 'stackoverflow-light']
 
     /**
      * 对用户的修改进行监听，触发相应的事件
@@ -275,18 +295,19 @@ export default {
       searchResults.value = [] // 清空搜索结果
 
       const keyword = searchKeyword.value
-      if (keyword === '') {
-        return
-      }
       const textNodes = getTextNodes(_this.$refs.pageContent)
 
       textNodes.forEach(textNode => {
-        const text = textNode.textContent
-        if (text.includes(keyword)) {
-          console.log(text)
-          textNode.parentNode.style.backgroundColor = '#d8b56d'
-        } else {
+        if (keyword === '') {
           textNode.parentNode.style.backgroundColor = '#ffffff'
+        } else {
+          const text = textNode.textContent
+          if (text.includes(keyword)) {
+            console.log(text)
+            textNode.parentNode.style.backgroundColor = '#d8b56d'
+          } else {
+            textNode.parentNode.style.backgroundColor = '#ffffff'
+          }
         }
       })
     }
@@ -316,7 +337,13 @@ export default {
       getTextNodes,
       showImgSelection,
       imgPath,
-      imgOption
+      imgOption,
+      latexPath,
+      showLatexSelection,
+      latexOption,
+      codePath,
+      showCodeSelection,
+      codeOption
     }
   }
 }

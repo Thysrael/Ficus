@@ -30,7 +30,7 @@ const state = {
   },
   editor: {
     fontSize: 14,
-    showLineNumber: true,
+    showLineNumber: false,
     toolBar: {
       bold: true,
       italic: true,
@@ -210,7 +210,10 @@ const getters = {
     return state.mode.value
   },
   getSideBarWidth (state) {
-    return (state.sideBarWidth.value === 0) ? state.common.sideBarInitWidth : state.sideBarWidth.value
+    if (state.sideBarWidth.value === 0) {
+      state.sideBarWidth.value = state.common.sideBarInitWidth
+    }
+    return state.sideBarWidth.value
   },
   getCommon (state) {
     return state.common
