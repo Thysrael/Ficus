@@ -3,14 +3,14 @@ import path from 'path'
 import Store from 'electron-store'
 import schema from './schema.json'
 import { hasSameKey } from '../helper/container'
-import { ipcMain } from 'electron'
+import { app, ipcMain } from 'electron'
 
 /**
  * 用户偏好设置
  * 实现参考：https://github.com/marktext/marktext/blob/develop/src/main/preferences
  */
 class Preference {
-  constructor (windows, preferencePath = '') {
+  constructor (windows, preferencePath = app.getPath('userData')) {
     this._preferencePath = path.resolve(preferencePath, 'preferences.json')
     this._defaultPreferencePath = path.resolve(__dirname, '..', 'static', 'preferences.json')
     this.windows = windows
@@ -42,8 +42,8 @@ class Preference {
       const requiresUpdate = !hasSameKey(defaultSettings, userSetting)
       if (requiresUpdate) {
         // Remove outdated settings
-        for (const key of userSetting.keys()) {
-          if (!defaultSettings.keys().includes(key)) {
+        for (const key of Object.keys(userSetting)) {
+          if (!Object.keys(defaultSettings).includes(key)) {
             delete userSetting[key]
             this._store.delete(key)
           }
@@ -51,8 +51,8 @@ class Preference {
 
         // Add new setting options
         let addedNewEntries = false
-        for (const key in defaultSettings) {
-          if (!userSetting.keys().includes(key)) {
+        for (const key in Object.keys(defaultSettings)) {
+          if (!Object.keys(userSetting).includes(key)) {
             addedNewEntries = true
             userSetting[key] = defaultSettings[key]
           }
