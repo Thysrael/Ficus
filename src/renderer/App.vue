@@ -89,6 +89,7 @@ export default {
       store.dispatch('LISTEN_REFRESH')
       store.dispatch('LISTEN_OPENINITFILE')
       store.dispatch('LISTEN_KEYBOARD_EVENT')
+      store.dispatch('LISTEN_OPEN_FILE_TAB')
       store.dispatch('filesManager/LISTEN_FILE_MOVE')
       pathSeq = await window.electronAPI.getPathSep()
 

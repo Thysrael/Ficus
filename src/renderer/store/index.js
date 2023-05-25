@@ -3,10 +3,10 @@ import { createStore } from 'vuex'
 import filesManager from './dataManager'
 import commands from '../commands'
 
-const executeCommand = (state, eventId) => {
+const executeCommand = (state, eventId, ...arg) => {
   const command = commands.filter(e => e.id === eventId)
   if (command[0]) {
-    command[0].execute()
+    command[0].execute(arg)
   }
 }
 
@@ -88,6 +88,15 @@ const mutations = {
     if (initInfo[1] != null) {
       bus.emit('openNewTab', initInfo[1])
     }
+  },
+  OPEN_FILE_TAB (state, filepath) {
+    bus.emit('openNewTab', {
+      name: window.pathAPI.basename(filepath),
+      path: filepath,
+      absolutePath: filepath.split(window.pathAPI.sep),
+      type: 'file',
+      offset: -1
+    })
   }
 }
 
@@ -122,6 +131,11 @@ const actions = {
   LISTEN_OPENINITFILE ({ commit }) {
     window.electronAPI.openInitFile((e, value) => {
       commit('OPENINITFILE', value)
+    })
+  },
+  LISTEN_OPEN_FILE_TAB ({ commit }) {
+    window.electronAPI.openFileTab((e, filepath) => {
+      commit('OPEN_FILE_TAB', filepath)
     })
   },
   LISTEN_KEYBOARD_EVENT ({ commit }) {

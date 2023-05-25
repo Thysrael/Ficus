@@ -81,6 +81,12 @@ const commands = [
     }
   },
   {
+    id: 'file.open-file-by-path',
+    execute: async (filepath) => {
+      store.commit('OPEN_FILE_TAB', filepath)
+    }
+  },
+  {
     id: 'file.open-folder',
     execute: async () => {
       window.electronAPI.openFolder()
