@@ -89,7 +89,7 @@ export default {
   name: 'GraphBar',
   components: { GraphItem },
   setup () {
-    const type = ref(0) // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
+    const type = ref(-1) // 当前节点类型：未选中 -1， 文件夹 0 ，文件 1 ，标签 2
 
     const node = ref({
       name: '未选中任何节点',
@@ -130,6 +130,14 @@ export default {
       } else if (obj.category === 2) {
         node.value = await window.electronAPI.getTagGroups(obj.name)
       }
+    })
+
+    bus.on('clearGraphResult', () => {
+      node.value = {
+        name: '未选中任何节点',
+        path: '无'
+      }
+      type.value = -1
     })
 
     return {
