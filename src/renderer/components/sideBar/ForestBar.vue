@@ -150,6 +150,11 @@ export default {
       store.dispatch('filesManager/updateFilesOfForest', selectedList)
     })
 
+    bus.on('clearForestResult', () => {
+      files.value.length = 0
+      store.commit('filesManager/clearForest')
+    })
+
     return {
       files,
       handleClear,

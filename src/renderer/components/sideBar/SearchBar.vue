@@ -90,9 +90,21 @@ export default {
       return window.pathAPI.basename(path)
     }
 
+    /**
+     * 重新刷新
+     */
+    bus.on('reSearch', handleSearch)
+
+    /**
+     * 删除结果
+     */
+    bus.on('clearSearchResult', () => {
+      keyWord.value = ''
+      searchResult.value.length = 0
+    })
+
     async function handleSearch () {
       searchResult.value = await window.electronAPI.globalSearch(keyWord.value)
-      console.log(searchResult.value)
     }
 
     function toggle (path) {

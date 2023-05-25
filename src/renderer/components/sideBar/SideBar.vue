@@ -133,7 +133,7 @@
               </g>
             </svg>
           </button>
-          <button class="header2-button" v-if="isFile === 1 || isFile === 5 || isFile === 6" :title="'清除结果'">
+          <button class="header2-button" v-if="isFile === 1 || isFile === 5 || isFile === 6" :title="'清除结果'" @click="handleClear">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="18" height="18" viewBox="0 0 10 10"><defs><clipPath id="master_svg0_71_1615"><rect x="0" y="0" width="10" height="10" rx="0"/></clipPath></defs><g clip-path="url(#master_svg0_71_1615)"><g><path d="M5.000005266113281,4.410833358764648L7.062505266113281,2.3483335574466486L7.651665266113281,2.937500358764648L5.589165266113281,5.000003358764649L7.651665266113281,7.062503358764649L7.062505266113281,7.651663358764648L5.000005266113281,5.589163358764648L2.937502266113281,7.651663358764648L2.3483354647952814,7.062503358764649L4.410835266113281,5.000003358764649L2.3483352661132812,2.937500358764648L2.937502266113281,2.3483333587646484L5.000005266113281,4.410833358764648Z" fill="#474747" fill-opacity="1"/></g></g></svg>
           </button>
           <button class="header2-button" v-if="isFile === 0" @click="handleNew('file')" :class="(data.length !== 0) ? `pointer-events-auto` : `pointer-events-none`" :title="'新建文件'">
@@ -361,15 +361,30 @@ export default {
     async function handleFlush () {
       if (isFile.value === 0) {
         await flushTree()
+      } else if (isFile.value === 1) {
+        bus.emit('reSearch')
       } else if (isFile.value === 2) {
         bus.emit('updateOutLine')
       } else if (isFile.value === 3) {
         bus.emit('updateCite')
       } else if (isFile.value === 4) {
         bus.emit('updateTag')
+      } else if (isFile.value === 5) {
+        await flushTree()
+        bus.emit('changeToForest')
       } else if (isFile.value === 6) {
         await flushTree()
         bus.emit('changeToGraph')
+      }
+    }
+
+    function handleClear () {
+      if (isFile.value === 1) {
+        bus.emit('clearSearchResult')
+      } else if (isFile.value === 5) {
+        bus.emit('clearForestResult')
+      } else if (isFile.value === 6) {
+        bus.emit('clearGraphResult')
       }
     }
 
@@ -468,6 +483,7 @@ export default {
       getGraph,
       getForest,
       handleFlush,
+      handleClear,
       getRelation,
       handleCloseWorkArea,
       handleShowTag,
