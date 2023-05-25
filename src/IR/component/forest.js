@@ -26,7 +26,7 @@ export default class IRForest {
     const filesToRemove = []
     for (const filepath of this.filesMap.keys()) {
       if (!newFilepaths.has(filepath)) {
-        filesToRemove.push(newFilepaths)
+        filesToRemove.push(filepath)
       }
     }
     this.removeFiles(filesToRemove)
@@ -53,6 +53,7 @@ export default class IRForest {
         continue
       }
       const chnode = this.filesMap.get(filepath)
+      this.filesMap.delete(filepath)
       chnode.removeSelf()
     }
   }
