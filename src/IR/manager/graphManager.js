@@ -32,4 +32,12 @@ export default class GraphManager {
       return -1
     }
   }
+
+  queryNodesByToken (token) {
+    if (this.graph) {
+      this.graph.queryNodesByToken(token)
+    } else {
+      return []
+    }
+  }
 }

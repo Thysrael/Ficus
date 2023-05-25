@@ -92,6 +92,17 @@ export default class IRGraph {
     return this.idMap.get(name) || -1
   }
 
+  queryNodesByToken (token) {
+    const nodes = this.getNodes()
+    const res = []
+    for (const node of nodes) {
+      if (node.name.indexOf(token) !== -1) {
+        res.push(node)
+      }
+    }
+    return res
+  }
+
   getLinks () {
     return this.edges.concat(this.relations).concat(this.aerials)
   }
