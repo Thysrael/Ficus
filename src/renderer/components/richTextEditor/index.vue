@@ -164,12 +164,9 @@ export default {
         hint: {
           emojiPath: '/ficus-editor',
           // 根据用户输入的“链接url“或“图片url”生成提示列表
-          genLinkHint: (input) => {
+          genLinkHint: async (input) => {
             // ...
-            return [
-              input + '123',
-              input + '456'
-            ]
+            return window.electronAPI.autoPathCompletion(input)
           }
         },
         // 编辑器高度
@@ -364,11 +361,10 @@ export default {
 
 .searchBtn:hover {
   background-color: #f4f4f3;
-  -webkit-transition:left .3s, background-color .3s;
+  -webkit-transition: left .3s, background-color .3s;
 }
 
 .searchBtn:active {
   background-color: #e0e0e0;
-  -webkit-transition:left .3s, background-color .3s;
-}
-</style>
+  -webkit-transition: left .3s, background-color .3s;
+}</style>

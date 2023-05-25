@@ -91,7 +91,7 @@ export const getFileFromUser = async () => {
   })
 }
 
-async function readMarkdownFile (filePath) {
+async function readMarkdownFile(filePath) {
   if (isValidMarkdownFilePath(filePath)) {
     return (await fs.promises.readFile(filePath)).toString()
   } else {
@@ -219,7 +219,7 @@ export const refresh = async (projPath) => {
   return children
 }
 
-function normalizeMarkdownFilePath (filePath) {
+function normalizeMarkdownFilePath(filePath) {
   if (!isMarkdownExtname(filePath)) {
     return filePath + '.md'
   }
@@ -246,7 +246,7 @@ export const ensureDirSync = dirPath => {
  * @param {string} filePath
  * @returns
  */
-export function makeValidFilePath (filePath) {
+export function makeValidFilePath(filePath) {
   let newPath = normalizeMarkdownFilePath(filePath)
   if (!fs.existsSync(newPath)) {
     return newPath
@@ -266,4 +266,42 @@ export function makeValidFilePath (filePath) {
     id += 1
   }
   return 'ficus-error.md'
+}
+
+exports.makeValidFolderPath = (folderPath) => {
+  if (!fs.existsSync(folderPath)) {
+    return folderPath
+  }
+  let newPath = `${folderPath}${path.sep}new`
+  if (!fs.existsSync(newPath)) {
+    return newPath
+  }
+
+  let id = 2
+  while (id <= 100000) {
+    newPath = `${folderPath}${path.sep}new ${id}`
+    if (!fs.existsSync(newPath)) {
+      return newPath
+    }
+    id += 1
+  }
+  return 'ficus-error.md'
+}
+
+export const makePathCompletion = async (folderPath) => {
+  if (folderPath.startsWith('ficus://')) {
+    folderPath = folderPath.slice('ficus://'.length)
+  }
+  folderPath += '|'
+  let fileName = path.basename(folderPath)
+  fileName = fileName.substring(0, fileName.length - 1)
+  const dirName = path.dirname(folderPath)
+  const dirInfo = await fs.promises.readdir(dirName)
+  let result = []
+  for (const subItem of dirInfo) {
+    if (subItem.startsWith(fileName)) {
+      result.push(path.join(dirName, subItem))
+    }
+  }
+  return result
 }

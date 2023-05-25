@@ -6834,17 +6834,10 @@ fflate@^0.4.8:
   resolved "https://mirrors.cloud.tencent.com/npm/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
 
-<<<<<<< HEAD
-ficus-editor@^1.1.17:
-  version "1.1.17"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.17.tgz#a1b9a26011b3cd999852285bef48389d0873df19"
-  integrity sha512-1CycNrU/+ywcghH9DRzZ6P2zm7TSpPscRkkscpEJ6K94LAm0vtjYKvKhGJeF1qYdovhqnYNUhV1acWXNx5Z3cg==
-=======
-ficus-editor@^1.1.15:
-  version "1.1.15"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.15.tgz#a4599fc655edf10fe55fad108fdbeffbab0d2bcd"
-  integrity sha512-wAynhrmI9qofff5Jn+qrblnMqTwn/ACTDjn+ycUxLNLtOFHEqScZD+bFarLJjWKXiWzN5UsQu+HXzU4Extpu2Q==
->>>>>>> 31bf261 (chore(prearea): 修正偏好设置页面样式)
+ficus-editor@^1.1.21:
+  version "1.1.21"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.21.tgz#44cbb846aa1ce27e035b86ba4e5d9cc061f9c65b"
+  integrity sha512-N7tj6DvhEq07yt98rfE7eVzOTIme08oSsS80xRVMAtR0qfVe2FTowL4VgjoumRy8uCBtVSsy2jqIeCg4vhvMiw==
   dependencies:
     diff-match-patch "^1.0.5"
 
