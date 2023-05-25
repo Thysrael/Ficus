@@ -171,4 +171,9 @@ export default function defineRAPI (vditor, searchData) {
       vditor.setPreviewMode('editor')
     }
   })
+
+  /** 设置TextUI的可编辑性 */
+  bus.on('setEditable', ({ enable }) => {
+    vditor.setEditable(enable)
+  })
 }
