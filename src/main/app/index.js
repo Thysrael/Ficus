@@ -13,21 +13,22 @@ import KeyBinding from '../keybinding'
 class App {
   constructor () {
     this.watcher = new Watcher()
-    this.preferences = new Preference()
     this.filesystem = new FileSystem()
     this.keyBinding = new KeyBinding()
     this.menu = new AppMenu(this.keyBinding)
     this.ficusWindow = new FicusWindow()
+    this.preferences = new Preference(this.ficusWindow)
     this.linkManager = new LinkManager(this.ficusWindow)
     this._listenForIpcMain()
   }
 
-  init () {
+  async init () {
     this.watcher.on('add', (filepath) => this.linkManager.addFile(filepath))
     this.watcher.on('change', (filepath) => this.linkManager.updateFile(filepath))
     this.watcher.on('unlink', (filepath) => this.linkManager.removeFile(filepath))
 
-    this.ficusWindow.init(this.keyBinding, this.menu)
+    await this.ficusWindow.init(this.keyBinding, this.menu)
+    this.preferences.init()
   }
 
   reinit () {

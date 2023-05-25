@@ -29,13 +29,13 @@
     "type": "boolean",
     "default": true
   },
-  "sideBarWidth": {
-    "description": "sideBarWidth",
+  "sideBarInitWidth": {
+    "description": "sideBarInitWidth",
     "type": "number",
     "default": 250
   },
   "fontSize": {
-    "description": "sideBarWidth",
+    "description": "fontSize",
     "type": "number",
     "default": 14
   },
@@ -92,11 +92,16 @@
   "latexEngine": {
     "description": "latexEngine",
     "type": "string",
-    "default": "Latex"
+    "default": "KaTex"
   },
   "codeTheme": {
     "description": "codeTheme",
     "type": "string",
     "default": "github"
+  },
+  "svPreview": {
+    "description": "svPreview",
+    "type": "boolean",
+    "default": true
   }
 }

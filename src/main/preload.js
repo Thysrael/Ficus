@@ -60,6 +60,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback),
   keyboardEvent: (callback) => ipcRenderer.on('ficus::keyboard-event', callback),
   setFilePathByMove: (callback) => ipcRenderer.on('set-file-path-by-move', callback),
+  setPreferences: (callback) => ipcRenderer.on('set-preferences', callback),
 
   globalSearch: (token) => ipcRenderer.invoke('search-token-globally', token),
 

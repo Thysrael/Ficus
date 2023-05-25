@@ -9,9 +9,10 @@ import { hasSameKey } from '../helper/container'
  * 实现参考：https://github.com/marktext/marktext/blob/develop/src/main/preferences
  */
 class Preference {
-  constructor (preferencePath = '') {
+  constructor (windows, preferencePath = '') {
     this._preferencePath = path.resolve(preferencePath, 'preferences.json')
     this._defaultPreferencePath = path.resolve(__dirname, '..', 'static', 'preferences.json')
+    this.windows = windows
     // 注：electron-store有性能问题（IO），但支持JSON scheme验证
     this._store = new Store({
       schema,
@@ -22,7 +23,7 @@ class Preference {
   async init () {
     let defaultSettings = null
     try {
-      defaultSettings = JSON.parse(await fs.promises.readFile(this.staticPath, { encoding: 'utf8' }) || '{}')
+      defaultSettings = JSON.parse(await fs.promises.readFile(this._defaultPreferencePath, { encoding: 'utf8' }) || '{}')
     } catch (err) {
       console.log(err)
     }
@@ -32,7 +33,7 @@ class Preference {
     }
 
     if (!(await fs.pathExists(this._preferencePath))) {
-      this.store.set(defaultSettings)
+      this._store.set(defaultSettings)
     } else {
       const userSetting = this.getAll()
       const requiresUpdate = !hasSameKey(defaultSettings, userSetting)
@@ -41,7 +42,7 @@ class Preference {
         for (const key of userSetting.keys()) {
           if (!defaultSettings.keys().includes(key)) {
             delete userSetting[key]
-            this.store.delete(key)
+            this._store.delete(key)
           }
         }
 
@@ -54,10 +55,12 @@ class Preference {
           }
         }
         if (addedNewEntries) {
-          this.store.set(userSetting)
+          this._store.set(userSetting)
         }
       }
     }
+
+    this.windows.browserWindow.webContents.send('set-preferences', this.getAll())
   }
 
   setItem (key, value) {
@@ -71,6 +74,8 @@ class Preference {
   getAll () {
     return this._store.store
   }
+
+  _listenForIpcMain () {}
 }
 
 export default Preference
