@@ -111,7 +111,7 @@ export default {
       path: '无'
     })
     const showInfo = ref(true)
-    const showOpt = ref(false)
+    const showOpt = ref(true)
 
     function handleProcess () {
       bus.emit('showMyAlert', { message: '敬请期待！' })

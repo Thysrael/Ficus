@@ -26,6 +26,10 @@ export default {
     const nodeRelLimit = 5
     const highlightNodes = new Set()
     const highlightLinks = new Set()
+    const theme0 = ['#1E6091', '#34a0a4', '#99D98C', '#6BE6C1', '#EEEEEE', '#E1F1A7', '#C9ECE1', '#CCCCCC']
+    const theme1 = ['#7544B2', '#F55C7A', '#F57C73', '#F6BC66', '#EEEEEE', '#E2C5EE', '#FFE5C3', '#F1A7C3']
+    const theme2 = ['#F94144', '#F8961E', '#90BE6D', '#00BBF9', '#EEEEEE', '#FFD2BB', '#A9DEF9', '#FCF6BD']
+    let theme = theme0
 
     function hexToRGBA(hex, alpha) {
       const r = parseInt(hex.slice(1, 3), 16);
@@ -47,7 +51,7 @@ export default {
             node.links.forEach(link => highlightLinks.add(link))
           }
           highlightNode = node || null
-          console.log(highlightNodes)
+          // console.log(highlightNodes)
         })
         .onBackgroundClick(() => {
           highlightLinks.clear()
@@ -58,7 +62,7 @@ export default {
         .d3AlphaDecay(0.01)
         .d3VelocityDecay(0.1)
         .nodeCanvasObjectMode(() => 'replace')
-        .linkColor(link => !highlightLinks.has(link) ? '#eeeeee' : (rootLinks.has(link) ? '#E1F1A7' : tagLinks.has(link) ? '#c9ece1' : '#cccccc'))
+        .linkColor(link => !highlightLinks.has(link) ? theme[4] : (rootLinks.has(link) ? theme[5] : tagLinks.has(link) ? theme[6] : theme[7]))
         .linkWidth(link => highlightLinks.has(link) ? 5 : (rootLinks.has(link) ? link.weight : 2))
         .linkDirectionalParticles(2)
         .linkDirectionalParticleWidth(link => tagLinks.has(link) ? (highlightLinks.has(link) ? 8 : 5) : 0)
@@ -83,6 +87,15 @@ export default {
 
     bus.on('exportGraphPNG', () => {
       // exportPNG()
+      const canvas = document.getElementById('ficGraph').querySelector('canvas')
+      // 导出为 PNG 图片
+      const dataURL = canvas.toDataURL('image/png')
+
+      // 创建链接元素并设置下载属性
+      const link = document.createElement('a')
+      link.href = dataURL
+      link.download = 'FicusGraph.png'
+      link.click()
     })
 
     bus.on('getNodeAndLink', (obj) => {
@@ -102,17 +115,17 @@ export default {
         const key = data[i].id
         id2NodeIndex.set(key, i)
         if (data[i].category === 0) {
-          data[i].color = '#34a0a4'
+          data[i].color = theme[1]
           folderNodes.add(data[i])
         } else if (data[i].category === 1) {
-          data[i].color = '#99d98c'
+          data[i].color = theme[2]
           fileNodes.add(data[i])
         } else {
-          data[i].color = '#6be6c1'
+          data[i].color = theme[3]
           tagNodes.add(data[i])
         }
         if (data[i].depth === 1) {
-          data[i].color = '#1e6091'
+          data[i].color = theme[0]
         }
       }
       // Set links' style
@@ -213,26 +226,35 @@ export default {
     })
 
     const findObjectByIdUsingHashTable = (arr, id) => {
-      const hashTable = {};
+      const hashTable = {}
       // 构建哈希表
       for (const obj of arr) {
-        hashTable[obj.id] = obj;
+        hashTable[obj.id] = obj
       }
       // 查找指定 id 的对象
-      return hashTable[id] || null;
+      return hashTable[id] || null
     }
 
     bus.on('focusById', (id) => {
-      focusOnNode(id)
+      if (id !== -1) {
+        focusOnNode(id)
+      }
     })
 
     function focusOnNode (target) {
       let { nodes, links } = ficGraph.graphData()
-      // id2Node.value = Object.fromEntries(nodes.map(node => [node.id, node]))
+      // const id2Node = Object.fromEntries(nodes.map(node => [node.id, node]))
       const targetNode = findObjectByIdUsingHashTable(nodes, target)
-      console.log(targetNode.name)
       ficGraph.centerAt(targetNode.x, targetNode.y, 1000)
       ficGraph.zoom(2, 2000)
+      bus.emit('curNode', targetNode)
+      highlightNodes.clear()
+      highlightLinks.clear()
+      if (targetNode) {
+        highlightNodes.add(targetNode)
+        targetNode.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
+        targetNode.links.forEach(link => highlightLinks.add(link))
+      }
     }
   }
 }
