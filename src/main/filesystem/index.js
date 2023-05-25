@@ -74,11 +74,9 @@ class FileSystem {
       fs.mkdirSync(exportPath)
     }
     for (const file of files) {
-      if (file.name && file.content) {
-        const filepath = makeValidFilePath(path.resolve(exportPath, file.name))
-        await fs.createFile(filepath)
-        await fs.writeFile(filepath, file.content)
-      }
+      const filepath = makeValidFilePath(path.resolve(exportPath, file.name))
+      await fs.createFile(filepath)
+      await fs.writeFile(filepath, file.content)
     }
   }
 
