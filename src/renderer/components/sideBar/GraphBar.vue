@@ -68,11 +68,11 @@
       </div>
     </div>
 
-    <div class="my-4 place-content-center content-center justify-center flex flex-wrap">
-      <button class="optionBtn1 flex align-middle justify-center content-center py-1" @click="quitGraph">
-        退出榕图
-      </button>
-    </div>
+<!--    <div class="my-4 place-content-center content-center justify-center flex flex-wrap">-->
+<!--      <button class="optionBtn1 flex align-middle justify-center content-center py-1" @click="quitGraph">-->
+<!--        退出榕图-->
+<!--      </button>-->
+<!--    </div>-->
 
     <div style="font-size: 14px" class="mt-8 mb-2 flex flex-wrap font-semibold content-center place-content-center">
       节点操作
@@ -155,14 +155,25 @@ export default {
       type.value = -1
     })
 
+    bus.on('sendNodesResult', ({ nodes }) => {
+      resNodes.value.length = 0
+      console.log('得到', nodes)
+      for (let i = 0; i < nodes.length; i++) {
+        const obj = nodes[i]
+        if (obj.type === 2) {
+          resNodes.value.push(obj.name)
+        } else {
+          resNodes.value.push(obj.path)
+        }
+      }
+      console.log(resNodes.value)
+    })
+
     async function handleSearch () {
       if (showM.value === false) {
         showM.value = true
         // 获取resNodes
-        // resTags.value = await window.electronAPI.getTags(keyWord.value)
-        // resTags.value = resTags.value.filter((tagName) => {
-        //   return tags.value.indexOf(tagName) === -1
-        // })
+        store.commit('filesManager/queryNodesByToken', keyWord.value)
       } else {
         showM.value = false
       }

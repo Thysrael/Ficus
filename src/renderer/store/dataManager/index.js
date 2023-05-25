@@ -88,7 +88,8 @@ const mutations = {
 
   queryNodesByToken (state, token) {
     const nodes = state.graph.queryNodesByToken(token)
-    bus.emit('sendNodesResult', nodes)
+    console.log(nodes)
+    bus.emit('sendNodesResult', { nodes })
   }
 }
 

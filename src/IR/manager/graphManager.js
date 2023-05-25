@@ -35,7 +35,7 @@ export default class GraphManager {
 
   queryNodesByToken (token) {
     if (this.graph) {
-      this.graph.queryNodesByToken(token)
+      return this.graph.queryNodesByToken(token)
     } else {
       return []
     }
