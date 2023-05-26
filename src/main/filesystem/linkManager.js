@@ -8,9 +8,10 @@ class LinkManager {
   /**
    * 管理tag和cites
    */
-  constructor (windows) {
+  constructor (windows, watcher) {
     this.reset()
     this.windows = windows
+    this.watcher = watcher
     this._listenForIpcMain()
   }
 
@@ -371,21 +372,30 @@ class LinkManager {
     })
 
     ipcMain.on('link::tag-to-folder', async (e, tagname, dirPath, filepaths) => {
+      this.watcher.enableRefresh = false
       const name = await this.tagToFolder(tagname, dirPath, filepaths)
       const win = BrowserWindow.fromWebContents(e.sender)
+      await this.watcher.refresh(win)
       win.webContents.send('set-focus-id-by-name', name)
+      setTimeout(() => { this.watcher.enableRefresh = true }, 1000)
     })
 
     ipcMain.on('link::folder-to-tag', async (e, dirPath) => {
+      this.watcher.enableRefresh = false
       const name = await this.folderToTag(dirPath)
       const win = BrowserWindow.fromWebContents(e.sender)
+      await this.watcher.refresh(win)
       win.webContents.send('set-focus-id-by-name', name)
+      setTimeout(() => { this.watcher.enableRefresh = true }, 1000)
     })
 
     ipcMain.on('link::cite-to-tag', async (e, srcFilepath, citeFilepaths) => {
+      this.watcher.enableRefresh = false
       const name = await this.citeToTag(srcFilepath, citeFilepaths)
       const win = BrowserWindow.fromWebContents(e.sender)
+      await this.watcher.refresh(win)
       win.webContents.send('set-focus-id-by-name', name)
+      setTimeout(() => { this.watcher.enableRefresh = true }, 1000)
     })
 
     ipcMain.handle('ficus::getCites', async (e, filePath) => {
