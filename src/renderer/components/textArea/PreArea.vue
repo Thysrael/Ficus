@@ -350,35 +350,35 @@ export default {
       watch(() => {
         return store.getters.getFicus.treeSetting.defaultLevel
       }, (newValue, oldValue) => {
-        console.log('设置为：', newValue)
+        bus.emit('setTreeStyle', store.getters.getFicus.treeSetting)
       })
 
       // setTreeStruct
       watch(() => {
         return store.getters.getFicus.treeSetting.defaultStruct
       }, (newValue, oldValue) => {
-        console.log('设置为：', newValue)
+        bus.emit('setTreeStyle', store.getters.getFicus.treeSetting)
       })
 
       // setTreeTheme
       watch(() => {
         return store.getters.getFicus.treeSetting.theme
       }, (newValue, oldValue) => {
-        console.log('设置为：', newValue)
+        bus.emit('setTreeStyle', store.getters.getFicus.treeSetting)
       })
 
       // setFicusIgnore
       watch(() => {
         return store.getters.getFicus.graphSetting.ficusIgnore
       }, (newValue, oldValue) => {
-        console.log('设置为：', newValue)
+        bus.emit('setTreeStyle', store.getters.getFicus.graphSetting)
       })
 
       // setGraphTheme
       watch(() => {
         return store.getters.getFicus.graphSetting.theme
       }, (newValue, oldValue) => {
-        console.log('设置为：', newValue)
+        bus.emit('setTreeStyle', store.getters.getFicus.graphSetting)
       })
     })
 
