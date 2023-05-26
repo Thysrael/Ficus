@@ -88,7 +88,6 @@ const mutations = {
 
   queryNodesByToken (state, token) {
     const nodes = state.graph.queryNodesByToken(token)
-    console.log(nodes)
     bus.emit('sendNodesResult', { nodes })
   }
 }
@@ -130,6 +129,12 @@ const actions = {
   LISTEN_FILE_MOVE ({ commit }) {
     window.electronAPI.setFilePathByMove((e, pathInfo) => {
       commit('move', pathInfo)
+    })
+  },
+
+  LISTEN_SET_FOCUS_ID_BY_NAME ({ commit }) {
+    window.electronAPI.setFocusIdByName((e, name) => {
+      setTimeout(() => commit('queryNodeId', name), 2000)
     })
   }
 }

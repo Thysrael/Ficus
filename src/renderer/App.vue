@@ -89,6 +89,7 @@ export default {
       store.dispatch('LISTEN_OPEN_FILE_TAB')
       store.dispatch('LISTEN_LOAD_PREFERENCES')
       store.dispatch('filesManager/LISTEN_FILE_MOVE')
+      store.dispatch('filesManager/LISTEN_SET_FOCUS_ID_BY_NAME')
 
       bus.on('changeSideBarWidth', () => {
         console.log('APP.vue', store.getters.getCommon.sideBarInitWidth)

@@ -2,7 +2,7 @@ import path from 'path'
 import { addTagToDoc, getLinksInFile, removeTagFromDoc } from '../../common/parseLinks'
 import fs from 'fs-extra'
 import { isValidMarkdownFilePath } from '../helper/path'
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import { deleteFolder, move } from '@/main/filesystem/fileManipulate'
 class LinkManager {
   /**
@@ -222,25 +222,24 @@ class LinkManager {
    *  @returns
    */
   async tagToFolder (tagname, dirPath, filepaths) {
-    if (this.tagToFiles.has(tagname)) {
-      const targetPath = path.resolve(dirPath, tagname)
-      if (!fs.existsSync(targetPath)) {
-        await fs.promises.mkdir(targetPath)
-      }
-      for (const filename of filepaths) {
-        const filepath = path.resolve(dirPath, filename)
-        const newPath = await move(filepath, targetPath)
-        this.windows.browserWindow.webContents.send('set-file-path-by-move', { oldPath: filepath, newPath })
-        const doc = (await fs.promises.readFile(newPath)).toString()
-        fs.writeFile(newPath, removeTagFromDoc(doc, tagname))
-      }
+    const targetPath = path.resolve(dirPath, tagname)
+    if (!fs.existsSync(targetPath)) {
+      await fs.promises.mkdir(targetPath)
     }
+    for (const filename of filepaths) {
+      const filepath = path.resolve(dirPath, filename)
+      const newPath = await move(filepath, targetPath)
+      this.windows.browserWindow.webContents.send('set-file-path-by-move', { oldPath: filepath, newPath })
+      const doc = (await fs.promises.readFile(newPath)).toString()
+      fs.writeFile(newPath, removeTagFromDoc(doc, tagname))
+    }
+    return targetPath
   }
 
   /**
    * 将叶子目录转为标签，若移动后目录为空删除该目录
    * @param folderPath
-   * @returns {boolean}
+   * @returns
    */
   async folderToTag (folderPath) {
     const subFileOrFolder = await fs.promises.readdir(folderPath)
@@ -258,14 +257,18 @@ class LinkManager {
     if (await (fs.promises.readdir(folderPath)).length === 0) {
       await deleteFolder(folderPath)
     }
+    return tagname
   }
 
   async citeToTag (srcFilepath, citeFilepaths) {
-    const tagname = path.basename(srcFilepath)
+    const tagname = path.parse(srcFilepath).name
     for (const filePath of citeFilepaths) {
-      const doc = (await fs.promises.readFile(filePath)).toString()
-      fs.writeFile(filePath, addTagToDoc(doc, tagname))
+      if (fs.existSync(filePath)) {
+        const doc = (await fs.promises.readFile(filePath)).toString()
+        fs.writeFile(filePath, addTagToDoc(doc, tagname))
+      }
     }
+    return tagname
   }
 
   /**
@@ -351,52 +354,55 @@ class LinkManager {
   }
 
   _listenForIpcMain () {
-    // 测试环境下 ipcMain 为undifined
-    if (ipcMain) {
-      ipcMain.handle('ficus::getTags', async (e, tagName) => {
-        return this.findTags(tagName)
-      })
+    ipcMain.handle('ficus::getTags', async (e, tagName) => {
+      return this.findTags(tagName)
+    })
 
-      ipcMain.handle('ficus::getLinks', async (e) => {
-        return this.getLinks()
-      })
+    ipcMain.handle('ficus::getLinks', async (e) => {
+      return this.getLinks()
+    })
 
-      ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
-        return this.findTags(tagName, folderPath)
-      })
+    ipcMain.handle('find_tags', async (e, tagName, folderPath) => {
+      return this.findTags(tagName, folderPath)
+    })
 
-      ipcMain.handle('getLinksAndTags', async (e, file) => {
-        return this.getLinks(file)
-      })
+    ipcMain.handle('getLinksAndTags', async (e, file) => {
+      return this.getLinks(file)
+    })
 
-      ipcMain.on('link::tag-to-folder', async (e, tagname, dirPath, filepaths) => {
-        this.tagToFolder(tagname, dirPath, filepaths)
-      })
+    ipcMain.on('link::tag-to-folder', async (e, tagname, dirPath, filepaths) => {
+      const name = await this.tagToFolder(tagname, dirPath, filepaths)
+      const win = BrowserWindow.fromWebContents(e.sender)
+      win.webContents.send('set-focus-id-by-name', name)
+    })
 
-      ipcMain.on('link::folder-to-tag', async (e, dirPath) => {
-        return this.folderToTag(dirPath)
-      })
+    ipcMain.on('link::folder-to-tag', async (e, dirPath) => {
+      const name = await this.folderToTag(dirPath)
+      const win = BrowserWindow.fromWebContents(e.sender)
+      win.webContents.send('set-focus-id-by-name', name)
+    })
 
-      ipcMain.on('link::cite-to-tag', async (e, srcFilepath, citeFilepaths) => {
-        return this.citeToTag(srcFilepath, citeFilepaths)
-      })
+    ipcMain.on('link::cite-to-tag', async (e, srcFilepath, citeFilepaths) => {
+      const name = await this.citeToTag(srcFilepath, citeFilepaths)
+      const win = BrowserWindow.fromWebContents(e.sender)
+      win.webContents.send('set-focus-id-by-name', name)
+    })
 
-      ipcMain.handle('ficus::getCites', async (e, filePath) => {
-        return this.getCiteInfo(filePath)
-      })
+    ipcMain.handle('ficus::getCites', async (e, filePath) => {
+      return this.getCiteInfo(filePath)
+    })
 
-      ipcMain.handle('link::get-tag-groups', async (e, tagName) => {
-        return this.getTagGroups(tagName)
-      })
+    ipcMain.handle('link::get-tag-groups', async (e, tagName) => {
+      return this.getTagGroups(tagName)
+    })
 
-      ipcMain.handle('link::get-file-cite-traverse', async (e, filepath) => {
-        return this.getFileCiteTraverseInfo(filepath)
-      })
+    ipcMain.handle('link::get-file-cite-traverse', async (e, filepath) => {
+      return this.getFileCiteTraverseInfo(filepath)
+    })
 
-      ipcMain.handle('link::get-files-by-tag', async (e, tagname) => {
-        return this.getFilesByTag(tagname)
-      })
-    }
+    ipcMain.handle('link::get-files-by-tag', async (e, tagname) => {
+      return this.getFilesByTag(tagname)
+    })
   }
 }
 
