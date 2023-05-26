@@ -18,7 +18,7 @@ class App {
     this.menu = new AppMenu(this.keyBinding)
     this.ficusWindow = new FicusWindow()
     this.preferences = new Preference(this.ficusWindow)
-    this.linkManager = new LinkManager(this.ficusWindow, this.watcher, this.filesystem)
+    this.linkManager = new LinkManager(this.ficusWindow, this.watcher)
     this._listenForIpcMain()
   }
 
