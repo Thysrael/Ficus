@@ -173,14 +173,14 @@ export default {
       if (showM.value === false) {
         showM.value = true
         // 获取resNodes
-        store.commit('filesManager/queryNodesByToken', keyWord.value)
+        store.commit('files/queryNodesByToken', keyWord.value)
       } else {
         showM.value = false
       }
     }
 
     function handleFocus (path) {
-      store.commit('filesManager/queryNodeId', path)
+      store.commit('files/queryNodeId', path)
     }
 
     return {

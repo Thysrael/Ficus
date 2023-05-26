@@ -105,15 +105,15 @@ export default {
 
     function handleClear () {
       clearSelected(files.value)
-      store.commit('filesManager/clearForest')
+      store.commit('files/clearForest')
     }
 
     function handleOutput () {
-      store.commit('filesManager/exportAll')
+      store.commit('files/exportAll')
     }
 
     function handleNewSet () {
-      store.commit('filesManager/addBaseToForest')
+      store.commit('files/addBaseToForest')
     }
 
     function clearSelected (array) {
@@ -147,12 +147,12 @@ export default {
     bus.on('sendDataToForest', () => {
       selectedList.length = 0
       getSelected(files.value)
-      store.dispatch('filesManager/updateFilesOfForest', selectedList)
+      store.dispatch('files/updateFilesOfForest', selectedList)
     })
 
     bus.on('clearForestResult', () => {
       files.value.length = 0
-      store.commit('filesManager/clearForest')
+      store.commit('files/clearForest')
     })
 
     return {

@@ -88,8 +88,8 @@ export default {
       store.dispatch('LISTEN_KEYBOARD_EVENT')
       store.dispatch('LISTEN_OPEN_FILE_TAB')
       store.dispatch('LISTEN_LOAD_PREFERENCES')
-      store.dispatch('filesManager/LISTEN_FILE_MOVE')
-      store.dispatch('filesManager/LISTEN_SET_FOCUS_ID_BY_NAME')
+      store.dispatch('files/LISTEN_FILE_MOVE')
+      store.dispatch('files/LISTEN_SET_FOCUS_ID_BY_NAME')
 
       bus.on('changeSideBarWidth', () => {
         console.log('APP.vue', store.getters.getCommon.sideBarInitWidth)
@@ -317,7 +317,7 @@ export default {
           window.electronAPI.renameFileOrFolder(newPath, oldPath)
 
           // 刷新缓存和打开的文件夹
-          store.commit('filesManager/move', { oldPath, newPath })
+          store.commit('files/move', { oldPath, newPath })
 
           fileName.value = ''
           showDialog.value = false

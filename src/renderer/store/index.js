@@ -1,6 +1,6 @@
 import { bus } from 'vue3-eventbus'
 import { createStore } from 'vuex'
-import filesManager from './dataManager'
+import files from './files'
 import commands from '../commands'
 
 const executeCommand = (state, eventId, meta) => {
@@ -235,6 +235,6 @@ export default createStore({
   actions,
   getters,
   modules: {
-    filesManager
+    files
   }
 })
