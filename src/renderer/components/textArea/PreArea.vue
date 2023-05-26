@@ -91,7 +91,7 @@
       </div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">公式</div>
+        <div class="font-bold my-4" style="font-size: 20px">代码主题</div>
         <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
              @click="showCodeSelection = !showCodeSelection">
           {{ codeOption[codePath] }}
@@ -136,6 +136,83 @@
 
     <div v-show="preMode === 3" class="preferences">
       <div class="title-font my-6" style="font-size: 33px">榕功能</div>
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">榕树默认展开级数</div>
+        <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
+               @click="showTreeLevelSelection = !showTreeLevelSelection">
+            {{ treeLevelOption[treeLevelPath] }}
+            <div class="absolute align-middle py-1" style="right: 10px">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="#565656"></path> </g></svg>
+            </div>
+          </div>
+        <ul v-if="showTreeLevelSelection" class="p-2 border-2 rounded-md shadow-md">
+          <li v-for="(option, index) in treeLevelOption" :key="option"
+              @click="treeLevelPath = index; ficus.treeSetting.defaultLevel = treeLevelPath - 1; showTreeLevelSelection = !showTreeLevelSelection"
+              class="m-2 px-2 py-1 rounded-md imgSelectionItem">
+            {{ option }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">榕树默认显示结构</div>
+        <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
+             @click="showTreeStructSelection = !showTreeStructSelection">
+          {{ treeStructOption[treeStructPath] }}
+          <div class="absolute align-middle py-1" style="right: 10px">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="#565656"></path> </g></svg>
+          </div>
+        </div>
+        <ul v-if="showTreeStructSelection" class="p-2 border-2 rounded-md shadow-md">
+          <li v-for="(option, index) in treeStructOption" :key="option"
+              @click="treeStructPath = index; ficus.treeSetting.defaultStruct = treeStructPath; showTreeStructSelection = !showTreeStructSelection"
+              class="m-2 px-2 py-1 rounded-md imgSelectionItem">
+            {{ option }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">榕树主题</div>
+        <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
+             @click="showTreeThemeSelection = !showTreeThemeSelection">
+          {{ treeThemeOption[treeThemePath] }}
+          <div class="absolute align-middle py-1" style="right: 10px">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="#565656"></path> </g></svg>
+          </div>
+        </div>
+        <ul v-if="showTreeThemeSelection" class="p-2 border-2 rounded-md shadow-md">
+          <li v-for="(option, index) in treeThemeOption" :key="option"
+              @click="treeThemePath = index; ficus.treeSetting.theme = treeThemePath; showTreeThemeSelection = !showTreeThemeSelection"
+              class="m-2 px-2 py-1 rounded-md imgSelectionItem">
+            {{ option }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">.ficusignore</div>
+        <input class="numberInput rounded-md p-2 text-gray-700" v-model="ficus.graphSetting.ficusIgnore">
+      </div>
+
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">榕图主题</div>
+        <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
+             @click="showGraphThemeSelection = !showGraphThemeSelection">
+          {{ graphThemeOption[graphThemePath] }}
+          <div class="absolute align-middle py-1" style="right: 10px">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="#565656"></path> </g></svg>
+          </div>
+        </div>
+        <ul v-if="showGraphThemeSelection" class="p-2 border-2 rounded-md shadow-md">
+          <li v-for="(option, index) in graphThemeOption" :key="option"
+              @click="graphThemePath = index; ficus.graphSetting.theme = graphThemePath; showGraphThemeSelection = !showGraphThemeSelection"
+              class="m-2 px-2 py-1 rounded-md imgSelectionItem">
+            {{ option }}
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </template>
@@ -170,6 +247,26 @@ export default {
     const showCodeSelection = ref(false)
     /* eslint-disable no-template-curly-in-string */
     const codeOption = ['github', 'github-dark', 'stackoverflow-dark', 'stackoverflow-light']
+
+    const treeLevelPath = ref(0) // -1, 0, 1 ~ 6 分别对应上述的选项，默认值为 -1
+    const showTreeLevelSelection = ref(false)
+    /* eslint-disable no-template-curly-in-string */
+    const treeLevelOption = ['折叠全部', '展开全部', '展开到第 1 级', '展开到第 2 级', '展开到第 3 级', '展开到第 4 级', '展开到第 5 级', '展开到第 6 级']
+
+    const treeStructPath = ref(0) // 0, 1, 2, 3, 4 分别对应上述的选项，默认值为 0
+    const showTreeStructSelection = ref(false)
+    /* eslint-disable no-template-curly-in-string */
+    const treeStructOption = ['逻辑结构图', '思维导图', '目录组织图', '时间轴', '鱼骨图']
+
+    const treeThemePath = ref(0) // // 0, 1, 2 分别对应上述的 3 个主题，默认值为 0
+    const showTreeThemeSelection = ref(false)
+    /* eslint-disable no-template-curly-in-string */
+    const treeThemeOption = ['山亭夏日', '露花倒影', '落虹灼春']
+
+    const graphThemePath = ref(0) // // 0, 1, 2 分别对应上述的 3 个主题，默认值为 0
+    const showGraphThemeSelection = ref(false)
+    /* eslint-disable no-template-curly-in-string */
+    const graphThemeOption = ['山亭夏日', '露花倒影', '落虹灼春']
 
     /**
      * 对用户的修改进行监听，触发相应的事件
@@ -247,6 +344,41 @@ export default {
         return store.getters.getEditor.svPreview
       }, (newValue, oldValue) => {
         bus.emit('setSVPreview', { enable: newValue })
+      })
+
+      // setTreeLevel
+      watch(() => {
+        return store.getters.getFicus.treeSetting.defaultLevel
+      }, (newValue, oldValue) => {
+        console.log('设置为：', newValue)
+      })
+
+      // setTreeStruct
+      watch(() => {
+        return store.getters.getFicus.treeSetting.defaultStruct
+      }, (newValue, oldValue) => {
+        console.log('设置为：', newValue)
+      })
+
+      // setTreeTheme
+      watch(() => {
+        return store.getters.getFicus.treeSetting.theme
+      }, (newValue, oldValue) => {
+        console.log('设置为：', newValue)
+      })
+
+      // setFicusIgnore
+      watch(() => {
+        return store.getters.getFicus.graphSetting.ficusIgnore
+      }, (newValue, oldValue) => {
+        console.log('设置为：', newValue)
+      })
+
+      // setGraphTheme
+      watch(() => {
+        return store.getters.getFicus.graphSetting.theme
+      }, (newValue, oldValue) => {
+        console.log('设置为：', newValue)
       })
     })
 
@@ -342,7 +474,19 @@ export default {
       latexOption,
       codePath,
       showCodeSelection,
-      codeOption
+      codeOption,
+      treeLevelPath,
+      showTreeLevelSelection,
+      treeLevelOption,
+      treeStructPath,
+      showTreeStructSelection,
+      treeStructOption,
+      treeThemePath,
+      showTreeThemeSelection,
+      treeThemeOption,
+      graphThemePath,
+      showGraphThemeSelection,
+      graphThemeOption
     }
   }
 }
