@@ -33,6 +33,9 @@ export default {
     const theme2 = ['#F94144', '#F8961E', '#90BE6D', '#00BBF9', '#EEEEEE', '#FFD2BB', '#A9DEF9', '#FCF6BD']
     let theme = theme0
 
+    let focusTarget = 0
+    const defaultTimeout = 1800
+
     function hexToRGBA(hex, alpha) {
       const r = parseInt(hex.slice(1, 3), 16);
       const g = parseInt(hex.slice(3, 5), 16);
@@ -235,9 +238,9 @@ export default {
       if (link.length < 30) {
         ficGraph.d3VelocityDecay(0.4)
       }
-      setTimeout(() => {
-        focusOnNode(rootId)
-      }, 500)
+
+      focusTarget = 0
+      focusOnNode(defaultTimeout)
     })
 
     const findObjectByIdUsingHashTable = (arr, id) => {
@@ -250,17 +253,18 @@ export default {
       return hashTable[id] || null
     }
 
-    bus.on('focusById', (id) => {
+    bus.on('focusById', ({ id, timeout }) => {
       if (id !== -1) {
-        focusOnNode(id)
+        focusTarget = id
+        focusOnNode(timeout || defaultTimeout)
       }
     })
 
-    function focusOnNode (target) {
+    function focusOnNode (timeout = defaultTimeout) {
       setTimeout(() => {
         let { nodes, links } = ficGraph.graphData()
         // const id2Node = Object.fromEntries(nodes.map(node => [node.id, node]))
-        const targetNode = findObjectByIdUsingHashTable(nodes, target)
+        const targetNode = findObjectByIdUsingHashTable(nodes, focusTarget)
         ficGraph.centerAt(targetNode.x, targetNode.y, 1000)
         // ficGraph.zoom(2, 2000)
         bus.emit('curNode', targetNode)
@@ -271,7 +275,7 @@ export default {
           targetNode.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
           targetNode.links.forEach(link => highlightLinks.add(link))
         }
-      }, 300)
+      }, timeout)
     }
 
     function hideNode (target) {
