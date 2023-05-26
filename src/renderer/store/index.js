@@ -51,9 +51,15 @@ const state = {
     'file.open-folder': 'Ctrl+Shift+O'
   },
   ficus: {
-    tree: 1,
-    forest: 2,
-    graphIgnore: '.txt'
+    treeSetting: {
+      defaultLevel: -1, // -1, 0, 1 ~ 6 分别对应上述的选项，默认值为 -1
+      defaultStruct: 0, // 0, 1, 2, 3, 4 分别对应上述的选项，默认值为 0
+      theme: 0 // 0, 1, 2 分别对应上述的 3 个主题，默认值为 0
+    },
+    graphSetting: {
+      ficusIgnore: '',
+      theme: 0 // 0, 1, 2 分别对应上述的 3 个主题，默认值为 0
+    }
   }
 }
 
