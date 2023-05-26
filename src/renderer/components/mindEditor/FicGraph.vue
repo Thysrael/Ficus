@@ -21,6 +21,8 @@ export default {
     let tagLinks = new Set()
     let zoomLevel = 0
     let highlightNode = null
+    let hidingNodes = new Map()
+    let hidingLinks = new Map()
     const nodeRelMaximum = 45
     const tagNodeRelSize = 10
     const nodeRelLimit = 5
@@ -42,16 +44,18 @@ export default {
         .cooldownTicks(100)
         .onNodeClick(node => {
           // Focus on this node
-          bus.emit('curNode', node)
-          highlightNodes.clear()
-          highlightLinks.clear()
-          if (node) {
-            highlightNodes.add(node)
-            node.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
-            node.links.forEach(link => highlightLinks.add(link))
-          }
-          highlightNode = node || null
-          // console.log(highlightNodes)
+          setTimeout(() => {
+            bus.emit('curNode', node)
+            highlightNodes.clear()
+            highlightLinks.clear()
+            if (node) {
+              highlightNodes.add(node)
+              node.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
+              node.links.forEach(link => highlightLinks.add(link))
+            }
+            highlightNode = node || null
+            // console.log(highlightNodes)
+          }, 200)
         })
         .onBackgroundClick(() => {
           highlightLinks.clear()
@@ -62,8 +66,10 @@ export default {
         .d3AlphaDecay(0.01)
         .d3VelocityDecay(0.1)
         .nodeCanvasObjectMode(() => 'replace')
+        .nodeVisibility(node => !hidingNodes.has(node.id))
         .linkColor(link => !highlightLinks.has(link) ? theme[4] : (rootLinks.has(link) ? theme[5] : tagLinks.has(link) ? theme[6] : theme[7]))
         .linkWidth(link => highlightLinks.has(link) ? 5 : (rootLinks.has(link) ? link.weight : 2))
+        .linkVisibility(link => !hidingLinks.has(link.id))
         .linkDirectionalParticles(2)
         .linkDirectionalParticleWidth(link => tagLinks.has(link) ? (highlightLinks.has(link) ? 8 : 5) : 0)
         .linkCurvature(link => tagLinks.has(link) ? 0.3 : branchLinks.has(link) ? 0.2 : 0)
@@ -103,6 +109,7 @@ export default {
       const data = obj.nodes
       const link = obj.links
       let id2NodeIndex = new Map()
+      let rootId = -1
       const standardLineWidth = link.length > 45 ? 5 : 3
       folderNodes.clear()
       fileNodes.clear()
@@ -110,6 +117,8 @@ export default {
       rootLinks.clear()
       branchLinks.clear()
       tagLinks.clear()
+      hidingNodes.clear()
+      hidingLinks.clear()
       // Set nodes' style
       for (let i = 0; i < data.length; i++) {
         const key = data[i].id
@@ -126,6 +135,7 @@ export default {
         }
         if (data[i].depth === 1) {
           data[i].color = theme[0]
+          rootId = data[i].id
         }
       }
       // Set links' style
@@ -160,60 +170,62 @@ export default {
         links: link
       })
       .nodeCanvasObject((node, ctx, globalScale) => {
-        let label = node.name
-        const type = node.category
-        const level = node.depth
-        const tmpSize = nodeRelMaximum / (Math.pow(1.7, level))
-        let size = tmpSize < nodeRelLimit ? nodeRelLimit : tmpSize
-        if (type === 1) {
-          if (size > tagNodeRelSize) {
-            size = size - 10 < nodeRelLimit ? nodeRelLimit : size - 10
+        if (!hidingNodes.has(node.id)) {
+          let label = node.name
+          const type = node.category
+          const level = node.depth
+          const tmpSize = nodeRelMaximum / (Math.pow(1.7, level))
+          let size = tmpSize < nodeRelLimit ? nodeRelLimit : tmpSize
+          if (type === 1) {
+            if (size > tagNodeRelSize) {
+              size = size - 10 < nodeRelLimit ? nodeRelLimit : size - 10
+            }
+          } else if (type === 2) {
+            size = tagNodeRelSize
           }
-        } else if (type === 2) {
-          size = tagNodeRelSize
-        }
 
-        if (label.length > 8) {
-          label = `${label.substr(0, 8)}...`
-        }
+          if (label.length > 8) {
+            label = `${label.substr(0, 8)}...`
+          }
 
-        // Draw a ring for highlight nodes
-        if (highlightNodes.has(node)) {
+          // Draw a ring for highlight nodes
+          if (highlightNodes.has(node)) {
+            ctx.beginPath()
+            ctx.arc(node.x, node.y, size * 1.4, 0, 2 * Math.PI, false)
+            ctx.lineWidth = size * 0.25
+            ctx.strokeStyle = hexToRGBA(node.color, 0.5)
+            ctx.stroke()
+            ctx.closePath()
+          }
+          // Draw node
           ctx.beginPath()
-          ctx.arc(node.x, node.y, size * 1.4, 0, 2 * Math.PI, false)
-          ctx.lineWidth = size * 0.25
-          ctx.strokeStyle = hexToRGBA(node.color, 0.5)
-          ctx.stroke()
+          ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false)
+          ctx.fillStyle = node.color
+          if (type === 0) {
+            // folder
+            let fontSize = size + globalScale * 0.05
+            ctx.font = `${fontSize}px Sans-Serif`
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
+          } else if (type === 1) {
+            // file
+            let fontSize = size + globalScale * 0.03
+            ctx.font = `${fontSize}px Sans-Serif`
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
+          } else {
+            // tag
+            let fontSize = size + globalScale * 0.04
+            ctx.font = `${fontSize}px Sans-Serif`
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
+          }
+          ctx.fill()
           ctx.closePath()
         }
-        // Draw node
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false)
-        ctx.fillStyle = node.color
-        if (type === 0) {
-          // folder
-          let fontSize = size + globalScale * 0.05
-          ctx.font = `${fontSize}px Sans-Serif`
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
-        } else if (type === 1) {
-          // file
-          let fontSize = size + globalScale * 0.03
-          ctx.font = `${fontSize}px Sans-Serif`
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
-        } else {
-          // tag
-          let fontSize = size + globalScale * 0.04
-          ctx.font = `${fontSize}px Sans-Serif`
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.fillText(label, node.x, node.y + Math.round(fontSize * 2))
-        }
-        ctx.fill()
-        ctx.closePath()
       })
       .zoomToFit(400, 0, node => node.depth === 0)
       const magnifiedRatio = Math.pow((data.length / link.length), 6)
@@ -223,6 +235,9 @@ export default {
       if (link.length < 30) {
         ficGraph.d3VelocityDecay(0.4)
       }
+      setTimeout(() => {
+        focusOnNode(rootId)
+      }, 500)
     })
 
     const findObjectByIdUsingHashTable = (arr, id) => {
@@ -242,19 +257,55 @@ export default {
     })
 
     function focusOnNode (target) {
-      let { nodes, links } = ficGraph.graphData()
-      // const id2Node = Object.fromEntries(nodes.map(node => [node.id, node]))
-      const targetNode = findObjectByIdUsingHashTable(nodes, target)
-      ficGraph.centerAt(targetNode.x, targetNode.y, 1000)
-      ficGraph.zoom(2, 2000)
-      bus.emit('curNode', targetNode)
-      highlightNodes.clear()
-      highlightLinks.clear()
-      if (targetNode) {
-        highlightNodes.add(targetNode)
-        targetNode.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
-        targetNode.links.forEach(link => highlightLinks.add(link))
-      }
+      setTimeout(() => {
+        let { nodes, links } = ficGraph.graphData()
+        // const id2Node = Object.fromEntries(nodes.map(node => [node.id, node]))
+        const targetNode = findObjectByIdUsingHashTable(nodes, target)
+        ficGraph.centerAt(targetNode.x, targetNode.y, 1000)
+        // ficGraph.zoom(2, 2000)
+        bus.emit('curNode', targetNode)
+        highlightNodes.clear()
+        highlightLinks.clear()
+        if (targetNode) {
+          highlightNodes.add(targetNode)
+          targetNode.neighbors.forEach(neighbor => highlightNodes.add(neighbor))
+          targetNode.links.forEach(link => highlightLinks.add(link))
+        }
+      }, 300)
+    }
+
+    function hideNode (target) {
+      setTimeout(() => {
+        let { nodes, links } = ficGraph.graphData()
+        // const id2Node = Object.fromEntries(nodes.map(node => [node.id, node]))
+        const targetNode = findObjectByIdUsingHashTable(nodes, target)
+        hidingNodes.set(targetNode.id, targetNode)
+        for (let i = 0; i < links.length; i++) {
+          const link = links[i]
+          // console.log(link)
+          if (link.target.id === target || link.source.id === target) {
+            hidingLinks.set(link.id, link)
+          }
+        }
+        console.log('HidingLinks: ' + hidingLinks.size)
+      }, 200)
+    }
+    
+    function reShowNode (target) {
+      setTimeout(() => {
+        if (hidingNodes.has(target)) {
+          hidingNodes.delete(target)
+        }
+        const keysToDelete = []
+        hidingLinks.forEach((value, key) => {
+          if (value.target.id === target || value.source.id === target) {
+            keysToDelete.push(key)
+          }
+        })
+        keysToDelete.forEach((key) => {
+          hidingLinks.delete(key)
+        })
+      }, 200)
     }
   }
 }
