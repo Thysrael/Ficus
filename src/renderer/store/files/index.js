@@ -81,7 +81,7 @@ const mutations = {
   /**
    * @param {string} name 绝对路径名/tag名
    */
-  queryNodeId (state, name) {
+  queryNodeId (state, { name, hidden }) {
     const id = state.graph.queryNodeId(name)
     bus.emit('focusById', id)
   },
@@ -134,7 +134,7 @@ const actions = {
 
   LISTEN_SET_FOCUS_ID_BY_NAME ({ commit }) {
     window.electronAPI.setFocusIdByName((e, name) => {
-      setTimeout(() => commit('queryNodeId', name), 2000)
+      setTimeout(() => commit('queryNodeId', { name }), 2000)
     })
   }
 }

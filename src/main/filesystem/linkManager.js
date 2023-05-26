@@ -56,14 +56,13 @@ class LinkManager {
       const groups = []
       for (const filePath of attach) {
         const dirname = path.dirname(filePath)
-        const basename = path.basename(filePath)
 
         if (groups.length > 0 && groups[groups.length - 1].name === dirname) {
-          groups[groups.length - 1].children.push(basename)
+          groups[groups.length - 1].children.push(filePath)
         } else {
           groups.push({
             name: dirname,
-            children: [basename],
+            children: [filePath],
             handle: '转变为根'
           })
         }
