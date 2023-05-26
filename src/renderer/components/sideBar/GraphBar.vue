@@ -20,8 +20,8 @@
   </div>
   <div v-bind:class="{'hidden': !showM, 'block': showM}"
        @mouseleave="handleSearch"
-       class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 py-2 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
-       style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px; width: 150px">
+       class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 py-2 block font-normal text-base text-left no-underline break-words rounded-lg"
+       style="position: fixed; font-family: 'Noto Sans SC'; max-height: 300px; width: 150px; z-index: 999">
     <div v-for="(path, index) in resNodes"
          class="px-3 py-1 option"
          :key="index"
@@ -288,6 +288,10 @@ export default {
   fill: #19734b;
   fill-opacity: 1;
   -webkit-transition: fill .3s;
+}
+
+.option {
+  font-size: 12px;
 }
 
 .option:hover {
