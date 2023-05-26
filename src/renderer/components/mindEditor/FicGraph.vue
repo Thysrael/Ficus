@@ -122,10 +122,13 @@ export default {
       tagLinks.clear()
       hidingNodes.clear()
       hidingLinks.clear()
-      // Set nodes' style
+
       for (let i = 0; i < data.length; i++) {
         const key = data[i].id
         id2NodeIndex.set(key, i)
+        if (data[i].depth === 1) {
+          rootId = data[i].id
+        }
         if (data[i].category === 0) {
           data[i].color = theme[1]
           folderNodes.add(data[i])
@@ -136,12 +139,8 @@ export default {
           data[i].color = theme[3]
           tagNodes.add(data[i])
         }
-        if (data[i].depth === 1) {
-          data[i].color = theme[0]
-          rootId = data[i].id
-        }
       }
-      // Set links' style
+
       // Calculate nodes' neighbors
       for (let i = 0; i < link.length; i++) {
         const tmpWeight = (standardLineWidth - data[id2NodeIndex.get(link[i].source)].depth)
@@ -185,6 +184,17 @@ export default {
             }
           } else if (type === 2) {
             size = tagNodeRelSize
+          }
+
+          if (node.category === 0) {
+            node.color = theme[1]
+          } else if (node.category === 1) {
+            node.color = theme[2]
+          } else {
+            node.color = theme[3]
+          }
+          if (node.depth === 1) {
+            node.color = theme[0]
           }
 
           if (label.length > 8) {
