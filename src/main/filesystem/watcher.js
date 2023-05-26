@@ -4,6 +4,7 @@ import { isValidMarkdownFilePath } from '../helper/path'
 import EventEmitter from 'events'
 import { makeFolderStat } from './statistic'
 
+const refreshDelay = 200
 class Watcher extends EventEmitter {
   constructor () {
     super()
@@ -11,6 +12,8 @@ class Watcher extends EventEmitter {
     this.watchers = {}
     this.pathMap = new Map()
     this.rootPath = null
+
+    this.lastRecorded = 0
 
     this.enableRefresh = true
   }
@@ -119,8 +122,15 @@ class Watcher extends EventEmitter {
   }
 
   async refresh (win) {
-    const info = await makeFolderStat(this.rootPath)
-    win.webContents.send('ficus::passive-refresh', info)
+    const timestamp = Date.now()
+    if (this.lastRecorded + refreshDelay >= timestamp) {
+      return
+    }
+    this.lastRecorded = Date.now()
+    setTimeout(async () => {
+      const info = await makeFolderStat(this.rootPath)
+      win.webContents.send('ficus::passive-refresh', info)
+    }, refreshDelay)
   }
 
   /* private */
