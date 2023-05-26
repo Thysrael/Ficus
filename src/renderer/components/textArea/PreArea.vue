@@ -371,14 +371,14 @@ export default {
       watch(() => {
         return store.getters.getFicus.graphSetting.ficusIgnore
       }, (newValue, oldValue) => {
-        bus.emit('setTreeStyle', store.getters.getFicus.graphSetting)
+        bus.emit('setGraphStyle', store.getters.getFicus.graphSetting)
       })
 
       // setGraphTheme
       watch(() => {
         return store.getters.getFicus.graphSetting.theme
       }, (newValue, oldValue) => {
-        bus.emit('setTreeStyle', store.getters.getFicus.graphSetting)
+        bus.emit('setGraphStyle', store.getters.getFicus.graphSetting)
       })
     })
 
