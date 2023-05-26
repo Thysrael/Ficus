@@ -180,7 +180,7 @@ export default {
     }
 
     function handleFocus (path) {
-      store.commit('files/queryNodeId', path)
+      store.commit('files/queryNodeId', { name: path })
     }
 
     return {
