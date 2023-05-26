@@ -65,6 +65,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setPreferences: (preferences) => ipcRenderer.send('set-preferences', preferences),
 
   globalSearch: (token) => ipcRenderer.invoke('search-token-globally', token),
+  setFocusIdByName: (callback) => ipcRenderer.on('set-focus-id-by-name', callback),
 
   isOSx: () => isDevelopment ? false : isOsx
 })

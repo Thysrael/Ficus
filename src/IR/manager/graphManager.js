@@ -3,10 +3,12 @@ import IRGraph from '../component/graph'
 export default class GraphManager {
   constructor () {
     this.graph = undefined
+    this.focusId = 0
   }
 
   buildGraph (info) {
     this.graph = new IRGraph(info.files, info.relations, info.aerials)
+    this.focusId = 0
   }
 
   get nodes () {
