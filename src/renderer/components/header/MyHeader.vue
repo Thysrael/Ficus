@@ -165,8 +165,8 @@ export default {
         openFiles.value.push({ absolutePath, path, name, type, offset })
         update()
       }
-      store.dispatch('filesManager/setCurrentFile', { filepath: obj.path }).then(() => {
-        obj.content = store.getters['filesManager/markdown']
+      store.dispatch('files/setCurrentFile', { filepath: obj.path }).then(() => {
+        obj.content = store.getters['files/markdown']
         if (store.getters.getMode === -1) {
           // 正在展示欢迎界面，默认进入纯文本模式
           bus.emit('changeMode', 0)
@@ -199,7 +199,7 @@ export default {
     // TextUI接口：TextUI实时将工作区修改保存到content中
     bus.on('saveChange', (obj) => {
       content.value = obj.content
-      store.commit('filesManager/updateByMarkdown', { content: content.value })
+      store.commit('files/updateByMarkdown', { content: content.value })
       getOutLine()
       getTags()
       bus.emit('getInfoOfFile', obj) // 更新信息栏
@@ -208,8 +208,8 @@ export default {
     // MindUI接口：MindUI实时将工作区修改保存到content中
     bus.on('saveChangeMindUI', (json) => {
       // FIXME: 在构建时会触发这个时间
-      store.commit('filesManager/updateByMind', { mindJson: json.data })
-      content.value = store.getters['filesManager/markdown']
+      store.commit('files/updateByMind', { mindJson: json.data })
+      content.value = store.getters['files/markdown']
       getOutLine()
     })
 
@@ -224,11 +224,11 @@ export default {
     // 传参给，根据mode选择传参给哪个组件
     function sendContentByMode () {
       if (store.getters.getMode === 5) {
-        const obj = store.getters['filesManager/forestMind']
+        const obj = store.getters['files/forestMind']
         console.log('得到', toRaw(obj))
         bus.emit('sendToFicTree', toRaw(obj))
       } else if (store.getters.getMode === 2) {
-        const obj = store.getters['filesManager/mind']
+        const obj = store.getters['files/mind']
         bus.emit('sendToFicTree', toRaw(obj))
       } else if (store.getters.getMode >= 0) {
         if (content.value !== undefined) {
@@ -248,8 +248,8 @@ export default {
     bus.on('sendToTextUI', (obj) => {
       // 写回content
       writeBack()
-      store.dispatch('filesManager/setCurrentFile', { filepath: obj.path }).then(() => {
-        content.value = store.getters['filesManager/markdown']
+      store.dispatch('files/setCurrentFile', { filepath: obj.path }).then(() => {
+        content.value = store.getters['files/markdown']
         curObj.value = obj
         window.electronAPI.changePath(curObj.value.path)
         if (curObj.value.name !== '') {
@@ -314,8 +314,8 @@ export default {
     bus.on('changeToGraph', async () => {
       const info = await window.electronAPI.getLinks()
       info.files = props.data[0]
-      store.commit('filesManager/buildGraph', info)
-      bus.emit('getNodeAndLink', { nodes: toRaw(store.getters['filesManager/graphNodes']), links: toRaw(store.getters['filesManager/graphLinks']) })
+      store.commit('files/buildGraph', info)
+      bus.emit('getNodeAndLink', { nodes: toRaw(store.getters['files/graphNodes']), links: toRaw(store.getters['files/graphLinks']) })
       await store.dispatch('updateMode', { value: 3 })
     })
 
@@ -330,24 +330,24 @@ export default {
     }
 
     function getTags () {
-      const tags = store.getters['filesManager/tags']
+      const tags = store.getters['files/tags']
       bus.emit('editTags', { tags })
     }
 
     function getOutLine () {
-      const outline = store.getters['filesManager/outline']
+      const outline = store.getters['files/outline']
       bus.emit('openOutLine', outline)
     }
 
     bus.on('addTags', (tagName) => {
-      store.commit('filesManager/addTag', tagName)
-      content.value = store.getters['filesManager/markdown']
+      store.commit('files/addTag', tagName)
+      content.value = store.getters['files/markdown']
       sendContentByMode()
     })
 
     bus.on('removeTags', (tagName) => {
-      store.commit('filesManager/removeTag', tagName)
-      content.value = store.getters['filesManager/markdown']
+      store.commit('files/removeTag', tagName)
+      content.value = store.getters['files/markdown']
       sendContentByMode()
     })
 
@@ -461,8 +461,8 @@ export default {
     // 暴露给菜单栏撤销
     bus.on('undoCurTab', () => {
       if (openFiles.value.length !== 0) {
-        store.commit('filesManager/undo')
-        content.value = store.getters['filesManager/markdown']
+        store.commit('files/undo')
+        content.value = store.getters['files/markdown']
         sendContentByMode()
         getOutLine()
         getTags()
@@ -472,8 +472,8 @@ export default {
     // 暴露给菜单栏重做
     bus.on('redoCurTab', () => {
       if (openFiles.value.length !== 0) {
-        store.commit('filesManager/redo')
-        content.value = store.getters['filesManager/markdown']
+        store.commit('files/redo')
+        content.value = store.getters['files/markdown']
         sendContentByMode()
         getOutLine()
         getTags()

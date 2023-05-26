@@ -98,7 +98,7 @@ export default {
     }
 
     function getFocusedById (path) {
-      store.commit('filesManager/queryNodeId', path)
+      store.commit('files/queryNodeId', path)
     }
 
     return {

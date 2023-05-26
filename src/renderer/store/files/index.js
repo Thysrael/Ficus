@@ -152,7 +152,7 @@ const getters = {
   graphLinks: (state) => state.graph.links
 }
 
-const filesManager = {
+const files = {
   namespaced: true,
   state,
   mutations,
@@ -160,4 +160,4 @@ const filesManager = {
   getters
 }
 
-export default filesManager
+export default files
