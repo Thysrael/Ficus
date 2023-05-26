@@ -26,7 +26,7 @@
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">侧边栏</div>
         <label>启动时侧边宽度：</label>
-        <input type="number" v-model="common.sideBarInitWidth" min="250" max="400"> px
+        <input type="number" v-model="common.sideBarInitWidth" class="numberInput rounded-md" min="250" max="400"> px
       </div>
     </div>
     <div v-show="preMode === 1" class="preferences">
@@ -186,13 +186,18 @@
               @click="treeThemePath = index; ficus.treeSetting.theme = treeThemePath; showTreeThemeSelection = !showTreeThemeSelection"
               class="m-2 px-2 py-1 rounded-md imgSelectionItem">
             {{ option }}
+            <div class="p-1 mt-2">
+              <img class="rounded-md" v-if="index === 0" alt="theme0" src="../../assets/FicTree0.png">
+              <img class="rounded-md" v-else-if="index === 1" alt="theme1" src="../../assets/FicTree1.png">
+              <img class="rounded-md" v-if="index === 2" alt="theme2" src="../../assets/FicTree2.png">
+            </div>
           </li>
         </ul>
       </div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">.ficusignore</div>
-        <input class="numberInput rounded-md p-2 text-gray-700" v-model="ficus.graphSetting.ficusIgnore">
+        <textarea class="numberInput rounded-md p-2 text-gray-700 w-full" style="height: 100px" v-model="ficus.graphSetting.ficusIgnore"/>
       </div>
 
       <div class="preference-item">
@@ -209,6 +214,11 @@
               @click="graphThemePath = index; ficus.graphSetting.theme = graphThemePath; showGraphThemeSelection = !showGraphThemeSelection"
               class="m-2 px-2 py-1 rounded-md imgSelectionItem">
             {{ option }}
+            <div class="p-1 mt-2">
+              <img class="rounded-md shadow-md" v-if="index === 0" alt="theme0" src="../../assets/FicGraph0.png">
+              <img class="rounded-md shadow-md" v-else-if="index === 1" alt="theme1" src="../../assets/FicGraph1.png">
+              <img class="rounded-md shadow-md" v-if="index === 2" alt="theme2" src="../../assets/FicGraph2.png">
+            </div>
           </li>
         </ul>
       </div>

@@ -94,6 +94,10 @@ export default {
       requestAnimationFrame(animate);
     })() // IIFE
 
+    bus.on('setGraphStyle', (obj) => {
+      theme = obj.theme === 1 ? theme1 : obj.theme === 2 ? theme2 : theme0
+    })
+
     bus.on('exportGraphPNG', () => {
       // exportPNG()
       const canvas = document.getElementById('ficGraph').querySelector('canvas')
