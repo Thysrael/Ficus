@@ -226,13 +226,16 @@ pre.vditor-sv:focus {
 
 .vditor-reset span.katex-html {
   font-size: 16px;
-  padding-top: 10px;
+  padding: 10px 0;
 }
 
 .vditor-reset mjx-container svg {
-  height: 12px;
-  padding-top: 0;
+  height: 11px;
   vertical-align: 0 !important;
+}
+
+.vditor-reset .math-block-preview {
+  background: var(--SwissCoffee-500);
 }
 
 /** 内联公式编辑区域 **/
@@ -247,7 +250,7 @@ pre.vditor-sv:focus {
 /** 公式块编辑区域 **/
 
 .vditor-reset code[data-type="math-block"] {
-  background-color: var(--SwissCoffee-500);
+  background-color: var(--TextLight);
   font-size: 16px;
   line-height: 30px;
   padding: 0.6em 0.6em !important;
