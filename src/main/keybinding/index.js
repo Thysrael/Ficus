@@ -3,10 +3,17 @@ import keybindingsDarwin from './keybindingsDarwin'
 import keybindingsLinux from './keybindingsLinux'
 import keybindingsWindows from './keybindingsWindows'
 import { isLinux, isOsx } from '../config'
+import COMMANDS from '../../common/commands'
 
 class KeyBinding {
   constructor () {
-    this._keys = this._loadDefaultKeybingdings()
+    const defaultKeybinding = this._loadDefaultKeybingdings()
+    this._keys = defaultKeybinding
+    for (const id of defaultKeybinding.keys()) {
+      if (Object.values(COMMANDS).indexOf(id) === -1) {
+        this._keys.delete(id)
+      }
+    }
   }
 
   getAccelerator (id) {
@@ -30,6 +37,14 @@ class KeyBinding {
     }
   }
 
+  setKeybindingMap (win) {
+    win.webContents.send('set-keybingding-map', this._keys)
+  }
+
+  getKeybindingMap () {
+    return this._keys
+  }
+
   /**
    * FIXME: 请同步修改下面三个对象以实现快捷键
    * @returns {object}
@@ -43,6 +58,8 @@ class KeyBinding {
       return keybindingsWindows
     }
   }
+
+  _listenForIpcMain () {}
 }
 
 export default KeyBinding

@@ -69,6 +69,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   globalSearch: (token) => ipcRenderer.invoke('search-token-globally', token),
   setFocusIdByName: (callback) => ipcRenderer.on('set-focus-id-by-name', callback),
 
+  setKeybindingMap: (callback) => ipcRenderer.on('set-keybingding-map', callback),
+
   isOSx: () => isDevelopment ? false : isOsx
 })
 

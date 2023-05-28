@@ -2,9 +2,9 @@ import { bus } from 'vue3-eventbus'
 import { createStore } from 'vuex'
 import files from './files'
 import commands from '../commands'
+import { viditorFormatAccelerator } from '@/common/keybindings'
 
 const executeCommand = (state, eventId, meta) => {
-  console.log(eventId, meta)
   const command = commands.filter(e => e.id === eventId)
   if (command[0]) {
     command[0].execute(meta)
@@ -129,6 +129,21 @@ const mutations = {
     state.sideBarWidth.value = preferences.sideBarInitWidth
 
     bus.emit('changeSideBarWidth')
+  },
+
+  setVditorKeybinding (state, keybindingMap) {
+    const newKeybinding = []
+    for (const [id, accelerator] of keybindingMap) {
+      if (accelerator) {
+        newKeybinding.push({
+          hotkey: viditorFormatAccelerator(accelerator),
+          action: () => {
+            executeCommand(state, id)
+          }
+        })
+      }
+    }
+    bus.emit('resetVditorKeybinding', newKeybinding)
   }
 }
 
@@ -206,6 +221,11 @@ const actions = {
   LISTEN_LOAD_PREFERENCES ({ commit }) {
     window.electronAPI.loadPreferences((e, preferences) => {
       commit('LOAD_PREFERENCES', preferences)
+    })
+  },
+  LISTEN_SET_KEYBINDING_MAP ({ commit }) {
+    window.electronAPI.setKeybindingMap((e, keybindingMap) => {
+      commit('setVditorKeybinding', keybindingMap)
     })
   }
 }
