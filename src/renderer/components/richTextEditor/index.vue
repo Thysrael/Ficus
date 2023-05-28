@@ -155,7 +155,7 @@ export default {
     }
 
     // 初始化
-    const initVditor = () => {
+    const initVditor = (banKeybinding = []) => {
       // options
       const options =
       {
@@ -214,24 +214,25 @@ export default {
         placeholder: '请输入...',
         // 绑定快捷键
         ficusHotkey: [
-          {
-            hotkey: '⌘Z',
-            action: () => {
-              bus.emit('undoCurTab')
-            }
-          },
-          {
-            hotkey: '⇧⌘Z',
-            action: () => {
-              bus.emit('redoCurTab')
-            }
-          },
+          // {
+          //   hotkey: '⌘Z',
+          //   action: () => {
+          //     // bus.emit('undoCurTab')
+          //   }
+          // },
+          // {
+          //   hotkey: '⇧⌘Z',
+          //   action: () => {
+          //     bus.emit('redoCurTab')
+          //   }
+          // },
           {
             hotkey: '⌘F',
             action: () => {
               searchData.open = true
             }
-          }
+          },
+          ...banKeybinding
         ],
         // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
         after: () => {
@@ -301,6 +302,14 @@ export default {
     onBeforeUnmount(() => {
       vditor.destroy()
       vditor = null
+    })
+
+    bus.on('resetVditorKeybinding', (banKeybinding) => {
+      vditor.destroy()
+      vditor = null
+      console.log(banKeybinding) // FIXME: 处理 Command + O 冲突
+      initVditor(banKeybinding)
+      defineRAPI(vditor, searchData)
     })
 
     return {
