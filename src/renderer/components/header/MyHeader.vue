@@ -208,9 +208,11 @@ export default {
     // MindUI接口：MindUI实时将工作区修改保存到content中
     bus.on('saveChangeMindUI', (json) => {
       // FIXME: 在构建时会触发这个时间
-      store.commit('files/updateByMind', { mindJson: json.data })
-      content.value = store.getters['files/markdown']
-      getOutLine()
+      if (store.getters.getMode === 2) {
+        store.commit('files/updateByMind', { mindJson: json.data })
+        content.value = store.getters['files/markdown']
+        getOutLine()
+      }
     })
 
     // 将前端的content写回后端文件中，并且更新前端容器

@@ -84,7 +84,7 @@
     <hr style="border: none;border-top: 1px solid #ccc;height: 1px;margin: 2px 0;">
     <ul v-if="showOpt" class="mt-2">
       <li v-for="(item, index) in node.children" :key="index">
-        <GraphItem :unit="item" :index="index"></GraphItem>
+        <GraphItem :show-handle="node.path !== data[0].path" :unit="item" :index="index"></GraphItem>
       </li>
     </ul>
   </div>
@@ -99,6 +99,12 @@ import store from '@/renderer/store'
 export default {
   name: 'GraphBar',
   components: { GraphItem },
+  props: {
+    data: {
+      type: Array,
+      required: true
+    }
+  },
   setup () {
     const keyWord = ref('')
     const showM = ref(false)
@@ -157,7 +163,6 @@ export default {
 
     bus.on('sendNodesResult', ({ nodes }) => {
       resNodes.value.length = 0
-      console.log('得到', nodes)
       for (let i = 0; i < nodes.length; i++) {
         const obj = nodes[i]
         if (obj.category === 2) {
@@ -166,7 +171,6 @@ export default {
           resNodes.value.push(obj.path)
         }
       }
-      console.log(resNodes.value)
     })
 
     async function handleSearch () {
