@@ -7,52 +7,22 @@
   </div>
   <ul style="margin-top: 15px" v-if="unit.children.length !== 0">
     <li v-for="(path, index) in unit.children"
-        :key="index"
-        @click="getFocusedById(path)">
+        :key="index">
       <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-               width="20" height="20" viewBox="0 0 15 15">
-            <g clip-path="url(#master_svg0_93_2618)">
-              <g>
-                <g>
-                  <g>
-                    <g>
-                      <g>
-                        <g>
-                          <path
-                              d="M13,12.500020848083496Q13,13.224920848083496,12.48744,13.737420848083497Q11.97487,14.250020848083496,11.25,14.250020848083496L3.75,14.250020848083496Q3.025126,14.250020848083496,2.5125632,13.737420848083497Q2,13.224920848083496,2,12.500020848083496L2,2.500000848083496Q2,1.7751248480834962,2.5125632,1.262561748083496Q3.025126,0.749998848083496,3.75,0.749998848083496L8.1875,0.749998848083496L8.1875,1.2499986880834961L8.16988,0.7503098480834961Q8.94202,0.7230758480834961,9.48238,1.275309348083496L12.5514,4.532100848083497Q12.5569,4.5379008480834955,12.5621,4.543870848083496Q13.0261,5.068800848083496,12.9996,5.7688708480834965L12.5,5.750000848083496L13,5.750000848083496L13,12.500020848083496ZM12,12.500020848083496L12,5.750000848083496Q12,5.740560848083496,12.00036,5.7311208480834965Q12.01169,5.431090848083496,11.81286,5.206120848083496L12.1875,4.875000848083496L11.82361,5.217900848083496L8.76762,1.9746878480834962Q8.53604,1.7380158480834962,8.20512,1.749687848083496Q8.19631,1.749998848083496,8.1875,1.749998848083496L3.75,1.749998848083496Q3.43934,1.749998848083496,3.21967,1.969668848083496Q3,2.189338848083496,3,2.500000848083496L3,12.500020848083496Q3,12.810620848083497,3.21967,13.030320848083496Q3.43934,13.250020848083496,3.75,13.250020848083496L11.25,13.250020848083496Q11.56066,13.250020848083496,11.78033,13.030320848083496Q12,12.810620848083497,12,12.500020848083496Z"
-                              fill="#000000" fill-opacity="1"/>
-                        </g>
-                        <g>
-                          <line x1="4.9375" y1="11.062499046325684" x2="10.0625" y2="11.062499046325684"
-                                fill-opacity="0" stroke-opacity="1" stroke="#000000" fill="none" stroke-width="1"
-                                stroke-linecap="ROUND" stroke-linejoin="round"/>
-                        </g>
-                        <g>
-                          <line x1="4.9375" y1="8.562499046325684" x2="10.0625" y2="8.562499046325684"
-                                fill-opacity="0" stroke-opacity="1" stroke="#000000" fill="none" stroke-width="1"
-                                stroke-linecap="ROUND" stroke-linejoin="round"/>
-                        </g>
-                        <g>
-                          <line x1="5" y1="6.062499046325684" x2="8.125" y2="6.062499046325684" fill-opacity="0"
-                                stroke-opacity="1" stroke="#000000" fill="none" stroke-width="1"
-                                stroke-linecap="ROUND" stroke-linejoin="round"/>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <div class="pl-2 overflow-hidden" :title="path">
-          <div style="font-size: 12px; text-overflow: ellipsis;">
-            {{ getName(path) }}
-          </div>
-          <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
-            {{ path }}
+        <div
+            style="display: flex;"
+            class="pl-1 flex"
+            :class="show ? `selectedElement` : `nonSelectedElement`"
+        >
+          <button style="margin-top: 8px" @click="changeShow">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="20" height="15" viewBox="0 0 20 15"><defs><clipPath id="master_svg0_93_2922"><rect x="0" y="0" width="15" height="15" rx="0"/></clipPath></defs><g clip-path="url(#master_svg0_93_2922)"><g></g><g></g><g><g><path d="M13.04039189376831,10.861825785446166L8.35336189376831,0.5489007854461669C8.20148189376831,0.21468178544616698,7.868201893768311,-0.0004742145538330078,7.49976189376831,-0.0004742145538330078C7.13180189376831,-0.0004742145538330078,6.79851189376831,0.21468178544616698,6.6464118937683105,0.5489007854461669L1.9589075937683105,10.861625785446167C1.8271888937683105,11.151825785446167,1.8517982937683106,11.489725785446167,2.0238298937683106,11.756925785446168C2.1970328937683106,12.025525785446167,2.4937518937683105,12.187525785446168,2.8122678937683103,12.187525785446168L6.562271893768311,12.187525785446168L6.562271893768311,14.062525785446168C6.562271893768311,14.580725785446168,6.98156189376831,15.000025785446168,7.499771893768311,15.000025785446168C8.01820189376831,15.000025785446168,8.43750189376831,14.580725785446168,8.43750189376831,14.062525785446168L8.43750189376831,12.187525785446168L12.18699189376831,12.187525785446168C12.50559189376831,12.187525785446168,12.802291893768311,12.025525785446167,12.976191893768311,11.757225785446167C13.148391893768311,11.489725785446167,13.172091893768311,11.152025785446167,13.04039189376831,10.861825785446166Z" fill="#89D3B1" fill-opacity="1"/></g></g></g></svg>
+          </button>
+          <div :class="show ? `pointer-events-auto` : `pointer-events-none`"
+              @click="getFocusedById(path)" class="pl-2 overflow-hidden align-middle content-center flex flex-wrap" id="btnRef">
+            <div style="font-size: 12px"
+                 :title="path">
+              {{ getName(path) }}
+            </div>
           </div>
         </div>
       </div>
@@ -76,6 +46,7 @@
 
 import bus from 'vue3-eventbus'
 import store from '@/renderer/store'
+import { ref } from 'vue'
 
 export default {
   name: 'GraphItem',
@@ -94,6 +65,12 @@ export default {
     }
   },
   setup (props) {
+    const show = ref(true)
+
+    function changeShow () {
+      show.value = !show.value
+    }
+
     function getName (path) {
       return window.pathAPI.basename(path)
     }
@@ -107,6 +84,8 @@ export default {
     }
 
     return {
+      show,
+      changeShow,
       getName,
       handle,
       getFocusedById
@@ -160,6 +139,44 @@ export default {
 .relBarItem:hover {
   background-color: #e3e3e3;
   border-radius: 6px;
+  -webkit-transition: .2s;
+}
+
+.selectedElement {
+  padding: 4px;
+  color: #3d3d3d;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-transition: .2s;
+}
+
+.selectedElement path {
+  fill: #66eaae;
+  -webkit-transition: .2s;
+}
+
+.selectedElement:hover {
+  background-color: #e3e3e3;
+  border-radius: 8px;
+  -webkit-transition: .2s;
+}
+
+.nonSelectedElement {
+  padding: 4px;
+  color: #909090;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nonSelectedElement:hover {
+  background-color: #e3e3e3;
+  border-radius: 8px;
+  -webkit-transition: .2s;
+}
+
+.nonSelectedElement path {
+  fill: #6b6b6b;
   -webkit-transition: .2s;
 }
 </style>

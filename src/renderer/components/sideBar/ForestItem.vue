@@ -19,7 +19,7 @@
       <div class="pl-2 overflow-hidden align-middle content-center flex flex-wrap" id="btnRef" :title="item.name">
         <div style="font-size: 12px"
              :style="item.type !== 'file' ? `font-weight: 900` : `font-weight: 400`"
-             :title="item.name">
+             :title="item.path">
           {{ item.name }}
         </div>
       </div>
