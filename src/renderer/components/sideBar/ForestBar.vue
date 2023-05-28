@@ -1,20 +1,30 @@
 <template>
-  <button class="optionBtn" style="text-align: center" @click="getDataBy(1)">
-    从榕根选择
-  </button><br>
-  <button class="optionBtn" style="text-align: center" @click="getDataBy(2)">
-    从榕柱选择
-  </button><br>
-  <button class="optionBtn" style="text-align: center" @click="handleClear">
-    清除
-  </button><br>
-  <button class="optionBtn" style="text-align: center" @click="handleNewSet">
-    新建基底
-  </button><br>
-  <button class="optionBtn" style="text-align: center" @click="handleOutput">
-    导出
-  </button><br>
-  <div class="my-1 pl-2 pr-4 content-center items-center w-full mt-2">
+  <div class="place-content-center content-center justify-center flex flex-wrap">
+    <button class="optionBtn py-1 flex align-middle justify-center content-center" style="text-align: center" @click="handleClear">
+      清除
+    </button>
+  </div>
+  <div class="place-content-center content-center justify-center flex flex-wrap">
+    <button class="optionBtn py-1 flex align-middle justify-center content-center" style="text-align: center" @click="handleNewSet">
+      新建基底
+    </button>
+  </div>
+  <div class="place-content-center content-center justify-center flex flex-wrap">
+    <button class="optionBtn py-1 flex align-middle justify-center content-center" style="text-align: center" @click="handleOutput">
+      导出
+    </button>
+  </div>
+  <div class="mt-5 place-content-center content-center justify-center flex flex-wrap">
+    <div class="flex p-4 optionBar" @click="getDataBy(1)"
+         :style="dataOption === 1 ? `color: #42b983; font-weight: 900; background-color: #eeeeee` : `color: #565656`">
+      从榕根
+    </div>
+    <div class="flex p-4 optionBar" @click="getDataBy(2)"
+         :style="dataOption === 2 ? `color: #42b983; font-weight: 900; background-color: #eeeeee` : `color: #565656`">
+      从榕柱
+    </div>
+  </div>
+  <div class="my-1 pl-2 pr-2 content-center items-center w-full mt-2">
     <ul style="margin-top: 15px">
       <ForestItem v-for="(item, index) in files"
           :key="index"
@@ -42,6 +52,8 @@ export default {
     const files = ref([])
 
     const selectedList = []
+
+    const dataOption = ref(0)
 
     /**
      *
@@ -71,6 +83,7 @@ export default {
      */
 
     async function getDataBy (option) {
+      dataOption.value = option
       if (option === 1) {
         if (props.data.length === 0) {
           bus.emit('showMyAlert', { message: '请先打开文件夹' })
@@ -160,7 +173,8 @@ export default {
       handleClear,
       handleOutput,
       handleNewSet,
-      getDataBy
+      getDataBy,
+      dataOption
     }
   }
 }
@@ -197,7 +211,6 @@ export default {
 }
 
 .optionBtn {
-  margin-left: 10px;
   margin-top: 10px;
   width: 130px;
   height: 25px;
@@ -218,5 +231,16 @@ export default {
 
 .optionBtn:active {
   background-color: #3D3D3D;
+}
+
+.optionBar {
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.optionBar:hover {
+  background-color: #e3e3e3;
+  -webkit-transition: .2s;
+  font-weight: 900;
 }
 </style>

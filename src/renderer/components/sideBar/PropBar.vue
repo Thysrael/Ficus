@@ -98,7 +98,7 @@
     <ul style="margin-top: 15px">
       <li v-for="(path, index) in tagged"
           :key="index"
-          @click="toggle(path)">
+          @click="toggle(path)" class="my-2">
         <div style="display: flex" class="items-center content-center relBarItem">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
@@ -278,6 +278,7 @@ export default {
 
 .relBarItem:hover {
   background-color: #e3e3e3;
+  font-weight: 900;
   border-radius: 6px;
   -webkit-transition: .2s;
 }
