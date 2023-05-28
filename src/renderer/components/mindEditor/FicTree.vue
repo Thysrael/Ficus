@@ -365,8 +365,9 @@ export default defineComponent({
         foldAll()
       }
 
-      defaultStruct = mode === 5 ? 1 : defaultStruct
-      setStructure(defaultStruct)
+      const struct = mode === 5 ? 1 : defaultStruct
+      // console.log('current struct is: ' + struct)
+      setStructure(struct)
 
       if (theme === 1) {
         ficTree.setTheme('theme1')
