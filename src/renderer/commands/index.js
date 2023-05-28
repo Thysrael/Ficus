@@ -83,8 +83,19 @@ const commands = [
   {
     id: 'file.open-file-by-path',
     execute: async ({ filepath }) => {
-      console.log(filepath)
       store.commit('OPEN_FILE_TAB', filepath)
+    }
+  },
+  {
+    id: 'file.open-folder-by-path',
+    execute: async ({ pathname }) => {
+      window.electronAPI.openFolderByPath(pathname)
+    }
+  },
+  {
+    id: 'file.clear-recently-used-files',
+    execute: async () => {
+      window.electronAPI.clearRecentlyUsedFiles()
     }
   },
   {

@@ -1,4 +1,4 @@
-import { Menu, app } from 'electron'
+import { Menu, app, ipcMain } from 'electron'
 import { isOsx, isWindows } from '../config'
 import { getMenuTemplates, toRawMenuTemplates } from './templates'
 import fs from 'fs'
@@ -10,11 +10,13 @@ const userDataPath = app.getPath('userData')
 const RECENTLY_USED_DOCUMENTS_FILE_NAME = 'recently-used-documents.json'
 const MAX_RECENTLY_USED_DOCUMENTS = 12
 class AppMenu {
-  constructor (keybinding) {
+  constructor (windowsManager, keybinding) {
+    this.windowsManager = windowsManager
     this.isOsxOrWindows = isOsx || isWindows
     this.keybinding = keybinding
     this._userDataPath = userDataPath
     this.RECENTS_PATH = path.join(userDataPath, RECENTLY_USED_DOCUMENTS_FILE_NAME)
+    this.recentlyUsedDocuments = this.getRecentlyUsedDocuments()
     if (isOsx) {
       Menu.setApplicationMenu(this._buildMenu())
     }
@@ -36,14 +38,22 @@ class AppMenu {
       }
       return recentDocuments
     } catch (err) {
-      // log.error('Error while read recently used documents:', err)
       return []
     }
   }
 
   setWindowRawMenu (win) {
-    const menuTemplate = getMenuTemplates(this.keybinding)
+    const menuTemplate = getMenuTemplates(this.keybinding, this.recentlyUsedDocuments)
     win.webContents.send('set-app-menu', toRawMenuTemplates(menuTemplate))
+  }
+
+  updateAppMenu (recentlyUsedDocuments) {
+    this.recentlyUsedDocuments = recentlyUsedDocuments
+    if (isOsx) {
+      Menu.setApplicationMenu(this._buildMenu())
+    }
+    const menuTemplate = getMenuTemplates(this.keybinding, this.recentlyUsedDocuments)
+    this.windowsManager.defaultWindow.webContents.send('set-app-menu', toRawMenuTemplates(menuTemplate))
   }
 
   /**
@@ -51,12 +61,7 @@ class AppMenu {
      * @param {string} filePath
      */
   addRecentlyUsedDocument (filePath) {
-    if (this.isOsxOrWindows) {
-      app.addRecentDocument(filePath)
-    }
-    if (isOsx) return
-
-    let recentDocuments = this.getRecentlyUsedDocuments()
+    const recentDocuments = this.getRecentlyUsedDocuments()
     const index = recentDocuments.indexOf(filePath)
     let needSave = index !== 0
     if (index > 0) {
@@ -71,8 +76,7 @@ class AppMenu {
       recentDocuments.splice(MAX_RECENTLY_USED_DOCUMENTS, recentDocuments.length - MAX_RECENTLY_USED_DOCUMENTS)
     }
 
-    // this.updateAppMenu(recentDocuments)
-    recentDocuments = this.getRecentlyUsedDocuments()
+    this.updateAppMenu(recentDocuments)
     if (needSave) {
       ensureDirSync(this._userDataPath)
       const json = JSON.stringify(recentDocuments, null, 2)
@@ -84,27 +88,26 @@ class AppMenu {
      * 清除最近使用的文件路径
      */
   clearRecentlyUsedDocument () {
-    // if (this.isOsxOrWindows) {
-    //   app.clearRecentDocuments()
-    // }
-    const { isOsxOrWindows, RECENTS_PATH } = this
-    if (isOsxOrWindows) app.clearRecentDocuments()
-    if (isOsx) return
+    const { RECENTS_PATH } = this
 
-    const recentDocuments = this.getRecentlyUsedDocuments()
-    // this.updateAppMenu(recentDocuments)
+    const recentDocuments = []
+    this.updateAppMenu(recentDocuments)
     const json = JSON.stringify(recentDocuments, null, 2)
     ensureDirSync(this._userDataPath)
     fs.writeFileSync(RECENTS_PATH, json, 'utf-8')
   }
 
   _buildMenu () {
-    const menuTemplate = getMenuTemplates(this.keybinding)
+    const menuTemplate = getMenuTemplates(this.keybinding, this.recentlyUsedDocuments)
     const menu = Menu.buildFromTemplate(menuTemplate)
     return menu
   }
 
-  _LISTENForIpcMain () {}
+  _LISTENForIpcMain () {
+    ipcMain.on('clear-recently-used-files', (e) => {
+      this.clearRecentlyUsedDocument()
+    })
+  }
 }
 
 export default AppMenu

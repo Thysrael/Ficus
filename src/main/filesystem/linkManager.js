@@ -229,7 +229,7 @@ class LinkManager {
     for (const filename of filepaths) {
       const filepath = path.resolve(dirPath, filename)
       const newPath = await move(filepath, targetPath)
-      this.windows.browserWindow.webContents.send('set-file-path-by-move', { oldPath: filepath, newPath })
+      this.windows.defaultWindow.webContents.send('set-file-path-by-move', { oldPath: filepath, newPath })
       const doc = (await fs.promises.readFile(newPath)).toString()
       fs.writeFile(newPath, removeTagFromDoc(doc, tagname))
     }
@@ -249,7 +249,7 @@ class LinkManager {
       const subItemPath = path.resolve(folderPath, subItem)
       if (isValidMarkdownFilePath(subItemPath)) {
         const newPath = await move(subItemPath, targetPath)
-        this.windows.browserWindow.webContents.send('set-file-path-by-move', { subItemPath, newPath })
+        this.windows.defaultWindow.webContents.send('set-file-path-by-move', { subItemPath, newPath })
         const doc = (await fs.promises.readFile(newPath)).toString()
         fs.writeFile(newPath, addTagToDoc(doc, tagname))
       }

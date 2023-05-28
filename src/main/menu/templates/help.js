@@ -7,14 +7,14 @@ export default function (keybindings) {
       label: '关于',
       id: 'help.about',
       click (menuItem, browserWindow) {
-        browserWindow.webContents.send('ficus::keyboard-event', menuItem.id)
+        browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
       }
     }, {
       label: '内置文档',
       submenu: [{
         label: '功能规格说明书',
-        id: 'file.open-file-by-path',
         meta: {
+          id: 'file.open-file-by-path',
           filepath: path.resolve(__dirname, '../static/docs/功能规格说明书.md')
         },
         click (menuItem, browserWindow) {

@@ -1,31 +1,31 @@
 import COMMANDS from '../../../common/commands'
 
 const undo = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const redo = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const cut = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const copy = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const copyAsMarkdown = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const paste = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const pasteAsPlaintext = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const copyAsHTML = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const Delete = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 export const loadEditCommands = commandManager => {
   commandManager.add(COMMANDS.EDIT_UNDO, undo)

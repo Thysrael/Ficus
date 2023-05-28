@@ -65,7 +65,7 @@ class Preference {
   }
 
   async init () {
-    this.windows.browserWindow.webContents.send('load-preferences', this.getAll())
+    this.windows.defaultWindow.webContents.send('load-preferences', this.getAll())
   }
 
   setItem (key, value) {
