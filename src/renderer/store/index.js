@@ -4,6 +4,7 @@ import files from './files'
 import commands from '../commands'
 
 const executeCommand = (state, eventId, meta) => {
+  console.log(eventId, meta)
   const command = commands.filter(e => e.id === eventId)
   if (command[0]) {
     command[0].execute(meta)
@@ -195,8 +196,8 @@ const actions = {
     })
   },
   LISTEN_KEYBOARD_EVENT ({ commit }) {
-    window.electronAPI.keyboardEvent((e, id) => {
-      executeCommand(state, id)
+    window.electronAPI.keyboardEvent((e, meta) => {
+      executeCommand(state, meta.id, meta)
     })
     bus.on('cmd::execute', ({ id, meta }) => {
       executeCommand(state, id, meta)

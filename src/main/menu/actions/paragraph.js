@@ -1,46 +1,46 @@
 import COMMANDS from '../../../common/commands'
 
 const heading1 = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const heading2 = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const heading3 = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const heading4 = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const heading5 = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const heading6 = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const table = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const mathFormula = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const codeFence = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const quoteBlock = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const orderList = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const bulletList = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const taskList = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const horizontalLine = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 export const loadParagraphCommands = commandManager => {
   commandManager.add(COMMANDS.PARAGRAPH_HEADING_1, heading1)

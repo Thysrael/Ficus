@@ -33,9 +33,7 @@ class FileSystem {
         return null
       }
       this.root = result.filePaths[0]
-
-      const projectStat = await makeFolderStat(result.filePaths[0])
-      return projectStat
+      return await makeFolderStat(result.filePaths[0])
     })
   }
 

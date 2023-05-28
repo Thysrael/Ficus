@@ -23,7 +23,7 @@ class KeyBinding {
       for (const [id, accelerator] of this._keys) {
         if (accelerator && accelerator.length > 1) {
           electronLocalshortcut.register(win, accelerator, () => {
-            win.webContents.send('ficus::keyboard-event', id)
+            win.webContents.send('ficus::keyboard-event', { id })
           })
         }
       }

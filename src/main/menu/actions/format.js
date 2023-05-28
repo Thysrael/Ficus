@@ -1,34 +1,34 @@
 import COMMANDS from '../../../common/commands'
 
 const strong = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const emphasis = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const strike = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const inlineCode = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const inlineMath = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const highlight = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const fileLink = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const hyperlink = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const image = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 const clearFormat = async (win, id) => {
-  win.webContents.send('ficus::keyboard-event', id)
+  win.webContents.send('ficus::keyboard-event', { id })
 }
 export const loadFormatCommands = commandManager => {
   commandManager.add(COMMANDS.FORMAT_STRONG, strong)

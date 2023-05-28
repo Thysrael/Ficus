@@ -8,10 +8,10 @@ import view from './view'
 import help from './help'
 import { simplifyAccelerator } from '@/common/keybindings'
 
-export function getMenuTemplates (keybindings) {
+export function getMenuTemplates (keybindings, recentlyUsedDocuments) {
   return [
     ...(isOsx ? [app(keybindings)] : []),
-    file(keybindings),
+    file(keybindings, recentlyUsedDocuments),
     edit(keybindings),
     paragraph(keybindings),
     format(keybindings),

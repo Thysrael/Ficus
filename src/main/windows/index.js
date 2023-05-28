@@ -15,6 +15,10 @@ class FicusWindow {
     menu.setWindowRawMenu(this.browserWindow)
   }
 
+  get defaultWindow () {
+    return this.browserWindow
+  }
+
   async _createWindow () {
     // Create the browser window.
     const win = new BrowserWindow({

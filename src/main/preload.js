@@ -13,6 +13,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   closeDev: () => ipcRenderer.send('dev-close'),
 
   openFolder: () => ipcRenderer.send('open-folder'),
+  openFolderByPath: (path) => ipcRenderer.send('open-folder-by-path', path),
+  clearRecentlyUsedFiles: () => ipcRenderer.send('clear-recently-used-files'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
 
   openFileTab: (callback) => ipcRenderer.on('open-file-tab', callback),

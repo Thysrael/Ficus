@@ -192,7 +192,7 @@ export const move = async (srcPath, destDir) => {
  * @param {string} projPath
  * @returns
  */
-exports.paste = async (srcPath, destDir) => {
+export const paste = async (srcPath, destDir) => {
   if (isValidFolderPath(srcPath)) {
     const destPath = makeValidFilePath(path.resolve(destDir, path.basename(srcPath)))
     await fs.copy(srcPath, destPath)

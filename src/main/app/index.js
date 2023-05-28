@@ -6,6 +6,7 @@ import AppMenu from '../menu'
 import FileSystem from '../filesystem'
 import FicusWindow from '../windows'
 import KeyBinding from '../keybinding'
+import { makeFolderStat } from '../filesystem/statistic'
 
 /**
  *
@@ -13,10 +14,10 @@ import KeyBinding from '../keybinding'
 class App {
   constructor () {
     this.watcher = new Watcher()
-    this.filesystem = new FileSystem()
     this.keyBinding = new KeyBinding()
-    this.menu = new AppMenu(this.keyBinding)
     this.ficusWindow = new FicusWindow()
+    this.menu = new AppMenu(this.ficusWindow, this.keyBinding)
+    this.filesystem = new FileSystem(this.menu)
     this.preferences = new Preference(this.ficusWindow)
     this.linkManager = new LinkManager(this.ficusWindow, this.watcher)
     this._listenForIpcMain()
@@ -40,7 +41,7 @@ class App {
   }
 
   getFocusWin () {
-    return this.ficusWindow.browserWindow
+    return this.ficusWindow.defaultWindow
   }
 
   _listenForIpcMain () {
@@ -50,6 +51,19 @@ class App {
       this.linkManager.reset()
       const projectStat = await this.filesystem.newProject()
       if (projectStat) {
+        this.menu.addRecentlyUsedDocument(projectStat.path)
+        this.watcher.watch(win, projectStat.path, 'dir')
+        win.webContents.send('ficus::passive-refresh', projectStat)
+      }
+    })
+
+    ipcMain.on('open-folder-by-path', async (e, folderpath) => {
+      const win = BrowserWindow.fromWebContents(e.sender)
+      await this.watcher.close()
+      this.linkManager.reset()
+      const projectStat = await makeFolderStat(folderpath)
+      if (projectStat) {
+        this.menu.addRecentlyUsedDocument(projectStat.path)
         this.watcher.watch(win, projectStat.path, 'dir')
         win.webContents.send('ficus::passive-refresh', projectStat)
       }
