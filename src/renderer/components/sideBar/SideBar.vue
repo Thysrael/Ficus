@@ -157,7 +157,7 @@
         <TagBar v-if="isFile === 3"></TagBar>
         <PropBar v-show="isFile === 4"></PropBar>
         <ForestBar :data="data" v-if="isFile === 5"></ForestBar>
-        <GraphBar v-if="isFile === 6"></GraphBar>
+        <GraphBar :data="data" v-if="isFile === 6"></GraphBar>
         <PreBar v-if="isFile === 7"></PreBar>
       </div>
     </div>

@@ -65,7 +65,8 @@
 
   <div class="mt-2 mb-4 place-content-center content-center justify-center flex flex-wrap"
        v-if="unit.children.length !== 0">
-    <button class="optionBtn flex align-middle justify-center content-center py-1" @click="handle">
+    <button class="optionBtn flex align-middle justify-center content-center py-1" @click="handle"
+            v-if="showHandle">
       {{ unit.handle }}
     </button>
   </div>
@@ -85,6 +86,10 @@ export default {
     },
     index: {
       type: Number,
+      required: true
+    },
+    showHandle: {
+      type: Boolean,
       required: true
     }
   },
@@ -141,7 +146,7 @@ export default {
 .optionBtn:hover {
   background-color: #19734b;
   -webkit-transition: .2s;
-  -webkit-transition:left .2s, background-color .2s;
+  -webkit-transition: left .2s, background-color .2s;
 }
 
 .optionBtn:active {
