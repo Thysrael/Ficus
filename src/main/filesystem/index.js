@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import { SearchEngine } from './search'
 import path from 'path'
 import { makeValidFilePath } from './fileManipulate'
-import { isValidFolderPath, isValidMarkdownFilePath } from '../helper/path'
+import { isValidFolderPath, isValidMarkdownFilePath, matchPathPattern } from '../helper/path'
 
 /**
  * 用于 showOpenDialog
@@ -15,8 +15,9 @@ const markdownFilters = [
 ]
 
 class FileSystem {
-  constructor () {
+  constructor (preferences) {
     this.root = undefined
+    this.preferences = preferences
   }
 
   /**
@@ -84,13 +85,14 @@ class FileSystem {
    */
   async makeFolderStatInGraph (dirPath) {
     const folderName = path.basename(dirPath)
-    if (isValidFolderPath(dirPath) && dirPath !== this.root) {
+    const ignored = this.preferences.getIgnoredPaths(this.root)
+    if (isValidFolderPath(dirPath)) {
       // 文件数组
       const subFileOrFolder = await fs.promises.readdir(dirPath)
       const fileChildren = []
       for (const subItem of subFileOrFolder) {
         const subItemPath = path.resolve(dirPath, subItem)
-        if (isValidMarkdownFilePath(subItemPath)) {
+        if (isValidMarkdownFilePath(subItemPath) && !matchPathPattern(subItemPath, ignored)) {
           fileChildren.push(subItemPath)
         }
       }

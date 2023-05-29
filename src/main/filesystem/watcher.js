@@ -1,13 +1,14 @@
 import chokidar from 'chokidar'
 import { isOsx } from '../config'
-import { isValidMarkdownFilePath } from '../helper/path'
+import { isValidMarkdownFilePath, matchPathPattern } from '../helper/path'
 import EventEmitter from 'events'
 import { makeFolderStat } from './statistic'
 
 const refreshDelay = 200
 class Watcher extends EventEmitter {
-  constructor () {
+  constructor (preferences) {
     super()
+    this.preferences = preferences
     this.watchId = 0
     this.watchers = {}
     this.pathMap = new Map()
@@ -28,13 +29,14 @@ class Watcher extends EventEmitter {
     const usePolling = isOsx // macOS上不使用轮询方式无法检测目录级别变化
     // Just to be sure when a file is replaced with a directory don't watch recursively.
     const depth = (type === 'file' ? (isOsx ? 1 : 0) : undefined)
+    const ignoredPatterns = this.preferences.getIgnoredPaths(watchPath)
     const watcher = chokidar.watch(watchPath, {
       ignored: (pathname, fileInfo) => {
         if (!fileInfo) {
-          return /(?:^|[/\\])(?:\..|node_modules|(?:.+\.asar))/.test(pathname)
+          return matchPathPattern(pathname, ignoredPatterns)
         }
 
-        if (/(?:^|[/\\])(?:\..|node_modules|(?:.+\.asar))/.test(pathname)) {
+        if (matchPathPattern(pathname, ignoredPatterns)) {
           return true
         }
         if (fileInfo.isDirectory()) {
@@ -128,7 +130,8 @@ class Watcher extends EventEmitter {
     }
     this.lastRecorded = Date.now()
     setTimeout(async () => {
-      const info = await makeFolderStat(this.rootPath)
+      const info = await makeFolderStat(this.rootPath,
+        this.preferences.getIgnoredPaths(this.rootPath))
       win.webContents.send('ficus::passive-refresh', info)
     }, refreshDelay)
   }

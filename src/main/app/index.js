@@ -3,6 +3,7 @@ import Preference from '../preferences'
 import AppMenu from '../menu'
 import WindowsManager from '../windows'
 import KeyBinding from '../keybinding'
+import { refresh } from '../filesystem/fileManipulate'
 
 /**
  *
@@ -53,6 +54,10 @@ class App {
 
     ipcMain.on('new-window', async (e) => {
       this.windowsManager.createWindow()
+    })
+
+    ipcMain.handle('refresh', async (e, projPath) => {
+      return await refresh(projPath, this.preferences.getIgnoredPaths(projPath))
     })
   }
 }

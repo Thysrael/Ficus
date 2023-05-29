@@ -214,8 +214,8 @@ export const initPath = async (initPath) => {
   }
 }
 
-export const refresh = async (projPath) => {
-  const { children } = await makeFolderStat(projPath)
+export const refresh = async (pathname, ignored) => {
+  const { children } = await makeFolderStat(pathname, ignored)
   return children
 }
 

@@ -19,6 +19,7 @@ class Preference {
       name: 'preferences'
     })
     this._loadPreferences()
+    // log(this.getAll())
     this._listenForIpcMain()
   }
 
@@ -65,6 +66,17 @@ class Preference {
 
   async setWindowPreferences (win) {
     win.webContents.send('load-preferences', this.getAll())
+  }
+
+  getIgnoredPaths (dirPath) {
+    const ignoreds = this.getItem('ficusIgnore')
+    if (ignoreds) {
+      return ignoreds.split('\n')
+        .filter(p => p.trim().length !== 0)
+        .map(p => path.resolve(dirPath, p.trim()))
+    } else {
+      return []
+    }
   }
 
   setItem (key, value) {

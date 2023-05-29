@@ -4,7 +4,8 @@ const {
   isValidMarkdownFilePath,
   isMarkdownExtname,
   isValidFilePath,
-  isValidFolderPath
+  isValidFolderPath,
+  matchPathPattern
 } = require('../helper/path')
 
 /**
@@ -58,7 +59,7 @@ function makeFileStat (filePath) {
  * @param {string} dirPath
  * @returns {object?} 文件夹信息对象，路径无效返回 undifined
  */
-async function makeFolderStat (dirPath) {
+async function makeFolderStat (dirPath, ignored) {
   if (isValidFolderPath(dirPath)) {
     const folderName = path.basename(dirPath)
     // 文件数组
@@ -67,8 +68,11 @@ async function makeFolderStat (dirPath) {
     const fileChildren = []
     for (const subItem of subFileOrFolder) {
       const subItemPath = path.resolve(dirPath, subItem)
+      if (matchPathPattern(subItemPath, ignored)) {
+        continue
+      }
       if (isValidFolderPath(subItemPath)) {
-        folderChildren.push(await makeFolderStat(subItemPath))
+        folderChildren.push(await makeFolderStat(subItemPath, ignored))
       } else if (isValidMarkdownFilePath(subItemPath)) {
         fileChildren.push(makeMarkdownFileStat(subItemPath))
       }
