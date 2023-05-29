@@ -10,7 +10,9 @@
         </svg>
       </div>
       <div class="searchTab rounded-md mr-3 items-center flex">
-        <input type="text" ref="searchInputBox" placeholder="查找 ..." v-model="searchData.searchText" class="searchTab rounded-md" style="width: 150px"/>
+        <input type="text" ref="searchInputBox" placeholder="查找 ..." v-model="searchData.searchText"
+               class="searchTab rounded-md" style="width: 150px"
+               @keyup.enter="search"/>
         <span class="px-2"
               style="font-size: 13px; font-family: 'Noto Sans SC'; font-weight: 400; color: #a1a1a1;">
           {{ searchData.current }} / {{ searchData.total }}
@@ -32,11 +34,13 @@
                   :fill="searchData.matchWholeWord ? `#3d3d3d` : `#42b983`" fill-opacity="1"/></g></g>
         </svg>
       </div>
-      <button @click="search" class="searchBtn p-2 rounded-md">搜索</button>
+      <!--<button @click="search" class="searchBtn p-2 rounded-md">搜索</button>-->
 
       <hr style="border: none; border-top: 1px solid #D8D8D8; height: 2px; width: 15px; transform: rotate(90deg);" class="ml-1 mr-2"/>
 
-      <input type="text" placeholder="替换为 ..." v-model="searchData.replaceText" class="searchTab rounded-md mr-3" style="width: 180px"/>
+      <input type="text" ref="replaceInputBox" placeholder="替换为 ..." v-model="searchData.replaceText"
+             class="searchTab rounded-md mr-3" style="width: 180px"
+              @keyup.enter="replace"/>
       <button @click="replace" class="searchBtn p-2 rounded-md">替换</button>
       <button @click="replaceAll" class="searchBtn p-2 rounded-md">全部</button>
 
@@ -89,6 +93,7 @@ export default {
     const searchData = reactive({
       open: false,
       searchText: '',
+      prevSearchText: '',
       replaceText: '',
       current: 0,
       total: 0,
@@ -97,14 +102,22 @@ export default {
     })
 
     const searchInputBox = ref(null)
+    const replaceInputBox = ref(null)
 
     // 搜索
     const search = () => {
-      console.log(searchData.searchText)
-      vditor.vditor.search.run(vditor.vditor, searchData.searchText, true)
-      const res = vditor.vditor.search.getSearchCounter()
-      searchData.current = res.current
-      searchData.total = res.total
+      if (searchData.searchText !== searchData.prevSearchText) {
+        vditor.vditor.search.run(vditor.vditor, searchData.searchText, true)
+        const res = vditor.vditor.search.getSearchCounter()
+        searchData.current = res.current
+        searchData.total = res.total
+        searchData.prevSearchText = searchData.searchText
+      } else {
+        next()
+      }
+      nextTick(() => {
+        searchInputBox.value.focus()
+      })
     }
 
     // 关闭搜索栏
@@ -147,6 +160,9 @@ export default {
       const res = vditor.vditor.search.getSearchCounter()
       searchData.current = res.current
       searchData.total = res.total
+      nextTick(() => {
+        replaceInputBox.value.focus()
+      })
     }
 
     // 全部替换
@@ -333,7 +349,8 @@ export default {
       setMatchWholeWord,
       replace,
       replaceAll,
-      searchInputBox
+      searchInputBox,
+      replaceInputBox
     }
   }
 }
