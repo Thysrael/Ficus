@@ -204,7 +204,7 @@ export default {
         // 预览模式选项
         preview: {
           // 设置预览最大宽度
-          maxWidth: 896,
+          maxWidth: 1088,
           // 预览时间间隔(毫秒)
           delay: 100,
           // 设备适配选项（暂时为空）
