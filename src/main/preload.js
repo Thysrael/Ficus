@@ -57,7 +57,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   exportForest: (files) => ipcRenderer.send('export-forest', files),
 
   aboutUs: () => ipcRenderer.invoke('main::about'),
-  autoPathCompletion:(partialPath) => ipcRenderer.invoke('autoPathCompletion', partialPath),
+  autoPathCompletion: (partialPath) => ipcRenderer.invoke('autoPathCompletion', partialPath),
 
   passiveRefresh: (callback) => ipcRenderer.on('ficus::passive-refresh', callback),
   openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback),
