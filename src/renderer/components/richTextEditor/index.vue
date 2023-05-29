@@ -10,7 +10,7 @@
         </svg>
       </div>
       <div class="searchTab rounded-md mr-3 items-center flex">
-        <input type="text" placeholder="查找 ..." v-model="searchData.searchText" class="searchTab rounded-md" style="width: 150px"/>
+        <input type="text" ref="searchInputBox" placeholder="查找 ..." v-model="searchData.searchText" class="searchTab rounded-md" style="width: 150px"/>
         <span class="px-2"
               style="font-size: 13px; font-family: 'Noto Sans SC'; font-weight: 400; color: #a1a1a1;">
           {{ searchData.current }} / {{ searchData.total }}
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount, watch, nextTick, reactive } from 'vue'
+import { onMounted, onBeforeUnmount, watch, nextTick, reactive, ref } from 'vue'
 import Vditor from 'ficus-editor'
 import 'ficus-editor/dist/index.css'
 import defineRAPI from './defineRAPI.js'
@@ -95,6 +95,8 @@ export default {
       ignoreCase: true,
       matchWholeWord: false
     })
+
+    const searchInputBox = ref(null)
 
     // 搜索
     const search = () => {
@@ -277,6 +279,18 @@ export default {
       }
     )
 
+    // 监听searchDate.open
+    watch(
+        () => searchData.open,
+        (newValue, oldValue) => {
+          if (newValue && !oldValue) {
+            nextTick(() => {
+              searchInputBox.value.focus()
+            })
+          }
+        }
+    )
+
     const makeKeybingdingMap = (keybindingMap) => {
       const newKeybinding = []
       for (const [id, accelerator] of keybindingMap) {
@@ -318,7 +332,8 @@ export default {
       setIgnoreCase,
       setMatchWholeWord,
       replace,
-      replaceAll
+      replaceAll,
+      searchInputBox
     }
   }
 }
