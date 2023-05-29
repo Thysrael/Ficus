@@ -12,7 +12,7 @@
       <div class="searchTab rounded-md mr-3 items-center flex">
         <input type="text" ref="searchInputBox" placeholder="查找 ..." v-model="searchData.searchText"
                class="searchTab rounded-md" style="width: 150px"
-               @keyup.enter="search"/>
+               @keyup.enter="search" @input="search"/>
         <span class="px-2"
               style="font-size: 13px; font-family: 'Noto Sans SC'; font-weight: 400; color: #a1a1a1;">
           {{ searchData.current }} / {{ searchData.total }}
