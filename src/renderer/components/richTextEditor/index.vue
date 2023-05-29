@@ -357,6 +357,10 @@ export default {
 </script>
 
 <style scoped>
+.vditor {
+  padding-top: 18px;
+}
+
 .floatingBar {
   top: 20px;
   right: 50px;
