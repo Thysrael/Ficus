@@ -10,10 +10,9 @@ import { app, ipcMain } from 'electron'
  * 实现参考：https://github.com/marktext/marktext/blob/develop/src/main/preferences
  */
 class Preference {
-  constructor (windows, preferencePath = app.getPath('userData')) {
+  constructor (preferencePath = app.getPath('userData')) {
     this._preferencePath = path.resolve(preferencePath, 'preferences.json')
     this._defaultPreferencePath = path.resolve(__dirname, '..', 'static', 'preferences.json')
-    this.windows = windows
     // 注：electron-store有性能问题（IO），但支持JSON scheme验证
     this._store = new Store({
       schema,
@@ -64,8 +63,8 @@ class Preference {
     }
   }
 
-  async init () {
-    this.windows.defaultWindow.webContents.send('load-preferences', this.getAll())
+  async setWindowPreferences (win) {
+    win.webContents.send('load-preferences', this.getAll())
   }
 
   setItem (key, value) {
