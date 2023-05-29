@@ -5,6 +5,7 @@
 
 export default new Map([
   // File menu
+  ['file.new-window', ''],
   ['file.new-file', 'Command+N'],
   ['file.new-tab', 'Command+T'],
   ['file.open-file', 'Command+O'],

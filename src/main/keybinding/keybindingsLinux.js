@@ -9,6 +9,7 @@
 
 export default new Map([
   // File menu
+  ['file.new-window', ''],
   ['file.new-file', 'Ctrl+N'],
   ['file.new-tab', 'Ctrl+T'],
   ['file.open-file', 'Ctrl+O'],

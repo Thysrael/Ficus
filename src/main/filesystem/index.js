@@ -1,5 +1,5 @@
-import { app, dialog, ipcMain } from 'electron'
-import { makeFileStat, makeFolderStat, makeFolderStatInGraph } from './statistic'
+import { app, dialog } from 'electron'
+import { makeFileStat } from './statistic'
 import fs from 'fs-extra'
 import { SearchEngine } from './search'
 import path from 'path'
@@ -16,24 +16,22 @@ const markdownFilters = [
 class FileSystem {
   constructor () {
     this.root = undefined
-    this._LISTENForIpcMain()
   }
 
   /**
-   * 新建项目
-   * @returns 项目信息
+   * 打开
+   * @returns 文件夹路径
    */
-  async newProject () {
+  async selectFolderPathFromDialog () {
     return await dialog.showOpenDialog({
       buttonLabel: '选择',
       defaultPath: app.getPath('desktop'),
       properties: ['createDirectory', 'openDirectory']
-    }).then(async (result) => {
-      if (result.canceled === true) {
-        return null
+    }).then(async ({ canceled, filePaths }) => {
+      if (canceled === true) {
+        return undefined
       }
-      this.root = result.filePaths[0]
-      return await makeFolderStat(result.filePaths[0])
+      return filePaths[0]
     })
   }
 
@@ -76,24 +74,6 @@ class FileSystem {
       await fs.createFile(filepath)
       await fs.writeFile(filepath, file.content)
     }
-  }
-
-  _LISTENForIpcMain () {
-    ipcMain.handle('newFileFromDialog', async (e) => {
-      return await this.newFileFromDialog()
-    })
-
-    ipcMain.handle('link::get-folder-stat-in-graph', async (e, dirpath) => {
-      return await makeFolderStatInGraph(dirpath)
-    })
-
-    ipcMain.handle('search-token-globally', async (e, token) => {
-      return await this.searchToken(token)
-    })
-
-    ipcMain.on('export-forest', (e, files) => {
-      this.exportForest(files)
-    })
   }
 }
 

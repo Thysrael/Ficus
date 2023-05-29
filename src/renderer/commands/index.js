@@ -72,6 +72,12 @@ const commands = [
     }
   },
   {
+    id: 'file.new-window',
+    execute: () => {
+      window.electronAPI.newWindow()
+    }
+  },
+  {
     id: 'file.open-file',
     execute: async () => {
       const files = await window.electronAPI.openFile()
