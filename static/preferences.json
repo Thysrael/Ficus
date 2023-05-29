@@ -17,5 +17,10 @@
     "autoFixTermTypo": true,
     "latexEngine": "KaTex",
     "codeTheme": "github",
-    "svPreview": true
+    "svPreview": true,
+    "defaultLevel": -1,
+    "defaultStruct": 0,
+    "treeTheme": 0,
+    "ficusIgnore": "",
+    "graphTheme": 0
 }

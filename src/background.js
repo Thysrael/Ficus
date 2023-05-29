@@ -10,7 +10,7 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile, paste, refresh, makePathCompletion
+  readFile, paste, makePathCompletion
 } from './main/filesystem/fileManipulate'
 import EAU from './main/update'
 
@@ -186,10 +186,6 @@ app.on('ready', async () => {
 
   ipcMain.handle('getPathSep', (e) => {
     return path.sep
-  })
-
-  ipcMain.handle('refresh', async (e, projPath) => {
-    return await refresh(projPath)
   })
 
   ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {

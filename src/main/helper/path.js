@@ -2,6 +2,7 @@
  * 判断路径类型
  */
 import fs, { existsSync, statSync } from 'fs-extra'
+import minimatch from 'minimatch'
 import path, { extname, sep } from 'path'
 const maxFileSize = 100 * 1024
 
@@ -65,11 +66,24 @@ function isLeaveDirectory (dirPath) {
   return false
 }
 
+function matchPathPattern (pathname, pathPatterns) {
+  if (!pathPatterns) {
+    return false
+  }
+  for (const pattern of pathPatterns) {
+    if (minimatch(pathname, pattern)) {
+      return true
+    }
+  }
+  return false
+}
+
 export {
   isValidMarkdownFilePath,
   isValidFilePath,
   isMarkdownExtname,
   isValidFolderPath,
   isFileInDirectory,
-  isLeaveDirectory
+  isLeaveDirectory,
+  matchPathPattern
 }

@@ -126,6 +126,13 @@ const mutations = {
     state.editor.svPreview = preferences.svPreview
     state.sideBarWidth.value = preferences.sideBarInitWidth
 
+    state.ficus.treeSetting.defaultLevel = preferences.defaultLevel
+    state.ficus.treeSetting.defaultStruct = preferences.defaultStruct
+    state.ficus.treeSetting.theme = preferences.treeTheme
+
+    state.ficus.graphSetting.ficusIgnore = preferences.ficusIgnore
+    state.ficus.graphSetting.theme = preferences.graphTheme
+
     bus.emit('changeSideBarWidth')
   }
 }
@@ -174,7 +181,12 @@ const actions = {
       autoFixTermTypo: state.editor.autoFixTermTypo,
       latexEngine: state.editor.latexEngine,
       codeTheme: state.editor.codeTheme,
-      svPreview: state.editor.svPreview
+      svPreview: state.editor.svPreview,
+      defaultLevel: state.ficus.treeSetting.defaultLevel,
+      defaultStruct: state.ficus.treeSetting.defaultStruct,
+      treeTheme: state.ficus.treeSetting.theme,
+      ficusIgnore: state.ficus.graphSetting.ficusIgnore,
+      graphTheme: state.ficus.graphSetting.theme
     }
     window.electronAPI.setPreferences(preferences)
   },

@@ -32,7 +32,7 @@ class WindowsManager {
     this.menu.setWindowRawMenu(win)
     this.preferences.setWindowPreferences(win)
 
-    this.windows.push(new BaseWindow(win))
+    this.windows.push(new BaseWindow(win, this.preferences))
   }
 
   get defaultWindow () {

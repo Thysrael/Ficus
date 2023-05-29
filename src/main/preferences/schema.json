@@ -93,5 +93,30 @@
     "description": "svPreview",
     "type": "boolean",
     "default": true
+  },
+  "defaultLevel": {
+    "description": "defaultLevel",
+    "type": "number",
+    "default": -1
+  },
+  "defaultStruct": {
+    "description": "defaultStruct",
+    "type": "number",
+    "default": 0
+  },
+  "treeTheme": {
+    "description": "tree-theme",
+    "type": "number",
+    "default": 0
+  },
+  "ficusIgnore": {
+    "description": "ficusIgnore",
+    "type": "string",
+    "default": ""
+  },
+  "graphTheme": {
+    "description": "graph-theme",
+    "type": "number",
+    "default": 0
   }
 }
