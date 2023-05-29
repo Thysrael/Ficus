@@ -1,6 +1,4 @@
 {
-    "autoMaximize": false,
-    "showTrafficLights": false,
     "saveTime": 30,
     "autoSave": true,
     "autoFullScreen": true,
