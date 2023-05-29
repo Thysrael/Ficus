@@ -195,34 +195,33 @@ app.on('ready', async () => {
   ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {
     return await linkToFile(filePath, citingPath)
   })
-  ipcMain.handle('deleteFile', (e, filePath) => {
+  ipcMain.on('deleteFile', (e, filePath) => {
     deleteFile(filePath)
   })
-  ipcMain.handle('deleteFolder', async (e, folderPath) => {
-    await deleteFolder(folderPath)
+  ipcMain.on('deleteFolder', (e, folderPath) => {
+    deleteFolder(folderPath)
   })
-  ipcMain.handle('renameFileOrFolder', async (e, newPath, oldPath) => {
-    await renameFileOrFolder(newPath, oldPath)
+  ipcMain.on('renameFileOrFolder', (e, newPath, oldPath) => {
+    renameFileOrFolder(newPath, oldPath)
   })
-  ipcMain.handle('newFileFromSidebar', async (e, filePath, fileName) => {
-    await newFileFromSidebar(filePath, fileName)
+  ipcMain.on('newFileFromSidebar', (e, filePath, fileName) => {
+    newFileFromSidebar(filePath, fileName)
   })
-  ipcMain.handle('autoPathCompletion', async (e, partialPath) => {
-    return makePathCompletion(partialPath)
-  })
-
-  ipcMain.handle('newFolderFromSidebar', (e, filePath, fileName) => {
+  ipcMain.on('newFolderFromSidebar', (e, filePath, fileName) => {
     newFolder(filePath, fileName)
+  })
+  ipcMain.handle('autoPathCompletion', (e, partialPath) => {
+    return makePathCompletion(partialPath)
   })
 
   ipcMain.handle('dialog:openFile', async (e) => {
     const fileObjs = getFileFromUser()
     return fileObjs
   })
-  ipcMain.handle('save_file', (e, path, content) => {
+  ipcMain.on('save-file', (e, path, content) => {
     saveFile(path, content)
   })
-  ipcMain.handle('saveToTarget', (e, content, projPath) => {
+  ipcMain.on('save-as', (e, content, projPath) => {
     saveToTarget(content, projPath)
   })
 

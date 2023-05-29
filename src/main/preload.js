@@ -19,20 +19,20 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   openFileTab: (callback) => ipcRenderer.on('open-file-tab', callback),
 
-  saveFile: (path, content) => ipcRenderer.invoke('save_file', path, content),
-  saveToAnotherFile: (content, projPath) => ipcRenderer.invoke('saveToTarget', content, projPath),
+  saveFile: (path, content) => ipcRenderer.send('save-file', path, content),
+  saveToAnotherFile: (content, projPath) => ipcRenderer.send('save-as', content, projPath),
   exportPDF: (html) => ipcRenderer.invoke('exportPDF', html),
 
   newFileFromDialog: () => ipcRenderer.invoke('newFileFromDialog'),
-  newFileFromSidebar: (filePath, fileName) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName),
+  newFileFromSidebar: (filePath, fileName) => ipcRenderer.send('newFileFromSidebar', filePath, fileName),
 
-  newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.invoke('newFolderFromSidebar', folderPath, folderName),
+  newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.send('newFolderFromSidebar', folderPath, folderName),
 
   changePath: (tarPath) => ipcRenderer.invoke('changePath', tarPath),
 
-  deleteFile: (filePath) => ipcRenderer.invoke('deleteFile', filePath),
-  deleteFolder: (folderPath) => ipcRenderer.invoke('deleteFolder', folderPath),
-  renameFileOrFolder: (newPath, oldPath) => ipcRenderer.invoke('renameFileOrFolder', newPath, oldPath),
+  deleteFile: (filePath) => ipcRenderer.send('deleteFile', filePath),
+  deleteFolder: (folderPath) => ipcRenderer.send('deleteFolder', folderPath),
+  renameFileOrFolder: (newPath, oldPath) => ipcRenderer.send('renameFileOrFolder', newPath, oldPath),
   linkToFile: (filePath, citingPath) => ipcRenderer.invoke('linkToFile', filePath, citingPath),
   paste: (userSelect, tarPath, projPath) => ipcRenderer.invoke('paste', userSelect, tarPath, projPath),
 
@@ -71,6 +71,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setFocusIdByName: (callback) => ipcRenderer.on('set-focus-id-by-name', callback),
 
   getKeybindingsMap: () => ipcRenderer.invoke('get-keybindings-map'),
+  getBuiltInDocumentsPath: () => ipcRenderer.invoke('get-built-in-documents-path'),
 
   isOSx: () => isDevelopment ? false : isOsx
 })
