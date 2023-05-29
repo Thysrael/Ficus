@@ -4,7 +4,6 @@ import path from 'path'
 import { isOsx, isDevelopment } from '../config'
 import { initPath } from '../filesystem/fileManipulate'
 import BaseWindow from './base'
-import { makeFolderStatInGraph } from '../filesystem/statistic'
 
 class WindowsManager {
   constructor (preferences, menu, keyBinding) {
@@ -111,84 +110,83 @@ class WindowsManager {
 
   _listenForIpcMain () {
     ipcMain.handle('link::get-folder-stat-in-graph', async (e, dirpath) => {
-      return await makeFolderStatInGraph(dirpath)
+      const { filesystem } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return await filesystem.makeFolderStatInGraph(dirpath)
     })
 
     // FileSystem
     ipcMain.handle('newFileFromDialog', async (e) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return await baseWindow.filesystem.newFileFromDialog()
+      const { filesystem } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return await filesystem.newFileFromDialog()
     })
 
     ipcMain.handle('search-token-globally', async (e, token) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return await baseWindow.filesystem.searchToken(token)
+      const { filesystem } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return await filesystem.searchToken(token)
     })
 
     ipcMain.on('export-forest', (e, files) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      baseWindow.filesystem.exportForest(files)
+      const { filesystem } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      filesystem.exportForest(files)
     })
 
     // linkManager
     ipcMain.handle('ficus::getTags', (e, tagName) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      console.log(this.windows)
-      console.log(baseWindow)
-      return baseWindow.linkManager.findTags(tagName)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.findTags(tagName)
     })
 
     ipcMain.handle('ficus::getLinks', (e) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.getLinks()
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.getLinks()
     })
 
     ipcMain.handle('find_tags', (e, tagName, folderPath) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.findTags(tagName, folderPath)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.findTags(tagName, folderPath)
     })
 
     ipcMain.handle('getLinksAndTags', (e, file) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.getLinks(file)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.getLinks(file)
     })
 
     ipcMain.on('link::tag-to-folder', async (e, tagname, dirPath, filepaths) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      const name = await baseWindow.linkManager.tagToFolder(tagname, dirPath, filepaths)
-      baseWindow.win.send('set-focus-id-by-name', name)
+      const { win, linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      const name = await linkManager.tagToFolder(tagname, dirPath, filepaths)
+      win.send('set-focus-id-by-name', name)
     })
 
     ipcMain.on('link::folder-to-tag', async (e, dirPath) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      const name = await baseWindow.linkManager.folderToTag(dirPath)
-      baseWindow.win.send('set-focus-id-by-name', name)
+      const { win, linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      const name = await linkManager.folderToTag(dirPath)
+      win.send('set-focus-id-by-name', name)
     })
 
     ipcMain.on('link::cite-to-tag', async (e, srcFilepath, citeFilepaths) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      const name = await baseWindow.linkManager.citeToTag(srcFilepath, citeFilepaths)
-      baseWindow.win.webContents.send('set-focus-id-by-name', name)
+      const { win, linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      const name = await linkManager.citeToTag(srcFilepath, citeFilepaths)
+      win.webContents.send('set-focus-id-by-name', name)
     })
 
     ipcMain.handle('ficus::getCites', async (e, filePath) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.getCiteInfo(filePath)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.getCiteInfo(filePath)
     })
 
     ipcMain.handle('link::get-tag-groups', async (e, tagName) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.getTagGroups(tagName)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.getTagGroups(tagName)
     })
 
     ipcMain.handle('link::get-file-cite-traverse', async (e, filepath) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.getFileCiteTraverseInfo(filepath)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.getFileCiteTraverseInfo(filepath)
     })
 
     ipcMain.handle('link::get-files-by-tag', async (e, tagname) => {
-      const baseWindow = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      return baseWindow.linkManager.getFilesByTag(tagname)
+      const { linkManager } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
+      return linkManager.getFilesByTag(tagname)
     })
   }
 }

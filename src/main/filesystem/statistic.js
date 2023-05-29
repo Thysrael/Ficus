@@ -89,43 +89,8 @@ async function makeFolderStat (dirPath) {
   }
 }
 
-/**
- * 给榕图的文件夹信息
- * @param {string} dirPath
- * @returns {object?} 文件夹信息对象
- */
-async function makeFolderStatInGraph (dirPath) {
-  const folderName = path.basename(dirPath)
-  if (isValidFolderPath(dirPath)) {
-    // 文件数组
-    const subFileOrFolder = await fs.promises.readdir(dirPath)
-    const fileChildren = []
-    for (const subItem of subFileOrFolder) {
-      const subItemPath = path.resolve(dirPath, subItem)
-      if (isValidMarkdownFilePath(subItemPath)) {
-        fileChildren.push(subItemPath)
-      }
-    }
-    return {
-      name: folderName,
-      path: dirPath,
-      children: [{
-        children: fileChildren,
-        handle: '转变为tag'
-      }]
-    }
-  } else {
-    return {
-      name: folderName,
-      path: dirPath,
-      children: []
-    }
-  }
-}
-
 module.exports = {
   makeFileStat,
   makeFolderStat,
-  makeMarkdownFileStat,
-  makeFolderStatInGraph
+  makeMarkdownFileStat
 }
