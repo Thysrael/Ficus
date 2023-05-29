@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import { ensureDirSync } from '@/main/filesystem/fileManipulate'
 import { isValidFilePath, isValidFolderPath } from '@/main/helper/path'
+import { getBuiltInDocumentsPath } from './config'
 
 const userDataPath = app.getPath('userData')
 const RECENTLY_USED_DOCUMENTS_FILE_NAME = 'recently-used-documents.json'
@@ -106,6 +107,10 @@ class AppMenu {
   _LISTENForIpcMain () {
     ipcMain.on('clear-recently-used-files', (e) => {
       this.clearRecentlyUsedDocument()
+    })
+
+    ipcMain.handle('get-built-in-documents-path', (e) => {
+      return getBuiltInDocumentsPath()
     })
   }
 }

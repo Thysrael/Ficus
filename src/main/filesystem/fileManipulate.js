@@ -91,7 +91,7 @@ export const getFileFromUser = async () => {
   })
 }
 
-async function readMarkdownFile(filePath) {
+async function readMarkdownFile (filePath) {
   if (isValidMarkdownFilePath(filePath)) {
     return (await fs.promises.readFile(filePath)).toString()
   } else {
@@ -219,7 +219,7 @@ export const refresh = async (projPath) => {
   return children
 }
 
-function normalizeMarkdownFilePath(filePath) {
+function normalizeMarkdownFilePath (filePath) {
   if (!isMarkdownExtname(filePath)) {
     return filePath + '.md'
   }
@@ -246,7 +246,7 @@ export const ensureDirSync = dirPath => {
  * @param {string} filePath
  * @returns
  */
-export function makeValidFilePath(filePath) {
+export function makeValidFilePath (filePath) {
   let newPath = normalizeMarkdownFilePath(filePath)
   if (!fs.existsSync(newPath)) {
     return newPath
@@ -297,7 +297,7 @@ export const makePathCompletion = async (folderPath) => {
   fileName = fileName.substring(0, fileName.length - 1)
   const dirName = path.dirname(folderPath)
   const dirInfo = await fs.promises.readdir(dirName)
-  let result = []
+  const result = []
   for (const subItem of dirInfo) {
     if (subItem.startsWith(fileName)) {
       result.push(path.join(dirName, subItem))
