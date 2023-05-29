@@ -1,4 +1,5 @@
 const COMMANDS = Object.freeze({
+  FILE_NEW_WINDOW: 'file.new-window',
   FILE_NEW_FILE: 'file.new-file',
   FILE_OPEN_FILE: 'file.open-file',
   FILE_OPEN_FOLDER: 'file.open-folder',

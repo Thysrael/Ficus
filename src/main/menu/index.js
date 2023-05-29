@@ -6,13 +6,14 @@ import path from 'path'
 import { ensureDirSync } from '@/main/filesystem/fileManipulate'
 import { isValidFilePath, isValidFolderPath } from '@/main/helper/path'
 import { getBuiltInDocumentsPath } from './config'
+import EventEmitter from 'events'
 
 const userDataPath = app.getPath('userData')
 const RECENTLY_USED_DOCUMENTS_FILE_NAME = 'recently-used-documents.json'
 const MAX_RECENTLY_USED_DOCUMENTS = 12
-class AppMenu {
-  constructor (windowsManager, keybinding) {
-    this.windowsManager = windowsManager
+class AppMenu extends EventEmitter {
+  constructor (keybinding) {
+    super()
     this.isOsxOrWindows = isOsx || isWindows
     this.keybinding = keybinding
     this._userDataPath = userDataPath
@@ -54,7 +55,7 @@ class AppMenu {
       Menu.setApplicationMenu(this._buildMenu())
     }
     const menuTemplate = getMenuTemplates(this.keybinding, this.recentlyUsedDocuments)
-    this.windowsManager.defaultWindow.webContents.send('set-app-menu', toRawMenuTemplates(menuTemplate))
+    this.emit('set-app-menu', toRawMenuTemplates(menuTemplate))
   }
 
   /**
