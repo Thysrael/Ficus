@@ -254,7 +254,7 @@ class LinkManager {
         fs.writeFile(newPath, addTagToDoc(doc, tagname))
       }
     }
-    if (await (fs.promises.readdir(folderPath)).length === 0) {
+    if ((await (fs.promises.readdir(folderPath))).length === 0) {
       await deleteFolder(folderPath)
     }
     return tagname
