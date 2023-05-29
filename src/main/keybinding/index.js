@@ -4,6 +4,7 @@ import keybindingsLinux from './keybindingsLinux'
 import keybindingsWindows from './keybindingsWindows'
 import { isLinux, isOsx } from '../config'
 import COMMANDS from '../../common/commands'
+import { ipcMain } from 'electron'
 
 class KeyBinding {
   constructor () {
@@ -14,6 +15,7 @@ class KeyBinding {
         this._keys.delete(id)
       }
     }
+    this._listenForIpcMain()
   }
 
   getAccelerator (id) {
@@ -37,11 +39,7 @@ class KeyBinding {
     }
   }
 
-  setKeybindingMap (win) {
-    win.webContents.send('set-keybingding-map', this._keys)
-  }
-
-  getKeybindingMap () {
+  getKeybindingsMap () {
     return this._keys
   }
 
@@ -59,7 +57,11 @@ class KeyBinding {
     }
   }
 
-  _listenForIpcMain () {}
+  _listenForIpcMain () {
+    ipcMain.handle('get-keybindings-map', (e) => {
+      return this._keys
+    })
+  }
 }
 
 export default KeyBinding

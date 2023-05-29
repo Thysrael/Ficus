@@ -80,6 +80,7 @@ import Vditor from 'ficus-editor'
 import 'ficus-editor/dist/index.css'
 import defineRAPI from './defineRAPI.js'
 import bus from 'vue3-eventbus'
+import { viditorFormatAccelerator } from '@/common/keybindings'
 
 export default {
   name: 'TextUI',
@@ -155,7 +156,7 @@ export default {
     }
 
     // 初始化
-    const initVditor = (banKeybinding = []) => {
+    const initVditor = (keybindings = []) => {
       // options
       const options =
       {
@@ -214,25 +215,13 @@ export default {
         placeholder: '请输入...',
         // 绑定快捷键
         ficusHotkey: [
-          // {
-          //   hotkey: '⌘Z',
-          //   action: () => {
-          //     // bus.emit('undoCurTab')
-          //   }
-          // },
-          // {
-          //   hotkey: '⇧⌘Z',
-          //   action: () => {
-          //     bus.emit('redoCurTab')
-          //   }
-          // },
           {
             hotkey: '⌘F',
             action: () => {
               searchData.open = true
             }
           },
-          ...banKeybinding
+          ...keybindings
         ],
         // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
         after: () => {
@@ -241,7 +230,7 @@ export default {
         // 用户输入回调函数，将最新的md字符串返回
         input: (content) => {
           bus.emit('saveChange', {
-            content: content,
+            content,
             wordCnt: content.length,
             lineCnt: content.split('\n').length - 1
           })
@@ -288,11 +277,27 @@ export default {
       }
     )
 
+    const makeKeybingdingMap = (keybindingMap) => {
+      const newKeybinding = []
+      for (const [id, accelerator] of keybindingMap) {
+        if (accelerator) {
+          newKeybinding.push({
+            hotkey: viditorFormatAccelerator(accelerator),
+            action: () => {
+              bus.emit('cmd::execute', { id })
+            }
+          })
+        }
+      }
+      return newKeybinding
+    }
+
     // 初始化编辑器
     onMounted(() => {
-      nextTick(() => {
+      nextTick(async () => {
+        const keybindings = makeKeybingdingMap((await window.electronAPI.getKeybindingsMap()))
         // 初始化vditor
-        initVditor()
+        initVditor(keybindings)
         // 定义和vditor相关的API, 使用全局事件总线实现
         defineRAPI(vditor, searchData)
       })
@@ -302,14 +307,6 @@ export default {
     onBeforeUnmount(() => {
       vditor.destroy()
       vditor = null
-    })
-
-    bus.on('resetVditorKeybinding', (banKeybinding) => {
-      vditor.destroy()
-      vditor = null
-      console.log(banKeybinding) // FIXME: 处理 Command + O 冲突
-      initVditor(banKeybinding)
-      defineRAPI(vditor, searchData)
     })
 
     return {
