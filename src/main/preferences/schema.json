@@ -1,14 +1,4 @@
 {
-  "autoMaximize": {
-    "description": "General--Auto maxmize window when start",
-    "type": "boolean",
-    "default": false
-  },
-  "showTrafficLights": {
-    "description": "General--Show traffic lights on MacOS",
-    "type": "boolean",
-    "default": false
-  },
   "saveTime": {
     "description": "saveTime",
     "type": "number",
@@ -20,7 +10,7 @@
     "default": true
   },
   "autoFullScreen": {
-    "description": "autoFullScreen",
+    "description": "autoFullScreen--Auto maxmize window when start",
     "type": "boolean",
     "default": true
   },

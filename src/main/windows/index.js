@@ -4,19 +4,23 @@ import path from 'path'
 import { isOsx, isDevelopment } from '../config'
 import { initPath } from '../filesystem/fileManipulate'
 
-class FicusWindow {
-  constructor () {
-    this.browserWindow = null
+class WindowsManager {
+  constructor (preferences) {
+    this.windows = []
+    this.preferences = preferences
   }
 
-  async init (keyBinding, menu) {
-    this.browserWindow = await this._createWindow()
-    keyBinding.registerKeyHandlers(this.browserWindow)
-    menu.setWindowRawMenu(this.browserWindow)
+  async createWindow (keyBinding, menu) {
+    const win = await this._createWindow()
+    keyBinding.registerKeyHandlers(win)
+    menu.setWindowRawMenu(win)
+    this.preferences.setWindowPreferences(win)
+
+    this.windows.push(win)
   }
 
   get defaultWindow () {
-    return this.browserWindow
+    return this.windows[0]
   }
 
   async _createWindow () {
@@ -60,13 +64,15 @@ class FicusWindow {
       win.webContents.send('ficus::open-init-file', initInfo)
     }
     // 令窗口初始为最大
-    if (isOsx) {
-      // win.setFullScreen(true)
-    } else {
-      win.maximize()
+    if (this.preferences.getItem('autoFullScreen')) {
+      if (isOsx) {
+        win.setFullScreen(true)
+      } else {
+        win.maximize()
+      }
     }
     return win
   }
 }
 
-export default FicusWindow
+export default WindowsManager
