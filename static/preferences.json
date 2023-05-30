@@ -12,7 +12,7 @@
     "inlineCode": true,
     "inlineMath": true,
     "clear": true,
-    "imgPath": "",
+    "imgPath": 0,
     "autoSpace": true,
     "autoFixTermTypo": true,
     "latexEngine": "KaTex",

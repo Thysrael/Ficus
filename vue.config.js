@@ -12,10 +12,15 @@ module.exports = defineConfig({
           perMachine: false,
           include: './build/installer.nsh'
         },
-        extraResources: {
-          from: './build/exec/updater.exe',
-          to: '../'
-        },
+        extraResources: [
+          {
+            from: './build/exec/updater.exe',
+            to: '../'
+          }, {
+            from: './static/preferences.json',
+            to: './static/preferences.json'
+          }
+        ],
         mac: {
           target: [
             {

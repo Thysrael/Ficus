@@ -13,7 +13,7 @@ import {
   readFile, paste, makePathCompletion
 } from './main/filesystem/fileManipulate'
 import EAU from './main/update'
-
+import fs from 'fs-extra'
 import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
@@ -158,10 +158,21 @@ app.on('ready', async () => {
   protocol.registerHttpProtocol('http', (request, callback) => {
     let newReq = { url: request.url }
     if (newReq.url.startsWith('http://ficus.world/local_api/upload')) {
+      const setting = this.getItem('imgPath')
       const jsonData = {}
-      for (const fileInfo of request.uploadData) {
-        if (fileInfo.type === 'file') {
-          jsonData[fileInfo.file] = 'ficus://' + fileInfo.filePath
+      if(setting == 1) {
+        for (const fileInfo of request.uploadData) {
+          if (fileInfo.type === 'file') {
+            const destPath = path.resolve(ficusPath, path.basename(fileInfo.filePath))
+            fs.copyFile(fileInfo.filePath, destPath)
+            jsonData[fileInfo.file] = 'ficus://' +  './' + path.basename(fileInfo.filePath)
+          }
+        }
+      } else {
+        for (const fileInfo of request.uploadData) {
+          if (fileInfo.type === 'file') {
+            jsonData[fileInfo.file] = 'ficus://' + fileInfo.filePath
+          }
         }
       }
       newReq.url = 'http://localhost:' + instanceUploadApp.address().port + '/upload?' + new URLSearchParams(jsonData)

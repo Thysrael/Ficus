@@ -38,7 +38,7 @@ const state = {
       inlineMath: true,
       clear: true
     },
-    imgPath: '',
+    imgPath: 0,
     autoSpace: false,
     autoFixTermTypo: false,
     latexEngine: 'KaTex',
