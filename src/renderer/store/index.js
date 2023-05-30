@@ -2,6 +2,7 @@ import { bus } from 'vue3-eventbus'
 import { createStore } from 'vuex'
 import files from './files'
 import commands from '../commands'
+import { modifiableKeybindingsMap } from '../utils/keybindings'
 const executeCommand = (state, eventId, meta) => {
   const command = commands.filter(e => e.id === eventId)
   if (command[0]) {
@@ -135,6 +136,12 @@ const mutations = {
 
     bus.emit('changeSideBarWidth')
     bus.emit('initPreOpt')
+  },
+
+  LOAD_KEYBINDINGS (state, keybindings) {
+    for (const id of modifiableKeybindingsMap.keys()) {
+      state.shortcuts[id] = keybindings.get(id) || ''
+    }
   }
 }
 
@@ -217,6 +224,11 @@ const actions = {
   LISTEN_LOAD_PREFERENCES ({ commit }) {
     window.electronAPI.loadPreferences((e, preferences) => {
       commit('LOAD_PREFERENCES', preferences)
+    })
+  },
+  LISTEN_LOAD_KEYBINDINGS ({ commit }) {
+    window.electronAPI.loadKeybindingsMap((e, keybindings) => {
+      commit('LOAD_KEYBINDINGS', keybindings)
     })
   }
 }

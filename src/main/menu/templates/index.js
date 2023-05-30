@@ -20,6 +20,13 @@ export function getMenuTemplates (keybindings, recentlyUsedDocuments) {
   ]
 }
 
+export function getSettingsMenuTemplates (keybindings) {
+  return [
+    ...(isOsx ? [app(keybindings)] : []),
+    help(keybindings)
+  ]
+}
+
 const isValidMenuItemLabel = (label) => {
   return label && label !== 'Ficus'
 }

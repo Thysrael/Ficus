@@ -30,6 +30,7 @@ class WindowsManager {
     const win = await this._createWindow()
     this.keyBinding.registerKeyHandlers(win)
     this.menu.setWindowRawMenu(win)
+    this.keyBinding.loadKeybindings(win)
     this.preferences.setWindowPreferences(win)
 
     this.windows.push(new BaseWindow(win, this.preferences))

@@ -72,6 +72,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setFocusIdByName: (callback) => ipcRenderer.on('set-focus-id-by-name', callback),
 
   getKeybindingsMap: () => ipcRenderer.invoke('get-keybindings-map'),
+  loadKeybindingsMap: (callback) => ipcRenderer.on('load-keybindings-map', callback),
+  setKeybindingItem: (item) => ipcRenderer.send('set-keybinding-item', item),
+
+  disableAllKeybindings: () => ipcRenderer.send('disable-all-keybindings'),
+  enableAllKeybindings: () => ipcRenderer.send('enable-all-keybindings'),
+
   getBuiltInDocumentsPath: () => ipcRenderer.invoke('get-built-in-documents-path'),
 
   isOSx: () => isDevelopment ? false : isOsx
