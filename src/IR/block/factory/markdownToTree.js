@@ -31,7 +31,7 @@ export function markdownToTree (markdown, filename = '') {
           let newNode
           try {
             newNode = buildFrontMatter(value, lang, style)
-          } catch {
+          } catch (_) {
             newNode = buildParagraph(`---\n${value}\n---`)
           }
           parentStack[0].node.insertAtLast(newNode)
