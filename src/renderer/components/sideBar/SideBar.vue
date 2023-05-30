@@ -431,7 +431,7 @@ export default {
       sideBar.addEventListener('mousedown', function (e) {
         startX = e.clientX
         const leftWidth = sideBar.offsetWidth
-        if (e.clientX <= sideBar.offsetLeft + leftWidth + 15 && e.clientX >= sideBar.offsetLeft + leftWidth - 15) {
+        if (e.clientX <= sideBar.offsetLeft + leftWidth + 50 && e.clientX >= sideBar.offsetLeft + leftWidth - 50) {
           startWidth = parseInt(document.defaultView.getComputedStyle(sideBar).width, 10)
           document.addEventListener('mousemove', mousemove)
           document.addEventListener('mouseup', mouseup)
