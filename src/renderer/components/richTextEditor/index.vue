@@ -297,14 +297,14 @@ export default {
 
     // 监听searchDate.open
     watch(
-        () => searchData.open,
-        (newValue, oldValue) => {
-          if (newValue && !oldValue) {
-            nextTick(() => {
-              searchInputBox.value.focus()
-            })
-          }
+      () => searchData.open,
+      (newValue, oldValue) => {
+        if (newValue && !oldValue) {
+          nextTick(() => {
+            searchInputBox.value.focus()
+          })
         }
+      }
     )
 
     const makeKeybingdingMap = (keybindingMap) => {

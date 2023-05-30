@@ -274,6 +274,15 @@ export default {
       }
     })
 
+    bus.on('hideNode', (id) => {
+      console.log('hide: ' + id)
+      hideNode(id)
+    })
+
+    bus.on('showNode', (id) => {
+      reShowNode(id)
+    })
+
     function focusOnNode (timeout = defaultTimeout) {
       setTimeout(() => {
         let { nodes, links } = ficGraph.graphData()
