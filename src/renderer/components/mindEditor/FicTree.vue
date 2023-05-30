@@ -283,12 +283,12 @@ export default defineComponent({
       ficTree.on('node_active', (node, nodeList) => {
         activeNodes.value = nodeList
       })
-      ficTree.on('data_change', (data, dataList) => {
+      ficTree.on('data_change', (data) => {
         ficTree.resize()
         // ficTree.view.reset()
         // console.log(ficTree.getData(false))
         const newData = {
-          data: ficTree.getData(false)
+          data: data
         }
         bus.emit('saveChangeMindUI', newData)
       })
@@ -333,6 +333,9 @@ export default defineComponent({
       ficTree.on('node_click', hide)
       ficTree.on('draw_click', hide)
       ficTree.on('expand_btn_click', hide)
+      ficTree.on('expand_btn_click', (node) => {
+        bfs(node)
+      })
 
       // 监听data变化
       bus.on('sendToFicTree', (obj) => {
@@ -341,6 +344,8 @@ export default defineComponent({
         console.log('mode: ' + mode)
         setStyle()
         ficTree.render()
+        console.log(ficTree.renderer.root)
+        bfs(ficTree.renderer.root)
       })
 
       bus.on('exportTreePNG', () => {
@@ -469,6 +474,62 @@ export default defineComponent({
     function foldAll () {
       ficTree.execCommand('UNEXPAND_ALL')
       hide()
+    }
+
+    function isImageLink (str) {
+      const regex = /^!\[(.*)\]\((.*?)\)$/
+      const match = regex.exec(str)
+      if (match) {
+        const imageAlt = match[1]
+        const imageUrl = match[2]
+        const fileExtension = imageUrl.split('.').pop().toLowerCase()
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
+        if (imageExtensions.includes(fileExtension)) {
+          return { imageAlt, imageUrl }
+        } else {
+          return null
+        }
+      }
+      return null
+    }
+
+    function bfs (rootNode) {
+      let stack = [rootNode]
+      while (stack.length) {
+        let cur = stack.shift()
+        renderImage(cur)
+        if (cur.children && cur.children.length) {
+          cur.children.forEach(item => {
+            // console.log(item.nodeData.data.text)
+            stack.push(item)
+          })
+        }
+      }
+    }
+
+    function renderImage (node) {
+      if (node.nodeData !== null) {
+        const text = node.nodeData.data.text
+        console.log(text)
+        if (isImageLink(text) !== null) {
+          const details = isImageLink(text)
+          // const url = 'ficus://办公工具-PPT/image-20220210173409474.png'
+          let alt = details.imageAlt
+          let url = details.imageUrl
+          console.log(url)
+          url = 'ficus://' + url
+          const image = new Image()
+          image.src = url
+          image.onload = () => {
+            node.setImage({
+              url: url,
+              title: alt,
+              width: image.width,
+              height: image.height
+            })
+          }
+        }
+      }
     }
 
     return {
