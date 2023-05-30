@@ -1,6 +1,6 @@
 import { Menu, app, ipcMain } from 'electron'
 import { isOsx, isWindows } from '../config'
-import { getMenuTemplates, toRawMenuTemplates } from './templates'
+import { getMenuTemplates, getSettingsMenuTemplates, toRawMenuTemplates } from './templates'
 import fs from 'fs'
 import path from 'path'
 import { ensureDirSync } from '@/main/filesystem/fileManipulate'
@@ -23,6 +23,9 @@ class AppMenu extends EventEmitter {
       Menu.setApplicationMenu(this._buildMenu())
     }
     this._LISTENForIpcMain()
+
+    this.keybinding.on('set-setting-menu', this.setSettingsMenu)
+    this.keybinding.on('set-editor-menu', this.setEditorMenu)
   }
 
   getRecentlyUsedDocuments () {
@@ -49,8 +52,20 @@ class AppMenu extends EventEmitter {
     win.webContents.send('set-app-menu', toRawMenuTemplates(menuTemplate))
   }
 
+  setSettingsMenu () {
+    if (isOsx) {
+      Menu.setApplicationMenu(this._buildSettingsMenu())
+    }
+  }
+
+  setEditorMenu () {
+    if (isOsx) {
+      Menu.setApplicationMenu(this._buildMenu())
+    }
+  }
+
   updateAppMenu (recentlyUsedDocuments) {
-    this.recentlyUsedDocuments = recentlyUsedDocuments
+    this.recentlyUsedDocuments = recentlyUsedDocuments || this.getRecentlyUsedDocuments()
     if (isOsx) {
       Menu.setApplicationMenu(this._buildMenu())
     }
@@ -101,6 +116,12 @@ class AppMenu extends EventEmitter {
 
   _buildMenu () {
     const menuTemplate = getMenuTemplates(this.keybinding, this.recentlyUsedDocuments)
+    const menu = Menu.buildFromTemplate(menuTemplate)
+    return menu
+  }
+
+  _buildSettingsMenu () {
+    const menuTemplate = getSettingsMenuTemplates(this.keybinding)
     const menu = Menu.buildFromTemplate(menuTemplate)
     return menu
   }

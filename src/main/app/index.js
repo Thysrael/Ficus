@@ -22,11 +22,11 @@ class App {
   }
 
   reinit () {
-    this._createFicusWindow()
+    this.windowsManager.createWindow()
   }
 
   quit () {
-    this.windowsManager.closeAll()
+    // this.windowsManager.closeAll()
   }
 
   getFocusWin () {

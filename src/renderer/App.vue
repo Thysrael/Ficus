@@ -88,6 +88,7 @@ export default {
       store.dispatch('LISTEN_KEYBOARD_EVENT')
       store.dispatch('LISTEN_OPEN_FILE_TAB')
       store.dispatch('LISTEN_LOAD_PREFERENCES')
+      store.dispatch('LISTEN_LOAD_KEYBINDINGS')
       store.dispatch('files/LISTEN_FILE_MOVE')
       store.dispatch('files/LISTEN_SET_FOCUS_ID_BY_NAME')
 
