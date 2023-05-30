@@ -58,7 +58,11 @@ class Preference {
           }
         }
         if (addedNewEntries) {
-          this._store.set(userSetting)
+          try {
+            this._store.set(userSetting)
+          } catch {
+            this._store.set(defaultSettings)
+          }
         }
       }
     }
