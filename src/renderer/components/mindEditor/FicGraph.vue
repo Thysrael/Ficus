@@ -292,6 +292,14 @@ export default {
       }, timeout)
     }
 
+    bus.on('hideNode', (id) => {
+      hideNode(id)
+    })
+
+    bus.on('showNode', (id) => {
+      reShowNode(id)
+    })
+
     function hideNode (target) {
       setTimeout(() => {
         let { nodes, links } = ficGraph.graphData()

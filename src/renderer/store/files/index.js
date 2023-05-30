@@ -83,11 +83,14 @@ const mutations = {
    */
   queryNodeId (state, { name, hidden, timeout }) {
     const id = state.graph.queryNodeId(name)
-    if (hidden !== true) {
+    if (hidden === undefined) {
       bus.emit('focusById', { id, timeout })
-      bus.emit('showNode', id)
     } else {
-      bus.emit('hideNode', id)
+      if (hidden !== true) {
+        bus.emit('showNode', id)
+      } else {
+        bus.emit('hideNode', id)
+      }
     }
   },
 

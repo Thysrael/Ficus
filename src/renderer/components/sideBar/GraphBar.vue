@@ -146,6 +146,9 @@ export default {
       type.value = obj.category // 当前节点类型：文件夹 0 ，文件 1 ，标签 2
       if (obj.category === 0) {
         node.value = await window.electronAPI.getFolderStatInGraph(obj.path)
+        for (let i = 0; i < node.value.children.length; i++) {
+          node.value.children[i].name = node.value.path
+        }
       } else if (obj.category === 1) {
         node.value = await window.electronAPI.getFileCiteTraverse(obj.path)
       } else if (obj.category === 2) {

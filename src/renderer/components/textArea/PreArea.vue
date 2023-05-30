@@ -49,7 +49,7 @@
         </div>
         <ul v-if="showImgSelection" class="p-2 border-2 rounded-md shadow-md">
           <li v-for="(option, index) in imgOption" :key="option"
-              @click="imgPath = index; showImgSelection = !showImgSelection"
+              @click="imgPath = index; editor.imgPath = imgPath; showImgSelection = !showImgSelection"
               class="m-2 px-2 py-1 rounded-md imgSelectionItem">
             {{ option }}
           </li>
@@ -277,6 +277,16 @@ export default {
     const showGraphThemeSelection = ref(false)
     /* eslint-disable no-template-curly-in-string */
     const graphThemeOption = ['山亭夏日', '露花倒影', '落虹灼春']
+
+    bus.on('initPreOpt', () => {
+      imgPath.value = editor.imgPath
+      latexPath.value = editor.latexEngine
+      codePath.value = editor.codeTheme
+      treeLevelPath.value = ficus.treeSetting.defaultLevel + 1
+      treeStructPath.value = ficus.treeSetting.defaultStruct
+      treeThemePath.value = ficus.treeSetting.theme
+      graphThemePath.value = ficus.graphSetting.theme
+    })
 
     /**
      * 对用户的修改进行监听，触发相应的事件

@@ -134,6 +134,7 @@ const mutations = {
     state.ficus.graphSetting.theme = preferences.graphTheme
 
     bus.emit('changeSideBarWidth')
+    bus.emit('initPreOpt')
   }
 }
 

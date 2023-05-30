@@ -1,13 +1,12 @@
 <template>
-  <li>
+  <li @mouseenter="hover = true"
+      @mouseout="hover = false">
     <div class="flex flex-wrap items-center">
       <div style="width: 10px;padding-left: 5px">
         {{ item.checked ? `√`: ``}}
       </div>
       <div
         style="width: 200px;height: 23px;"
-        @mouseenter="hover = true"
-        @mouseout="hover = false"
         class="flex content-center items-center"
     >
 
@@ -19,21 +18,22 @@
         {{ item.accelerator }}
         </div>
       </div>
-<!--      <div class="ml-4" style="margin-left: 50px; width: 170px; font-size: 10px; user-select: none;">-->
-<!--        -->
-<!--      </div>-->
-      <svg fill="#000000"
-           v-if="hasChildren"
-           :class="[(hover) ? 'transform rotate-90' : '', 'w-4 h-4 mr-2']"
-           style="height: 12px;width: 12px;margin-left: 20px"
-           viewBox="0 0 24 24"
-           xmlns="http://www.w3.org/2000/svg">
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path d="M6.5,8.5l6,7l6-7H6.5z"></path>
-        </g>
-      </svg>
+
+        <svg v-if="hasChildren && hover" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+            <path d="M9,18l7-6L9,6V18z" fill="#474747" fill-opacity="1"></path> <rect class="st0" width="24" height="24"></rect><rect class="st0" width="24" height="24"></rect>
+          </g>
+        </svg>
+
+        <svg v-if="hasChildren && !hover" fill="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="15px" height="15px">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+            <path d="M6.5,8.5l6,7l6-7H6.5z" fill="#474747" fill-opacity="1"></path> <rect class="st0" width="24" height="24"></rect> <rect class="st0" width="24" height="24"></rect>
+          </g>
+        </svg>
     </div>
     </div>
   </li>
