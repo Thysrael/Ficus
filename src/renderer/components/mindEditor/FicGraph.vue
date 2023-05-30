@@ -275,7 +275,6 @@ export default {
     })
 
     bus.on('hideNode', (id) => {
-      console.log('hide: ' + id)
       hideNode(id)
     })
 
@@ -300,14 +299,6 @@ export default {
         }
       }, timeout)
     }
-
-    bus.on('hideNode', (id) => {
-      hideNode(id)
-    })
-
-    bus.on('showNode', (id) => {
-      reShowNode(id)
-    })
 
     function hideNode (target) {
       setTimeout(() => {
