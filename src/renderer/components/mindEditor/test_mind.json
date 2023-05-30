@@ -89,11 +89,11 @@
               "data": {
                 "name": "![image-20220210173409474](办公工具-PPT/image-20220210173409474.png)",
                 "text": "![image-20220210173409474](办公工具-PPT/image-20220210173409474.png)",
-                "image": "C:\\Users\\HJinKuo\\Desktop\\fkmt.png",
+                "image": "ficus://C:\\Users\\HJinKuo\\Desktop\\test.png",
                 "imageTitle": "image-20220210173409474",
                 "imageSize": {
-                  "width": 1152,
-                  "height": 1152
+                  "width": 640,
+                  "height": 640
                 },
                 "type": "paragraph"
               },
