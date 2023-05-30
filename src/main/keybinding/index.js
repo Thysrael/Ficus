@@ -4,8 +4,10 @@ import keybindingsLinux from './keybindingsLinux'
 import keybindingsWindows from './keybindingsWindows'
 import { isLinux, isOsx } from '../config'
 import COMMANDS from '../../common/commands'
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow, ipcMain, app } from 'electron'
 import EventEmitter from 'events'
+import path from 'path'
+import fs from 'fs-extra'
 
 const _normalizeAccelerator = accelerator => {
   return accelerator.toLowerCase()
@@ -40,9 +42,9 @@ const isEqualAccelerator = (a, b) => {
 class KeyBinding extends EventEmitter {
   constructor () {
     super()
-    const defaultKeybinding = this._loadDefaultKeybingdings()
-    this._keys = defaultKeybinding
-    for (const id of defaultKeybinding.keys()) {
+    this.configPath = path.join(app.getPath('userData'), 'keybindings.json')
+    this._keys = this._loadKeybindings()
+    for (const id of this._keys.keys()) {
       if (Object.values(COMMANDS).indexOf(id) === -1) {
         this._keys.delete(id)
       }
@@ -89,6 +91,7 @@ class KeyBinding extends EventEmitter {
     } else {
       this.registerKeyHandlers(win)
     }
+    this._saveUserKeybindings()
   }
 
   loadKeybindings (win) {
@@ -112,13 +115,48 @@ class KeyBinding extends EventEmitter {
    * FIXME: 请同步修改下面三个对象以实现快捷键
    * @returns {object}
    */
-  _loadDefaultKeybingdings () {
+  _loadDefaultKeybindings () {
     if (isOsx) {
       return keybindingsDarwin
     } else if (isLinux) {
       return keybindingsLinux
     } else {
       return keybindingsWindows
+    }
+  }
+
+  async _saveUserKeybindings () {
+    const { configPath, _keys } = this
+    try {
+      const userKeybindingJson = JSON.stringify(Object.fromEntries(_keys), null, 2)
+      await fs.promises.writeFile(configPath, userKeybindingJson, 'utf8')
+      return true
+    } catch (_) {
+      return false
+    }
+  }
+
+  _loadKeybindings () {
+    const defaultKeybindings = this._loadDefaultKeybindings()
+    if (!(fs.existsSync(this._preferencePath))) {
+      return defaultKeybindings
+    } else {
+      const rawUserKeybindings = JSON.parse(fs.readFileSync(this.configPath, 'utf8'))
+      if (typeof rawUserKeybindings !== 'object') {
+        return defaultKeybindings
+      }
+      const userAccelerators = new Map()
+      for (const key in rawUserKeybindings) {
+        if (defaultKeybindings.has(key)) {
+          const value = rawUserKeybindings[key]
+          if (typeof value === 'string') {
+            userAccelerators.set(key, value)
+          } else {
+            userAccelerators.set(key, defaultKeybindings.get(key))
+          }
+        }
+      }
+      return userAccelerators
     }
   }
 
