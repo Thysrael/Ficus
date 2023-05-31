@@ -22,9 +22,9 @@ export default {
     let highlightNode = null
     let hidingNodes = new Map()
     let hidingLinks = new Map()
-    const nodeRelMaximum = 35
-    const tagNodeRelSize = 10
-    const nodeRelLimit = 8
+    const nodeRelMaximum = 40
+    const tagNodeRelSize = 6
+    const nodeRelLimit = 6
     const highlightNodes = new Set()
     const highlightLinks = new Set()
     const theme0 = ['#1E6091', '#34a0a4', '#99D98C', '#6BE6C1', '#EEEEEE', '#E1F1A7', '#C9ECE1', '#CCCCCC']
@@ -163,17 +163,17 @@ export default {
 
       const magnifiedRatio = Math.pow((data.length / link.length), 3)
       const charge = -30 / magnifiedRatio
-      const boundedCharge = Math.min(-40, charge)
+      const boundedCharge = Math.min(-58, charge)
       // console.log(boundedCharge)
       ficGraph.d3Force('charge').strength(boundedCharge)  // 斥力强度，正值表示相互排斥的斥力，负值表示相互吸引的引力
       ficGraph.d3AlphaDecay(0.13) // 阻尼，调整布局收敛速度
           .d3VelocityDecay(0.18) // 节点速度衰减参数
-      ficGraph.d3Force('link').distance(45) // 弹簧力的长度，即连接线的长度
+      ficGraph.d3Force('link').distance(75) // 弹簧力的长度，即连接线的长度
       ficGraph.d3Force('center').strength(0.16)  // 中心力强度，使得节点更趋向于聚集在中心位置
-      ficGraph.d3Force('charge').distanceMax(600) // 斥力最大作用距离
+      ficGraph.d3Force('charge').distanceMax(130) // 斥力最大作用距离
 
       if (link.length < 30) {
-        ficGraph.d3Force('link').distance(80)
+        ficGraph.d3Force('link').distance(100)
       }
 
       // Set graph's data
