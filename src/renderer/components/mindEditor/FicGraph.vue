@@ -1,6 +1,5 @@
 <template>
-  <div class="flex flex-wrap place-content-center py-2 mx-4"
-       style="height: calc(100% + 200px); width: 1000px">
+  <div class="flex flex-wrap place-content-center w-full h-full">
     <div id="ficGraph"/>
   </div>
 </template>
@@ -78,7 +77,8 @@ export default {
         .linkCurvature(link => tagLinks.has(link) ? 0.3 : branchLinks.has(link) ? 0.2 : 0)
         .linkLineDash(link => branchLinks.has(link) ? [6, 8] : 0)
         .linkDirectionalArrowLength(link => tagLinks.has(link) ? 0 : (highlightLinks.has(link) ? 30 : link.weight * 6))
-        .width(1000)
+        .width(2000)
+        .height(2000)
         .nodeRelSize(nodeRelMaximum)
     ficGraph.d3Force('link').distance(65)
     ficGraph.d3Force('center').strength(0.1)
