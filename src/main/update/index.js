@@ -1,4 +1,4 @@
-const { app } = require('electron')
+const { app, dialog } = require('electron')
 const FileSystem = require('original-fs')
 const Utils = require('util')
 const request = require('request')
@@ -446,4 +446,40 @@ const Updater = {
   }
 }
 
-module.exports = Updater
+const UpdateMain = function (ficusApp, app, isOsx){
+  console.log('im here,for update')
+  Updater.init({
+    api: 'https://ficus.world/update/version.json',
+    server: false,
+    formatRes: function (res) { return res }
+  })
+  Updater.check(function (error, last, body) {
+    if (error) {
+      if (error === 'no_update_available') { return false }
+      console.log(body)
+      return false
+    }
+    Updater.progress((state) => { })
+    dialog.showMessageBoxSync(ficusApp.getFocusWin(), {
+      type: 'warning',
+      title: '更新提醒',
+      buttons: ['确定'],
+      message: '发现软件更新，软件在更新后会自动重启',
+      defaultId: 0,
+      cancelId: 1
+    })
+
+    Updater.download(function (error) {
+      if (error) {
+        console.log(error)
+        return false
+      }
+      if (isOsx) {
+        app.relaunch()
+      }
+      app.quit()
+    })
+  })
+}
+
+module.exports = UpdateMain
