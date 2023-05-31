@@ -22,9 +22,9 @@ export default {
     let highlightNode = null
     let hidingNodes = new Map()
     let hidingLinks = new Map()
-    const nodeRelMaximum = 30
+    const nodeRelMaximum = 35
     const tagNodeRelSize = 10
-    const nodeRelLimit = 6
+    const nodeRelLimit = 8
     const highlightNodes = new Set()
     const highlightLinks = new Set()
     const theme0 = ['#1E6091', '#34a0a4', '#99D98C', '#6BE6C1', '#EEEEEE', '#E1F1A7', '#C9ECE1', '#CCCCCC']
@@ -65,8 +65,6 @@ export default {
           highlightNode = null
         })
         .onZoom(zoom => zoomLevel = zoom.k)
-        .d3AlphaDecay(0.25) // 阻尼，调整布局收敛速度
-        .d3VelocityDecay(0.3) // 节点速度衰减参数
         .nodeCanvasObjectMode(() => 'replace')
         .nodeVisibility(node => !hidingNodes.has(node.id))
         .linkColor(link => !highlightLinks.has(link) ? theme[4] : (rootLinks.has(link) ? theme[5] : tagLinks.has(link) ? theme[6] : theme[7]))
@@ -76,13 +74,10 @@ export default {
         .linkDirectionalParticleWidth(link => tagLinks.has(link) ? (highlightLinks.has(link) ? 8 : 5) : 0)
         .linkCurvature(link => tagLinks.has(link) ? 0.2 : branchLinks.has(link) ? 0.1 : 0)
         .linkLineDash(link => branchLinks.has(link) ? [6, 8] : 0)
-        .linkDirectionalArrowLength(link => tagLinks.has(link) ? 0 : (highlightLinks.has(link) ? 20 : link.weight * 4))
+        .linkDirectionalArrowLength(link => tagLinks.has(link) ? 0 : (highlightLinks.has(link) ? 15 : link.weight * 3))
         .width(2000)
         .height(2000)
         .nodeRelSize(nodeRelMaximum)
-    ficGraph.d3Force('link').distance(20) // 弹簧力的长度，即连接线的长度
-    ficGraph.d3Force('center').strength(0.1)  // 中心力强度，使得节点更趋向于聚集在中心位置
-    ficGraph.d3Force('charge').distanceMax(250) // 斥力最大作用距离
 
     // Dash animation
     const st = +new Date()
@@ -155,11 +150,11 @@ export default {
         !sourceNode.neighbors && (sourceNode.neighbors = [])
         !targetNode.neighbors && (targetNode.neighbors = [])
         sourceNode.neighbors.push(targetNode)
-        targetNode.neighbors.push(sourceNode)
+        // targetNode.neighbors.push(sourceNode)
         !sourceNode.links && (sourceNode.links = [])
         !targetNode.links && (targetNode.links = [])
         sourceNode.links.push(link[i])
-        targetNode.links.push(link[i])
+        // targetNode.links.push(link[i])
 
         if (link[i].type === 0) {
           rootLinks.add(link[i])
@@ -245,13 +240,19 @@ export default {
         }
       })
       .zoomToFit(400, 0, node => node.depth === 0)
-      const magnifiedRatio = Math.pow((data.length / link.length), 6)
+      const magnifiedRatio = Math.pow((data.length / link.length), 5.4)
       const charge = -30 / magnifiedRatio
-      const boundedCharge = Math.min(-60, charge)
+      const boundedCharge = Math.min(-100, charge)
+      // console.log(boundedCharge)
       ficGraph.d3Force('charge').strength(boundedCharge)  // 斥力强度，正值表示相互排斥的斥力，负值表示相互吸引的引力
+      ficGraph.d3AlphaDecay(0.13) // 阻尼，调整布局收敛速度
+              .d3VelocityDecay(0.58) // 节点速度衰减参数
+      ficGraph.d3Force('link').distance(25) // 弹簧力的长度，即连接线的长度
+      ficGraph.d3Force('center').strength(0.1)  // 中心力强度，使得节点更趋向于聚集在中心位置
+      ficGraph.d3Force('charge').distanceMax(280) // 斥力最大作用距离
 
-      if (link.length < 20) {
-        ficGraph.d3Force('link').distance(65)
+      if (link.length < 30) {
+        ficGraph.d3Force('link').distance(75)
         ficGraph.d3VelocityDecay(0.1) // 节点速度衰减参数
                 .cooldownTicks(50)
       }
