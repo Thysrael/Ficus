@@ -36,6 +36,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   renameFileOrFolder: (newPath, oldPath) => ipcRenderer.send('renameFileOrFolder', newPath, oldPath),
   linkToFile: (filePath, citingPath) => ipcRenderer.invoke('linkToFile', filePath, citingPath),
   paste: (userSelect, tarPath, projPath) => ipcRenderer.invoke('paste', userSelect, tarPath, projPath),
+  handlePaste: () => ipcRenderer.invoke('handlePaste'),
 
   refresh: (projPath) => ipcRenderer.invoke('refresh', projPath),
 

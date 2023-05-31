@@ -1,4 +1,4 @@
-import { app, dialog } from 'electron'
+import { app, dialog, clipboard } from 'electron'
 import fs from 'fs-extra'
 import { makeFolderStat, makeMarkdownFileStat, makeFileStat } from './statistic'
 import path from 'path'
@@ -19,7 +19,9 @@ const markdownFilters = [
  * @returns
  */
 export const linkToFile = async (filePath, citingPath) => {
-  return makeMarkdownFileStat(path.resolve(filePath, '..', citingPath))
+  const targetPath = path.resolve(filePath, '..', citingPath)
+  console.log(targetPath)
+  return makeMarkdownFileStat(targetPath)
 }
 
 /**
@@ -298,4 +300,12 @@ export const makePathCompletion = async (folderPath) => {
     }
   }
   return result
+}
+
+export const pasteHandling = async () => {
+  const cont = clipboard.readText()
+  console.log(cont === '')
+  const pic = clipboard.readImage()
+  console.log(pic.isEmpty())
+  return cont
 }

@@ -34,6 +34,14 @@ class WindowsManager {
     this.preferences.setWindowPreferences(win)
 
     this.windows.push(new BaseWindow(win, this.preferences))
+    if (isDevelopment) {
+      const demoPath = path.resolve(__dirname, '..', 'demo', 'index.md')
+      const initInfo = await initPath(demoPath)
+      win.webContents.send('ficus::open-init-file', initInfo)
+    } else if (process.argv.length > 1) {
+      const initInfo = await initPath(process.argv[1])
+      win.webContents.send('ficus::open-init-file', initInfo)
+    }
   }
 
   get defaultWindow () {
@@ -73,15 +81,32 @@ class WindowsManager {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // Load the url of the dev server if in development mode
       await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-      // if (!process.env.IS_TEST) win.webContents.openDevTools()
+      win.setMinimumSize(800, 600)
+      win.setMenu(null)
+      win.removeMenu()
+      if (this.preferences.getItem('autoFullScreen')) {
+        if (isOsx) {
+          win.setFullScreen(true)
+        } else {
+          win.maximize()
+        }
+      }
     } else {
       createProtocol('app')
       // Load the index.html when not in development
       await win.loadURL('app://.de/index.html')
+      win.setMinimumSize(800, 600)
+      win.setMenu(null)
+      win.removeMenu()
+      // 令窗口初始为最大
+      if (this.preferences.getItem('autoFullScreen')) {
+        if (isOsx) {
+          win.setFullScreen(true)
+        } else {
+          win.maximize()
+        }
+      }
     }
-    win.setMinimumSize(800, 600)
-    win.setMenu(null)
-    win.removeMenu()
     win.webContents.setWindowOpenHandler((detail) => {
       if (detail.url === undefined || detail.url.startsWith('ficus://')) {
         return { action: 'deny' }
@@ -94,18 +119,6 @@ class WindowsManager {
     win.on('focus', () => {
       this.activeIndex = win.id
     })
-    if (!isDevelopment && process.argv.length > 1) {
-      const initInfo = initPath(process.argv[1])
-      win.webContents.send('ficus::open-init-file', initInfo)
-    }
-    // 令窗口初始为最大
-    if (this.preferences.getItem('autoFullScreen')) {
-      if (isOsx) {
-        win.setFullScreen(true)
-      } else {
-        win.maximize()
-      }
-    }
     return win
   }
 
