@@ -1,6 +1,6 @@
 import chokidar from 'chokidar'
 import { isOsx } from '../config'
-import { isValidMarkdownFilePath, matchPathPattern } from '../helper/path'
+import { isValidImageFilePath, isValidMarkdownFilePath, matchPathPattern } from '../helper/path'
 import EventEmitter from 'events'
 import { makeFolderStat } from './statistic'
 
@@ -42,7 +42,7 @@ class Watcher extends EventEmitter {
         if (fileInfo.isDirectory()) {
           return false
         }
-        return !isValidMarkdownFilePath(pathname)
+        return !(isValidMarkdownFilePath(pathname) || isValidImageFilePath(pathname))
       },
       ignoreInitial: type === 'file', // 忽略文件第一次被添加触发add事件
       persistent: true,

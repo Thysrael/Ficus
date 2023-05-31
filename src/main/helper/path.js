@@ -11,7 +11,18 @@ const maxFileSize = 100 * 1024
  * @param {string} filePath
  */
 function isValidMarkdownFilePath (filePath) {
-  return existsSync(filePath) && (extname(filePath) === '.md' || extname(filePath) === '.markdown') && statSync(filePath).isFile() && statSync(filePath).size <= maxFileSize
+  return existsSync(filePath) &&
+    isMarkdownExtname(filePath) &&
+    statSync(filePath).isFile() &&
+    statSync(filePath).size <= maxFileSize
+}
+
+/**
+ * 判断某个图像文件路径存在
+ * @param {string} filePath
+ */
+function isValidImageFilePath (filePath) {
+  return existsSync(filePath) && isImageExtname(filePath) && statSync(filePath).isFile()
 }
 
 /**
@@ -28,6 +39,11 @@ function isValidFilePath (filePath) {
  */
 function isMarkdownExtname (filePath) {
   return extname(filePath) === '.md' || extname(filePath) === '.markdown'
+}
+
+function isImageExtname (filePath) {
+  const ext = extname(filePath)
+  return ['.gif', '.png', '.jpg', '.jpeg'].indexOf(ext) !== -1
 }
 
 /**
@@ -85,5 +101,6 @@ export {
   isValidFolderPath,
   isFileInDirectory,
   isLeaveDirectory,
-  matchPathPattern
+  matchPathPattern,
+  isValidImageFilePath
 }

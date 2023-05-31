@@ -5,7 +5,8 @@ const {
   isMarkdownExtname,
   isValidFilePath,
   isValidFolderPath,
-  matchPathPattern
+  matchPathPattern,
+  isValidImageFilePath
 } = require('../helper/path')
 
 /**
@@ -73,8 +74,8 @@ async function makeFolderStat (dirPath, ignored) {
       }
       if (isValidFolderPath(subItemPath)) {
         folderChildren.push(await makeFolderStat(subItemPath, ignored))
-      } else if (isValidMarkdownFilePath(subItemPath)) {
-        fileChildren.push(makeMarkdownFileStat(subItemPath))
+      } else if (isValidMarkdownFilePath(subItemPath) || isValidImageFilePath(subItemPath)) {
+        fileChildren.push(makeFileStat(subItemPath))
       }
     }
     return {
