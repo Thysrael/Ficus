@@ -10,8 +10,9 @@
         class="flex content-center items-center"
     >
 
-      <div class="ml-4" style="width: 150px; font-size: 12px; user-select: none;display: flex;justify-content: space-between;">
-        <div style="text-align: left">
+      <div class="ml-4"
+           style="width: 150px; font-size: 12px; user-select: none; display: flex; justify-content: space-between; ">
+        <div style="text-align: left; text-overflow: ellipsis; overflow: hidden" :title="item.label">
           {{ item.label }}
         </div>
         <div style="text-align: right">

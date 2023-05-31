@@ -94,7 +94,7 @@
     </div>
     <div id="mindMapContainer"
          class="absolute"
-         style="margin: 0; padding: 0; width: 1000px; height: 100%">
+         style="margin: 0; padding: 0; width: 2000px; height: 100%">
     </div>
     <div class="contextMenu rounded-md shadow-lg px-4 py-2"
          v-if="menuShow"
