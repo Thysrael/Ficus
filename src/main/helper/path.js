@@ -1,9 +1,10 @@
 /**
  * 判断路径类型
  */
-import fs, { existsSync, statSync } from 'fs-extra'
+import fs from 'fs-extra'
 import minimatch from 'minimatch'
-import path, { extname, sep } from 'path'
+import path from 'path'
+import slash from 'slash'
 const maxFileSize = 100 * 1024
 
 /**
@@ -11,10 +12,10 @@ const maxFileSize = 100 * 1024
  * @param {string} filePath
  */
 function isValidMarkdownFilePath (filePath) {
-  return existsSync(filePath) &&
+  return fs.existsSync(filePath) &&
     isMarkdownExtname(filePath) &&
-    statSync(filePath).isFile() &&
-    statSync(filePath).size <= maxFileSize
+    fs.statSync(filePath).isFile() &&
+    fs.statSync(filePath).size <= maxFileSize
 }
 
 /**
@@ -22,7 +23,7 @@ function isValidMarkdownFilePath (filePath) {
  * @param {string} filePath
  */
 function isValidImageFilePath (filePath) {
-  return existsSync(filePath) && isImageExtname(filePath) && statSync(filePath).isFile()
+  return fs.existsSync(filePath) && isImageExtname(filePath) && fs.statSync(filePath).isFile()
 }
 
 /**
@@ -30,7 +31,7 @@ function isValidImageFilePath (filePath) {
  * @param {string} filePath
  */
 function isValidFilePath (filePath) {
-  return existsSync(filePath) && statSync(filePath).isFile()
+  return fs.existsSync(filePath) && fs.statSync(filePath).isFile()
 }
 
 /**
@@ -38,11 +39,11 @@ function isValidFilePath (filePath) {
  * @param {string} filePath
  */
 function isMarkdownExtname (filePath) {
-  return extname(filePath) === '.md' || extname(filePath) === '.markdown'
+  return path.extname(filePath) === '.md' || path.extname(filePath) === '.markdown'
 }
 
 function isImageExtname (filePath) {
-  const ext = extname(filePath)
+  const ext = path.extname(filePath)
   return ['.gif', '.png', '.jpg', '.jpeg'].indexOf(ext) !== -1
 }
 
@@ -51,7 +52,7 @@ function isImageExtname (filePath) {
  * @param {string} filePath
  */
 function isValidFolderPath (filePath) {
-  return existsSync(filePath) && statSync(filePath).isDirectory()
+  return fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()
 }
 
 /**
@@ -60,7 +61,7 @@ function isValidFolderPath (filePath) {
  * @param {string} dirPath
  */
 function isFileInDirectory (filePath, dirPath) {
-  return filePath.startsWith(dirPath + sep)
+  return filePath.startsWith(dirPath + path.sep)
 }
 
 /**
@@ -87,7 +88,7 @@ function matchPathPattern (pathname, pathPatterns) {
     return false
   }
   for (const pattern of pathPatterns) {
-    if (minimatch(pathname, pattern)) {
+    if (minimatch(slash(pathname), slash(pattern))) {
       return true
     }
   }
