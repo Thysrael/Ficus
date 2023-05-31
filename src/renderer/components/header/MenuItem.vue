@@ -11,8 +11,8 @@
     >
 
       <div class="ml-4"
-           style="width: 150px; font-size: 12px; user-select: none; display: flex; justify-content: space-between; ">
-        <div style="text-align: left; text-overflow: ellipsis; overflow: hidden" :title="item.label">
+           style="width: 160px; font-size: 12px; user-select: none; display: flex; justify-content: space-between; ">
+        <div style="text-align: left; text-overflow: ellipsis; overflow: hidden; white-space: nowrap" :title="item.label" >
           {{ item.label }}
         </div>
         <div style="text-align: right">
