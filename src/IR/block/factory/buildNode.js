@@ -15,8 +15,8 @@ function buildThematicBreak (text) {
   return new TreeNode(paragraphTypeName, new ParagraphContent(thematicBreakTypeName, text))
 }
 
-function buildHeading (text, depth) {
-  return new TreeNode(headingTypeName, new HeadingContent(text, depth))
+function buildHeading (text, depth, headingStyle, marker) {
+  return new TreeNode(headingTypeName, new HeadingContent(text, depth, headingStyle, marker))
 }
 
 function buildCodeBlock (text, type, lang) {

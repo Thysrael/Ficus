@@ -9,7 +9,15 @@ class Content {
   }
 
   toMarkdown () {
-    return this.normalPrefix + this.text + '\n'
+    const lines = this.text.split('\n')
+    let md = ''
+    for (const line of lines) {
+      if (line.trim().length === 0) {
+        continue
+      }
+      md += this.spacePreix + line + '\n' + this.spacePreix + '\n'
+    }
+    return md.replace(this.spacePreix, this.normalPrefix)
   }
 
   getMindJson () {
@@ -61,9 +69,9 @@ class FrontmatterContent extends Content {
 
   toMarkdown () {
     if (this.isEmpty()) {
-      return '---\n' + this.text + '---\n\n'
+      return '---\n' + this.text + '---\n' + this.spacePreix + '\n'
     } else {
-      return '---\n' + yaml.dump(this.data) + '---\n\n'
+      return '---\n' + yaml.dump(this.data) + '---\n' + this.spacePreix + '\n'
     }
   }
 
@@ -122,19 +130,26 @@ class ParagraphContent extends Content {
   //   super(typename, text)
   // }
 
-  toMarkdown () {
-    return super.toMarkdown() + this.spacePreix + '\n'
-  }
+  // toMarkdown () {
+  //   return super.toMarkdown() + this.spacePreix + '\n'
+  // }
 }
 class HeadingContent extends Content {
   // private depth
-  constructor (text, depth) {
+  constructor (text, depth, headingStyle, marker) {
     super(headingTypeName, text)
     this.depth = depth
+    this.headingStyle = headingStyle
+    this.marker = marker
   }
 
   toMarkdown () {
-    return this.normalPrefix + '#'.repeat(+this.depth) + ' ' + this.text + '\n' + this.spacePreix + '\n'
+    if (this.headingStyle === 'atx') {
+      return this.normalPrefix + '#'.repeat(+this.depth) + ' ' + this.text + '\n' + this.spacePreix + '\n'
+    } else {
+      return this.normalPrefix + this.text + '\n' +
+            this.spacePreix + this.marker + '\n' + this.spacePreix + '\n'
+    }
   }
 
   getOutlineJson () {
@@ -169,7 +184,7 @@ class CodeContent extends Content {
     if (this.lang) {
       res += this.lang
     }
-    res += '\n' + super.toMarkdown() + this.spacePreix + '```\n' + this.spacePreix + '\n'
+    res += '\n' + this.text + '\n' + this.spacePreix + '```\n' + this.spacePreix + '\n'
     return res
   }
 
@@ -187,7 +202,7 @@ class MathContent extends Content {
   }
 
   toMarkdown () {
-    return this.spacePreix + '$$\n' + super.toMarkdown() + this.spacePreix + '$$\n' + this.spacePreix + '\n'
+    return this.spacePreix + '$$\n' + this.text + '\n' + this.spacePreix + '$$\n' + this.spacePreix + '\n'
   }
 
   getMindJson () {
@@ -325,7 +340,7 @@ class TableContent extends Content {
         result.push(cutOff)
       }
     })
-    return result.join('\n') + '\n\n'
+    return result.join('\n') + '\n' + this.spacePreix + '\n'
   }
 
   getMindJson () {

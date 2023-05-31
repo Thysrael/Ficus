@@ -48,10 +48,10 @@ export function markdownToTree (markdown, filename = '') {
       }
 
       case 'heading': {
-        const { depth, text } = token
+        const { depth, text, headingStyle, marker } = token
         value = text
 
-        const newNode = buildHeading(value, depth)
+        const newNode = buildHeading(value, depth, headingStyle, marker)
 
         // 标题节点作为接下来的父节点
         if (parentStack[0].level !== undefined) {

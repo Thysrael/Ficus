@@ -577,7 +577,8 @@ Lexer.prototype.token = function (src, top) {
     }
 
     // lheading
-    cap = this.rules.lheading.exec(src)
+    // cap = this.rules.lheading.exec(src)
+    cap = false
     if (cap) {
       const precededToken = this.tokens[this.tokens.length - 1]
       const chops = cap[0].trim().split(/\n/)
