@@ -147,7 +147,7 @@ export default class IRGraph {
      */
   _parseFileTree (fileOrFolder, depth) {
     let newNode
-    const { type, path, name, children } = fileOrFolder
+    const { type, path, name, children, isMd } = fileOrFolder
     if (type === 'folder') {
       const nid = this._allocNodeID()
       this.idMap.set(path, nid)
@@ -159,7 +159,7 @@ export default class IRGraph {
           newNode.insertAtLast(chnode)
         }
       })
-    } else if (window.pathAPI.isMarkdownExtname(path)) {
+    } else if (isMd) {
       const nid = this._allocNodeID()
       this.idMap.set(path, nid)
       newNode = buildFileNode(nid, name, path, depth)
