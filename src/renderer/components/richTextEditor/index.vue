@@ -233,12 +233,6 @@ export default {
         placeholder: '请输入...',
         // 绑定快捷键
         ficusHotkey: [
-          {
-            hotkey: '⌘F',
-            action: () => {
-              searchData.open = true
-            }
-          },
           ...keybindings
         ],
         // 创建实例后，将props中传入的内容展示出来, 并隐藏工具栏
@@ -337,6 +331,11 @@ export default {
     onBeforeUnmount(() => {
       vditor.destroy()
       vditor = null
+    })
+
+    bus.on('openSearchEngine', () => {
+      console.log('emit')
+      searchData.open = true
     })
 
     return {

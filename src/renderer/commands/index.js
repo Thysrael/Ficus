@@ -56,6 +56,12 @@ const commands = [
     }
   },
   {
+    id: 'edit.find',
+    execute: async () => {
+      bus.emit('openSearchEngine')
+    }
+  },
+  {
     id: 'edit.delete',
     execute: async () => {
       bus.emit('deleteSelectedText')
