@@ -65,6 +65,9 @@ export default {
       }
       const res = []
       for (let i = 0; i < array.length; i++) {
+        if (array[i].type === 'file' && !window.pathAPI.isMarkdownExtname(array[i].path)) {
+          continue
+        }
         const obj = {
           name: array[i].name,
           path: array[i].path,
@@ -94,6 +97,7 @@ export default {
       } else if (option === 2) {
         files.value.length = 0
         const allTag = await window.electronAPI.getTags()
+        console.log(allTag)
         for (let i = 0; i < allTag.length; i++) {
           const array = await window.electronAPI.getFilesByTag(allTag[i])
           const res = []

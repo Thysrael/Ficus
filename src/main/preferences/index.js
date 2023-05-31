@@ -81,7 +81,7 @@ class Preference {
     const ignoreds = this.getItem('ficusIgnore')
     if (ignoreds) {
       return ignoreds.split('\n')
-        .filter(p => p.trim().length !== 0)
+        .filter(p => p && p.trim())
         .map(p => path.resolve(dirPath, p.trim()))
     } else {
       return []

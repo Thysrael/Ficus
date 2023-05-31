@@ -78,11 +78,11 @@ class KeyBinding extends EventEmitter {
     return this._keys
   }
 
-  disableAll () {
+  disableAll (win) {
     if (isOsx) {
       this.emit('set-settings-menu')
     } else {
-      electronLocalshortcut.unregisterAll()
+      electronLocalshortcut.unregisterAll(win)
     }
   }
 
@@ -167,7 +167,8 @@ class KeyBinding extends EventEmitter {
     })
 
     ipcMain.on('disable-all-keybindings', (e) => {
-      this.disableAll()
+      const win = BrowserWindow.fromWebContents(e.sender)
+      this.disableAll(win)
     })
 
     ipcMain.on('enable-all-keybindings', (e) => {

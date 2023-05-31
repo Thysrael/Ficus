@@ -330,8 +330,13 @@ export default {
       if (oldValue >= 5 && newValue <= 4) {
         bus.emit('backToEditMode')
       }
+      if (newValue === 7) {
+        // 禁用快捷键
+        window.electronAPI.disableAllKeybindings()
+      }
       if (oldValue === 7) {
-        console.log('保存到后端')
+        // 启用快捷键
+        window.electronAPI.enableAllKeybindings()
         store.dispatch('SAVE_PREFERENCES')
       }
     })
