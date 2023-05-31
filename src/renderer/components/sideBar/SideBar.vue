@@ -321,6 +321,14 @@ export default {
       bus.emit('changeToForest')
     }
 
+    watch(() => store.getters.getMode, (newValue, oldValue) => {
+      if (newValue >= 0 && newValue <= 2) {
+        if (isFile.value >= 5) {
+          isFile.value = 2
+        }
+      }
+    })
+
     watch(isFile, (newValue, oldValue) => {
       const res = (newValue === 4) ? 1 : 0
       bus.emit('showAllTag', res)
