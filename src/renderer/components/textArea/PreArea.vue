@@ -28,6 +28,12 @@
         <label>启动时侧边宽度：</label>
         <input type="number" v-model="common.sideBarInitWidth" class="numberInput rounded-md" min="250" max="400"> px
       </div>
+
+      <div class="preference-item">
+        <div class="font-bold my-4" style="font-size: 20px">忽略文件/文件夹（请用换行符分隔）</div>
+        <textarea class="numberInput rounded-md p-2 text-gray-700 w-full" style="height: 100px" v-model="ficus.graphSetting.ficusIgnore"/>
+      </div>
+
     </div>
     <div v-show="preMode === 1" class="preferences">
       <div class="title-font my-6" style="font-size: 33px">编辑器</div>
@@ -130,7 +136,7 @@
           <label>{{ getKeyName(key) }}：</label>
           <input @keydown="captureShortcut(key, $event)" ref="shortcutInput" :value="value"
                  class="numberInput rounded-md p-2 text-gray-700"
-                 @blur="setKeyBind"><br/>
+                 @blur="setKeyBind(key)"><br/>
         </li>
       </ul>
     </div>
@@ -197,11 +203,6 @@
       </div>
 
       <div class="preference-item">
-        <div class="font-bold my-4" style="font-size: 20px">.ficusignore</div>
-        <textarea class="numberInput rounded-md p-2 text-gray-700 w-full" style="height: 100px" v-model="ficus.graphSetting.ficusIgnore"/>
-      </div>
-
-      <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">榕图主题</div>
         <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
              @click="showGraphThemeSelection = !showGraphThemeSelection">
@@ -249,7 +250,6 @@ export default {
     const editor = store.getters.getEditor
     const shortcuts = store.getters.getShortCuts
     const ficus = store.getters.getFicus
-
     const latexPath = ref(0) // 0-无特殊操作, 1-复制图片到当前文件夹
     const showLatexSelection = ref(false)
     /* eslint-disable no-template-curly-in-string */
@@ -423,7 +423,9 @@ export default {
         keyCombination += 'Alt+'
       }
 
-      if (event.key !== 'Control' && event.key !== 'Shift' && event.key !== 'Alt') {
+      if (event.key === 'Backspace') {
+        keyCombination = ''
+      } else if (event.key !== 'Control' && event.key !== 'Shift' && event.key !== 'Alt') {
         keyCombination += event.key
       }
 
@@ -434,6 +436,14 @@ export default {
       event.preventDefault() // 阻止输入框默认的按键行为
       // 捕获用户按下的键位，并将其保存到对应的快捷键对象中
       shortcuts[key] = getKeyCombination(event)
+    }
+
+    function setKeyBind (key) {
+      // 写回 shortcuts[key]
+      window.electronAPI.setKeybindingItem({
+        id: key,
+        accelerator: shortcuts[key]
+      })
     }
 
     const searchKeyword = ref('')
@@ -493,6 +503,7 @@ export default {
       search,
       getTextNodes,
       getKeyName,
+      setKeyBind,
       showImgSelection,
       imgPath,
       imgOption,

@@ -213,8 +213,11 @@ export default {
     })
 
     // MindUI接口：MindUI实时将工作区修改保存到content中
-    bus.on('saveChangeMindUI', (json) => {
-      // FIXME: 在构建时会触发这个时间
+    bus.on('saveChangeMindUI', async (json) => {
+      const inDocumentPath = await window.electronAPI.getBuiltInDocumentsPath()
+      if (inDocumentPath.indexOf(curObj.value.path) !== -1) {
+        return
+      }
       if (store.getters.getMode === 2) {
         store.commit('files/updateByMind', { mindJson: json.data })
         content.value = store.getters['files/markdown']
@@ -242,7 +245,13 @@ export default {
         if (content.value !== undefined) {
           (async () => {
             bus.emit('setEditorContent', { content: content.value })
-          })().then(() => {
+          })().then(async () => {
+            const inDocumentPath = await window.electronAPI.getBuiltInDocumentsPath()
+            if (inDocumentPath.indexOf(curObj.value.path) === -1) {
+              bus.emit('setEditable', { enable: true })
+            } else {
+              bus.emit('setEditable', { enable: false })
+            }
             bus.emit('changeEditMode', { mode: store.getters.getMode })
           }
           )
@@ -323,7 +332,10 @@ export default {
       const info = await window.electronAPI.getLinks()
       info.files = props.data[0]
       store.commit('files/buildGraph', info)
-      bus.emit('getNodeAndLink', { nodes: toRaw(store.getters['files/graphNodes']), links: toRaw(store.getters['files/graphLinks']) })
+      bus.emit('getNodeAndLink', {
+        nodes: toRaw(store.getters['files/graphNodes']),
+        links: toRaw(store.getters['files/graphLinks'])
+      })
       await store.dispatch('updateMode', { value: 3 })
     })
 
@@ -541,7 +553,19 @@ export default {
       bus.emit('changeName', curObj.value.name)
     }
 
-    return { openFiles, update, curObj, content, mode, showMenu, minimizeWindow, maximizeWindow, closeWindow, changeTheme, hiddenHeaderButton }
+    return {
+      openFiles,
+      update,
+      curObj,
+      content,
+      mode,
+      showMenu,
+      minimizeWindow,
+      maximizeWindow,
+      closeWindow,
+      changeTheme,
+      hiddenHeaderButton
+    }
   }
 }
 </script>
