@@ -142,23 +142,27 @@ export default class IRGraph {
 
   /**
      * private
-     * @param {{name: string, path: string, children: [any], type: string}} files
+     * @param {{name: string, path: string, children: [any], type: string}} fileOrFolder
      * @returns
      */
-  _parseFileTree (files, depth) {
+  _parseFileTree (fileOrFolder, depth) {
     let newNode
-    if (files.type === 'folder') {
+    const { type, path, name, children } = fileOrFolder
+    if (type === 'folder') {
       const nid = this._allocNodeID()
-      this.idMap.set(files.path, nid)
-      newNode = buildFolderNode(nid, files.name, files.path, depth)
+      this.idMap.set(path, nid)
+      newNode = buildFolderNode(nid, name, path, depth)
       this.treenodes.push(newNode)
-      files.children.forEach(e => {
-        newNode.insertAtLast(this._parseFileTree(e, depth + 1))
+      children.forEach(e => {
+        const chnode = this._parseFileTree(e, depth + 1)
+        if (chnode) {
+          newNode.insertAtLast(chnode)
+        }
       })
-    } else {
+    } else if (window.pathAPI.isMarkdownExtname(path)) {
       const nid = this._allocNodeID()
-      this.idMap.set(files.path, nid)
-      newNode = buildFileNode(nid, files.name, files.path, depth)
+      this.idMap.set(path, nid)
+      newNode = buildFileNode(nid, name, path, depth)
       this.treenodes.push(newNode)
     }
     return newNode
