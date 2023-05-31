@@ -70,7 +70,9 @@ export default function defineRAPI (vditor, searchData) {
   /** 粘贴剪切板内容 **/
   bus.on('pasteSelectedText', async ({ type }) => {
     try {
-      let content = await navigator.clipboard.readText()
+      let content = await window.electronAPI.handlePaste()
+      console.log('im here')
+      console.log(content)
       if (type === 'plain') {
         content = content.replace(/(<([^>]+)>)/gi, '')
       }

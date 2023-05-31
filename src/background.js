@@ -10,7 +10,7 @@ import {
   saveFile,
   saveToTarget,
   saveToPDFTarget,
-  readFile, paste, makePathCompletion
+  readFile, paste, makePathCompletion, pasteHandling
 } from './main/filesystem/fileManipulate'
 import EAU from './main/update'
 
@@ -189,6 +189,7 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {
+    console.log(filePath)
     return await linkToFile(filePath, citingPath)
   })
   ipcMain.on('deleteFile', (e, filePath) => {
@@ -208,6 +209,9 @@ app.on('ready', async () => {
   })
   ipcMain.handle('autoPathCompletion', (e, partialPath) => {
     return makePathCompletion(partialPath)
+  })
+  ipcMain.handle('handlePaste', (e) => {
+    return pasteHandling()
   })
 
   ipcMain.handle('dialog:openFile', async (e) => {
