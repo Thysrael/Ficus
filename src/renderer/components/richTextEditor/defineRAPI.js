@@ -71,7 +71,7 @@ export default function defineRAPI (vditor, searchData) {
   bus.on('pasteSelectedText', async ({ type }) => {
     try {
       let content = await window.electronAPI.handlePaste()
-      console.log('im here')
+      console.log('render:')
       console.log(content)
       if (type === 'plain') {
         content = content.replace(/(<([^>]+)>)/gi, '')
@@ -79,6 +79,7 @@ export default function defineRAPI (vditor, searchData) {
       vditor.insertValue(content)
     } catch (e) {
       console.log('粘贴失败')
+      console.log(e)
     }
   })
 

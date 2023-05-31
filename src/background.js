@@ -56,7 +56,7 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   } else {
-    if(ficusApp.preferences.getItem('autoUpdate')) {
+    if (ficusApp.preferences.getItem('autoUpdate')) {
       updater(ficusApp, app, isOsx)
     }
   }
@@ -145,7 +145,7 @@ app.on('ready', async () => {
     return makePathCompletion(partialPath)
   })
   ipcMain.handle('handlePaste', (e) => {
-    return pasteHandling()
+    return pasteHandling(ficusPath, isOsx, ficusApp.preferences.getItem('imgPath'))
   })
 
   ipcMain.handle('dialog:openFile', async (e) => {
