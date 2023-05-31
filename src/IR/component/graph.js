@@ -136,7 +136,7 @@ export default class IRGraph {
   }
 
   _initID () {
-    this.nodeid = 0
+    this.nodeid = 1
     this.linkid = 0
   }
 
@@ -158,7 +158,7 @@ export default class IRGraph {
       })
       // 只有根节点或有孩子节点的文件夹显示
       if (subNodes.length > 1 || depth === 1) {
-        const nid = this._allocNodeID()
+        const nid = depth === 1 ? 0 : this._allocNodeID()
         this.idMap.set(path, nid)
         newNode = buildFolderNode(nid, name, path, depth)
         this.treenodes.push(newNode)
