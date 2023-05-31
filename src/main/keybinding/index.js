@@ -139,7 +139,7 @@ class KeyBinding extends EventEmitter {
 
   _loadKeybindings () {
     const defaultKeybindings = this._loadDefaultKeybindings()
-    if (!(fs.existsSync(this._preferencePath))) {
+    if (!(fs.existsSync(this.configPath))) {
       return defaultKeybindings
     } else {
       const rawUserKeybindings = JSON.parse(fs.readFileSync(this.configPath, 'utf8'))

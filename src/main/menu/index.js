@@ -24,8 +24,16 @@ class AppMenu extends EventEmitter {
     }
     this._LISTENForIpcMain()
 
-    this.keybinding.on('set-setting-menu', this.setSettingsMenu)
-    this.keybinding.on('set-editor-menu', this.setEditorMenu)
+    this.keybinding.on('set-settings-menu', () => {
+      if (isOsx) {
+        Menu.setApplicationMenu(this._buildSettingsMenu())
+      }
+    })
+    this.keybinding.on('set-editor-menu', () => {
+      if (isOsx) {
+        Menu.setApplicationMenu(this._buildMenu())
+      }
+    })
   }
 
   getRecentlyUsedDocuments () {
@@ -50,18 +58,6 @@ class AppMenu extends EventEmitter {
   setWindowRawMenu (win) {
     const menuTemplate = getMenuTemplates(this.keybinding, this.recentlyUsedDocuments)
     win.webContents.send('set-app-menu', toRawMenuTemplates(menuTemplate))
-  }
-
-  setSettingsMenu () {
-    if (isOsx) {
-      Menu.setApplicationMenu(this._buildSettingsMenu())
-    }
-  }
-
-  setEditorMenu () {
-    if (isOsx) {
-      Menu.setApplicationMenu(this._buildMenu())
-    }
   }
 
   updateAppMenu (recentlyUsedDocuments) {
