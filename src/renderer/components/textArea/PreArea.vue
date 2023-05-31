@@ -127,9 +127,10 @@
       <div class="title-font my-6" style="font-size: 33px">快捷键</div>
       <ul>
         <li v-for="(value, key) in shortcuts" :key="key" class="preference-item">
-          <label>{{ key }}：</label>
+          <label>{{ getKeyName(key) }}：</label>
           <input @keydown="captureShortcut(key, $event)" ref="shortcutInput" :value="value"
-                 class="numberInput rounded-md p-2 text-gray-700"><br/>
+                 class="numberInput rounded-md p-2 text-gray-700"
+                 @blur="setKeyBind"><br/>
         </li>
       </ul>
     </div>
@@ -231,6 +232,7 @@
 import { getCurrentInstance, onMounted, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import store from '@/renderer/store'
+import { modifiableKeybindingsMap } from '@/renderer/utils/keybindings'
 
 export default {
   name: 'PreArea',
@@ -475,6 +477,10 @@ export default {
       return textNodes
     }
 
+    function getKeyName (key) {
+      return modifiableKeybindingsMap.get(key)
+    }
+
     return {
       searchKeyword,
       searchResults,
@@ -486,6 +492,7 @@ export default {
       captureShortcut,
       search,
       getTextNodes,
+      getKeyName,
       showImgSelection,
       imgPath,
       imgOption,
