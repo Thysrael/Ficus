@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, protocol, dialog, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, protocol, shell } from 'electron'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import {
   deleteFile, deleteFolder,
@@ -12,7 +12,7 @@ import {
   saveToPDFTarget,
   readFile, paste, makePathCompletion, pasteHandling
 } from './main/filesystem/fileManipulate'
-import EAU from './main/update'
+import updater from './main/update'
 
 import path from 'path'
 import * as url from 'url'
@@ -56,41 +56,9 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   } else {
-    EAU.init({
-      api: 'https://ficus.world/update/version.json',
-      server: false,
-      formatRes: function (res) { return res }
-    })
-
-    EAU.check(function (error, last, body) {
-      if (error) {
-        if (error === 'no_update_available') { return false }
-        dialog.showErrorBox('info', error + last + body)
-        return false
-      }
-
-      EAU.progress((state) => { })
-
-      dialog.showMessageBoxSync(ficusApp.getFocusWin(), {
-        type: 'warning',
-        title: '更新提醒',
-        buttons: ['确定'],
-        message: '发现软件更新，软件需要自动重启',
-        defaultId: 0,
-        cancelId: 1
-      })
-
-      EAU.download(function (error) {
-        if (error) {
-          dialog.showErrorBox('info', error)
-          return false
-        }
-        if (isOsx) {
-          app.relaunch()
-        }
-        app.quit()
-      })
-    })
+    if(ficusApp.preferences.getItem('autoUpdate')) {
+      updater(ficusApp, app, isOsx)
+    }
   }
 
   ipcMain.handle('exportPDF', async (event, html) => {
