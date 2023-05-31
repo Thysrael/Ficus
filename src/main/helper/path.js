@@ -4,8 +4,16 @@
 import fs from 'fs-extra'
 import minimatch from 'minimatch'
 import path from 'path'
-import slash from 'slash'
 const maxFileSize = 100 * 1024
+function slash (path) {
+  const isExtendedLengthPath = path.startsWith('\\\\?\\')
+
+  if (isExtendedLengthPath) {
+    return path
+  }
+
+  return path.replace(/\\/g, '/')
+}
 
 /**
  * 判断某个markdown文件可以进行读取(路径存在，为md文件，且大小不超过100KB)
