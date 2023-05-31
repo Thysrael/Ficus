@@ -4,10 +4,11 @@ import keybindingsLinux from './keybindingsLinux'
 import keybindingsWindows from './keybindingsWindows'
 import { isLinux, isOsx } from '../config'
 import COMMANDS from '../../common/commands'
-import { BrowserWindow, ipcMain, app } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import EventEmitter from 'events'
 import path from 'path'
 import fs from 'fs-extra'
+import { userDataPath } from '../environment/appPaths'
 
 const _normalizeAccelerator = accelerator => {
   return accelerator.toLowerCase()
@@ -42,7 +43,7 @@ const isEqualAccelerator = (a, b) => {
 class KeyBinding extends EventEmitter {
   constructor () {
     super()
-    this.configPath = path.join(app.getPath('userData'), 'keybindings.json')
+    this.configPath = path.join(userDataPath, 'keybindings.json')
     this._keys = this._loadKeybindings()
     for (const id of this._keys.keys()) {
       if (Object.values(COMMANDS).indexOf(id) === -1) {

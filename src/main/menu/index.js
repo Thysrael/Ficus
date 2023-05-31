@@ -1,4 +1,4 @@
-import { Menu, app, ipcMain } from 'electron'
+import { Menu, ipcMain } from 'electron'
 import { isOsx, isWindows } from '../config'
 import { getMenuTemplates, getSettingsMenuTemplates, toRawMenuTemplates } from './templates'
 import fs from 'fs'
@@ -7,8 +7,8 @@ import { ensureDirSync } from '@/main/filesystem/fileManipulate'
 import { isValidFilePath, isValidFolderPath } from '@/main/helper/path'
 import { getBuiltInDocumentsPath } from './config'
 import EventEmitter from 'events'
+import { userDataPath } from '../environment/appPaths'
 
-const userDataPath = app.getPath('userData')
 const RECENTLY_USED_DOCUMENTS_FILE_NAME = 'recently-used-documents.json'
 const MAX_RECENTLY_USED_DOCUMENTS = 12
 class AppMenu extends EventEmitter {
