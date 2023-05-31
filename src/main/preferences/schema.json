@@ -66,8 +66,8 @@
   },
   "imgPath": {
     "description": "imgPath",
-    "type": "string",
-    "default": ""
+    "type": "number",
+    "default": 0
   },
   "autoSpace": {
     "description": "autoSpace",
