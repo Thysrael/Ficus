@@ -15,10 +15,18 @@ class Preference {
     this._preferencePath = path.resolve(userDataPath, 'preferences.json')
     this._defaultPreferencePath = path.resolve(__dirname, '..', 'static', 'preferences.json')
     // 注：electron-store有性能问题（IO），但支持JSON scheme验证
-    this._store = new Store({
-      schema,
-      name: 'preferences'
-    })
+    try {
+      this._store = new Store({
+        schema,
+        name: 'preferences'
+      })
+    } catch (_) {
+      fs.unlinkSync(this._preferencePath)
+      this._store = new Store({
+        schema,
+        name: 'preferences'
+      })
+    }
     this._loadPreferences()
     // log(this.getAll())
     this._listenForIpcMain()
@@ -59,11 +67,7 @@ class Preference {
           }
         }
         if (addedNewEntries) {
-          try {
-            this._store.set(userSetting)
-          } catch {
-            this._store.set(defaultSettings)
-          }
+          this._store.set(defaultSettings)
         }
       }
     }
