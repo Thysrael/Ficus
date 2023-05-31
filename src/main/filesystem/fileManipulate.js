@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import { makeFolderStat, makeMarkdownFileStat, makeFileStat } from './statistic'
 import path from 'path'
 import { isValidMarkdownFilePath, isValidFolderPath, isValidFilePath, isMarkdownExtname } from '../helper/path'
+import crypto from 'crypto'
 
 /**
  * 用于 showOpenDialog
@@ -302,10 +303,72 @@ export const makePathCompletion = async (folderPath) => {
   return result
 }
 
-export const pasteHandling = async () => {
-  const cont = clipboard.readText()
-  console.log(cont === '')
-  const pic = clipboard.readImage()
-  console.log(pic.isEmpty())
-  return cont
+async function hashSaveImg (folderPath, fileContent) {
+  const hashedSum = crypto.createHash('sha256')
+  hashedSum.update(fileContent)
+  const fileName = hashedSum.digest('hex') + '.png'
+  const filePath = path.resolve(folderPath, fileName)
+  fs.writeFile(filePath, fileContent)
+  return fileName
+}
+
+async function handleSingleImg (imgPath, basePath, imgPreference) {
+  const fileName = path.basename(imgPath)
+  if (imgPreference === 0) {
+    return '![' + fileName.replace(' ', '%20') + '](' + imgPath.replace(' ', '%20') + ')'
+  } else {
+    await fs.copy(imgPath, path.resolve(basePath, fileName))
+    return '![' + fileName.replace(' ', '%20') + '](./' + fileName.replace(' ', '%20') + ')'
+  }
+}
+
+export const pasteHandling = async (mdFilePath, isOsx, imgPreference) => {
+  const textContent = clipboard.readText()
+  if (textContent !== '') {
+    return textContent
+  }
+  const picContent = clipboard.readImage()
+  if (!picContent.isEmpty()) {
+    // 数据已经在剪切板中的图片，如屏幕截图
+    // 此时不可配置，只可直接将图片复制到文件同级处
+    // 返回 hash 后的文件名
+    const fileName = await hashSaveImg(mdFilePath, picContent.toPNG())
+    return '![picture](./' + fileName + ')'
+  }
+  // 数据不在剪切板中，以路径形式存在于剪切板
+  // 根据配置决定拷贝或者直接返回
+  let resultStr = ''
+  if (isOsx) {
+    if (clipboard.has('NSFilenamesPboardType')) {
+      const tagContent = clipboard.read('NSFilenamesPboardType').match(/<string>.*<\/string>/g)
+      const formatFilePathStr = tagContent ? tagContent.map(item => item.replace(/<string>|<\/string>/g, '')) : []
+      for (const filePath of formatFilePathStr) {
+        resultStr += await handleSingleImg(filePath, mdFilePath, imgPreference) + '\n'
+      }
+    } else {
+      const filePath = clipboard.read('public.file-url').replace('file://', '')
+      resultStr += await handleSingleImg(filePath, mdFilePath, imgPreference)
+    }
+  } else {
+    if (clipboard.has('CF_HDROP')) {
+      // 似乎很难触发这种情况
+      const rawFilePathStr = clipboard.readBuffer('CF_HDROP').toString('ucs2') || ''
+      console.log(rawFilePathStr)
+      const formatFilePathStr = [...rawFilePathStr]
+        .filter((_, index) => rawFilePathStr.charCodeAt(index) !== 0)
+        .join('')
+        .replace(/\\/g, '\\')
+      for (const filePath of formatFilePathStr) {
+        resultStr += await handleSingleImg(filePath, mdFilePath, imgPreference) + '\n'
+      }
+    } else {
+      const filePath = clipboard.readBuffer('FileNameW').toString('ucs2').replace(RegExp(String.fromCharCode(0), 'g'), '')
+      resultStr += await handleSingleImg(filePath, mdFilePath, imgPreference)
+    }
+  }
+  if (resultStr === '') {
+    return '** error copy **'
+  } else {
+    return resultStr
+  }
 }
