@@ -163,6 +163,8 @@ class HeadingContent extends Content {
   getMindJson () {
     const mindJson = super.getMindJson()
     mindJson.data.level = this.depth
+    mindJson.data.headingStyle = this.headingStyle
+    mindJson.data.marker = this.marker
     return mindJson
   }
 
@@ -289,7 +291,7 @@ class TableContent extends Content {
   }
 
   toMarkdown () {
-    const indent = this.normalPrefix
+    const indent = this.spacePreix
     const result = []
     const row = this.cells.length
     const column = this.cells[0].children.length
@@ -340,7 +342,7 @@ class TableContent extends Content {
         result.push(cutOff)
       }
     })
-    return result.join('\n') + '\n' + this.spacePreix + '\n'
+    return result.join('\n').replace(indent, this.normalPrefix) + '\n' + this.spacePreix + '\n'
   }
 
   getMindJson () {
