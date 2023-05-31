@@ -162,8 +162,8 @@ export default {
       }
 
       const magnifiedRatio = Math.pow((data.length / link.length), 3)
-      const charge = -20 / magnifiedRatio
-      const boundedCharge = Math.min(-65, charge)
+      const charge = -30 / magnifiedRatio
+      const boundedCharge = Math.min(-40, charge)
       // console.log(boundedCharge)
       ficGraph.d3Force('charge').strength(boundedCharge)  // 斥力强度，正值表示相互排斥的斥力，负值表示相互吸引的引力
       ficGraph.d3AlphaDecay(0.13) // 阻尼，调整布局收敛速度
