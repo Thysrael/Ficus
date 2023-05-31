@@ -1,13 +1,13 @@
-const fs = require('fs-extra')
-const path = require('path')
-const {
+import fs from 'fs-extra'
+import path from 'path'
+import {
   isValidMarkdownFilePath,
   isMarkdownExtname,
   isValidFilePath,
   isValidFolderPath,
   matchPathPattern,
   isValidImageFilePath
-} = require('../helper/path')
+} from '../helper/path'
 
 /**
  *
@@ -94,7 +94,7 @@ async function makeFolderStat (dirPath, ignored) {
   }
 }
 
-module.exports = {
+export {
   makeFileStat,
   makeFolderStat,
   makeMarkdownFileStat
