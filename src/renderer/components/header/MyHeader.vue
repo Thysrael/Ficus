@@ -374,7 +374,6 @@ export default {
 
     bus.on('openRefFile', async (obj) => {
       const file = await window.electronAPI.linkToFile(curObj.value.path, obj.path)
-      console.log(file)
       if (file !== undefined) {
         bus.emit('openNewTab', file)
       }

@@ -21,7 +21,6 @@ const markdownFilters = [
  */
 export const linkToFile = async (filePath, citingPath) => {
   const targetPath = path.resolve(filePath, '..', citingPath)
-  console.log(targetPath)
   return makeMarkdownFileStat(targetPath)
 }
 
@@ -353,7 +352,6 @@ export const pasteHandling = async (mdFilePath, isOsx, imgPreference) => {
     if (clipboard.has('CF_HDROP')) {
       // 似乎很难触发这种情况
       const rawFilePathStr = clipboard.readBuffer('CF_HDROP').toString('ucs2') || ''
-      console.log(rawFilePathStr)
       const formatFilePathStr = [...rawFilePathStr]
         .filter((_, index) => rawFilePathStr.charCodeAt(index) !== 0)
         .join('')

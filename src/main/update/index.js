@@ -447,7 +447,6 @@ const Updater = {
 }
 
 const UpdateMain = function (ficusApp, app, isOsx){
-  console.log('im here,for update')
   Updater.init({
     api: 'https://ficus.world/update/version.json',
     server: false,

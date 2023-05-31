@@ -71,8 +71,6 @@ export default function defineRAPI (vditor, searchData) {
   bus.on('pasteSelectedText', async ({ type }) => {
     try {
       let content = await window.electronAPI.handlePaste()
-      console.log('render:')
-      console.log(content)
       if (type === 'plain') {
         content = content.replace(/(<([^>]+)>)/gi, '')
       }
