@@ -4,6 +4,7 @@ const COMMANDS = Object.freeze({
   FILE_OPEN_FILE: 'file.open-file',
   FILE_OPEN_FOLDER: 'file.open-folder',
   FILE_SAVE: 'file.save',
+  FILE_SAVE_AS: 'file.save-as',
   FILE_RENAME_FILE: 'file.rename-file',
   FILE_QUIT: 'file.quit',
   FILE_EXPORT_AS_HTML: 'file.export-as-html',
@@ -20,7 +21,6 @@ const COMMANDS = Object.freeze({
   // FILE_PREFERENCES: 'file.preferences',
   // FILE_PRINT: 'file.print',
   // FILE_QUICK_OPEN: 'file.quick-open',
-  // FILE_SAVE_AS: 'file.save-as',
 
   EDIT_UNDO: 'edit.undo',
   EDIT_REDO: 'edit.redo',

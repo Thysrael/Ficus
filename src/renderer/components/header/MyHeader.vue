@@ -205,6 +205,13 @@ export default {
       bus.emit('getInfoOfFile', obj) // 更新信息栏
     })
 
+    // 另存为接口
+    bus.on('saveToAnotherFile', () => {
+      if (curObj.value.path && openFiles.value.length !== 0) {
+        window.electronAPI.saveToAnotherFile(content.value)
+      }
+    })
+
     // MindUI接口：MindUI实时将工作区修改保存到content中
     bus.on('saveChangeMindUI', (json) => {
       // FIXME: 在构建时会触发这个时间
