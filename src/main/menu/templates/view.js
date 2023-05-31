@@ -1,6 +1,6 @@
 export default function (keybindings) {
   const viewMenu = {
-    label: '视图',
+    label: '显示',
     submenu: [{
       label: '文本模式',
       id: 'view.text-mode',
@@ -20,7 +20,7 @@ export default function (keybindings) {
         browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
       }
     }, {
-      label: 'Ficus模式',
+      label: '榕树模式',
       id: 'view.ficus-mode',
       type: 'checkbox',
       checked: false,

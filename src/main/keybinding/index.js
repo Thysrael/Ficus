@@ -44,6 +44,7 @@ class KeyBinding extends EventEmitter {
   constructor () {
     super()
     this.configPath = path.join(userDataPath, 'keybindings.json')
+    // this._clearUserKeybindings()
     this._keys = this._loadKeybindings()
     for (const id of this._keys.keys()) {
       if (Object.values(COMMANDS).indexOf(id) === -1) {
@@ -158,6 +159,12 @@ class KeyBinding extends EventEmitter {
         }
       }
       return userAccelerators
+    }
+  }
+
+  _clearUserKeybindings () {
+    if (fs.existsSync(this.configPath)) {
+      fs.unlinkSync(this.configPath)
     }
   }
 
