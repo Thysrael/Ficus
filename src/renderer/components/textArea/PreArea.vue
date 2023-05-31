@@ -280,8 +280,8 @@ export default {
 
     bus.on('initPreOpt', () => {
       imgPath.value = editor.imgPath
-      latexPath.value = editor.latexEngine
-      codePath.value = editor.codeTheme
+      latexPath.value = latexOption.indexOf(editor.latexEngine)
+      codePath.value = codeOption.indexOf(editor.codeTheme)
       treeLevelPath.value = ficus.treeSetting.defaultLevel + 1
       treeStructPath.value = ficus.treeSetting.defaultStruct
       treeThemePath.value = ficus.treeSetting.theme
