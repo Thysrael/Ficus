@@ -67,6 +67,13 @@ export default function (keybindings, recentlyUsedDocuments) {
       browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
     }
   }, {
+    label: '另存为',
+    id: 'file.save-as',
+    accelerator: keybindings.getAccelerator('file.save-as'),
+    click (menuItem, browserWindow) {
+      browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
+    }
+  }, {
     label: '重命名当前文件',
     id: 'file.rename-file',
     accelerator: keybindings.getAccelerator('file.rename-file'),

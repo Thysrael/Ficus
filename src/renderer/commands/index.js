@@ -117,6 +117,12 @@ const commands = [
     }
   },
   {
+    id: 'file.save-as',
+    execute: async () => {
+      bus.emit('saveToAnotherFile')
+    }
+  },
+  {
     id: 'file.rename-file',
     execute: async () => {
       bus.emit('renameCurTabForMenu')

@@ -20,7 +20,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openFileTab: (callback) => ipcRenderer.on('open-file-tab', callback),
 
   saveFile: (path, content) => ipcRenderer.send('save-file', path, content),
-  saveToAnotherFile: (content, projPath) => ipcRenderer.send('save-as', content, projPath),
+  saveToAnotherFile: (content) => ipcRenderer.send('save-as', content),
   exportPDF: (html) => ipcRenderer.invoke('exportPDF', html),
 
   newFileFromDialog: () => ipcRenderer.invoke('newFileFromDialog'),

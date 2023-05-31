@@ -2,7 +2,7 @@ import { app, dialog } from 'electron'
 import fs from 'fs-extra'
 import { makeFolderStat, makeMarkdownFileStat, makeFileStat } from './statistic'
 import path from 'path'
-import { isValidMarkdownFilePath, isFileInDirectory, isValidFolderPath, isValidFilePath, isMarkdownExtname } from '../helper/path'
+import { isValidMarkdownFilePath, isValidFolderPath, isValidFilePath, isMarkdownExtname } from '../helper/path'
 
 /**
  * 用于 showOpenDialog
@@ -133,7 +133,7 @@ export const saveFile = async (filePath, fileContent) => {
 }
 
 // 文件另存为：
-export const saveToTarget = async (fileContent, projPath) => {
+export const saveToTarget = async (fileContent) => {
   const result = await dialog.showSaveDialog({
     buttonLabel: '保存',
     defaultPath: app.getPath('desktop'),
@@ -144,12 +144,6 @@ export const saveToTarget = async (fileContent, projPath) => {
     return []
   } else {
     await fs.writeFile(result.filePath, fileContent)
-    if (isFileInDirectory(result.filePath, projPath)) {
-      const { children } = await makeFolderStat(projPath)
-      return children
-    } else {
-      return []
-    }
   }
 }
 

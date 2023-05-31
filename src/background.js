@@ -217,8 +217,8 @@ app.on('ready', async () => {
   ipcMain.on('save-file', (e, path, content) => {
     saveFile(path, content)
   })
-  ipcMain.on('save-as', (e, content, projPath) => {
-    saveToTarget(content, projPath)
+  ipcMain.on('save-as', (e, content) => {
+    saveToTarget(content)
   })
 
   ipcMain.handle('main::about', () => {
