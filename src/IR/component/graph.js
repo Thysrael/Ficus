@@ -149,16 +149,21 @@ export default class IRGraph {
     let newNode
     const { type, path, name, children, isMd } = fileOrFolder
     if (type === 'folder') {
-      const nid = this._allocNodeID()
-      this.idMap.set(path, nid)
-      newNode = buildFolderNode(nid, name, path, depth)
-      this.treenodes.push(newNode)
+      const subNodes = []
       children.forEach(e => {
         const chnode = this._parseFileTree(e, depth + 1)
         if (chnode) {
-          newNode.insertAtLast(chnode)
+          subNodes.push(chnode)
         }
       })
+      // 只有根节点或有孩子节点的文件夹显示
+      if (subNodes.length > 1 || depth === 1) {
+        const nid = this._allocNodeID()
+        this.idMap.set(path, nid)
+        newNode = buildFolderNode(nid, name, path, depth)
+        this.treenodes.push(newNode)
+        subNodes.forEach(node => newNode.insertAtLast(node))
+      }
     } else if (isMd) {
       const nid = this._allocNodeID()
       this.idMap.set(path, nid)
