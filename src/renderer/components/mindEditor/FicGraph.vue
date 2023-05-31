@@ -138,6 +138,8 @@ export default {
           data[i].color = theme[3]
           tagNodes.add(data[i])
         }
+        !data[i].neighbors && (data[i].neighbors = [])
+        !data[i].links && (data[i].links = [])
       }
 
       // Calculate nodes' neighbors
@@ -147,14 +149,8 @@ export default {
 
         const sourceNode = data[id2NodeIndex.get(link[i].source)]
         const targetNode = data[id2NodeIndex.get(link[i].target)]
-        !sourceNode.neighbors && (sourceNode.neighbors = [])
-        !targetNode.neighbors && (targetNode.neighbors = [])
         sourceNode.neighbors.push(targetNode)
-        // targetNode.neighbors.push(sourceNode)
-        !sourceNode.links && (sourceNode.links = [])
-        !targetNode.links && (targetNode.links = [])
         sourceNode.links.push(link[i])
-        // targetNode.links.push(link[i])
 
         if (link[i].type === 0) {
           rootLinks.add(link[i])
@@ -163,6 +159,21 @@ export default {
         } else {
           branchLinks.add(link[i])
         }
+      }
+
+      const magnifiedRatio = Math.pow((data.length / link.length), 3)
+      const charge = -20 / magnifiedRatio
+      const boundedCharge = Math.min(-65, charge)
+      // console.log(boundedCharge)
+      ficGraph.d3Force('charge').strength(boundedCharge)  // 斥力强度，正值表示相互排斥的斥力，负值表示相互吸引的引力
+      ficGraph.d3AlphaDecay(0.13) // 阻尼，调整布局收敛速度
+          .d3VelocityDecay(0.18) // 节点速度衰减参数
+      ficGraph.d3Force('link').distance(45) // 弹簧力的长度，即连接线的长度
+      ficGraph.d3Force('center').strength(0.16)  // 中心力强度，使得节点更趋向于聚集在中心位置
+      ficGraph.d3Force('charge').distanceMax(600) // 斥力最大作用距离
+
+      if (link.length < 30) {
+        ficGraph.d3Force('link').distance(80)
       }
 
       // Set graph's data
@@ -240,22 +251,6 @@ export default {
         }
       })
       .zoomToFit(400, 0, node => node.depth === 0)
-      const magnifiedRatio = Math.pow((data.length / link.length), 5.4)
-      const charge = -30 / magnifiedRatio
-      const boundedCharge = Math.min(-100, charge)
-      // console.log(boundedCharge)
-      ficGraph.d3Force('charge').strength(boundedCharge)  // 斥力强度，正值表示相互排斥的斥力，负值表示相互吸引的引力
-      ficGraph.d3AlphaDecay(0.13) // 阻尼，调整布局收敛速度
-              .d3VelocityDecay(0.58) // 节点速度衰减参数
-      ficGraph.d3Force('link').distance(25) // 弹簧力的长度，即连接线的长度
-      ficGraph.d3Force('center').strength(0.1)  // 中心力强度，使得节点更趋向于聚集在中心位置
-      ficGraph.d3Force('charge').distanceMax(280) // 斥力最大作用距离
-
-      if (link.length < 30) {
-        ficGraph.d3Force('link').distance(75)
-        ficGraph.d3VelocityDecay(0.1) // 节点速度衰减参数
-                .cooldownTicks(50)
-      }
 
       focusTarget = 0
       focusOnNode(defaultTimeout)
