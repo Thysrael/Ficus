@@ -18,7 +18,7 @@ function mindToTreeRecursion (mindJson) {
       nowNode = buildParagraph(mindJson.data.text)
       break
     case headingTypeName:
-      nowNode = buildHeading(mindJson.data.text, mindJson.data.level)
+      nowNode = buildHeading(mindJson.data.text, mindJson.data.level, mindJson.data.headingStyle, mindJson.data.marker)
       nowLevel = mindJson.level
       break
     case frontmatterTypeName:
