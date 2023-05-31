@@ -18,24 +18,6 @@ import path from 'path'
 import * as url from 'url'
 import { isOsx, isWindows } from './main/config'
 import App from './main/app'
-import express from 'express'
-
-const uploadApp = express()
-uploadApp.use(express.urlencoded({ extended: true }))
-uploadApp.use(express.json())
-
-uploadApp.post('/upload', (req, res) => {
-  console.log()
-  res.send({
-    msg: '',
-    code: 0,
-    data: {
-      succMap: req.query
-    }
-  })
-})
-
-const instanceUploadApp = uploadApp.listen(0)
 
 const ficusApp = new App()
 
@@ -153,22 +135,6 @@ app.on('ready', async () => {
     } catch (error) {
       console.log(error)
     }
-  })
-
-  protocol.registerHttpProtocol('http', (request, callback) => {
-    let newReq = { url: request.url }
-    if (newReq.url.startsWith('http://ficus.world/local_api/upload')) {
-      const jsonData = {}
-      for (const fileInfo of request.uploadData) {
-        if (fileInfo.type === 'file') {
-          jsonData[fileInfo.file] = 'ficus://' + fileInfo.filePath
-        }
-      }
-      newReq.url = 'http://localhost:' + instanceUploadApp.address().port + '/upload?' + new URLSearchParams(jsonData)
-    } else {
-      newReq = request
-    }
-    callback(newReq)
   })
 
   ipcMain.handle('changePath', (e, tarPath) => {

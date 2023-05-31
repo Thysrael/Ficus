@@ -6677,7 +6677,7 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-express@^4.17.3, express@^4.18.2:
+express@^4.17.3:
   version "4.18.2"
   resolved "https://mirrors.cloud.tencent.com/npm/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
   integrity sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==
@@ -6834,7 +6834,7 @@ fflate@^0.4.8:
   resolved "https://mirrors.cloud.tencent.com/npm/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
 
-ficus-editor@^1.1.23:
+ficus-editor@1.1.23:
   version "1.1.23"
   resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.23.tgz#132fbbf39d6a6dd3c4bbc5ca788f8c649a95f0c1"
   integrity sha512-ydl4upPKOuwgcNUU6eZwpNiq/Ek65cFcVwQPeL+kIJYr6DWU36DMZ1kZ5H+WQzhxzsuyceEt1uZiXgrx9palfg==
