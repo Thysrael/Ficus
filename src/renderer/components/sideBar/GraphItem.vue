@@ -11,14 +11,14 @@
       <div @click="changeShowAll" class="flex align-middle content-center place-content-center flex-wrap pt-2">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="24" height="24" viewBox="0 0 15 15"><defs><clipPath id="master_svg0_218_1030"><rect x="0" y="0" width="15" height="15" rx="0"/></clipPath></defs><g clip-path="url(#master_svg0_218_1030)"><g></g><g></g><g><g><path d="M8.75,7.8125L7.8125,7.8125L7.8125,6.85C8.88779,6.6948,9.68623,5.77393,9.6875,4.6875C9.6875,3.60625,8.81562,0.9375,7.5,0.9375C7.26557,0.942652,7.03892,1.022581,6.85313,1.165625C7.39646,2.26695,7.7222,3.46276,7.8125,4.6875C7.81177,5.48694,7.47087,6.24829,6.875,6.78125C6.97748,6.81201,7.08188,6.83602,7.1875,6.85313L7.1875,7.8125L5.3125,7.8125L5.3125,6.85C6.38779,6.6948,7.18623,5.77393,7.1875,4.6875C7.1875,3.75,6.39062,0.3125,5,0.3125C3.60937,0.3125,2.8125,3.75,2.8125,4.6875C2.81377,5.77393,3.61221,6.6948,4.6875,6.85L4.6875,7.8125L2.8125,7.8125L2.8125,6.85313C2.91812,6.83602,3.02251,6.81201,3.125,6.78125C2.52913,6.24829,2.18823,5.48694,2.1875,4.6875C2.2778,3.46276,2.60354,2.26695,3.14687,1.165625C2.96108,1.022581,2.73443,0.942652,2.5,0.9375C1.184375,0.9375,0.3125,3.60625,0.3125,4.6875C0.31377304,5.77393,1.1122100000000001,6.6948,2.1875,6.85L2.1875,7.8125L1.25,7.8125C0.732233,7.8125,0.3125,8.232230000000001,0.3125,8.75L0.3125,9.375C0.3125,9.54759,0.452411,9.6875,0.625,9.6875L9.375,9.6875C9.54759,9.6875,9.6875,9.54759,9.6875,9.375L9.6875,8.75C9.6875,8.232230000000001,9.26777,7.8125,8.75,7.8125Z" fill="#89D3B1" fill-opacity="1"/></g></g></g></svg>
       </div>
-      <div :title="unit.name" class="pl-2 overflow-hidden align-middle content-center flex flex-wrap">
-        <div class="whitespace-nowrap">
+      <div :title="unit.name" class="align-middle content-center flex flex-wrap">
+        <div class="whitespace-nowrap overflow-hidden overflow-ellipsis" style="max-width: 140px">
           {{ unit.name }}
         </div>
       </div>
     </div>
   </div>
-  <ul style="margin-top: 15px" v-if="unit.children.length !== 0">
+  <ul v-if="unit.children.length !== 0" class="border-l-2 border-gray-200 mt-1 ml-4 pr-2">
     <li v-for="(path, key) in unit.children"
         :key="key">
       <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
@@ -205,7 +205,7 @@ export default {
 
 .selectedElement {
   padding: 4px;
-  color: #3d3d3d;
+  color: #565656;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;

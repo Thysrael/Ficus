@@ -1718,7 +1718,7 @@ select {
 }
 
 .border-r {
-    border-right-width: 1px;
+    border-right-width: 2px;
 }
 
 .border-b {
