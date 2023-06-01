@@ -107,12 +107,12 @@ class KeyBinding extends EventEmitter {
       for (const cmdId of Object.values(COMMANDS)) {
         const value = this._keys.get(cmdId)
         if (cmdId !== id &&
-          Object.keys(modifiableKeybindingsMap).indexOf(cmdId) === -1 &&
+          !modifiableKeybindingsMap.has(cmdId) &&
           isEqualAccelerator(value, accelerator)) {
           dialog.showMessageBoxSync({
             type: 'error',
             title: '快捷键绑定失败',
-            message: '与已有不可修改快捷键冲突',
+            message: `与已有快捷键${accelerator}冲突`,
             buttons: ['确定']
           })
           this.loadKeybindings(win)
