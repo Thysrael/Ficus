@@ -1,7 +1,9 @@
+import path from 'path'
 import FileSystem from '../filesystem'
 import LinkManager from '../filesystem/linkManager'
-import { makeFolderStat } from '../filesystem/statistic'
+import { makeFileStat, makeFolderStat } from '../filesystem/statistic'
 import Watcher from '../filesystem/watcher'
+import { isValidFolderPath, isValidMarkdownFilePath } from '../helper/path'
 
 class BaseWindow {
   constructor (win, preferences) {
@@ -36,6 +38,15 @@ class BaseWindow {
       this.win.webContents.send('ficus::passive-refresh', projectStat)
     }
     return folderPath
+  }
+
+  async openInitFileOrFolder (pathname) {
+    if (isValidFolderPath(pathname)) {
+      this.openFolder(pathname)
+    } else if (isValidMarkdownFilePath(pathname)) {
+      this.openFolder(path.dirname(pathname))
+      this.win.webContents.send('ficus::open-init-file', makeFileStat(pathname))
+    }
   }
 }
 
