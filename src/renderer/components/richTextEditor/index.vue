@@ -320,7 +320,7 @@ export default {
     onMounted(() => {
       nextTick(async () => {
         let keybindings = []
-        if (!window.electronAPI.isOsx()) {
+        if (!window.electronAPI.isOSx()) {
           // macOs快捷键通过menu实现，其他系统通过LocalShortcut实现
           keybindings = makeKeybingdingMap((await window.electronAPI.getKeybindingsMap()))
         }
