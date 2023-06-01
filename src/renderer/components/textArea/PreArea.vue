@@ -233,7 +233,7 @@
 import { getCurrentInstance, onMounted, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import store from '@/renderer/store'
-import { modifiableKeybindingsMap } from '@/renderer/utils/keybindings'
+import { modifiableKeybindingsMap } from '@/common/keybindings'
 
 export default {
   name: 'PreArea',
