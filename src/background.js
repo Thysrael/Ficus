@@ -142,7 +142,7 @@ app.on('ready', async () => {
     newFolder(filePath, fileName)
   })
   ipcMain.handle('autoPathCompletion', (e, partialPath) => {
-    return makePathCompletion(partialPath)
+    return makePathCompletion(partialPath, ficusPath)
   })
   ipcMain.handle('handlePaste', (e) => {
     return pasteHandling(ficusPath, isOsx, ficusApp.preferences.getItem('imgPath'))

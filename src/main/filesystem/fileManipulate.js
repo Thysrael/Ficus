@@ -272,7 +272,7 @@ exports.makeValidFolderPath = (folderPath) => {
   return 'ficus-error.md'
 }
 
-export const makePathCompletion = async (folderPath) => {
+export const makePathCompletion = async (folderPath, basePath) => {
   if (folderPath.startsWith('ficus://')) {
     folderPath = folderPath.slice('ficus://'.length)
   }
@@ -280,7 +280,8 @@ export const makePathCompletion = async (folderPath) => {
   let fileName = path.basename(folderPath)
   fileName = fileName.substring(0, fileName.length - 1)
   const dirName = path.dirname(folderPath)
-  const dirInfo = await fs.promises.readdir(dirName)
+  const absDir = path.resolve(basePath,dirName)
+  const dirInfo = await fs.promises.readdir(absDir)
   const result = []
   for (const subItem of dirInfo) {
     if (subItem.startsWith(fileName)) {
