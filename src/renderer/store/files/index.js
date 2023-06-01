@@ -73,7 +73,7 @@ const mutations = {
 
   exportAll (state) {
     const files = state.forest.exportAll()
-    window.electronAPI.exportForest(files)
+    window.electronAPI.exportForest(files, 'out')
     bus.emit('sendToFicTree', toRaw(state.forest.mind))
   },
 

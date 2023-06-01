@@ -5,6 +5,7 @@ import { SearchEngine } from './search'
 import path from 'path'
 import { makeValidFilePath } from './fileManipulate'
 import { isValidFolderPath, isValidMarkdownFilePath, matchPathPattern } from '../helper/path'
+import dateFormat from 'dateformat'
 
 /**
  * 用于 showOpenDialog
@@ -63,14 +64,13 @@ class FileSystem {
     return searchEngine.results
   }
 
-  async exportForest (files) {
+  async exportForest (files, pathname) {
     if (!this.root) {
       return
     }
-    const exportPath = path.resolve(this.root, 'out')
-    if (!fs.pathExists(exportPath)) {
-      fs.mkdirSync(exportPath)
-    }
+    const dateDirname = dateFormat(new Date(), 'yyyy_mm_dd_HH_MM_ss')
+    const exportPath = path.resolve(this.root, pathname, dateDirname)
+    fs.ensureDirSync(exportPath)
     for (const file of files) {
       const filepath = makeValidFilePath(path.resolve(exportPath, file.name))
       await fs.createFile(filepath)

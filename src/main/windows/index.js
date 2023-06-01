@@ -139,9 +139,9 @@ class WindowsManager {
       return await filesystem.searchToken(token)
     })
 
-    ipcMain.on('export-forest', (e, files) => {
+    ipcMain.on('export-forest', (e, files, exportPath) => {
       const { filesystem } = this.getBaseWindowById(BrowserWindow.fromWebContents(e.sender).id)
-      filesystem.exportForest(files)
+      filesystem.exportForest(files, exportPath)
     })
 
     // linkManager
