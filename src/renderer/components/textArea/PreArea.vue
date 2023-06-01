@@ -409,27 +409,41 @@ export default {
     })
 
     function getKeyCombination (event) {
-      let keyCombination = ''
+      console.log(event)
+      const keyCombination = []
 
       if (event.ctrlKey) {
-        keyCombination += 'Ctrl+'
+        if (window.electronAPI.isOSx()) {
+          keyCombination.push('Control')
+        } else {
+          keyCombination.push('Ctrl')
+        }
       }
 
       if (event.shiftKey) {
-        keyCombination += 'Shift+'
+        keyCombination.push('Shift')
       }
 
       if (event.altKey) {
-        keyCombination += 'Alt+'
+        if (window.electronAPI.isOSx()) {
+          keyCombination.push('Option')
+        } else {
+          keyCombination.push('Alt')
+        }
       }
 
-      if (event.key === 'Backspace') {
-        keyCombination = ''
-      } else if (event.key !== 'Control' && event.key !== 'Shift' && event.key !== 'Alt') {
-        keyCombination += event.key
+      if (event.metaKey) {
+        keyCombination.push('Command')
       }
 
-      return keyCombination
+      if (event.key !== 'Control' &&
+          event.key !== 'Shift' &&
+          event.key !== 'Alt' &&
+          event.key !== 'Meta') {
+        keyCombination.push(event.key.toUpperCase())
+      }
+
+      return event.key === 'Backspace' ? '' : keyCombination.join('+')
     }
 
     function captureShortcut (key, event) {
