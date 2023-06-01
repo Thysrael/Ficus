@@ -72,7 +72,7 @@ export default {
         .linkVisibility(link => !hidingLinks.has(link.id))
         .linkDirectionalParticles(2)
         .linkDirectionalParticleWidth(link => tagLinks.has(link) ? (highlightLinks.has(link) ? 8 : 5) : 0)
-        .linkCurvature(link => tagLinks.has(link) ? 0.2 : branchLinks.has(link) ? 0.1 : 0)
+        .linkCurvature(link => tagLinks.has(link) ? 0.18 : branchLinks.has(link) ? 0.1 : 0)
         .linkLineDash(link => branchLinks.has(link) ? [6, 8] : 0)
         .linkDirectionalArrowLength(link => tagLinks.has(link) ? 0 : (highlightLinks.has(link) ? 15 : link.weight * 3))
         .width(2000)
@@ -168,9 +168,9 @@ export default {
       ficGraph.d3Force('charge').strength(boundedCharge)  // 斥力强度，正值表示相互排斥的斥力，负值表示相互吸引的引力
       ficGraph.d3AlphaDecay(0.13) // 阻尼，调整布局收敛速度
           .d3VelocityDecay(0.18) // 节点速度衰减参数
-      ficGraph.d3Force('link').distance(75) // 弹簧力的长度，即连接线的长度
+      ficGraph.d3Force('link').distance(65) // 弹簧力的长度，即连接线的长度
       ficGraph.d3Force('center').strength(0.16)  // 中心力强度，使得节点更趋向于聚集在中心位置
-      ficGraph.d3Force('charge').distanceMax(130) // 斥力最大作用距离
+      ficGraph.d3Force('charge').distanceMax(150) // 斥力最大作用距离
 
       if (link.length < 30) {
         ficGraph.d3Force('link').distance(100)
@@ -207,8 +207,8 @@ export default {
             node.color = theme[0]
           }
 
-          if (label.length > 8) {
-            label = `${label.substr(0, 8)}...`
+          if (label.length > 12) {
+            label = `${label.substr(0, 12)}...`
           }
 
           // Draw a ring for highlight nodes
