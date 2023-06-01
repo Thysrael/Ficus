@@ -24,7 +24,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   exportPDF: (html) => ipcRenderer.invoke('exportPDF', html),
 
   newFileFromDialog: () => ipcRenderer.invoke('newFileFromDialog'),
-  newFileFromSidebar: (filePath, fileName) => ipcRenderer.send('newFileFromSidebar', filePath, fileName),
+  newFileFromSidebar: (filePath, fileName) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName),
   newWindow: () => ipcRenderer.send('new-window'),
 
   newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.send('newFolderFromSidebar', folderPath, folderName),

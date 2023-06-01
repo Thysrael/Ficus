@@ -251,7 +251,7 @@ export default {
     }
 
     // 新建文件/文件夹
-    function handleNew () {
+    async function handleNew () {
       if (dialogName.value === '新建文件（以.md为后缀）') {
         fileName.value = namifyMarkdownFile(fileName.value)
       }
@@ -266,9 +266,9 @@ export default {
         }
 
         if (dialogName.value === '新建文件（以.md为后缀）') {
-          window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
+          await window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
         } else {
-          window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
+          await window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
         }
         const paths = []
         for (let i = 0; i < father.value.absolutePath.length; i++) {
@@ -287,8 +287,6 @@ export default {
           offset: -1,
           type: fileType
         }
-        father.value.children.push(obj)
-        father.value.curChild = father.value.children.length - 1
         if (obj.type === 'file') {
           bus.emit('openNewTab', obj)
         }
