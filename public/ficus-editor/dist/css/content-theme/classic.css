@@ -327,3 +327,10 @@ pre.vditor-sv:focus {
 .vditor-reset span.vditor-search__current {
   background-color: #b6f07c;
 }
+
+/** 图片居中 **/
+
+.vditor img:not([src=""]):not([src="ficus://"]) {
+  margin: auto;
+  display: block;
+}

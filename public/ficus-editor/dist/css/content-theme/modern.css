@@ -256,6 +256,13 @@ pre.vditor-sv:focus {
   padding: 0.6em 0.6em !important;
 }
 
+/** 图片居中 **/
+
+.vditor img:not([src=""]):not([src="ficus://"]) {
+  margin: auto;
+  display: block;
+}
+
 /** front matter **/
 
 .vditor-reset code[data-type="yaml-front-matter"],
