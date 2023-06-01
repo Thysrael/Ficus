@@ -28,6 +28,9 @@ const mutations = {
       state.trees.updateCurrent({ mindJson: fileStats.mindJson })
     }
   },
+  closeCurrentFile () {
+    state.trees.closeCurrentTree()
+  },
 
   // 设置为当前
   setCurrentFile (state, filepath) {

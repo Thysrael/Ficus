@@ -8,6 +8,10 @@ class TreeManager {
     this._cached = new Map()
   }
 
+  closeCurrentTree () {
+    this._tree = undefined
+  }
+
   /**
    * 判断缓存中有某个
    * @param {string} filepath
