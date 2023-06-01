@@ -29,7 +29,7 @@
           </g>
         </svg>
       </button>
-      <button class="myButton"  @click="isFile = 1" :title="'搜索: 对于打开文件夹中的所有 md 文件内容进行搜索'">
+      <button class="myButton"  @click="getSearch" :title="'搜索: 对于打开文件夹中的所有 md 文件内容进行搜索'">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 20 20">
           <g clip-path="url(#master_svg0_71_1317)">
@@ -154,7 +154,7 @@
         <OutLine :items="titles" v-if="isFile === 2"></OutLine>
         <TagBar v-if="isFile === 3"></TagBar>
         <PropBar v-show="isFile === 4"></PropBar>
-        <ForestBar :data="data" v-if="isFile === 5"></ForestBar>
+        <ForestBar v-if="isFile === 5" :data="data"></ForestBar>
         <GraphBar :data="data" v-if="isFile === 6"></GraphBar>
         <PreBar v-if="isFile === 7"></PreBar>
       </div>
@@ -305,6 +305,14 @@ export default {
       bus.emit('changeToTag')
     }
 
+    function getSearch () {
+      if (props.data.length === 0) {
+        bus.emit('showMyAlert', { message: '必须要打开文件夹才能使用全局搜索' })
+      } else {
+        isFile.value = 1
+      }
+    }
+
     function getGraph () {
       if (props.data.length === 0) {
         bus.emit('showMyAlert', { message: '必须要打开文件夹才能体验榕图模式' })
@@ -315,8 +323,12 @@ export default {
     }
 
     function getForest () {
-      isFile.value = 5
-      bus.emit('changeToForest')
+      if (props.data.length === 0) {
+        bus.emit('showMyAlert', { message: '必须要打开文件夹才能体验榕林模式' })
+      } else {
+        isFile.value = 5
+        bus.emit('changeToForest')
+      }
     }
 
     watch(() => store.getters.getMode, (newValue, oldValue) => {
@@ -489,6 +501,7 @@ export default {
       handleRightClick,
       handleNew,
       handlePaste,
+      getSearch,
       getTags,
       getGraph,
       getForest,

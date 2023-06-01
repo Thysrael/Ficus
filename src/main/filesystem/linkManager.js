@@ -61,7 +61,7 @@ class LinkManager {
           groups.push({
             name: dirname,
             children: [filePath],
-            handle: '转变为根'
+            handle: '转变为文件夹'
           })
         }
       }

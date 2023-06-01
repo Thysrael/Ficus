@@ -19,7 +19,7 @@
       </svg>
     </button>
   </div>
-  <ul style="margin-top: 40px" class="pl-2">
+  <ul style="margin-top: 40px" class="pl-2" v-if="searchResult.length !== 0">
   <li v-for="(path, index) in searchResult"
       :key="index"
       @click="toggle(path)"
@@ -73,6 +73,9 @@
     </div>
   </li>
 </ul>
+  <div style="font-size: 12px; font-family: 'Noto Sans SC'; margin-top: 50px" class="pl-2" v-if="searchResult.length === 0">
+    没有匹配结果。
+  </div>
 </template>
 
 <script>
