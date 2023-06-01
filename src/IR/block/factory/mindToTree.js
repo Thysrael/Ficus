@@ -12,7 +12,7 @@ function mindToTreeRecursion (mindJson) {
   let nowLevel
   switch (mindJson.data.type) {
     case rootTypeName:
-      nowNode = buildRootNode()
+      nowNode = buildRootNode(mindJson.data.text)
       break
     case paragraphTypeName:
       nowNode = buildParagraph(mindJson.data.text)

@@ -222,6 +222,8 @@ export default {
         store.commit('files/updateByMind', { mindJson: json.data })
         content.value = store.getters['files/markdown']
         getOutLine()
+      } else if (json.data.data.type) { // FIXME: 第一次type可能不存在
+        store.commit('files/updateForestByMind', json.data)
       }
     })
 

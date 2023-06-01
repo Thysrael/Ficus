@@ -1,5 +1,6 @@
 import { buildRootNode } from '../block/factory/buildNode'
 import { markdownToTree } from '../block/factory/markdownToTree'
+import { mindToTree } from '../block/factory/mindToTree'
 
 export default class IRForest {
   constructor () {
@@ -30,6 +31,10 @@ export default class IRForest {
       }
     }
     this.removeFiles(filesToRemove)
+  }
+
+  updateByMind (mind) {
+    this.filesRoot = mindToTree(mind)
   }
 
   filterPaths (filepaths) {

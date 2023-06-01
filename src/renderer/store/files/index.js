@@ -57,6 +57,10 @@ const mutations = {
     bus.emit('sendToFicTree', toRaw(state.forest.mind))
   },
 
+  updateForestByMind (state, mind) {
+    state.forest.updateByMind(mind)
+  },
+
   addBaseToForest (state, filename) {
     state.forest.addBase(filename)
     bus.emit('sendToFicTree', toRaw(state.forest.mind))
