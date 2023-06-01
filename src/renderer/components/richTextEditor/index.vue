@@ -305,12 +305,19 @@ export default {
       const newKeybinding = []
       for (const [id, accelerator] of keybindingMap) {
         if (accelerator) {
-          newKeybinding.push({
-            hotkey: viditorFormatAccelerator(accelerator),
-            action: () => {
-              bus.emit('cmd::execute', { id })
-            }
-          })
+          if (window.electronAPI.isOSx()) {
+            newKeybinding.push({
+              hotkey: viditorFormatAccelerator(accelerator),
+              action: () => {
+                bus.emit('cmd::execute', { id })
+              }
+            })
+          } else {
+            newKeybinding.push({
+              hotkey: viditorFormatAccelerator(accelerator),
+              action: () => {}
+            })
+          }
         }
       }
       return newKeybinding
@@ -320,10 +327,8 @@ export default {
     onMounted(() => {
       nextTick(async () => {
         let keybindings = []
-        if (!window.electronAPI.isOSx()) {
-          // macOs快捷键通过menu实现，其他系统通过LocalShortcut实现
-          keybindings = makeKeybingdingMap((await window.electronAPI.getKeybindingsMap()))
-        }
+        // macOs快捷键通过menu实现，其他系统通过LocalShortcut实现
+        keybindings = makeKeybingdingMap((await window.electronAPI.getKeybindingsMap()))
         // 初始化vditor
         initVditor(keybindings)
         // 定义和vditor相关的API, 使用全局事件总线实现
