@@ -56,7 +56,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getFolderStatInGraph: (dirpath) => ipcRenderer.invoke('link::get-folder-stat-in-graph', dirpath),
   getFilesByTag: (tagName) => ipcRenderer.invoke('link::get-files-by-tag', tagName),
 
-  exportForest: (files) => ipcRenderer.send('export-forest', files),
+  exportForest: (files, exportPath) => ipcRenderer.send('export-forest', files, exportPath),
 
   aboutUs: () => ipcRenderer.invoke('main::about'),
   autoPathCompletion: (partialPath) => ipcRenderer.invoke('autoPathCompletion', partialPath),
