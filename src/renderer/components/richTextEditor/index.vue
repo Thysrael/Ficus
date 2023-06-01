@@ -226,7 +226,7 @@ export default {
           }
         },
         // 设置tab键渲染
-        tab: '\t',
+        tab: '  ',
         // 打字机模式（类似与typora）
         typewriterMode: false,
         // 内容为空时的提示
@@ -247,7 +247,7 @@ export default {
             lineCnt: content.split('\n').length - 1
           })
           // 如果用户正在搜索，则实时返回最新的搜索结果
-          if (vditor.vditor.search.isSearching) {
+          if (vditor?.vditor.search.isSearching) {
             const res = vditor.vditor.search.getSearchCounter()
             searchData.current = res.current
             searchData.total = res.total
