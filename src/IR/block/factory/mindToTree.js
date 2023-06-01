@@ -61,8 +61,7 @@ function mindToTreeRecursion (mindJson) {
       nowNode = buildListItemBlock(taskListItemTypeName, mindJson.data.checked)
       break
     default:
-      // error
-      console.log('mindToTree: unknown type ' + mindJson.data.type)
+      console.error('mindToTree: unknown type ' + mindJson.data.type)
       break
   }
   let level
