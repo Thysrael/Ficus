@@ -409,7 +409,6 @@ export default {
     })
 
     function getKeyCombination (event) {
-      console.log(event)
       const keyCombination = []
 
       if (event.ctrlKey) {
