@@ -36,6 +36,7 @@
               id="newTag"
               style="width: 80%;"
               placeholder="输入新标签..."
+              @keyup.enter="handleAddTag(keyWord)"
           />
         <div class="flex" style="position: absolute; right: 0">
           <button type="button"
@@ -52,11 +53,11 @@
     <div v-bind:class="{'hidden': !showM, 'block': showM}"
          @mouseleave="handleSearch"
          class="items-center content-center overflow-y-auto transition-all ease-linear bg-white border-0 shadow-md mr-3 py-2 block font-normal text-base text-left no-underline break-words rounded-lg opacity-90"
-         style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px; width: 150px">
+         style="position: relative; font-family: 'Noto Sans SC'; max-height: 300px; width: 80%">
       <div v-for="(item, index) in resTags"
-           class="px-3 py-1 option"
+           class="px-3 py-1 option w-full"
           :key="index"
-          @click="handleAddTag(index)">
+          @click="handleAddTag(item)">
         {{ item }}
       </div>
     </div>
@@ -183,9 +184,9 @@ export default {
       }
     }
 
-    function handleAddTag (index) {
+    function handleAddTag (value) {
       showM.value = false
-      const selected = resTags.value[index]
+      const selected = value
       for (let i = 0; i < tags.value.length; i++) {
         if (selected === tags.value[i]) {
           return

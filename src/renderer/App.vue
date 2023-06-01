@@ -37,13 +37,18 @@
 
         <div class="relative p-3 flex-auto">
           <input class="my-4 text-blueGray-500 text-lg leading-relaxed rounded-md w-full"
+                 style="border: 1px solid #d8b56d;"
                  v-model="fileName" type="text" placeholder="名称" ref="inputBox" @keyup.enter="handle">
         </div>
 
         <div class="flex items-center justify-end p-1 border-t border-solid border-blueGray-200 rounded-b">
           <button class="text-red-500 hover:text-blueGray-400 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button" @click="handle; showDialog = false">
+            确认
+          </button>
+          <button class="text-red-500 hover:text-blueGray-400 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button" @click="showDialog = false">
-            Close
+            关闭
           </button>
         </div>
       </div>
@@ -157,7 +162,7 @@ export default {
       }
 
       bus.on('showDialogForNewFile', (obj) => {
-        dialogName.value = (obj.type === 'file') ? '新建文件（以.md为后缀）' : '新建文件夹'
+        dialogName.value = (obj.type === 'file') ? '新建文件' : '新建文件夹'
         father.value = obj.father
         mode = 0
         openModal()
@@ -167,6 +172,12 @@ export default {
         dialogName.value = '重命名'
         father.value = obj
         mode = 1
+        openModal()
+      })
+
+      bus.on('showDialogForNewTag', () => {
+        dialogName.value = '转变为tag'
+        mode = 2
         openModal()
       })
 
@@ -250,9 +261,18 @@ export default {
       return name.trim() && !name.includes(pathSeq)
     }
 
+    // 新建tag
+    function handleNewTag () {
+      if (fileName.value !== '') {
+        showDialog.value = false
+        bus.emit('makeNewTag', fileName.value)
+        fileName.value = ''
+      }
+    }
+
     // 新建文件/文件夹
     async function handleNew () {
-      if (dialogName.value === '新建文件（以.md为后缀）') {
+      if (dialogName.value === '新建文件') {
         fileName.value = namifyMarkdownFile(fileName.value)
       }
       if (!nameValidTest(fileName.value)) {
@@ -264,8 +284,7 @@ export default {
           fileName.value = ''
           return
         }
-
-        if (dialogName.value === '新建文件（以.md为后缀）') {
+        if (dialogName.value === '新建文件') {
           await window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
         } else {
           await window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
@@ -275,7 +294,7 @@ export default {
           paths.push(father.value.absolutePath[i])
         }
         paths.push(fileName.value)
-        const fileType = (dialogName.value === '新建文件（以.md为后缀）') ? 'file' : 'folder'
+        const fileType = (dialogName.value === '新建文件') ? 'file' : 'folder'
         const obj = {
           name: fileName.value,
           // path: path.join(father.value.path, fileName.value),
@@ -330,6 +349,8 @@ export default {
         handleNew()
       } else if (mode === 1) {
         renameFile()
+      } else if (mode === 2) {
+        handleNewTag()
       }
     }
 

@@ -129,7 +129,6 @@ export default {
 
       function autoSave () {
         if (curObj.value !== undefined && openFiles.value.length !== 0 && store.getters.getCommon.autoSave) {
-          console.log('auto save')
           writeBack()
         }
       }
@@ -230,7 +229,7 @@ export default {
     // 将前端的content写回后端文件中，并且更新前端容器
     async function writeBack () {
       // 有可能路径不存在
-      if (curObj.value.path) {
+      if (curObj.value.path && curObj.value.path !== '') {
         window.electronAPI.saveFile(curObj.value.path, content.value)
       }
     }
@@ -281,6 +280,20 @@ export default {
       })
     })
 
+    // 清空当前curObj的影响
+    // 调用场景：关闭最后一个标签页，需要写回最后一个标签页，之后将curObj置为无效初值，最后刷新所有关联值
+
+    function clearCurObj () {
+      writeBack()
+      curObj.value = { name: '', path: '' }
+      content.value = ''
+      getOutLine()
+      getTags()
+      getCites()
+      store.dispatch('updateMode', { value: -1 })
+      bus.emit('changeName', '')
+    }
+
     // 删除tab，从openFile中删去，同时如果工作区还有文件，则选定一个邻近的文件赋为curObj，如果工作区没有文件，则赋curObj为空对象
     bus.on('deleteTab', (obj) => {
       obj.offset = -1
@@ -292,9 +305,7 @@ export default {
         if (openFiles.value.length !== 0) {
           bus.emit('sendToTextUI', openFiles.value[index])
         } else {
-          // bus.emit('sendToTextUI', { name: '', path: '', content: '未打开任何文件' })
-          bus.emit('changeMode', -1)
-          bus.emit('changeName', '')
+          clearCurObj()
         }
       }
       update()

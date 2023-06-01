@@ -68,12 +68,6 @@
       </div>
     </div>
 
-<!--    <div class="my-4 place-content-center content-center justify-center flex flex-wrap">-->
-<!--      <button class="optionBtn1 flex align-middle justify-center content-center py-1" @click="quitGraph">-->
-<!--        退出榕图-->
-<!--      </button>-->
-<!--    </div>-->
-
     <div style="font-size: 14px" class="mt-8 mb-2 flex flex-wrap font-semibold content-center place-content-center">
       节点操作
       <div @click="showOpt = !showOpt" class="ml-2 foldIcon">
@@ -111,6 +105,7 @@ export default {
     const resNodes = ref(['name', 'name2', 'name3'])
 
     const type = ref(-1) // 当前节点类型：未选中 -1， 文件夹 0 ，文件 1 ，标签 2
+    let unit
 
     const node = ref({
       name: '未选中任何节点',
@@ -127,19 +122,27 @@ export default {
       bus.emit('quitFromGraph', 0)
     }
 
+    bus.on('makeNewTag', (tagName) => {
+      if (type.value === 0) {
+        window.electronAPI.folderToTag(tagName)
+      } else if (type.value === 1) {
+        window.electronAPI.citeToTag(tagName, unit.children)
+        setTimeout(() => {
+          bus.emit('changeToGraph')
+        }, 100)
+      }
+    })
+
     /**
      * @param: {obj} unit
      */
 
     bus.on('handle', (index) => {
-      const unit = toRaw(node.value.children[index])
+      unit = toRaw(node.value.children[index])
       if (type.value === 0) {
-        window.electronAPI.folderToTag(node.value.path)
+        bus.emit('showDialogForNewTag')
       } else if (type.value === 1) {
-        window.electronAPI.citeToTag(node.value.path, unit.children)
-        setTimeout(() => {
-          bus.emit('changeToGraph')
-        }, 100)
+        bus.emit('showDialogForNewTag')
       } else if (type.value === 2) {
         window.electronAPI.tagToFolder(node.value.name, unit.name, unit.children)
       }
