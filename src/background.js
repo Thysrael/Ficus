@@ -135,7 +135,7 @@ app.on('ready', async () => {
   ipcMain.on('renameFileOrFolder', (e, newPath, oldPath) => {
     renameFileOrFolder(newPath, oldPath)
   })
-  ipcMain.on('newFileFromSidebar', (e, filePath, fileName) => {
+  ipcMain.handle('newFileFromSidebar', (e, filePath, fileName) => {
     newFileFromSidebar(filePath, fileName)
   })
   ipcMain.on('newFolderFromSidebar', (e, filePath, fileName) => {

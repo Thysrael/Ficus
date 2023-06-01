@@ -50,9 +50,9 @@ export const deleteFolder = async (folderPath) => {
 }
 
 // 新建文件2
-export const newFileFromSidebar = async (folderPath, fileName) => {
+export const newFileFromSidebar = (folderPath, fileName) => {
   const filePath = path.resolve(folderPath, fileName)
-  await fs.createFile(filePath)
+  fs.createFileSync(filePath)
 }
 
 /**
