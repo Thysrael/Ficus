@@ -137,6 +137,9 @@ export default {
         window.electronAPI.folderToTag(node.value.path)
       } else if (type.value === 1) {
         window.electronAPI.citeToTag(node.value.path, unit.children)
+        setTimeout(() => {
+          bus.emit('changeToGraph')
+        }, 100)
       } else if (type.value === 2) {
         window.electronAPI.tagToFolder(node.value.name, unit.name, unit.children)
       }
