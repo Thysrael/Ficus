@@ -4,10 +4,11 @@ import keybindingsLinux from './keybindingsLinux'
 import keybindingsWindows from './keybindingsWindows'
 import { isLinux, isOsx } from '../config'
 import COMMANDS from '../../common/commands'
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow, dialog, ipcMain } from 'electron'
 import EventEmitter from 'events'
 import path from 'path'
 import fs from 'fs-extra'
+import { modifiableKeybindingsMap } from '../../common/keybindings'
 import { userDataPath } from '../environment/appPaths'
 
 const _normalizeAccelerator = accelerator => {
@@ -103,6 +104,22 @@ class KeyBinding extends EventEmitter {
 
   update (win, id, accelerator) {
     if (accelerator) {
+      for (const cmdId of Object.values(COMMANDS)) {
+        const value = this._keys.get(cmdId)
+        if (cmdId !== id &&
+          Object.keys(modifiableKeybindingsMap).indexOf(cmdId) === -1 &&
+          isEqualAccelerator(value, accelerator)) {
+          dialog.showMessageBoxSync({
+            type: 'error',
+            title: '快捷键绑定失败',
+            message: '与已有不可修改快捷键冲突',
+            buttons: ['确定']
+          })
+          this.loadKeybindings(win)
+          return
+        }
+      }
+      // 将其他冲突快捷键置 ''
       for (const [key, value] of this._keys) {
         if (key !== id && isEqualAccelerator(value, accelerator)) {
           this._keys.set(key, '')
@@ -147,7 +164,7 @@ class KeyBinding extends EventEmitter {
       if (typeof rawUserKeybindings !== 'object') {
         return defaultKeybindings
       }
-      const userAccelerators = new Map()
+      const userAccelerators = new Map(defaultKeybindings)
       for (const key in rawUserKeybindings) {
         if (defaultKeybindings.has(key)) {
           const value = rawUserKeybindings[key]
