@@ -261,7 +261,7 @@ class LinkManager {
   async citeToTag (srcFilepath, citeFilepaths) {
     const tagname = path.parse(srcFilepath).name
     for (const filePath of citeFilepaths) {
-      if (fs.existSync(filePath)) {
+      if (fs.existsSync(filePath)) {
         const doc = (await fs.promises.readFile(filePath)).toString()
         fs.writeFile(filePath, addTagToDoc(doc, tagname))
       }
