@@ -204,6 +204,16 @@ class KeyBinding extends EventEmitter {
       const win = BrowserWindow.fromWebContents(e.sender)
       this.update(win, id, accelerator)
     })
+
+    ipcMain.on('clear-user-keybindings', (e) => {
+      this._clearUserKeybindings()
+      dialog.showMessageBoxSync({
+        type: 'none',
+        title: 'Meassage',
+        message: '快捷键设置清除成功，重启生效',
+        buttons: ['确定']
+      })
+    })
   }
 }
 

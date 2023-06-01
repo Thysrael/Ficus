@@ -78,6 +78,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   disableAllKeybindings: () => ipcRenderer.send('disable-all-keybindings'),
   enableAllKeybindings: () => ipcRenderer.send('enable-all-keybindings'),
+  clearUserKeybindings: () => ipcRenderer.send('clear-user-keybindings'),
 
   getBuiltInDocumentsPath: () => ipcRenderer.invoke('get-built-in-documents-path'),
 
