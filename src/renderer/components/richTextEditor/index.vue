@@ -319,7 +319,11 @@ export default {
     // 初始化编辑器
     onMounted(() => {
       nextTick(async () => {
-        const keybindings = makeKeybingdingMap((await window.electronAPI.getKeybindingsMap()))
+        let keybindings = []
+        if (!window.electronAPI.isOsx()) {
+          // macOs快捷键通过menu实现，其他系统通过LocalShortcut实现
+          keybindings = makeKeybingdingMap((await window.electronAPI.getKeybindingsMap()))
+        }
         // 初始化vditor
         initVditor(keybindings)
         // 定义和vditor相关的API, 使用全局事件总线实现
