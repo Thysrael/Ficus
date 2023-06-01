@@ -280,7 +280,7 @@ export const makePathCompletion = async (folderPath, basePath) => {
   let fileName = path.basename(folderPath)
   fileName = fileName.substring(0, fileName.length - 1)
   const dirName = path.dirname(folderPath)
-  const absDir = path.resolve(basePath,dirName)
+  const absDir = path.resolve(basePath, dirName)
   const dirInfo = await fs.promises.readdir(absDir)
   const result = []
   for (const subItem of dirInfo) {
