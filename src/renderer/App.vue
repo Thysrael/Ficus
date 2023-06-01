@@ -43,7 +43,7 @@
 
         <div class="flex items-center justify-end p-1 border-t border-solid border-blueGray-200 rounded-b">
           <button class="text-red-500 hover:text-blueGray-400 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button" @click="handle; showDialog = false">
+                  type="button" @click="handle">
             确认
           </button>
           <button class="text-red-500 hover:text-blueGray-400 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
