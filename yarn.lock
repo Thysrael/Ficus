@@ -8910,6 +8910,13 @@ kapsule@^1.13.3:
   dependencies:
     lodash-es "4"
 
+katex@^0.16.7:
+  version "0.16.7"
+  resolved "https://mirrors.cloud.tencent.com/npm/katex/-/katex-0.16.7.tgz#36be1d4ed96e8afdc5863407e70f8fb250aeafd5"
+  integrity sha512-Xk9C6oGKRwJTfqfIbtr0Kes9OSv6IFsuhFGc7tW4urlpMJtuh+7YhzU6YEG9n8gmWKcMAFzkp7nr+r69kV0zrA==
+  dependencies:
+    commander "^8.3.0"
+
 keyboardevent-from-electron-accelerator@^2.0.0:
   version "2.0.0"
   resolved "https://mirrors.cloud.tencent.com/npm/keyboardevent-from-electron-accelerator/-/keyboardevent-from-electron-accelerator-2.0.0.tgz#ace21b1aa4e47148815d160057f9edb66567c50c"
@@ -13846,6 +13853,13 @@ vary@~1.1.2:
   resolved "https://mirrors.cloud.tencent.com/npm/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vatex@^0.1.0:
+  version "0.1.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/vatex/-/vatex-0.1.0.tgz#b9b87f5037a45b55aa3b3c7e177720bfa5d352f0"
+  integrity sha512-m+mE55VsRNIHP1fqaNr5gDbc3RxDh+udkej1Q3UoOek4JvBGiydT4diGHl/28E3crJFmhuQo1Q3rA+jbur0avw==
+  dependencies:
+    vue-demi latest
+
 verror@1.10.0:
   version "1.10.0"
   resolved "https://mirrors.cloud.tencent.com/npm/verror/-/verror-1.10.0.tgz#3a105ca17053af55d6e270c1f8288682e18da400"
@@ -13899,6 +13913,11 @@ vue-demi@>=0.14.0:
   version "0.14.0"
   resolved "https://mirrors.cloud.tencent.com/npm/vue-demi/-/vue-demi-0.14.0.tgz#dcfd9a9cf9bb62ada1582ec9042372cf67ca6190"
   integrity sha512-gt58r2ogsNQeVoQ3EhoUAvUsH9xviydl0dWJj7dabBC/2L4uBId7ujtCwDRD0JhkGsV1i0CtfLAeyYKBht9oWg==
+
+vue-demi@latest:
+  version "0.14.5"
+  resolved "https://mirrors.cloud.tencent.com/npm/vue-demi/-/vue-demi-0.14.5.tgz#676d0463d1a1266d5ab5cba932e043d8f5f2fbd9"
+  integrity sha512-o9NUVpl/YlsGJ7t+xuqJKx8EBGf1quRhCiT6D/J0pfwmk9zUwYkC7yrF4SZCe6fETvSM3UNL2edcbYrSyc4QHA==
 
 vue-eslint-parser@^8.0.1:
   version "8.3.0"

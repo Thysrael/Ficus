@@ -1,7 +1,7 @@
 <template>
-  <div ref="pageContent" style="user-select: none;">
+  <div ref="pageContent" style="user-select: none;" class="px-24">
     <div v-show="preMode === 0" class="preferences">
-      <div class="title-font my-6" style="font-size: 33px">通用</div>
+      <div class="title-font my-6" style="font-size: 40px">通用</div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">保存</div>
@@ -36,7 +36,7 @@
 
     </div>
     <div v-show="preMode === 1" class="preferences">
-      <div class="title-font my-6" style="font-size: 33px">编辑器</div>
+      <div class="title-font my-6" style="font-size: 40px">编辑器</div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">行号</div>
@@ -117,9 +117,9 @@
       <div class="preference-item">
         <div class="font-bold" style="font-size: 20px">其他</div>
         <label>渲染区域自动加空格：</label>
-        <input type="checkbox" v-model="editor.autoSpace"><br>
+        <input type="checkbox" v-model="editor.autoSpace" class="checkboxInput"><br>
         <label>自动矫正术语：</label>
-        <input type="checkbox" v-model="editor.autoFixTermTypo">
+        <input type="checkbox" v-model="editor.autoFixTermTypo" class="checkboxInput">
       </div>
 
       <div class="preference-item">
@@ -130,7 +130,7 @@
     </div>
 
     <div v-show="preMode === 2" class="preferences">
-      <div class="title-font my-6" style="font-size: 33px">快捷键</div>
+      <div class="title-font my-6" style="font-size: 40px">快捷键</div>
       <ul>
         <li v-for="(value, key) in shortcuts" :key="key" class="preference-item">
           <label>{{ getKeyName(key) }}：</label>
@@ -142,7 +142,7 @@
     </div>
 
     <div v-show="preMode === 3" class="preferences">
-      <div class="title-font my-6" style="font-size: 33px">榕功能</div>
+      <div class="title-font my-6" style="font-size: 40px">榕功能</div>
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">榕树默认展开级数</div>
         <div class="rounded-md p-2 border-2 align-middle flex relative" style="color: #565656"
