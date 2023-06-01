@@ -113,15 +113,15 @@ export default {
 
 .allInformation {
   position: fixed;
-  bottom: 150px;
+  bottom: 60px;
   right: 20px;
   width: 120px;
-  height: 20px;
   opacity: 1;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   text-align: right;
   font-size: 12px;
   font-family: "Noto Sans SC";
+  z-index: 999;
 }
 
 .littleInformation {
@@ -129,8 +129,8 @@ export default {
   bottom: 20px;
   right: 20px;
   width: 80px;
-  height: 20px;
   opacity: 1;
+  padding: 4px;
 }
 
 .myText {
