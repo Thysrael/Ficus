@@ -2170,7 +2170,7 @@ select {
 .title-font {
     font-family: "Helvetica Neue";
     font-weight: 600;
-
+    padding-bottom: 30px;
 }
 
 .h-0 {

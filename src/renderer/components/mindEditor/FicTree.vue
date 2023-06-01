@@ -105,8 +105,12 @@
         <div class="contextMenuItem" @click="paste">粘贴</div>
         <div class="contextMenuItem" @click="delNode">删除</div>
       </template>
-      <template v-if="clickType === 'svg'">
+      <template v-else-if="clickType === 'svg'">
         <!-- 点击空白区域后召出的菜单 -->
+      </template>
+      <template v-else-if="clickType === 'math-block'">
+        <!-- hover 数学公式节点后召出的预览框 -->
+        <vue-latex :expression="curLatexExp" :fontsize="20" display-mode />
       </template>
     </div>
   </div>
@@ -119,8 +123,12 @@ import Drag from 'simple-mind-map/src/Drag.js'
 import bus from 'vue3-eventbus'
 import Export from 'simple-mind-map/src/Export'
 import store from '@/renderer/store'
+import { VueLatex } from 'vatex'
 
 export default defineComponent({
+  components: {
+    VueLatex
+  },
   setup () {
     /* eslint-disable */
     const data = ref({
@@ -139,6 +147,8 @@ export default defineComponent({
     const mousedownX = ref(0)
     const mousedownY = ref(0)
     const isMousedown = ref(false)
+
+    const curLatexExp = ref('')
 
     const zoomLevel = ref(100)
 
@@ -336,15 +346,29 @@ export default defineComponent({
       ficTree.on('expand_btn_click', (node) => {
         bfs(node)
       })
+      ficTree.on('node_mouseenter', (node, e) => {
+        if (node.nodeData.data.type === 'math-block') {
+          // Render latex expression
+          clickType.value = 'math-block'
+          curLatexExp.value = node.nodeData.data.text
+          console.log(curLatexExp.value)
+          menuLeft.value = e.clientX + 10
+          menuTop.value = e.clientY + 10
+          menuShow.value = true
+        }
+      })
+      ficTree.on('node_mouseleave', () => {
+        if (clickType.value === 'math-block') {
+          hide()
+        }
+      })
 
       // 监听data变化
       bus.on('sendToFicTree', (obj) => {
         ficTree.setData(JSON.parse(JSON.stringify(obj)))
         mode = store.getters.getMode // 2: Tree; 5: Forest
-        console.log('mode: ' + mode)
         setStyle()
         ficTree.render()
-        console.log(ficTree.renderer.root)
         bfs(ficTree.renderer.root)
       })
 
@@ -560,7 +584,8 @@ export default defineComponent({
       expandToLevel,
       expandAll,
       foldAll,
-      exportImg
+      exportImg,
+      curLatexExp
     }
   }
 })
