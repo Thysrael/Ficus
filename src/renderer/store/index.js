@@ -90,9 +90,8 @@ const mutations = {
     bus.emit('openDir', status)
   },
   OPENINITFILE (state, initInfo) {
-    bus.emit('openDir', initInfo[0])
-    if (initInfo[1] != null) {
-      bus.emit('openNewTab', initInfo[1])
+    if (initInfo != null) {
+      bus.emit('openNewTab', initInfo)
     }
   },
   OPEN_FILE_TAB (state, filepath) {

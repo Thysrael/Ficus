@@ -2,7 +2,6 @@ import { BrowserWindow, ipcMain, shell } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import path from 'path'
 import { isOsx, isDevelopment } from '../config'
-import { initPath } from '../filesystem/fileManipulate'
 import BaseWindow from './base'
 
 class WindowsManager {
@@ -32,15 +31,13 @@ class WindowsManager {
     this.menu.setWindowRawMenu(win)
     this.keyBinding.loadKeybindings(win)
     this.preferences.setWindowPreferences(win)
-
-    this.windows.push(new BaseWindow(win, this.preferences))
+    const baseWindow = new BaseWindow(win, this.preferences)
+    this.windows.push(baseWindow)
     if (isDevelopment) {
       const demoPath = path.resolve(__dirname, '..', 'demo', 'index.md')
-      const initInfo = await initPath(demoPath)
-      win.webContents.send('ficus::open-init-file', initInfo)
+      baseWindow.openInitFileOrFolder(demoPath)
     } else if (process.argv.length > 1) {
-      const initInfo = await initPath(process.argv[1])
-      win.webContents.send('ficus::open-init-file', initInfo)
+      baseWindow.openInitFileOrFolder(process.argv[1])
     }
   }
 
