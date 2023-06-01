@@ -28,7 +28,7 @@ export default {
     const highlightNodes = new Set()
     const highlightLinks = new Set()
     const theme0 = ['#1E6091', '#34a0a4', '#99D98C', '#6BE6C1', '#EEEEEE', '#E1F1A7', '#C9ECE1', '#CCCCCC']
-    const theme1 = ['#7544B2', '#F55C7A', '#F57C73', '#F6BC66', '#EEEEEE', '#E2C5EE', '#FFE5C3', '#F1A7C3']
+    const theme1 = ['#7544B2', '#F55C7A', '#f5a973', '#f6e366', '#EEEEEE', '#E2C5EE', '#FFE5C3', '#F1A7C3']
     const theme2 = ['#F94144', '#F8961E', '#90BE6D', '#00BBF9', '#EEEEEE', '#FFD2BB', '#A9DEF9', '#FCF6BD']
     let theme = theme0
 
