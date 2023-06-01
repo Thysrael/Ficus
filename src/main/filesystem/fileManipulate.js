@@ -1,6 +1,6 @@
 import { app, dialog, clipboard } from 'electron'
 import fs from 'fs-extra'
-import { makeFolderStat, makeMarkdownFileStat, makeFileStat } from './statistic'
+import { makeFolderStat, makeMarkdownFileStat } from './statistic'
 import path from 'path'
 import { isValidMarkdownFilePath, isValidFolderPath, isValidFilePath, isMarkdownExtname } from '../helper/path'
 import crypto from 'crypto'
@@ -195,18 +195,6 @@ export const paste = async (srcPath, destDir) => {
   } else if (isValidFilePath(srcPath)) {
     const destPath = makeValidFilePath(path.resolve(destDir, path.basename(srcPath)))
     await fs.copyFile(srcPath, destPath)
-  }
-}
-
-/**
- * 获得初始文件及其所在文件夹信息
- * @param {string} initPath 初始文件/文件夹路径
- */
-export const initPath = async (initPath) => {
-  if (isValidFolderPath(initPath)) {
-    return [await makeFolderStat(initPath), null]
-  } else {
-    return [await makeFolderStat(path.join(initPath, '..')), makeFileStat(initPath)]
   }
 }
 
