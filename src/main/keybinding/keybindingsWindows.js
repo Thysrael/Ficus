@@ -23,6 +23,7 @@ export default new Map([
   ['file.export-as-html', ''],
   ['file.export-as-pdf', ''],
   ['file.export-as-png', ''],
+  ['file.open-file-by-path', ''],
 
   // Edit menu
   ['edit.undo', 'Ctrl+Z'],
