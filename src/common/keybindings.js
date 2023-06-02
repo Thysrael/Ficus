@@ -34,7 +34,7 @@ export const modifiableKeybindingsMap = new Map([
   ['edit.copy-as-markdown', '复制为Markdown'],
   ['edit.copy-as-html', '复制为HTML代码'],
   ['edit.paste-as-plaintext', '粘贴为纯文本'],
-  ['edit.find', '文档内搜索'],
+  ['edit.find', '文档内搜索替换'],
   ['edit.delete', '删除'],
   ['format.strong', '加粗'],
   ['format.emphasis', '斜体'],

@@ -58,7 +58,7 @@ export default function (keybindings) {
         browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
       }
     }, {
-      label: '文档内搜索',
+      label: '文档内搜索替换',
       id: 'edit.find',
       accelerator: keybindings.getAccelerator('edit.find'),
       click (menuItem, browserWindow) {
