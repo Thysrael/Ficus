@@ -1,4 +1,3 @@
-
 // node本身类型
 const rootTypeName = 'root'
 const headingTypeName = 'heading'
