@@ -19,7 +19,7 @@ jobs:
           node-version: 16
           cache: 'yarn'
       - run: rm .npmrc
-      - run: yarn install
+      - run: yarn install --no-lockfile
       - run: yarn electron:build --publish=never
       - uses: actions/upload-artifact@v3
         with:
@@ -38,7 +38,7 @@ jobs:
           node-version: 16
           cache: 'yarn'
       - run: rm .npmrc
-      - run: yarn install
+      - run: yarn install --no-lockfile
       - run: yarn electron:build --publish=never
       - uses: actions/upload-artifact@v3
         with:
@@ -55,7 +55,7 @@ jobs:
           node-version: 16
           cache: 'yarn'
       - run: rm .npmrc
-      - run: yarn install
+      - run: yarn install --no-lockfile
       - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
       - run: yarn electron:build --publish=never --skipElectronBuild
       - run: cp -r build dist_electron/bundled/build
