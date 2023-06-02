@@ -287,6 +287,7 @@ export default {
       writeBack()
       curObj.value = { name: '', path: '' }
       content.value = ''
+      store.commit('files/closeCurrentFile')
       getOutLine()
       getTags()
       getCites()

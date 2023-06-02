@@ -28,7 +28,7 @@ const mutations = {
       state.trees.updateCurrent({ mindJson: fileStats.mindJson })
     }
   },
-  closeCurrentFile () {
+  closeCurrentFile (state) {
     state.trees.closeCurrentTree()
   },
 
