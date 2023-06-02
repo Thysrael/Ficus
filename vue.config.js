@@ -16,9 +16,6 @@ module.exports = defineConfig({
           {
             from: './build/exec/updater.exe',
             to: '../'
-          }, {
-            from: './static/preferences.json',
-            to: './static/preferences.json'
           }
         ],
         mac: {

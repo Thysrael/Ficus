@@ -13,7 +13,7 @@ import { ipcMain } from 'electron'
 class Preference {
   constructor () {
     this._preferencePath = path.resolve(userDataPath, 'preferences.json')
-    this._defaultPreferencePath = path.resolve(__dirname, '..', 'static', 'preferences.json')
+    this._defaultPreferencePath = path.resolve(__dirname, '.', 'static', 'preferences.json')
     // 注：electron-store有性能问题（IO），但支持JSON scheme验证
     try {
       this._store = new Store({
