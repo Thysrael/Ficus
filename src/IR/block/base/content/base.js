@@ -124,6 +124,17 @@ class RootContent extends Content {
       children: []
     }
   }
+
+  getMindJson () {
+    return {
+      data: {
+        name: this.text,
+        text: window.pathAPI.basename(this.text) || this.typename,
+        type: this.typename
+      },
+      children: []
+    }
+  }
 }
 class ParagraphContent extends Content {
   // constructor (typename, text) {
