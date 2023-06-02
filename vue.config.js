@@ -30,10 +30,32 @@ module.exports = defineConfig({
           fileAssociations: [
             {
               ext: [
-                "md"
+                'md'
               ]
             }
           ],
+          extendInfo: {
+            CFBundleDocumentTypes: [
+              {
+                CFBundleTypeName: 'Markdown Document',
+                CFBundleTypeRole: 'Editor',
+                LSHandlerRank: 'Owner',
+                LSItemContentTypes:
+                  [
+                    'com.apple.dt.document.markdown'
+                  ]
+              },
+              {
+                CFBundleTypeName: 'Folder',
+                CFBundleTypeRole: 'Viewer',
+                LSHandlerRank: 'None',
+                LSItemContentTypes:
+                  [
+                    'public.folder'
+                  ]
+              }
+            ]
+          }
         }
       },
       externals: ['chokidar']
