@@ -123,4 +123,24 @@ export class RootNode extends TreeNode {
     return this.children.head !== null &&
       this.children.head.nodeType === frontmatterTypeName
   }
+
+  getSubFiles () {
+    const res = []
+    this.children.forEach(ch => {
+      if (window.pathAPI.isMarkdownExtname(ch.content.text)) {
+        res.push(ch.content.text)
+      }
+    })
+    return res
+  }
+
+  removeSubFileByName (pathname) {
+    const removeNodes = []
+    this.children.forEach(ch => {
+      if (ch.content.text === pathname) {
+        removeNodes.push(ch)
+      }
+    })
+    removeNodes.forEach(node => node.removeSelf())
+  }
 }

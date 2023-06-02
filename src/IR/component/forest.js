@@ -5,7 +5,6 @@ import { mindToTree } from '../block/factory/mindToTree'
 export default class IRForest {
   constructor () {
     this.filesRoot = buildRootNode('Forest')
-    this.filesMap = new Map()
   }
 
   /**
@@ -14,23 +13,21 @@ export default class IRForest {
    */
   update (files) {
     const newFilepaths = new Set()
-    for (const file of files) {
-      newFilepaths.add(file.path)
-      if (this.filesMap.has(file.path)) {
+    const rawSubFiles = this.filesRoot.getSubFiles()
+    for (const { content, path } of files) {
+      newFilepaths.add(path)
+      if (rawSubFiles.indexOf(path) !== -1) {
         continue
       }
-      const chnode = markdownToTree(file.content, window.pathAPI.basename(file.path))
+      const chnode = markdownToTree(content, path)
       this.filesRoot.insertAtLast(chnode)
-      this.filesMap.set(file.path, chnode)
     }
 
-    const filesToRemove = []
-    for (const filepath of this.filesMap.keys()) {
+    for (const filepath of rawSubFiles) {
       if (!newFilepaths.has(filepath)) {
-        filesToRemove.push(filepath)
+        this.filesRoot.removeSubFileByName(filepath)
       }
     }
-    this.removeFiles(filesToRemove)
   }
 
   updateByMind (mind) {
@@ -39,8 +36,9 @@ export default class IRForest {
 
   filterPaths (filepaths) {
     const newFilepaths = []
+    const rawSubFiles = this.filesRoot.getSubFiles()
     for (const filepath of filepaths) {
-      if (!this.filesMap.has(filepath)) {
+      if (rawSubFiles.indexOf(filepath) === -1) {
         newFilepaths.push(filepath)
       }
     }
@@ -49,18 +47,6 @@ export default class IRForest {
 
   clear () {
     this.filesRoot = buildRootNode('Forest')
-    this.filesMap.clear()
-  }
-
-  removeFiles (filepaths) {
-    for (const filepath of filepaths) {
-      if (!this.filesMap.has(filepath)) {
-        continue
-      }
-      const chnode = this.filesMap.get(filepath)
-      this.filesMap.delete(filepath)
-      chnode.removeSelf()
-    }
   }
 
   addBase (filename = 'new_base') {
