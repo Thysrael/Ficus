@@ -6,6 +6,7 @@ import { hasSameKey } from '../helper/container'
 import { userDataPath } from '../environment/appPaths'
 import { ipcMain } from 'electron'
 
+const isDevelopment = process.env.NODE_ENV !== 'production'
 /**
  * 用户偏好设置
  * 实现参考：https://github.com/marktext/marktext/blob/develop/src/main/preferences
@@ -13,7 +14,11 @@ import { ipcMain } from 'electron'
 class Preference {
   constructor () {
     this._preferencePath = path.resolve(userDataPath, 'preferences.json')
-    this._defaultPreferencePath = path.resolve(__dirname, '.', 'static', 'preferences.json')
+    if (isDevelopment) {
+      this._defaultPreferencePath = path.resolve(__dirname, '..', 'public/static', 'preferences.json')
+    } else {
+      this._defaultPreferencePath = path.resolve(__dirname, '.', 'static', 'preferences.json')
+    }
     // 注：electron-store有性能问题（IO），但支持JSON scheme验证
     try {
       this._store = new Store({
