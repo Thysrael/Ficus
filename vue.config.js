@@ -26,7 +26,14 @@ module.exports = defineConfig({
                 'universal'
               ]
             }
-          ]
+          ],
+          fileAssociations: [
+            {
+              ext: [
+                "md"
+              ]
+            }
+          ],
         }
       },
       externals: ['chokidar']
