@@ -15,5 +15,5 @@ jobs:
           node-version: 16
           cache: 'yarn'
       - run: rm .npmrc
-      - run: yarn install
+      - run: yarn install --no-lockfile
       - run: yarn eslint
