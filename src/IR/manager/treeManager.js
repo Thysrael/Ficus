@@ -135,6 +135,14 @@ class TreeManager {
 
   /* ----- get ----- */
 
+  get currentPath () {
+    if (this._isValid()) {
+      return this._tree.filepath
+    } else {
+      return ''
+    }
+  }
+
   get tags () {
     if (this._isValid()) {
       return this._tree.getTags()

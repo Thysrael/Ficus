@@ -96,6 +96,7 @@ export default {
       store.dispatch('LISTEN_LOAD_KEYBINDINGS')
       store.dispatch('files/LISTEN_FILE_MOVE')
       store.dispatch('files/LISTEN_SET_FOCUS_ID_BY_NAME')
+      store.dispatch('files/LISTEN_FILE_CHANGED')
 
       bus.on('changeSideBarWidth', () => {
         console.log('APP.vue', store.getters.getCommon.sideBarInitWidth)

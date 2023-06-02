@@ -11,21 +11,21 @@ const state = {
 }
 
 const mutations = {
-  buildByMarkdownContent (state, fileStats) {
-    state.trees.build(fileStats.filepath, { content: fileStats.content })
+  buildByMarkdownContent (state, { filepath, content }) {
+    state.trees.build(filepath, { content })
   },
-  updateByMarkdown (state, fileStats) {
-    if (fileStats.filepath) {
-      state.trees.update(fileStats.filepath, { content: fileStats.content })
+  updateByMarkdown (state, { filepath, content }) {
+    if (filepath) {
+      state.trees.update(filepath, { content })
     } else {
-      state.trees.updateCurrent({ content: fileStats.content })
+      state.trees.updateCurrent({ content })
     }
   },
-  updateByMind (state, fileStats) {
-    if (fileStats.filepath) {
-      state.trees.update(fileStats.filepath, { mindJson: fileStats.mindJson })
+  updateByMind (state, { filepath, mindJson }) {
+    if (filepath) {
+      state.trees.update(filepath, { mindJson })
     } else {
-      state.trees.updateCurrent({ mindJson: fileStats.mindJson })
+      state.trees.updateCurrent({ mindJson })
     }
   },
   closeCurrentFile (state) {
@@ -117,7 +117,7 @@ const actions = {
         if (res.error !== -1) {
           context.commit('buildByMarkdownContent', { filepath, content: res.content })
         } else {
-          throw new Error(`读取${filepath}失败`)
+          console.error(`读取${filepath}失败`)
         }
       }
       context.commit('setCurrentFile', filepath)
@@ -150,6 +150,19 @@ const actions = {
   LISTEN_SET_FOCUS_ID_BY_NAME ({ commit }) {
     window.electronAPI.setFocusIdByName((e, name) => {
       setTimeout(() => commit('queryNodeId', { name }), 300)
+    })
+  },
+
+  LISTEN_FILE_CHANGED ({ state, commit }) {
+    window.electronAPI.listenFileChanged(async (e, filepath) => {
+      if (state.trees.containsCached(filepath)) {
+        const res = await window.electronAPI.readFile(filepath)
+        if (res.error !== -1) {
+          commit('updateByMarkdown', { filepath, content: res.content })
+        } else {
+          console.error(`读取${filepath}失败`)
+        }
+      }
     })
   }
 }
