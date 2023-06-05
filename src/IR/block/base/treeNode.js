@@ -1,6 +1,7 @@
 import { buildFrontMatter } from '../factory/buildNode.js'
 import LinkedNode from './linkedList/linkedNode.js'
-import { headingTypeName, listTypeName, listItemTypeName, frontmatterTypeName } from './type/constant.js'
+import { frontmatterTypeName, headingTypeName, listItemTypeName, listTypeName } from './type/constant.js'
+
 export default class TreeNode extends LinkedNode {
   /**
    *
@@ -98,9 +99,8 @@ export class RootNode extends TreeNode {
    * @returns
    */
   toMindJson () {
-    const res = super.toMindJson()
-    res.data.tag = this.getTags()
-    return res
+    // res.data.tag = this.getTags()
+    return super.toMindJson()
   }
 
   getTags () {

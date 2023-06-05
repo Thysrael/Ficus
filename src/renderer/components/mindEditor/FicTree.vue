@@ -580,6 +580,8 @@ export default defineComponent({
         node.data.borderRadius = 5
         node.data.fillColor = '#ffffff'
         node.data.color = '#dcdcdc'
+      } else if (type === 'table') {
+        console.log(node)
       }
     }
 
