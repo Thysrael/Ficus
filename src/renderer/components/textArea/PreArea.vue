@@ -1,7 +1,8 @@
 <template>
-  <div ref="pageContent" style="user-select: none;" class="px-24">
+  <div ref="pageContent" style="user-select: none; background: right bottom;" class="px-24 bg-scroll bg-cover"
+       :style="bgURL">
     <div v-show="preMode === 0" class="preferences">
-      <div class="title-font my-6" style="font-size: 40px">通用</div>
+      <div class="title-font my-6" style="font-size: 40px" >通用</div>
 
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">保存</div>
@@ -545,7 +546,12 @@ export default {
       treeThemeOption,
       graphThemePath,
       showGraphThemeSelection,
-      graphThemeOption
+      graphThemeOption,
+      bgURL: {
+        backgroundImage: 'url("' + require('../../assets/ficus_logo3.png') + '")',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '40%'
+      }
     }
   }
 }
@@ -557,6 +563,7 @@ export default {
   /*margin: auto;*/
   margin-left: 40px;
   padding: 20px;
+  opacity: 1;
 }
 
 .preference-item {
