@@ -118,13 +118,13 @@
 
 <script>
 import { defineComponent, onMounted, ref, shallowRef } from 'vue'
-import MindMap from 'simple-mind-map'
-import Drag from 'simple-mind-map/src/Drag.js'
+import MindMap from 'ficus-simple-mindmap'
+import Drag from 'ficus-simple-mindmap/src/Drag.js'
 import bus from 'vue3-eventbus'
-import Export from 'simple-mind-map/src/Export'
+import Export from 'ficus-simple-mindmap/src/Export'
 import store from '@/renderer/store'
 import { VueLatex } from 'vatex'
-import KeyboardNavigation from 'simple-mind-map/src/KeyboardNavigation'
+import KeyboardNavigation from 'ficus-simple-mindmap/src/KeyboardNavigation'
 
 export default defineComponent({
   components: {

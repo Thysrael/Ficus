@@ -5,7 +5,7 @@
     <TextUI style="width: 100%; height: 100%; position: relative; overflow: auto" v-show="mode === 1 || mode === 0"></TextUI>
     <FicTree v-show="mode === 2 || mode === 5" style="width: 100%; height: 100%; position: relative; overflow: auto" />
     <FicGraph v-show="mode === 3" style="width: 100%; height: 100%; position: relative; overflow: auto"></FicGraph>
-    <PreArea v-show="mode === 4" style="width: 100%; height: 100%; position: relative; overflow: auto"></PreArea>
+    <PreArea v-show="mode === 4" style="width: 100%; height: 100%; position: relative; overflow: auto" ></PreArea>
     <div class="littleInformation items-center content-center justify-between grid grid-cols-4 gap-3" v-if="mode === 1 || mode === 0">
       <div class="myText items-center content-center text-center w-full col-span-3">
         {{ focusInfo === 0 ? (time + ' 分钟') : focusInfo === 1 ? (lineCnt + ' 行') : (wordCnt + ' 词') }}
