@@ -7,11 +7,10 @@
       @dragstart.stop="dragstart()"
       @dragend.stop="dragend($event)"
       draggable="false"
-      class="my-1 w-full items-center content-center"
+      class="my-1 w-full items-center content-center flex flex-wrap"
   >
     <div
-        style="display: flex"
-        class="pl-1 items-center content-center flex flex-wrap w-full h-full"
+        class="pl-1 items-center content-center flex flex-wrap h-full w-full flex-row"
         :class="isSelected ? `selectedElement` : `nonSelectedElement`"
         @click="toggle(1)"
     >
@@ -61,8 +60,8 @@
             </g>
           </g>
         </svg>
-        <svg v-if="item.type === 'file' && !item.name.endsWith('md')" width="15" height="20" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none">
-          <g id="SVGRepo_iconCarrier"> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-380.000000, -3881.000000)" fill="#000000"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M336,3725.5 C336,3724.948 336.448,3724.5 337,3724.5 C337.552,3724.5 338,3724.948 338,3725.5 C338,3726.052 337.552,3726.5 337,3726.5 C336.448,3726.5 336,3726.052 336,3725.5 L336,3725.5 Z M340,3733 L328,3733 L332.518,3726.812 L335.354,3730.625 L336.75,3728.75 L340,3733 Z M326,3735 L342,3735 L342,3723 L326,3723 L326,3735 Z M324,3737 L344,3737 L344,3721 L324,3721 L324,3737 Z" id="image_picture-[#972]" fill="#474747"> </path> </g> </g> </g> </g>
+        <svg v-else-if="item.type === 'file' && !item.name.endsWith('md')" width="15" height="20" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none">
+          <g id="SVGRepo_iconCarrier"> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-380.000000, -3881.000000)" fill="#000000"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M336,3725.5 C336,3724.948 336.448,3724.5 337,3724.5 C337.552,3724.5 338,3724.948 338,3725.5 C338,3726.052 337.552,3726.5 337,3726.5 C336.448,3726.5 336,3726.052 336,3725.5 L336,3725.5 Z M340,3733 L328,3733 L332.518,3726.812 L335.354,3730.625 L336.75,3728.75 L340,3733 Z M326,3735 L342,3735 L342,3723 L326,3723 L326,3735 Z M324,3737 L344,3737 L344,3721 L324,3721 L324,3737 Z" id="image_picture-[#972]" fill="#474747" fill-rule="evenodd"> </path> </g> </g> </g> </g>
         </svg>
       </div>
       <div class="fileTreeElementText pl-1"
@@ -303,7 +302,7 @@ export default {
 }
 
 .fileTreeElementText {
-  max-width: 150px;
+  display: inline;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
