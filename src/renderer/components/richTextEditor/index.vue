@@ -221,6 +221,7 @@ export default {
           },
           // 设置markdown渲染选项
           markdown: {
+            toc: true,
             mark: true,
             linkBase: 'ficus://'
           }
