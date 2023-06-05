@@ -35,7 +35,6 @@ class IRTree {
     }
     mindJson.data.name = this.name
     mindJson.data.text = this.name
-    mindJson.data.tag = this.getTags()
     return mindJson
   }
 
