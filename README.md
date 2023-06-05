@@ -18,7 +18,9 @@ $\tt{Ficus}$ is a software for editing and managing `markdown` documents, develo
 
 $\tt{Ficus}$ is named after the fig tree, which has the characteristics of "umbrella-like canopy, and one tree forming a forest". This is also the core service that this software wants to provide to users: to allow users' md documents to be browsed and edited like a fig tree, and to allow users' multiple md documents to be associated in various forms like a fig forest. We hope that users' experience is like the slogan of this software:
 
-<img src="https://i.postimg.cc/RVggP09M/slogan.png"/>
+<p align = "center">
+<img src="./img/slogan.png"/>
+</p>
 
 $\tt{Ficus}$ is developed based on the `Vue3, Electron` framework and provides installation packages for Windows, macOS, and Linux systems.
 
@@ -29,27 +31,32 @@ Detailed information can be obtained on the [ficus website](https://ficus.world/
 **Rich Text Mode**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/28715e85-9617-4c5c-850a-293bf0e0ce68"/>
+<img src="./img/rtext.png"/>
 </p>
 
 
 **Source Code Mode**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/6cd566ea-c0d2-4d5e-b7e7-b3061a174308"/>
+<img src="./img/src.png"/>
 </p>
 
 **Ficus Tree Mode**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/3694c7ea-baee-4fab-8362-aa343976ac03"/>
+<img src="./img/ftree.png"/>
 </p>
 
+**Ficus Forest Mode**
+
+<p align = "center">
+<img src="./img/fforest.png"/>
+</p>
 
 **Ficus Graph Mode**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/cba6f839-92fd-40bc-b8f0-96c0245b52ec"/>
+<img src="./img/fgraph.png"/>
 </p>
 
 
@@ -150,15 +157,49 @@ We have also rewritten the software package repositories as follows:
 
 ## Changelog
 
-- 2023.04.26: Ficus 0.1.0 version
-  - WYSIWYG markdown editing
-  - Opening files and folders
-  - Basic framework construction
-  - Hot updates
-  - Support for fig tree functionality, only supports fig tree display functionality, does not support fig tree editing functionality, and does not support fig forest functionality
-  - ```diff
-    - Please do not open important files with Ficus at will, as this version has a certain risk of clearing user files
-    ```
+### v0.1.0
+
+**Release Date**: April 26, 2023
+
+**Description**: Alpha version release.
+
+**Features Overview**:
+
+- WYSIWYG markdown editor
+- Open files, open folders
+- Basic framework setup
+- Hot updates
+- Supports Ficus functionality, only supports Ficus diagram display, does not support Ficus diagram editing, and does not support Ficus forest functionality
+- Please do not use Ficus to open important files at will, as this version poses a certain risk of clearing user files
+
+### v0.1.3
+
+**Release Date**: May 7, 2023
+
+**Description**: Improved version of the alpha version.
+
+**Features Overview**:
+
+- New Ficus functionality plugin
+- Mathematical formula completion
+- Bug fixes based on user feedback
+
+### v0.1.7
+
+**Release Date**: June 5, 2023
+
+**Description**: Pre-release of the beta version.
+
+**Features Overview**:
+
+- Ficus functionality fully developed
+- Editing floating window
+- Search and replace
+- Preference settings
+- Shortcut keys
+- Image copy and paste
+- After further polishing, startup interface design, and user experience improvement, the final version of beta will be released.
+
 
 ## Contribution
 
