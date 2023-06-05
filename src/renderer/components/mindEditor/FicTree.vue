@@ -124,6 +124,7 @@ import bus from 'vue3-eventbus'
 import Export from 'simple-mind-map/src/Export'
 import store from '@/renderer/store'
 import { VueLatex } from 'vatex'
+import KeyboardNavigation from 'simple-mind-map/src/KeyboardNavigation'
 
 export default defineComponent({
   components: {
@@ -169,6 +170,7 @@ export default defineComponent({
     onMounted(() => {
       MindMap.usePlugin(Drag)
       MindMap.usePlugin(Export)
+      MindMap.usePlugin(KeyboardNavigation)
       MindMap.defineTheme('theme0', {
         backgroundColor: '#fff',
         lineColor: '#F2E3DB',
@@ -342,9 +344,9 @@ export default defineComponent({
 
       ficTree.on('node_click', hide)
       ficTree.on('draw_click', hide)
-      ficTree.on('expand_btn_click', hide)
       ficTree.on('expand_btn_click', (node) => {
         bfs(node)
+        hide()
       })
       ficTree.on('node_mouseenter', (node, e) => {
         if (node.nodeData.data.type === 'math-block') {
@@ -360,6 +362,13 @@ export default defineComponent({
       ficTree.on('node_mouseleave', () => {
         if (clickType.value === 'math-block') {
           hide()
+        }
+      })
+      ficTree.on('node_mousedown', (node, e) => {
+        console.log('Operating: ' + node.nodeData.data.type)
+        if (node.nodeData.data.type === 'root') {
+          // Cannot operate
+          ficTree.emit('mouseup', e)
         }
       })
 
@@ -522,6 +531,7 @@ export default defineComponent({
       while (stack.length) {
         let cur = stack.shift()
         renderImage(cur)
+        spreadList(cur)
         if (cur.children && cur.children.length) {
           cur.children.forEach(item => {
             // console.log(item.nodeData.data.text)
@@ -553,6 +563,12 @@ export default defineComponent({
             })
           }
         }
+      }
+    }
+
+    function spreadList (node) {
+      if (node.nodeData.data.type === 'bullet-list') {
+        node.show()
       }
     }
 
