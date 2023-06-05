@@ -20,7 +20,9 @@ $\tt{Ficus}$ 是一款 `markdown` 文档的编辑管理软件，由 $\tt{gg=G}$ 
 
 $\tt{Ficus}$ 释义为“榕树”，榕树具有“冠盖如伞、一木成林“的特点。这也恰是本款软件想要为用户提供的核心服务：让用户的 md 文档可以像一棵榕树一样被浏览和编辑，同时让用户的多个 md 文档像榕树林一样进行多种形式的关联。我们希望用户的体验如这款软件的标语一样：
 
-<img src="https://i.postimg.cc/RVggP09M/slogan.png"/>
+<p align = "center">
+<img src="./img/slogan.png"/>
+</p>
 
 $\tt{Ficus}$ 基于 `Vue3, Electron` 框架开发，提供 Windows、macOS 和 Linux 系统的安装包。
 
@@ -33,25 +35,31 @@ $\tt{Ficus}$ 基于 `Vue3, Electron` 框架开发，提供 Windows、macOS 和 L
 **富文本模式**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/28715e85-9617-4c5c-850a-293bf0e0ce68"/>
+<img src="./img/rtext.png"/>
 </p>
 
 **源码模式**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/6cd566ea-c0d2-4d5e-b7e7-b3061a174308"/>
+<img src="./img/src.png"/>
 </p>
 
 **榕树模式**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/3694c7ea-baee-4fab-8362-aa343976ac03"/>
+<img src="./img/ftree.png"/>
+</p>
+
+**榕林模式**
+
+<p align = "center">
+<img src="./img/fforest.png"/>
 </p>
 
 **榕图模式**
 
 <p align = "center">
-<img src="https://github.com/Thysrael/Ficus/assets/72613958/cba6f839-92fd-40bc-b8f0-96c0245b52ec"/>
+<img src="./img/fgraph.png"/>
 </p>
 
 
@@ -155,22 +163,48 @@ yarn electron:serve
 
 ## 更新日志
 
-- 2023.04.26：ficus 0.1.0 版本
-  - 所见即所得的 markdown 编辑
-  
-  - 打开文件，打开文件夹
-  
-  - 基础框架搭建
-  
-  - 热更新
-  
-  - 支持榕树功能，只支持榕图的展示功能，不支持榕图的编辑功能，完全不支持榕林功能
-  
-  - ```diff
-    - 请不要随意用 ficus 打开重要文件，因为此版本存在一定风险清空用户的文件
-    ```
-  
-    
+### v0.1.0
+
+**发布时间**：2023.04.26
+
+**简介**：alpha 版本发布。
+
+**功能速览**：
+
+- 所见即所得的 markdown 编辑
+- 打开文件，打开文件夹
+- 基础框架搭建
+- 热更新
+- 支持榕树功能，只支持榕图的展示功能，不支持榕图的编辑功能，完全不支持榕林功能
+- 请不要随意用 ficus 打开重要文件，因为此版本存在一定风险清空用户的文件
+
+### v0.1.3
+
+**发布时间**：2023.05.07
+
+**简介：**alpha 版本的完善版本。
+
+**功能速览：**
+
+- 新的榕功能插件
+- 数学公式补全
+- 用户反馈 bug 修复
+
+### v0.1.7
+
+**发布时间：**2023.06.05
+
+**简介：** beta 版本的先行版本
+
+**功能速览：**
+
+- 榕功能完全开发完成
+- 编辑悬浮框
+- 搜索替换
+- 偏好设置
+- 快捷键
+- 图片复制粘贴
+- 需要进行进一步的美工润色、启动界面绘制和用户体验改进后发布 beta 最终版本
 
 
 
