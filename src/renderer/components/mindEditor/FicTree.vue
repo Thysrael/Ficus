@@ -298,7 +298,6 @@ export default defineComponent({
       ficTree.on('data_change', (data) => {
         ficTree.resize()
         // ficTree.view.reset()
-        // console.log(ficTree.getData(false))
         const newData = {
           data: data
         }
@@ -322,7 +321,6 @@ export default defineComponent({
         menuTop.value = e.clientY + 10
         menuShow.value = true
         clickNode.value = node
-        // console.log(e.clientX)
       })
 
       ficTree.on('mouseup', (e) => {
@@ -345,7 +343,6 @@ export default defineComponent({
       ficTree.on('node_click', hide)
       ficTree.on('draw_click', hide)
       ficTree.on('expand_btn_click', (node) => {
-        bfs(node)
         hide()
       })
       ficTree.on('node_mouseenter', (node, e) => {
@@ -353,7 +350,6 @@ export default defineComponent({
           // Render latex expression
           clickType.value = 'math-block'
           curLatexExp.value = node.nodeData.data.text
-          console.log(curLatexExp.value)
           menuLeft.value = e.clientX + 10
           menuTop.value = e.clientY + 10
           menuShow.value = true
@@ -365,7 +361,6 @@ export default defineComponent({
         }
       })
       ficTree.on('node_mousedown', (node, e) => {
-        console.log('Operating: ' + node.nodeData.data.type)
         if (node.nodeData.data.type === 'root') {
           // Cannot operate
           ficTree.emit('mouseup', e)
@@ -374,11 +369,14 @@ export default defineComponent({
 
       // 监听data变化
       bus.on('sendToFicTree', (obj) => {
-        ficTree.setData(JSON.parse(JSON.stringify(obj)))
+        const rawData = JSON.parse(JSON.stringify(obj))
+        // console.log(rawData)
+        bfs(rawData)
+        console.log(rawData)
+        ficTree.setData(rawData)
         mode = store.getters.getMode // 2: Tree; 5: Forest
         setStyle()
         ficTree.render()
-        bfs(ficTree.renderer.root)
       })
 
       bus.on('exportTreePNG', () => {
@@ -404,7 +402,6 @@ export default defineComponent({
       }
 
       const struct = mode === 5 ? 1 : defaultStruct
-      // console.log('current struct is: ' + struct)
       setStructure(struct)
 
       if (theme === 1) {
@@ -425,7 +422,6 @@ export default defineComponent({
     }
 
     function copy () {
-      // console.log("successfully copy!")
       copyData = ficTree.renderer.copyNode()
       hide()
     }
@@ -531,10 +527,9 @@ export default defineComponent({
       while (stack.length) {
         let cur = stack.shift()
         renderImage(cur)
-        spreadList(cur)
+        renderType(cur)
         if (cur.children && cur.children.length) {
           cur.children.forEach(item => {
-            // console.log(item.nodeData.data.text)
             stack.push(item)
           })
         }
@@ -542,33 +537,41 @@ export default defineComponent({
     }
 
     function renderImage (node) {
-      if (node.nodeData !== null) {
-        const text = node.nodeData.data.text
-        console.log(text)
-        if (isImageLink(text) !== null) {
-          const details = isImageLink(text)
-          // const url = 'ficus://办公工具-PPT/image-20220210173409474.png'
-          let alt = details.imageAlt
-          let url = details.imageUrl
-          console.log(url)
-          url = 'ficus://' + url
-          const image = new Image()
-          image.src = url
-          image.onload = () => {
-            node.setImage({
-              url: url,
-              title: alt,
-              width: image.width,
-              height: image.height
-            })
+      try {
+        if (node !== null) {
+          console.log(node)
+          const text = node.data.text || null
+          if (isImageLink(text) !== null) {
+            const details = isImageLink(text)
+            // const url = 'ficus://办公工具-PPT/image-20220210173409474.png'
+            let alt = details.imageAlt
+            let url = details.imageUrl
+            url = 'ficus://' + url
+            const image = new Image()
+            image.src = url
+            image.onload = () => {
+              node.data.image = url
+              node.data.imageTitle = alt
+              node.data.imageSize = {
+                width: image.width,
+                height: image.height
+              }
+            }
           }
         }
+      } catch (err) {
+        console.log(err)
       }
     }
 
-    function spreadList (node) {
-      if (node.nodeData.data.type === 'bullet-list') {
-        node.show()
+    function renderType (node) {
+      const type = node.data.type
+      if (type === 'bullet-list') {
+        // node.show()
+      } else if (type === 'code-block') {
+        node.data.fontFamily = 'Consolas'
+        node.data.backgroundColor = '#f4f4f3'
+        node.data.borderRadius = 3
       }
     }
 
