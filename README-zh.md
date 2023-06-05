@@ -81,8 +81,9 @@ yarn electron:build
 需要注意安装路径中不能有**中文**，同时对于 win 用户，安装程序中只支持 `Only for me ` 选项：
 
 <p align = "center">
-<img src="https://i.postimg.cc/nchN0BvS/only.png"/>
+<img src="./img/only.png"/>
 </p>
+
 
 
 ## 运行

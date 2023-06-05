@@ -78,8 +78,9 @@ The resulting build can be found in `Ficus/dist_electron/linux_unpacked` or `Fic
 Please note that the installation path cannot contain **Chinese**, and for Windows users, only the `Only for me` option is supported in the installation program:
 
 <p align = "center">
-<img src="https://i.postimg.cc/nchN0BvS/only.png"/>
+<img src="./img/only.png"/>
 </p>
+
 
 
 ## Run
