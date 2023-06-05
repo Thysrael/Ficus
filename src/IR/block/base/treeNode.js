@@ -99,7 +99,7 @@ export class RootNode extends TreeNode {
    */
   toMindJson () {
     const res = super.toMindJson()
-    res.data.tags = this.getTags()
+    res.data.tag = this.getTags()
     return res
   }
 
