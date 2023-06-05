@@ -229,7 +229,8 @@ export default {
     // 将前端的content写回后端文件中，并且更新前端容器
     async function writeBack () {
       // 有可能路径不存在
-      if (curObj.value.path && curObj.value.path !== '') {
+      const inDocumentPath = await window.electronAPI.getBuiltInDocumentsPath()
+      if (curObj.value.path && inDocumentPath.indexOf(curObj.value.path) === -1) {
         window.electronAPI.saveFile(curObj.value.path, content.value)
       }
     }
