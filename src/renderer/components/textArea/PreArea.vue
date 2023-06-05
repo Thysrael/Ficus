@@ -139,6 +139,9 @@
                  @blur="setKeyBind(key)"><br/>
         </li>
       </ul>
+      <button class="optionBtn py-1 flex align-middle justify-center content-center" style="text-align: center" @click="clearUserKeyBinding">
+        恢复默认设置
+      </button>
     </div>
 
     <div v-show="preMode === 3" class="preferences">
@@ -504,6 +507,10 @@ export default {
       return modifiableKeybindingsMap.get(key)
     }
 
+    function clearUserKeyBinding () {
+      window.electronAPI.clearUserKeybindings()
+    }
+
     return {
       searchKeyword,
       searchResults,
@@ -512,6 +519,7 @@ export default {
       shortcuts,
       ficus,
       preMode,
+      clearUserKeyBinding,
       captureShortcut,
       search,
       getTextNodes,
