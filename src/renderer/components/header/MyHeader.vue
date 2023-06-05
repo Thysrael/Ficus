@@ -85,7 +85,7 @@
         </svg>
       </button>
     </div>
-    <div class="area-header-bot items-center content-center" style="z-index: 10; display: flex;">
+    <div class="area-header-bot items-center content-center flex flex-wrap z-10">
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
               class="theme-element;"

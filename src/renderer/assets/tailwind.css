@@ -2849,7 +2849,6 @@ select {
 
 .area-tab-bg-1 {
     position: relative;
-    width: 200px;
     height: 25px;
     border-radius: 0px 0px 10px 10px;
     opacity: 1;
@@ -2858,7 +2857,6 @@ select {
 
 .area-tab-bg-2 {
     position: relative;
-    width: 200px;
     height: 25px;
     border-radius: 0px 0px 10px 10px;
     opacity: 1;
@@ -4160,6 +4158,18 @@ select {
 
 .w-10\/12 {
     width: 83.333333%;
+}
+
+.w-2\/12 {
+    width: 16.666666%;
+}
+
+.w-1\/12 {
+    width: 8.333333%;
+}
+
+.w-11\/12 {
+    width: 91.666666%;
 }
 
 .w-full {
