@@ -371,7 +371,7 @@ export default defineComponent({
       bus.on('sendToFicTree', (obj) => {
         const rawData = JSON.parse(JSON.stringify(obj))
         bfs(rawData)
-        console.log(rawData)
+        // console.log(rawData)
         ficTree.setData(rawData)
         mode = store.getters.getMode // 2: Tree; 5: Forest
         setStyle()
@@ -581,7 +581,7 @@ export default defineComponent({
         node.data.fillColor = '#ffffff'
         node.data.color = '#dcdcdc'
       } else if (type === 'table') {
-        console.log(node)
+        // console.log(node)
       }
     }
 
