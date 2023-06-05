@@ -370,7 +370,6 @@ export default defineComponent({
       // 监听data变化
       bus.on('sendToFicTree', (obj) => {
         const rawData = JSON.parse(JSON.stringify(obj))
-        // console.log(rawData)
         bfs(rawData)
         console.log(rawData)
         ficTree.setData(rawData)
@@ -539,7 +538,6 @@ export default defineComponent({
     function renderImage (node) {
       try {
         if (node !== null) {
-          console.log(node)
           const text = node.data.text || null
           if (isImageLink(text) !== null) {
             const details = isImageLink(text)
@@ -556,6 +554,7 @@ export default defineComponent({
                 width: image.width,
                 height: image.height
               }
+              node.data.text = ''
             }
           }
         }
@@ -570,8 +569,17 @@ export default defineComponent({
         // node.show()
       } else if (type === 'code-block') {
         node.data.fontFamily = 'Consolas'
-        node.data.backgroundColor = '#f4f4f3'
-        node.data.borderRadius = 3
+        node.data.fontSize = 12
+        node.data.fillColor = '#f4f4f3'
+        node.data.borderRadius = 5
+        node.data.paddingX = 20
+        node.data.paddingY = 20
+      } else if (type === 'quote') {
+        node.data.borderDasharray = '5,5'
+        node.data.borderColor = '#e3e3e3'
+        node.data.borderRadius = 5
+        node.data.fillColor = '#ffffff'
+        node.data.color = '#dcdcdc'
       }
     }
 
