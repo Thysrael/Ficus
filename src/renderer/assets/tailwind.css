@@ -2781,7 +2781,7 @@ select {
 }
 
 .area-header-bot {
-    height: 25px;
+    height: 35px;
     top: 40px;
     width: 100%;
     right: 0;
@@ -2850,7 +2850,7 @@ select {
 .area-tab-bg-1 {
     position: relative;
     height: 25px;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 0px;
     opacity: 1;
     background-color: #ffffff;
 }
@@ -2858,7 +2858,7 @@ select {
 .area-tab-bg-2 {
     position: relative;
     height: 25px;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 0px;
     opacity: 1;
     background-color: #d3dcd9;
 }

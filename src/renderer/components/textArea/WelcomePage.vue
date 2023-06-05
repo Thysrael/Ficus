@@ -1,5 +1,5 @@
 <template>
-  <section class="text-gray-500 body-font place-content-center" style="user-select: none;">
+  <section class="text-gray-500 body-font place-content-center rounded-lg" style="user-select: none; background-color: #fafafa">
     <div class="container px-5 py-16 mx-auto">
       <div class="flex place-content-center">
         <div>
@@ -11,7 +11,7 @@
         <h1 class="sm:text-3xl text-2xl justify-self-center text-center title-font text-gray-600 mb-4">欢迎来到 Ficus </h1>
         <p class="leading-relaxed xl:w-6/12 lg:w-9/12 mx-auto" style="font-family: 'Noto Serif SC'; font-style: italic">Branch out your mind with Ficus. </p>
       </div>
-      <div class="flex flex-wrap mx-4 my-2">
+      <div class="flex flex-wrap mx-32 my-2">
         <div class="p-2 sm:w-6/12 w-full">
           <div class="bg-gray-200 rounded flex p-4 h-full items-center">
             <div>
@@ -57,10 +57,16 @@
           </div>
         </div>
       </div>
-      <button class="flex mx-auto mt-8 text-white bg-emerald-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-sm font-semibold transition-all"
-              @click="handleOpenDir">
-        打开文件夹
-      </button>
+      <div class="flex flex-wrap w-6/12 mx-auto">
+        <button class="flex mx-auto mt-8 text-white bg-emerald-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-sm font-semibold transition-all"
+                @click="handleOpenDir">
+          打开文件夹
+        </button>
+        <button class="flex mx-auto mt-8 text-white bg-emerald-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-400 rounded text-sm font-semibold transition-all"
+                @click="handleOpenFile">
+          打开文件
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -75,8 +81,13 @@ export default {
       bus.emit('cmd::execute', { id: 'file.open-folder' })
     }
 
+    async function handleOpenFile () {
+      bus.emit('cmd::execute', { id: 'file.open-file' })
+    }
+
     return {
-      handleOpenDir
+      handleOpenDir,
+      handleOpenFile
     }
   }
 }

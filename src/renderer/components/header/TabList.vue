@@ -4,9 +4,9 @@
        v-show="(mode >= 0 && mode <= 2)">
     <ol class="flex">
       <li
-          class="items-center content-center flex flex-wrap flex-auto align-middle place-content-center w-auto"
-          style="max-width: 320px; min-width: 120px"
-          :class="(item.path === curObj.path) ? `area-tab-bg-1 text-blueGray-800` : `area-tab-bg-2 text-gray-500 tabBg`"
+          class="relative items-center content-center flex flex-wrap flex-auto align-middle place-content-center w-auto"
+          :class="(item.path === curObj.path) ? `tab-item-selected` : `tab-item `"
+          style="max-width: 200px"
           @dragenter="dragenter($event, index)"
           @dragover="dragover($event, index)"
           @dragstart="dragstart(index)"
@@ -22,7 +22,7 @@
         </div>
         <div class="w-2/12 h-full flex">
           <div class="tabBtn mr-2 absolute self-center" @click.stop="closeTabByItem(item)"
-               style="right: 0">
+               style="right: 20px">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                  width="12" height="12" viewBox="0 0 12 12">
               <g style="mix-blend-mode:passthrough" clip-path="url(#master_svg0_1_540)">
@@ -35,6 +35,7 @@
             </svg>
           </div>
         </div>
+        <div :class="(item.path === curObj.path) ? `border-none` : `border-r`" style="width: 10px"/>
       </li>
     </ol>
   </div>
@@ -213,4 +214,45 @@ export default {
   -webkit-transition: background-color .3s;
   -webkit-transition:left .3s, background-color .3s;
 }
+
+.tab-item {
+  position: relative;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 0 -15px;
+  color: #7c7c7c;
+  background-image:
+      radial-gradient(circle at 27px 12px, var(--color,#f4f4f3) 12px, transparent 0),
+      linear-gradient(var(--color,#f4f4f3),var(--color,#f4f4f3)),
+      linear-gradient(var(--color,#f4f4f3),var(--color,#f4f4f3)),
+      radial-gradient(circle at 15px 0, transparent 15px,var(--color, #f4f4f3) 0);
+  background-size:calc(100% - 54px), calc(100% - 30px) calc(100% - 12px), calc(100% - 54px) 100%, 100% 15px;
+  background-position:left top, center bottom, center bottom, -15px bottom;
+  background-repeat: repeat-x, no-repeat, no-repeat, repeat-x;
+}
+
+.tab-item:hover {
+  background-image:
+      radial-gradient(circle at 27px 12px, var(--color, #f9f9f9) 12px, transparent 0),
+      linear-gradient(var(--color,#f9f9f9),var(--color,#f9f9f9)),
+      linear-gradient(var(--color,#f9f9f9),var(--color,#f9f9f9)),
+      radial-gradient(circle at 15px 0, transparent 15px,var(--color, #f9f9f9) 0);
+}
+
+.tab-item-selected {
+  position: relative;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 0 -15px;
+  color: #565656;
+  background-image:
+      radial-gradient(circle at 27px 12px, var(--color,rgba(255, 255, 255, 1)) 12px, transparent 0),
+      linear-gradient(var(--color,#ffffff),var(--color,#ffffff)),
+      linear-gradient(var(--color,#ffffff),var(--color,#ffffff)),
+      radial-gradient(circle at 15px 0, transparent 15px,var(--color, #ffffff) 0);
+  background-size:calc(100% - 54px), calc(100% - 30px) calc(100% - 12px), calc(100% - 54px) 100%, 100% 15px;
+  background-position:left top, center bottom, center bottom, -15px bottom;
+  background-repeat: repeat-x, no-repeat, no-repeat, repeat-x;
+}
+
 </style>
