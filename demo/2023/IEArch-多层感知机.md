@@ -5,6 +5,8 @@ tags:
   - IEArch
   - S5课上
   - 直观理解
+  - Ruby设计
+  - 知识总结
 categories: IEArch
 abbrlink: 71efcdfa
 date: 2022-09-30T20:06:55.000Z
@@ -85,12 +87,11 @@ np.save('./weights/wih1.npy', model.input_hidden1_weight)
 ### 4.2 前向
 
 ​    基础的理解在另一篇博客中 https://thysrael.github.io/posts/963bfa61/ 介绍了，这里主要介绍一下具体的表现形式
-$$
 
+$$
 N_{m \times 1} = W_{m \times n} \bullet I_{n \times 1} \\
 
 O_{m \times 1} = f(N_{m \times 1})
-
 $$
 
 ​    这个东西描述了**一层**神经网络的结构，这一层的神经网络具有 n 个输入，具有 m 个输出。我们通过权重矩阵将输入映射到 m 维，对应的过程是 m 个神经元收集输入信息引发电位变化的过程，其中 $W$ 矩阵的每一行都代表一个神经元的权重。$f$ 被称为 `activation function` ，他接受一个 m 维的向量，输出一个 m 维的向量，对应的是局部电位引发动作电位的过程。
@@ -111,13 +112,17 @@ hidden1_loss = self.hidden1_hidden2_weight.T @ hidden2_loss
 ```
 
 ​    可以看到输出层的误差就是理论结果与实际结果的差值，很好理解，对于倒数第一隐层的误差，就是权重矩阵的转置与输出误差的点乘。虽然这样有些道理，但是没有考虑激励函数，可以认为是一种神奇的建模思想吧，即
+
 $$
 E^{'}_{(n \times 1)} = W^{T}_{m\times n} E_{m\times 1}
 $$
+
 ​    跟之前的前项传播放在一起
+
 $$
 N_{m \times 1} = W_{m \times n} \bullet I_{n \times 1}
 $$
+
 ​    可以看出还是有一些道理的。
 
 ​    然后开始介绍梯度下降法，这里面会涉及一些神秘公式，希望以后我还能记得，首先是总公式
@@ -125,19 +130,15 @@ $$
 E^{'}_{(n \times 1)} = W^{T}_{m\times n} E_{m\times 1}
 
 $$
-
 ​    跟之前的前项传播放在一起
-
 $$
 
 N_{m \times 1} = W_{m \times n} \bullet I_{n \times 1}
 
 $$
-
 ​    可以看出还是有一些道理的。
 
 ​    然后开始介绍梯度下降法，这里面会涉及一些神秘公式，希望以后我还能记得，首先是总公式
-
 $$
 
 W^{'} = W - learn\_rate \times \frac{dE_s}{dW}
@@ -149,19 +150,21 @@ $$
 \frac{dE_s}{dW} = \frac{dE_s}{dO}\times \frac{dO}{dN} \times \frac{dN}{dW}
 
 $$
+
 ​    其中有
-$$
 
+$$
 E_s = \sum_{i}^{m} (target_i - O_i)^2
-
 $$
+
 ​    所以有
-$$
 
+$$
 \frac{dE_s}{dO} = E_{m\times1}
-
 $$
+
 ​    对于 $\frac{dO}{dN}$ ，本质是对激励函数的求导，我们采用的激励函数是 $f(x) = \frac{1}{1 - e^{-x}}$ ，有奇妙特性为 $f^{'}(x) = f(x)(1 - f(x))$。所以有
+
 $$
 
 \frac{dO}{dN} = O_{m\times1}(1_{m\times1} - O_{m\times1})
@@ -173,6 +176,7 @@ $$
 \frac{dN}{dW} = I_{1\times n}
 
 $$
+
 ​    最终有代码
 
 ```python

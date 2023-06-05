@@ -666,8 +666,9 @@ export default {
 }
 
 .appIcon:hover {
-  filter: hue-rotate(295);
-  -webkit-transition: .3s, left .3s;
+  perspective: 200px;
+  transform: rotateY(45deg);
+  -webkit-transition: .2s;
 }
 
 </style>

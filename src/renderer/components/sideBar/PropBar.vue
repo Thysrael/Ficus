@@ -6,26 +6,29 @@
     <div class="items-center w-full content-center my-2">
       <!-- 在具体实现方面，可以通过一个 v-for 维护 -->
       <!-- 点击删除标签按钮时需要将其从标签组中删去，注意绑定事件 -->
-      <div style="width: 200px">
-        <span
-            v-for="(tag, index) in tags"
-            :key="index"
-            class="tag text-gray-700 text-xs font-normal mr-2 my-1 px-3 py-1 rounded-full items-center inline-block"
-            :title="tag">
-            <svg class="w-3 h-3 mr-1 inline" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path
-                d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/>
-            </svg>
-            {{ tag.length > 7 ? tag.slice(0, 7) + '...' : tag }}
-            <button class="inline-flex transition items-center p-1 ml-2 text-sm bg-transparent rounded-md hover:bg-gray-400 hover:text-white"
-                    aria-label="Remove"
-                    @click="removeTag(tag, index)">
-              <svg aria-hidden="true" class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"
-                   xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"
-                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                            clip-rule="evenodd"></path>
+      <div style="max-width: 250px">
+        <ul class="my-4 space-y-3">
+          <li v-for="(tag, index) in tags"
+              class="flex-auto"
+              :key="index"
+              :title="tag">
+            <a href="#" class="flex tag items-center p-3 text-base font-bold text-gray-900 rounded-lg hover:bg-white hover:shadow transition-all border-gray-200 border-b-2">
+              <svg aria-hidden="true" class="w-3 h-4 inline" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/>
               </svg>
-            </button>
-        </span>
+              <span class="flex-1 ml-3 whitespace-nowrap">{{ tag.length > 7 ? tag.slice(0, 7) + '...' : tag }}</span>
+              <button class="inline-flex transition items-center p-1 ml-2 text-sm text-gray-300 bg-transparent rounded-md hover:bg-gray-200 hover:text-white"
+                      aria-label="Remove"
+                      @click="removeTag(tag, index)">
+                <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd"
+                                                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                              clip-rule="evenodd"></path>
+                </svg>
+              </button>
+            </a>
+          </li>
+        </ul>
       </div>
       <!-- 点击叶子按钮时需要将输入框内容添加到标签组中，注意绑定事件 -->
       <div class="items-center flex flex-wrap w-full">
@@ -67,18 +70,24 @@
       当前工作区共有 {{ allTag.length }} 个标签
     </div>
     <div class="items-center content-center my-2">
-      <div style="width: 150px;">
-        <span
-            v-for="(tag, index) in allTag"
-            @click="getFileByTag(tag)"
-            :key="index"
-            class="tag text-gray-700 text-xs font-normal mr-2 my-1 px-3 py-1 rounded-full items-center inline-block"
-            :title="tag">
-            <svg class="w-3 h-3 mr-1 inline" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path
-                d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/>
-            </svg>
-            {{ tag.length > 7 ? tag.slice(0, 7) + '...' : tag }}
-      </span>
+      <div style="max-width: 250px">
+        <ul class="my-4 space-y-3">
+          <li v-for="(tag, index) in allTag"
+              class="deco"
+              @click="getFileByTag(tag)"
+              :key="index"
+              :title="tag">
+            <a href="#" class="flex tag items-center p-3 text-base font-bold text-gray-900 rounded-lg hover:bg-white hover:shadow transition-all border-gray-200 border-b-2">
+              <div>
+                <svg aria-hidden="true" class="w-3 h-4 inline" fill="#5e5e5e" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M416 127.1h-58.23l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L292.9 127.1H197.8l9.789-58.74c2.906-17.44-8.875-33.92-26.3-36.83c-17.53-2.875-33.92 8.891-36.83 26.3L132.9 127.1H64c-17.67 0-32 14.33-32 32C32 177.7 46.33 191.1 64 191.1h58.23l-21.33 128H32c-17.67 0-32 14.33-32 32c0 17.67 14.33 31.1 32 31.1h58.23l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C108.5 479.9 110.3 480 112 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27h95.12l-9.789 58.74c-2.906 17.44 8.875 33.92 26.3 36.83C268.5 479.9 270.3 480 272 480c15.36 0 28.92-11.09 31.53-26.73l11.54-69.27H384c17.67 0 32-14.33 32-31.1c0-17.67-14.33-32-32-32h-58.23l21.33-128H416c17.67 0 32-14.32 32-31.1C448 142.3 433.7 127.1 416 127.1zM260.9 319.1H165.8L187.1 191.1h95.12L260.9 319.1z"/>
+                </svg>
+              </div>
+              <span class="flex-1 ml-3 whitespace-nowrap">{{ tag.length > 7 ? tag.slice(0, 7) + '...' : tag }}</span>
+              <span id="decoration" class="inline-flex items-center justify-center p-1 text-xs text-gray-500 bg-gray-200 rounded overflow-x-hidden flex-none"/>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
@@ -88,8 +97,8 @@
     <ul style="margin-top: 15px">
       <li v-for="(path, index) in tagged"
           :key="index"
-          @click="toggle(path)" class="my-2">
-        <div style="display: flex" class="items-center content-center relBarItem">
+          @click="toggle(path)" class="my-2 hover:bg-white hover:shadow transition-all rounded-lg p-2">
+        <a href="#" style="display: flex" class="items-center content-center relBarItem">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                  width="20" height="20" viewBox="0 0 15 15">
@@ -128,14 +137,14 @@
             </svg>
           </div>
           <div class="pl-2 overflow-hidden" :title="path">
-            <div style="font-size: 12px; text-overflow: ellipsis;">
+            <div style="font-size: 12px; text-overflow: ellipsis; white-space: nowrap">
               {{ getName(path) }}
             </div>
-            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
+            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis; white-space: nowrap">
               {{ path }}
             </div>
           </div>
-        </div>
+        </a>
       </li>
     </ul>
   </div>
@@ -153,7 +162,7 @@ export default {
     const keyWord = ref('')
     const showM = ref(false)
     const all = ref(0)
-    const allTag = ref(['ba', 'bb'])
+    const allTag = ref([{ name: 'ba', num: 0 }, { name: 'bb', num: 0 }])
     const tagged = ref([])
 
     /**
@@ -240,13 +249,12 @@ export default {
 
 <style scoped>
 .tag {
-  background-color: #d3dcd9;
+  font-family: "Noto Serif SC";
+  font-weight: 500;
 }
 
 .tag:hover {
-  background-color: #d6ece3;
   font-weight: 900;
-  -webkit-transition: .3s;
 }
 
 .option:hover {
@@ -267,9 +275,12 @@ export default {
 }
 
 .relBarItem:hover {
-  background-color: #e3e3e3;
   font-weight: 900;
   border-radius: 6px;
   -webkit-transition: .2s;
+}
+
+.deco:hover #decoration {
+  background-color: #42b983;
 }
 </style>

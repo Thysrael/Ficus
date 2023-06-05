@@ -3,7 +3,7 @@
        class="mt-4 mb-2 font-bold"
        v-if="unit.name !== undefined"
        :title="unit.name">
-    <div
+    <a  href="#"
         style="display: flex;"
         class="pl-1 flex align-middle justify-center content-center"
         :class="(showAll) ? `selectedElement` : `nonSelectedElement`"
@@ -16,12 +16,12 @@
           {{ unit.name }}
         </div>
       </div>
-    </div>
+    </a>
   </div>
   <ul v-if="unit.children.length !== 0" class="border-l-2 border-gray-200 mt-1 ml-4 pr-2">
     <li v-for="(path, key) in unit.children"
         :key="key">
-      <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
+      <a href="#" style="display: flex" class="items-center content-center relBarItem p-1 my-1">
         <div
             style="display: flex;"
             class="pl-1 flex"
@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </li>
   </ul>
 

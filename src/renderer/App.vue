@@ -454,7 +454,7 @@ export default {
 }
 
 :root {
-  --sideBarInitWidth: 250px;
+  --sideBarInitWidth: 280px;
 }
 
 .html, body {

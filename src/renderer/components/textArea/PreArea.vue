@@ -26,7 +26,7 @@
       <div class="preference-item">
         <div class="font-bold my-4" style="font-size: 20px">侧边栏</div>
         <label>启动时侧边宽度：</label>
-        <input type="number" v-model="common.sideBarInitWidth" class="numberInput rounded-md" min="250" max="400"> px
+        <input type="number" v-model="common.sideBarInitWidth" class="numberInput rounded-md" min="280" max="400"> px
       </div>
 
       <div class="preference-item">
