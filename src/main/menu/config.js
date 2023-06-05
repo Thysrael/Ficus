@@ -1,6 +1,6 @@
 import path from 'path'
 
-const builtInDocumentsFileName = ['功能规格说明书.md']
+const builtInDocumentsFileName = ['功能分区.md', '关于我们.md', '开发日志.md', '其他功能.md', '使用技巧.md', 'ficus.md']
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 export function getBuiltInDocumentsPath () {
