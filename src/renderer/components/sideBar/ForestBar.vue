@@ -15,14 +15,14 @@
     </button>
   </div>
   <div class="mt-5 place-content-center content-center justify-center flex flex-wrap">
-    <div class="flex p-4 optionBar" @click="getDataBy(1)"
+    <a href="#" class="flex p-4 optionBar" @click="getDataBy(1)"
          :style="dataOption === 1 ? `color: #42b983; font-weight: 900; background-color: #eeeeee` : `color: #565656`">
       榕根选择
-    </div>
-    <div class="flex p-4 optionBar" @click="getDataBy(2)"
+    </a>
+    <a href="#" class="flex p-4 optionBar" @click="getDataBy(2)"
          :style="dataOption === 2 ? `color: #42b983; font-weight: 900; background-color: #eeeeee` : `color: #565656`">
       榕柱选择
-    </div>
+    </a>
   </div>
   <div class="my-1 pl-2 pr-2 content-center items-center w-full mt-2">
     <ul style="margin-top: 15px">

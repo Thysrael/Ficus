@@ -19,12 +19,12 @@
       </svg>
     </button>
   </div>
-  <ul style="margin-top: 40px" class="pl-2" v-if="searchResult.length !== 0">
+  <ul style="margin-top: 40px" class="pl-2 pr-4" v-if="searchResult.length !== 0">
   <li v-for="(path, index) in searchResult"
       :key="index"
       @click="toggle(path)"
-  class="pr-4">
-    <div style="display: flex" class="items-center content-center relBarItem">
+      class="hover:bg-white hover:shadow transition-all rounded-lg p-2">
+    <a href="#" style="display: flex" class="items-center content-center relBarItem">
       <div>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="20" height="20" viewBox="0 0 15 15">
@@ -63,14 +63,14 @@
         </svg>
       </div>
       <div class="pl-2 overflow-hidden" :title="path">
-        <div style="font-size: 12px; text-overflow: ellipsis;">
+        <div style="font-size: 12px; text-overflow: ellipsis; white-space: nowrap">
           {{ getName(path) }}
         </div>
-        <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
+        <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis; white-space: nowrap">
           {{ path }}
         </div>
       </div>
-    </div>
+    </a>
   </li>
 </ul>
   <div style="font-size: 12px; font-family: 'Noto Sans SC'; margin-top: 50px" class="pl-2" v-if="searchResult.length === 0">
@@ -156,7 +156,6 @@ export default {
 }
 
 .relBarItem:hover {
-  background-color: #e3e3e3;
   border-radius: 6px;
   -webkit-transition: .2s;
 }

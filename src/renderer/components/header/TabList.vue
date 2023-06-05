@@ -4,7 +4,7 @@
        v-show="(mode >= 0 && mode <= 2)">
     <ol class="flex">
       <li
-          class="items-center content-center flex flex-wrap flex-shrink align-middle place-content-center"
+          class="items-center content-center flex flex-wrap flex-auto align-middle place-content-center w-auto"
           style="max-width: 320px; min-width: 120px"
           :class="(item.path === curObj.path) ? `area-tab-bg-1 text-blueGray-800` : `area-tab-bg-2 text-gray-500 tabBg`"
           @dragenter="dragenter($event, index)"

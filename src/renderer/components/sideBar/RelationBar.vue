@@ -5,9 +5,10 @@
     </div>
     <ul style="margin-top: 15px">
       <li v-for="(item, index) in cites"
+          class="hover:bg-white hover:shadow transition-all rounded-lg p-2"
           :key="index"
           @click="toggle(item)">
-        <div style="display: flex" class="items-center content-center relBarItem p-1 my-1">
+        <a href="#" style="display: flex" class="items-center content-center relBarItem my-1">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                  width="20" height="20" viewBox="0 0 15 15">
@@ -46,14 +47,14 @@
             </svg>
           </div>
           <div class="pl-2 overflow-hidden" :title="item.path">
-            <div style="font-size: 12px; text-overflow: ellipsis;">
+            <div style="font-size: 12px; text-overflow: ellipsis;white-space: nowrap">
               {{ item.name }}
             </div>
-            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
+            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;white-space: nowrap">
               {{ item.path }}
             </div>
           </div>
-        </div>
+        </a>
       </li>
     </ul>
     <hr style="border: none;border-top: 2px solid #ccc;height: 1px;margin: 20px 0;">
@@ -62,9 +63,10 @@
     </div>
     <ul style="margin-top: 15px">
       <li v-for="(item, index) in quoted"
+          class="hover:bg-white hover:shadow transition-all rounded-lg p-2"
           :key="index"
           @click="toggle(item)">
-        <div style="display: flex" class="items-center content-center relBarItem">
+        <a href="#" style="display: flex" class="items-center content-center relBarItem">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
                  width="20" height="20" viewBox="0 0 15 15">
@@ -103,14 +105,14 @@
             </svg>
           </div>
           <div class="pl-2 overflow-hidden" :title="item.path">
-            <div style="font-size: 12px; text-overflow: ellipsis;">
+            <div style="font-size: 12px; text-overflow: ellipsis;white-space: nowrap">
               {{ item.name }}
             </div>
-            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;">
+            <div style="font-size: 10px; color: #666A70; text-overflow: ellipsis;white-space: nowrap">
               {{ item.path }}
             </div>
           </div>
-        </div>
+        </a>
       </li>
     </ul>
   </div>
@@ -178,7 +180,6 @@ export default {
 }
 
 .relBarItem:hover {
-  background-color: #e3e3e3;
   border-radius: 6px;
   -webkit-transition: .2s;
 }
