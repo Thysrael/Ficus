@@ -93,6 +93,16 @@ export default class TreeNode extends LinkedNode {
 }
 
 export class RootNode extends TreeNode {
+  /**
+   *
+   * @returns
+   */
+  toMindJson () {
+    const res = super.toMindJson()
+    res.data.tags = this.getTags()
+    return res
+  }
+
   getTags () {
     if (this.hasFrontMatter()) {
       return this.children.head.content.getTags()
