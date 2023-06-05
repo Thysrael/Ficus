@@ -185,7 +185,7 @@ We have also rewritten the software package repositories as follows:
 - Mathematical formula completion
 - Bug fixes based on user feedback
 
-### v0.1.7
+### v0.1.8
 
 **Release Date**: June 5, 2023
 
