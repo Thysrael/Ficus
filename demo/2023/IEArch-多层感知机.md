@@ -150,21 +150,19 @@ $$
 \frac{dE_s}{dW} = \frac{dE_s}{dO}\times \frac{dO}{dN} \times \frac{dN}{dW}
 
 $$
-
 ​    其中有
-
 $$
+
 E_s = \sum_{i}^{m} (target_i - O_i)^2
-$$
 
+$$
 ​    所以有
-
 $$
+
 \frac{dE_s}{dO} = E_{m\times1}
+
 $$
-
 ​    对于 $\frac{dO}{dN}$ ，本质是对激励函数的求导，我们采用的激励函数是 $f(x) = \frac{1}{1 - e^{-x}}$ ，有奇妙特性为 $f^{'}(x) = f(x)(1 - f(x))$。所以有
-
 $$
 
 \frac{dO}{dN} = O_{m\times1}(1_{m\times1} - O_{m\times1})
