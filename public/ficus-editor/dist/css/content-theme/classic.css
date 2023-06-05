@@ -334,3 +334,10 @@ pre.vditor-sv:focus {
   margin: auto;
   display: block;
 }
+
+/** toc **/
+
+.vditor-reset .vditor-toc span {
+  color: #23C99A;
+  font-weight: 900;
+}

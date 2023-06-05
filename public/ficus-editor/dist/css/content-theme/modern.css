@@ -334,3 +334,10 @@ pre.vditor-sv:focus {
 .vditor-reset span.vditor-search__current {
   background-color: #b6f07c;
 }
+
+/** toc **/
+
+.vditor-reset .vditor-toc span {
+  color: #23C99A;
+  font-weight: 900;
+}
