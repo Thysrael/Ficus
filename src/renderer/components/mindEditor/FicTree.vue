@@ -554,7 +554,7 @@ export default defineComponent({
                 width: image.width,
                 height: image.height
               }
-              node.data.text = ''
+              // node.data.text = ''
             }
           }
         }
