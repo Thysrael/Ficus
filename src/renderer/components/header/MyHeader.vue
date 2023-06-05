@@ -88,7 +88,8 @@
     <div class="area-header-bot items-center content-center flex flex-wrap z-10">
       <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
       <button @click="changeTheme"
-              class="theme-element;"
+                :title="'切换字体主题'"
+              class="theme-element"
               v-show="(mode === 0 || mode === 1)"
               style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"

@@ -107,7 +107,7 @@ export default {
     })
 
     bus.on('getNodeAndLink', (obj) => {
-      console.log('刷新！！！')
+      // console.log('刷新！！！')
       const data = obj.nodes
       const link = obj.links
       let id2NodeIndex = new Map()
@@ -312,7 +312,7 @@ export default {
             hidingLinks.set(link.id, link)
           }
         }
-        console.log('HidingLinks: ' + hidingLinks.size)
+        // console.log('HidingLinks: ' + hidingLinks.size)
       }, 200)
     }
     
