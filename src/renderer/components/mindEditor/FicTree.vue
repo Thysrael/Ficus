@@ -521,6 +521,17 @@ export default defineComponent({
       return null
     }
 
+    function isLocalImageURL (url) {
+      // 检查链接是否以 "http://" 或 "https://" 开头
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        return false
+      } else if (url.includes("://")) {
+        return false
+      }
+
+      return true
+    }
+
     function bfs (rootNode) {
       let stack = [rootNode]
       while (stack.length) {
@@ -544,7 +555,9 @@ export default defineComponent({
             // const url = 'ficus://办公工具-PPT/image-20220210173409474.png'
             let alt = details.imageAlt
             let url = details.imageUrl
-            url = 'ficus://' + url
+            if (isLocalImageURL(url)) {
+              url = 'ficus://' + url
+            }
             const image = new Image()
             image.src = url
             image.onload = () => {
@@ -554,6 +567,7 @@ export default defineComponent({
                 width: image.width,
                 height: image.height
               }
+              node.data.color = '#f4f4f3'
               // node.data.text = ''
             }
           }
