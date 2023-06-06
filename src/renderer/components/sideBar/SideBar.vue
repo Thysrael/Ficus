@@ -193,6 +193,7 @@ import PropBar from '@/renderer/components/sideBar/PropBar'
 import ForestBar from '@/renderer/components/sideBar/ForestBar'
 import GraphBar from '@/renderer/components/sideBar/GraphBar'
 import PreBar from '@/renderer/components/sideBar/PreBar'
+import SpinLoading from '@/renderer/assets/SpinLoading.vue'
 
 export default {
   name: 'SideBar',
@@ -200,6 +201,7 @@ export default {
     contextmenu: directive
   },
   components: {
+    SpinLoading,
     PreBar,
     GraphBar,
     ForestBar,
