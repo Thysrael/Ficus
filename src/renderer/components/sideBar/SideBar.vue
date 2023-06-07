@@ -492,6 +492,10 @@ export default {
       await store.dispatch('updateMode', { value: 4 })
     }
 
+    bus.on('changeFileValue', (value) => {
+      isFile.value = value
+    })
+
     return {
       isFile,
       titles,

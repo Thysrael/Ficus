@@ -79,10 +79,12 @@ export default {
   setup () {
     async function handleOpenDir () {
       bus.emit('cmd::execute', { id: 'file.open-folder' })
+      bus.emit('changeFileValue', 0)
     }
 
     async function handleOpenFile () {
       bus.emit('cmd::execute', { id: 'file.open-file' })
+      bus.emit('changeFileValue', 2)
     }
 
     return {
