@@ -26,7 +26,7 @@ module.exports = defineConfig({
                 'universal'
               ]
             }
-          ],
+          ]
         }
       },
       externals: ['chokidar']
