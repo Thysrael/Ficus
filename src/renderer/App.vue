@@ -102,7 +102,7 @@ export default {
         document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
       })
 
-      pathSeq = await window.electronAPI.getPathSep()
+      pathSeq = await window.pathAPI.sep
 
       window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight + 'px'
@@ -285,9 +285,9 @@ export default {
           return
         }
         if (dialogName.value === '新建文件') {
-          await window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
+          window.electronAPI.newFileFromSidebar(father.value.path, fileName.value)
         } else {
-          await window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
+          window.electronAPI.newFolderFromSidebar(father.value.path, fileName.value)
         }
         const paths = []
         for (let i = 0; i < father.value.absolutePath.length; i++) {
