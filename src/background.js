@@ -109,21 +109,15 @@ app.on('ready', async () => {
     ficusPath = path.dirname(tarPath)
   })
 
-  ipcMain.handle('paste', async (e, userSelect, tarPath) => {
+  ipcMain.on('paste', async (e, userSelect, tarPath) => {
     await paste(userSelect, tarPath)
   })
 
   ipcMain.handle('readFile', (e, filePath) => {
-    const content = readFile(filePath)
-    return content
-  })
-
-  ipcMain.handle('getPathSep', (e) => {
-    return path.sep
+    return readFile(filePath)
   })
 
   ipcMain.handle('linkToFile', async (e, filePath, citingPath) => {
-    console.log(filePath)
     return await linkToFile(filePath, citingPath)
   })
   ipcMain.on('deleteFile', (e, filePath) => {
@@ -135,7 +129,7 @@ app.on('ready', async () => {
   ipcMain.on('renameFileOrFolder', (e, newPath, oldPath) => {
     renameFileOrFolder(newPath, oldPath)
   })
-  ipcMain.handle('newFileFromSidebar', (e, filePath, fileName) => {
+  ipcMain.on('newFileFromSidebar', (e, filePath, fileName) => {
     newFileFromSidebar(filePath, fileName)
   })
   ipcMain.on('newFolderFromSidebar', (e, filePath, fileName) => {
@@ -149,8 +143,7 @@ app.on('ready', async () => {
   })
 
   ipcMain.handle('dialog:openFile', async (e) => {
-    const fileObjs = getFileFromUser()
-    return fileObjs
+    return getFileFromUser()
   })
   ipcMain.on('save-file', (e, path, content) => {
     saveFile(path, content)
@@ -165,25 +158,14 @@ app.on('ready', async () => {
   /* window */
   ipcMain.on('window-min', (e) => {
     const win = BrowserWindow.fromWebContents(e.sender)
-    if (isOsx && win.isFullScreen()) {
-      win.setFullScreen(false)
-    }
     win.minimize()
   })
   ipcMain.on('window-max', (e) => {
     const win = BrowserWindow.fromWebContents(e.sender)
-    if (isOsx) {
-      if (win.isFullScreen()) {
-        win.setFullScreen(false)
-      } else {
-        win.setFullScreen(true)
-      }
+    if (win.isMaximized()) {
+      win.restore()
     } else {
-      if (win.isMaximized()) {
-        win.restore()
-      } else {
-        win.maximize()
-      }
+      win.maximize()
     }
   })
   ipcMain.on('window-close', (e) => {

@@ -25,7 +25,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   exportPDF: (html) => ipcRenderer.invoke('exportPDF', html),
 
   newFileFromDialog: () => ipcRenderer.invoke('newFileFromDialog'),
-  newFileFromSidebar: (filePath, fileName) => ipcRenderer.invoke('newFileFromSidebar', filePath, fileName),
+  newFileFromSidebar: (filePath, fileName) => ipcRenderer.send('newFileFromSidebar', filePath, fileName),
   newWindow: () => ipcRenderer.send('new-window'),
 
   newFolderFromSidebar: (folderPath, folderName) => ipcRenderer.send('newFolderFromSidebar', folderPath, folderName),
@@ -36,14 +36,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deleteFolder: (folderPath) => ipcRenderer.send('deleteFolder', folderPath),
   renameFileOrFolder: (newPath, oldPath) => ipcRenderer.send('renameFileOrFolder', newPath, oldPath),
   linkToFile: (filePath, citingPath) => ipcRenderer.invoke('linkToFile', filePath, citingPath),
-  paste: (userSelect, tarPath, projPath) => ipcRenderer.invoke('paste', userSelect, tarPath, projPath),
+  paste: (userSelect, tarPath) => ipcRenderer.send('paste', userSelect, tarPath),
   handlePaste: () => ipcRenderer.invoke('handlePaste'),
 
   refresh: (projPath) => ipcRenderer.invoke('refresh', projPath),
 
   getLinksAndTags: (file) => ipcRenderer.invoke('getLinksAndTags', file),
   readFile: (filePath) => ipcRenderer.invoke('readFile', filePath),
-  getPathSep: () => ipcRenderer.invoke('getPathSep'),
   getCites: (filePath) => ipcRenderer.invoke('ficus::getCites', filePath),
   getTags: (tagName) => ipcRenderer.invoke('ficus::getTags', tagName),
   findTags: (tagName, folderPath) => ipcRenderer.invoke('find_tags', tagName, folderPath),
