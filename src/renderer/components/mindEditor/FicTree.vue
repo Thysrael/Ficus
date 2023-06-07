@@ -362,7 +362,7 @@ export default defineComponent({
       })
       ficTree.on('node_mousedown', (node, e) => {
         if (node.nodeData.data.type === 'root') {
-          // Cannot operate
+          // Cannot Drag
           ficTree.emit('mouseup', e)
         }
       })
@@ -371,7 +371,6 @@ export default defineComponent({
       bus.on('sendToFicTree', (obj) => {
         const rawData = JSON.parse(JSON.stringify(obj))
         bfs(rawData)
-        // console.log(rawData)
         ficTree.setData(rawData)
         mode = store.getters.getMode // 2: Tree; 5: Forest
         setStyle()
@@ -420,18 +419,30 @@ export default defineComponent({
       dropdownType.value = ''
     }
 
+    function hasRoot () {
+      return activeNodes.value.findIndex(node => {
+        return node.nodeData.data.type === 'root'
+      }) !== -1
+    }
+
     function copy () {
-      copyData = ficTree.renderer.copyNode()
+      if (!hasRoot()) {
+        copyData = ficTree.renderer.copyNode()
+      }
       hide()
     }
     function cut () {
-      ficTree.execCommand('CUT_NODE', _copyData => {
-        copyData = _copyData
-      })
+      if (!hasRoot()) {
+        ficTree.execCommand('CUT_NODE', _copyData => {
+          copyData = _copyData
+        })
+      }
       hide()
     }
     function paste () {
-      ficTree.execCommand('PASTE_NODE', copyData)
+      if (copyData !== null) {
+        ficTree.execCommand('PASTE_NODE', copyData)
+      }
       hide()
     }
 
