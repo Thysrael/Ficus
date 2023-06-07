@@ -99,7 +99,6 @@ export default {
       store.dispatch('files/LISTEN_FILE_CHANGED')
 
       bus.on('changeSideBarWidth', () => {
-        console.log('APP.vue', store.getters.getCommon.sideBarInitWidth)
         document.documentElement.style.setProperty('--sideBarInitWidth', store.getters.getCommon.sideBarInitWidth + 'px')
       })
 
