@@ -47,7 +47,7 @@ class WindowsManager {
 
   closeAll () {
     for (const baseWindow of this.windows) {
-      baseWindow.resetWatcher()
+      baseWindow.close()
     }
     this.windows = []
   }
@@ -55,8 +55,8 @@ class WindowsManager {
   _closeWindow (id) {
     const baseWindow = this.windows.find(({ win }) => win.id === id)
     const index = this.windows.find(({ win }) => win.id === id)
-    delete this.windows[index]
-    baseWindow.resetWatcher()
+    baseWindow.close()
+    this.windows.splice(index, 1)
   }
 
   async _createWindow () {
@@ -78,30 +78,20 @@ class WindowsManager {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // Load the url of the dev server if in development mode
       await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-      win.setMinimumSize(800, 600)
-      win.setMenu(null)
-      win.removeMenu()
-      if (this.preferences.getItem('autoFullScreen')) {
-        if (isOsx) {
-          win.setFullScreen(true)
-        } else {
-          win.maximize()
-        }
-      }
     } else {
       createProtocol('app')
       // Load the index.html when not in development
       await win.loadURL('app://.de/index.html')
-      win.setMinimumSize(800, 600)
-      win.setMenu(null)
-      win.removeMenu()
-      // 令窗口初始为最大
-      if (this.preferences.getItem('autoFullScreen')) {
-        if (isOsx) {
-          win.setFullScreen(true)
-        } else {
-          win.maximize()
-        }
+    }
+    win.setMinimumSize(800, 600)
+    win.setMenu(null)
+    win.removeMenu()
+    // 令窗口初始为最大
+    if (this.preferences.getItem('autoFullScreen')) {
+      if (isOsx) {
+        win.setFullScreen(true)
+      } else {
+        win.maximize()
       }
     }
     win.webContents.setWindowOpenHandler((detail) => {
@@ -112,7 +102,9 @@ class WindowsManager {
         return { action: 'deny' }
       }
     })
-    win.on('close', () => this._closeWindow(win.id))
+    win.on('close', (event) => {
+      this._closeWindow(win.id)
+    })
     win.on('focus', () => {
       this.activeIndex = win.id
     })
