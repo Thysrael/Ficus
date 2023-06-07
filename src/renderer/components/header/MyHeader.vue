@@ -180,6 +180,7 @@ export default {
     // 模式改变核心逻辑
     bus.on('changeMode', (value) => {
       const mode = store.getters.getMode
+      console.log('mode is ', mode)
       if (openFiles.value.length === 0 && value !== -1) {
         store.dispatch('updateMode', { value: -1 })
         return

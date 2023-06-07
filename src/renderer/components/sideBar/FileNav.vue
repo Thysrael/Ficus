@@ -20,10 +20,6 @@
               class="openFolderBtn">
         打开文件夹
       </button>
-      <button @click="handleOpenFile"
-              class="openFolderBtn">
-        打开文件
-      </button>
     </div>
   </div>
 </template>
