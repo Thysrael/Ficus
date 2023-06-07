@@ -21,10 +21,6 @@ class App {
     this.windowsManager.createWindow()
   }
 
-  reinit () {
-    this.windowsManager.createWindow()
-  }
-
   quit () {
     // this.windowsManager.closeAll()
   }

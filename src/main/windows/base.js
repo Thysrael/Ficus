@@ -26,6 +26,11 @@ class BaseWindow {
     this.linkManager.reset()
   }
 
+  close () {
+    this.watcher.removeAllListeners()
+    this.resetWatcher()
+  }
+
   watch (pathname, type) {
     this.watcher.watch(this.win, pathname, type)
   }
