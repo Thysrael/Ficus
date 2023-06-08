@@ -86,12 +86,30 @@
       </button>
     </div>
     <div class="area-header-bot items-center content-center flex flex-wrap z-10">
-      <TabList :open-files="openFiles" :cur-obj="curObj"></TabList>
+      <TabList :open-files="openFiles"
+               :cur-obj="curObj"
+               class="flex-shrink"
+               ref="tabList"
+               @update:tabListOverflow="handleTabListOverflow">
+      </TabList>
+      <button @click="togglePopover"
+              id="downtabRef"
+              v-show="tabListOverflow"
+              :title="'展示隐藏的标签页'"
+              class="theme-element z-50"
+              style="-webkit-app-region: no-drag; right: 40px; position: fixed;">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="15" height="15" viewBox="0 0 15 15">
+          <g clip-path="url(#master_svg0_240_0876)"><g>
+            <path d="M2.683056,5.183056C2.9271380000000002,4.9389812,3.3228619999999998,4.9389812,3.5669399999999998,5.183056L7.5,9.11613L11.43306,5.183056C11.67712,4.9389812,12.07288,4.9389812,12.31694,5.183056C12.561,5.427138,12.561,5.822862,12.31694,6.06694L7.94194,10.441939999999999C7.69788,10.686,7.30212,10.686,7.05806,10.441939999999999L2.683056,6.06694C2.4389812,5.822862,2.4389812,5.427138,2.683056,5.183056Z"
+                  fill-rule="evenodd" fill="#000000" fill-opacity="1"/>
+          </g></g>
+        </svg>
+      </button>
       <button @click="changeTheme"
                 :title="'切换字体主题'"
-              class="theme-element"
+              class="theme-element z-50"
               v-show="(mode === 0 || mode === 1)"
-              style="-webkit-app-region: no-drag; right: 10px; position: fixed; z-index: 20">
+              style="-webkit-app-region: no-drag; right: 10px; position: fixed;">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
              width="15" height="15" viewBox="0 0 15 15">
           <g style="mix-blend-mode:passthrough">
@@ -101,6 +119,23 @@
           </g>
         </svg>
       </button>
+    </div>
+    <div id="hiddenTabRef"
+         v-show="popoverShow && openFiles.length !== 0"
+         class="fixed items-center bg-white overflow-y-auto content-center transition-all border-0 shadow-xl z-50 font-normal text-sm text-left no-underline break-words"
+         style="font-family: 'Noto Sans SC'; max-height: 500px; "
+         :style="{ left: menuLeft + 'px', top: menuTop + 'px' }">
+      <div class="px-3 py-2">
+        <ol>
+          <li v-for="(child, index) in openFiles" :key="index"
+              @click="switchToCurFile(child)"
+              class="breadCrumbChild px-3 overflow-hidden whitespace-nowrap"
+              style="max-width: 160px; font-size: 13px; text-overflow: ellipsis"
+          >
+            {{ getName(child) }}
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
 </template>
@@ -143,6 +178,7 @@ export default {
         interval = setInterval(autoSave, (newValue * 1000)) // 设置新的间隔时间
       })
     })
+
     const openFiles = ref([]) // 存储已打开的文件，浅比较（ === 引用相同），深比较（值相同）
     const curObj = ref({
       name: '',
@@ -155,6 +191,12 @@ export default {
     })
 
     const hiddenHeaderButton = !window.electronAPI.isOSx()
+
+    const tabListOverflow = ref(false)
+    const popoverShow = ref(false)
+    const menuLeft = ref(0)
+    const menuTop = ref(0)
+    const tabList = ref(null)
 
     // 打开tab，首先检测目标文件是否已经打开，没打开则将对象计入openFiles
     bus.on('openNewTab', async (obj) => {
@@ -172,6 +214,11 @@ export default {
           bus.emit('changeMode', 0)
         }
         bus.emit('sendToTextUI', obj)
+        const index = getIndex(obj)
+        if (index !== -1) {
+          console.log(index)
+          scrollToElement(index)
+        }
       }, () => {
         return bus.emit('deleteTab', obj)
       })
@@ -235,6 +282,36 @@ export default {
       if (curObj.value.path && inDocumentPath.indexOf(curObj.value.path) === -1) {
         window.electronAPI.saveFile(curObj.value.path, content.value)
       }
+    }
+
+    function handleTabListOverflow (value) {
+      tabListOverflow.value = value
+    }
+
+    function togglePopover (e) {
+      this.popoverShow = !this.popoverShow
+      menuLeft.value = e.clientX - 160
+      menuTop.value = e.clientY + 15
+    }
+
+    const scrollToElement = (index) => {
+      if (tabList.value) {
+        tabList.value.scrollToElement(index)
+      }
+    }
+
+    function getName (item) {
+      const index = item.absolutePath.length + item.offset
+      let res = item.absolutePath[index]
+      for (let i = index + 1; i <= item.absolutePath.length - 1; i++) {
+        res += '>' + item.absolutePath[i]
+      }
+      return res
+    }
+
+    function switchToCurFile (file) {
+      bus.emit('openNewTab', file)
+      popoverShow.value = false
     }
 
     // 传参给，根据mode选择传参给哪个组件
@@ -399,6 +476,10 @@ export default {
     // 对于一个待打开的文件，判断是否已经包含在已打开的文件中
     function contain (file) {
       return openFiles.value.find(openfile => openfile.path === file.path) !== undefined
+    }
+
+    function getIndex (file) {
+      return openFiles.value.findIndex(openfile => openfile.path === file.path)
     }
 
     bus.on('openRefFile', async (obj) => {
@@ -581,7 +662,17 @@ export default {
       maximizeWindow,
       closeWindow,
       changeTheme,
-      hiddenHeaderButton
+      hiddenHeaderButton,
+      handleTabListOverflow,
+      tabListOverflow,
+      togglePopover,
+      getName,
+      switchToCurFile,
+      popoverShow,
+      menuLeft,
+      menuTop,
+      tabList,
+      scrollToElement
     }
   }
 }
@@ -672,6 +763,25 @@ export default {
   perspective: 200px;
   transform: rotateY(45deg);
   -webkit-transition: .2s;
+}
+
+.breadCrumbChild {
+  cursor: pointer;
+  color: #565656;
+}
+
+.breadCrumbChild:hover {
+  background-color: #f4f4f3;
+  border-radius: 8px;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
+}
+
+.breadCrumbChild:active {
+  background-color: #a8a8a8;
+  border-radius: 8px;
+  -webkit-transition: background-color .3s;
+  -webkit-transition:left .3s, background-color .3s;
 }
 
 </style>
