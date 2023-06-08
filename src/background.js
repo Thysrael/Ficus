@@ -57,7 +57,7 @@ app.on('ready', async () => {
     }
   } else {
     if (ficusApp.preferences.getItem('autoUpdate')) {
-      updater(ficusApp, app, isOsx)
+      updater(app, isOsx)
     }
   }
 
