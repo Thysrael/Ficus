@@ -1,6 +1,9 @@
 <template>
-  <div class="flexStyle flex-wrap"
-       :style="`margin-right: 20px; left: ${store.getters.getSideBarWidth}px; position: fixed`"
+  <div class="flexStyle flex-wrap fixed"
+       style=""
+       :style="tabOverflow ? `margin-right: 35px; right: 35px; left: ${store.getters.getSideBarWidth}px;` : `margin-right: 20px; right: 20px; left: ${store.getters.getSideBarWidth}px;`"
+       ref="tablist"
+       id="tabListDiv"
        v-show="(mode >= 0 && mode <= 2)">
     <ol class="flex">
       <li
@@ -48,7 +51,7 @@
 
 <script>
 
-import { computed, getCurrentInstance, ref, watch } from 'vue'
+import { computed, getCurrentInstance, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import bus from 'vue3-eventbus'
 import { directive, Contextmenu, ContextmenuItem } from 'v-contextmenu'
 import 'v-contextmenu/dist/themes/default.css'
@@ -73,6 +76,7 @@ export default {
       require: true
     }
   },
+  emits: ['update:tabListOverflow'],
   setup (props) {
     const dragIndex = ref(0)
     const list = ref(props.openFiles)
@@ -86,11 +90,44 @@ export default {
       return store.getters.getMode
     })
 
+    const tabOverflow = ref(false)
+    const containerRef = ref(null)
+    const checkTablistOverflow = () => {
+      const tablistWidth = containerRef.value.clientWidth
+      const contentWidth = containerRef.value.scrollWidth
+      tabOverflow.value = contentWidth > tablistWidth
+      _this.$emit('update:tabListOverflow', tabOverflow.value)
+    }
+
+    // scrollToElement 函数接受一个参数 index
+    // 代表数组中要滚动到可见区域的元素索引
+    function scrollToElement (index) {
+      const container = document.getElementById('tabListDiv')
+      const listItem = container.querySelectorAll('li')
+
+      if (index >= 0 && index < listItem.length) {
+        listItem[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }
+    }
+
     watch(() => store.state.xy, (newValue, oldValue) => {
       const temp = TabXY.value.x + '+' + TabXY.value.y
       if (store.getters.getXY !== temp) {
         _this.$refs.contextmenu.hide()
       }
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', checkTablistOverflow)
+    })
+
+    onMounted(() => {
+      window.addEventListener('resize', checkTablistOverflow)
+    })
+
+    watch(list.value, (newList, oldList) => {
+      console.log('list 长度变化了:', newList.length)
+      checkTablistOverflow()
     })
 
     function updateRightClickItem (e, item) {
@@ -131,19 +168,23 @@ export default {
     function getTab (item) {
       if (props.curObj.path !== item.path) {
         bus.emit('sendToTextUI', item)
+        checkTablistOverflow()
       }
     }
 
     function closeTabByItem (item) {
       bus.emit('deleteTab', item)
+      checkTablistOverflow()
     }
 
     function closeTab () {
       bus.emit('deleteTab', rightClickItem.value)
+      checkTablistOverflow()
     }
 
     function closeOtherTab () {
       bus.emit('closeAllOtherTab', rightClickItem.value)
+      checkTablistOverflow()
     }
 
     function lockTab () {
@@ -162,8 +203,14 @@ export default {
       closeTab,
       closeOtherTab,
       lockTab,
-      updateRightClickItem
+      updateRightClickItem,
+      tabOverflow,
+      containerRef,
+      scrollToElement
     }
+  },
+  mounted () {
+    this.containerRef = this.$refs.tablist
   }
 }
 </script>
@@ -172,7 +219,6 @@ export default {
 .flexStyle{
   /* 设置超出滚动 */
   overflow-x:auto;
-  right: 20px;
 }
 ::-webkit-scrollbar {
   /* 隐藏滚动条 */
@@ -195,8 +241,8 @@ export default {
 }
 
 .tabBtn:hover {
-  background-color: #686c6a;
-  border-radius: 10px;
+  background-color: #dcdcdc;
+  border-radius: 2.5px;
   -webkit-transition: background-color .3s;
   -webkit-transition:left .3s, background-color .3s;
 }
