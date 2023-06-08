@@ -131,6 +131,7 @@
               @click="switchToCurFile(child)"
               class="breadCrumbChild px-3 overflow-hidden whitespace-nowrap"
               style="max-width: 160px; font-size: 13px; text-overflow: ellipsis"
+              :title="getName(child)"
           >
             {{ getName(child) }}
           </li>
