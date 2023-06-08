@@ -446,7 +446,7 @@ const Updater = {
   }
 }
 
-const UpdateMain = function (ficusApp, app, isOsx){
+const UpdateMain = function (app, isOsx){
   Updater.init({
     api: 'https://ficus.world/update/version.json',
     server: false,
@@ -459,7 +459,8 @@ const UpdateMain = function (ficusApp, app, isOsx){
       return false
     }
     Updater.progress((state) => { })
-    dialog.showMessageBoxSync(ficusApp.getFocusWin(), {
+    dialog.showMessageBoxSync
+    dialog.showMessageBoxSync({
       type: 'warning',
       title: '更新提醒',
       buttons: ['确定'],
