@@ -89,7 +89,6 @@ export default {
 
     onMounted(async () => {
       store.dispatch('LISTEN_REFRESH')
-      store.dispatch('LISTEN_OPENINITFILE')
       store.dispatch('LISTEN_KEYBOARD_EVENT')
       store.dispatch('LISTEN_OPEN_FILE_TAB')
       store.dispatch('LISTEN_LOAD_PREFERENCES')
@@ -195,8 +194,8 @@ export default {
       if (obj.type === 'file') {
         bus.emit('deleteTab', obj)
       } else if (obj.type === 'folder') {
-        for (let i = 0; i < obj.children.length; i++) {
-          closeTab(obj.children[i])
+        for (const fileOrFolder of obj.children) {
+          closeTab(fileOrFolder)
         }
       }
     }

@@ -35,9 +35,9 @@ class WindowsManager {
     this.windows.push(baseWindow)
     if (isDevelopment) {
       const demoPath = path.resolve(__dirname, '..', 'demo', 'index.md')
-      baseWindow.openInitFileOrFolder(demoPath)
+      baseWindow.openFileOrFolder(demoPath, true)
     } else if (process.argv.length > 1) {
-      baseWindow.openInitFileOrFolder(process.argv[1])
+      baseWindow.openFileOrFolder(process.argv[1], true)
     }
   }
 
