@@ -202,6 +202,17 @@ We have also rewritten the software package repositories as follows:
 - After further polishing, startup interface design, and user experience improvement, the final version of beta will be released.
 
 
+### v0.1.9
+
+**Release Date**: June 8, 2023
+
+**Description**: Pre-release 2 of the beta version.
+
+**Features Overview**:
+
+- Bug fixes based on user feedback
+
+
 ## Contribution
 
 If you are interested in our project, please feel free to join us! You can [submit an issue](https://github.com/Thysrael/Ficus/issues/new) or submit a pull request.
