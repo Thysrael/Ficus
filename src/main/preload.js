@@ -42,7 +42,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   clearRecentlyUsedFiles: () => ipcRenderer.send('clear-recently-used-files'),
   listenFileChanged: (callback) => ipcRenderer.on('file-changed', callback),
   openFileTab: (callback) => ipcRenderer.on('open-file-tab', callback),
-  openInitFile: (callback) => ipcRenderer.on('ficus::open-init-file', callback),
 
   changePath: (tarPath) => ipcRenderer.invoke('changePath', tarPath),
 

@@ -1,7 +1,7 @@
 import path from 'path'
 import FileSystem from '../filesystem'
 import LinkManager from '../filesystem/linkManager'
-import { makeFileStat, makeFolderStat } from '../filesystem/statistic'
+import { makeFolderStat } from '../filesystem/statistic'
 import Watcher from '../filesystem/watcher'
 import { isValidFolderPath, isValidMarkdownFilePath } from '../helper/path'
 
@@ -48,12 +48,14 @@ class BaseWindow {
     return folderPath
   }
 
-  async openInitFileOrFolder (pathname) {
+  async openFileOrFolder (pathname, init = false) {
     if (isValidFolderPath(pathname)) {
       this.openFolder(pathname)
     } else if (isValidMarkdownFilePath(pathname)) {
-      this.openFolder(path.dirname(pathname))
-      this.win.webContents.send('ficus::open-init-file', makeFileStat(pathname))
+      if (init) {
+        this.openFolder(path.dirname(pathname))
+      }
+      this.win.webContents.send('open-file-tab', pathname)
     }
   }
 }

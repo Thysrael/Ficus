@@ -49,7 +49,11 @@ export const deleteFolder = async (folderPath) => {
   await fs.remove(folderPath)
 }
 
-// 新建文件2
+/**
+ * 新建指定路径下的指定文件
+ * @param {string} folderPath
+ * @param {string} fileName
+ */
 export const newFileFromSidebar = (folderPath, fileName) => {
   const filePath = path.resolve(folderPath, fileName)
   fs.createFileSync(filePath)
@@ -244,26 +248,6 @@ export function makeValidFilePath (filePath) {
   let id = 2
   while (id <= 100000) {
     newPath = normalizeMarkdownFilePath(`${dir}${path.sep}${name}-copy-${id}${ext}`)
-    if (!fs.existsSync(newPath)) {
-      return newPath
-    }
-    id += 1
-  }
-  return 'ficus-error.md'
-}
-
-exports.makeValidFolderPath = (folderPath) => {
-  if (!fs.existsSync(folderPath)) {
-    return folderPath
-  }
-  let newPath = `${folderPath}${path.sep}new`
-  if (!fs.existsSync(newPath)) {
-    return newPath
-  }
-
-  let id = 2
-  while (id <= 100000) {
-    newPath = `${folderPath}${path.sep}new ${id}`
     if (!fs.existsSync(newPath)) {
       return newPath
     }

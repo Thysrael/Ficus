@@ -89,19 +89,16 @@ const mutations = {
   REFRESH (state, status) {
     bus.emit('openDir', status)
   },
-  OPENINITFILE (state, initInfo) {
-    if (initInfo != null) {
-      bus.emit('openNewTab', initInfo)
-    }
-  },
   OPEN_FILE_TAB (state, filepath) {
-    bus.emit('openNewTab', {
-      name: window.pathAPI.basename(filepath),
-      path: filepath,
-      absolutePath: filepath.split(window.pathAPI.sep),
-      type: 'file',
-      offset: -1
-    })
+    if (filepath) {
+      bus.emit('openNewTab', {
+        name: window.pathAPI.basename(filepath),
+        path: filepath,
+        absolutePath: filepath.split(window.pathAPI.sep),
+        type: 'file',
+        offset: -1
+      })
+    }
   },
   LOAD_PREFERENCES (state, preferences) {
     state.common.saveTime = preferences.saveTime
@@ -200,11 +197,6 @@ const actions = {
   LISTEN_REFRESH ({ commit }) {
     window.electronAPI.passiveRefresh((e, value) => {
       commit('REFRESH', value)
-    })
-  },
-  LISTEN_OPENINITFILE ({ commit }) {
-    window.electronAPI.openInitFile((e, value) => {
-      commit('OPENINITFILE', value)
     })
   },
   LISTEN_OPEN_FILE_TAB ({ commit }) {
