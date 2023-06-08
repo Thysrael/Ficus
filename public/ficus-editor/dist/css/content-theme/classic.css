@@ -238,6 +238,10 @@ pre.vditor-sv:focus {
   background: var(--SwissCoffee-500);
 }
 
+.vditor-reset div.language-math.vditor-reset--error {
+  padding: 10px 10px;
+}
+
 /** 内联公式编辑区域 **/
 
 .vditor-reset code[data-type="math-inline"] {
