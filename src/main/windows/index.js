@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, shell } from 'electron'
+import { BrowserWindow, ipcMain, shell, dialog, app } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import path from 'path'
 import { isOsx, isDevelopment } from '../config'
@@ -53,10 +53,16 @@ class WindowsManager {
   }
 
   _closeWindow (id) {
-    const baseWindow = this.windows.find(({ win }) => win.id === id)
-    const index = this.windows.find(({ win }) => win.id === id)
-    baseWindow.close()
-    this.windows.splice(index, 1)
+    const index = this.windows.findIndex(({ win }) => win.id === id)
+    if (index !== -1) {
+      const baseWindow = this.windows[index]
+      baseWindow.close()
+      this.windows.splice(index, 1)
+
+      if (!isOsx && this.windows.length === 0) {
+        app.quit()
+      }
+    }
   }
 
   async _createWindow () {
@@ -107,6 +113,31 @@ class WindowsManager {
     })
     win.on('focus', () => {
       this.activeIndex = win.id
+    })
+
+    win.webContents.once('render-process-gone', async (event, { reason }) => {
+      if (reason === 'clean-exit') {
+        return
+      }
+
+      if (reason === 'abnormal-exit') {
+        return
+      }
+
+      const msg = `The renderer process has crashed unexpected or is killed (${reason}).`
+      const { response } = await dialog.showMessageBox(win, {
+        type: 'warning',
+        buttons: ['关闭', '等待'],
+        message: 'Ficus has crashed',
+        detail: msg
+      })
+
+      if (win.id) {
+        switch (response) {
+          case 0:
+            return this._closeWindow(win.id)
+        }
+      }
     })
     return win
   }
