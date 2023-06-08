@@ -110,7 +110,7 @@
       </template>
       <template v-else-if="clickType === 'math-block'">
         <!-- hover 数学公式节点后召出的预览框 -->
-        <vue-latex :expression="curLatexExp" :fontsize="20" display-mode />
+        <vue-latex :expression="curLatexExp" :fontsize="20" display-curMode />
       </template>
     </div>
   </div>
@@ -163,9 +163,10 @@ export default defineComponent({
     let ficTree = null
     let copyData = null
     let defaultLevel = -1
-    let defaultStruct = 0
+    let defaultStruct = -1
     let theme = 0
-    let mode = -1
+    let curMode = -1
+    let preMode = -1
 
     onMounted(() => {
       MindMap.usePlugin(Drag)
@@ -372,7 +373,8 @@ export default defineComponent({
         const rawData = JSON.parse(JSON.stringify(obj))
         bfs(rawData)
         ficTree.setData(rawData)
-        mode = store.getters.getMode // 2: Tree; 5: Forest
+        preMode = curMode
+        curMode = store.getters.getMode // 2: Tree; 5: Forest
         setStyle()
         ficTree.render()
       })
@@ -399,8 +401,11 @@ export default defineComponent({
         foldAll()
       }
 
-      const struct = mode === 5 ? 2 : defaultStruct
-      setStructure(struct)
+      if (preMode !== curMode) {
+        // Mode Change Detected
+        defaultStruct = curMode === 5 ? 2 : 0
+      }
+      setStructure(defaultStruct)
 
       if (theme === 1) {
         ficTree.setTheme('theme1')
@@ -492,6 +497,7 @@ export default defineComponent({
 
     function setStructure (index) {
       ficTree.setLayout(structuresName[index])
+      defaultStruct = index
       hide()
     }
 
