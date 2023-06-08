@@ -399,7 +399,7 @@ export default defineComponent({
         foldAll()
       }
 
-      const struct = mode === 5 ? 1 : defaultStruct
+      const struct = mode === 5 ? 2 : defaultStruct
       setStructure(struct)
 
       if (theme === 1) {
