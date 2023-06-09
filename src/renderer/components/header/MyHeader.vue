@@ -457,12 +457,14 @@ export default {
     bus.on('addTags', (tagName) => {
       store.commit('files/addTag', tagName)
       content.value = store.getters['files/markdown']
+      writeBack()
       sendContentByMode()
     })
 
     bus.on('removeTags', (tagName) => {
       store.commit('files/removeTag', tagName)
       content.value = store.getters['files/markdown']
+      writeBack()
       sendContentByMode()
     })
 
