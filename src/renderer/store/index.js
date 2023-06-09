@@ -19,7 +19,7 @@ const state = {
     value: -1 // -1表示当前模式为欢迎界面，0表示纯文本，1表示源码，2表示树形，3表示图
   },
   sideBarWidth: {
-    value: 0
+    value: 280
   },
   common: {
     saveTime: 30, // 自动保存时间
