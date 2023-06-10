@@ -102,6 +102,7 @@ const commands = [
     id: 'file.open-folder-by-path',
     execute: async ({ pathname }) => {
       window.electronAPI.openFolderByPath(pathname)
+      store.commit('beginLoading')
     }
   },
   {

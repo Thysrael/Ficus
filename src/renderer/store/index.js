@@ -60,7 +60,9 @@ const state = {
       ficusIgnore: '',
       theme: 0 // 0, 1, 2 分别对应上述的 3 个主题，默认值为 0
     }
-  }
+  },
+
+  loading: false
 }
 
 const mutations = {
@@ -88,6 +90,17 @@ const mutations = {
   },
   REFRESH (state, status) {
     bus.emit('openDir', status)
+  },
+  beginLoading (state) {
+    state.loading = true
+    setTimeout(() => {
+      bus.emit('changeLoading', state.loading)
+    }, 100)
+  },
+
+  endLoading (state) {
+    state.loading = false
+    bus.emit('changeLoading', state.loading)
   },
   OPEN_FILE_TAB (state, filepath) {
     if (filepath) {
@@ -197,6 +210,7 @@ const actions = {
   LISTEN_REFRESH ({ commit }) {
     window.electronAPI.passiveRefresh((e, value) => {
       commit('REFRESH', value)
+      commit('endLoading')
     })
   },
   LISTEN_OPEN_FILE_TAB ({ commit }) {
