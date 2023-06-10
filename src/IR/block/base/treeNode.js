@@ -21,7 +21,7 @@ export default class TreeNode extends LinkedNode {
   toMarkdown (normalPreix = '', spacePreix = '') {
     this.content.setNormalPrefix(normalPreix)
     this.content.setSpacePrefix(spacePreix)
-    let res = this.content.toMarkdown(normalPreix, spacePreix)
+    let res = this.content.toMarkdown()
     if (this.nodeType === listTypeName) {
       let off = 0
       this.children.forEach(ch => {
@@ -35,7 +35,7 @@ export default class TreeNode extends LinkedNode {
           res += ch.toMarkdown(normalPreix + this.content.getOneNormalPrefix(), spacePreix + this.content.getOneSpacePrefix())
           first = false
         } else {
-          res += ch.toMarkdown(spacePreix + this.content.getOneNormalPrefix(), spacePreix + this.content.getOneSpacePrefix())
+          res += ch.toMarkdown(spacePreix + this.content.getOneSpacePrefix(), spacePreix + this.content.getOneSpacePrefix())
         }
       })
     } else {
