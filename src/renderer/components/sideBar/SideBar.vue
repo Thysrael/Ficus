@@ -149,14 +149,17 @@
         </div>
       </div>
       <div class="content pt-2 pb-4" v-contextmenu:contextmenu @contextmenu="handleRightClick($event)" style="user-select: none;">
-        <FileNav :navItems="data" v-if="isFile === 0" :selected="selected"></FileNav>
-        <SearchBar v-if="isFile === 1"></SearchBar>
-        <OutLine :items="titles" v-if="isFile === 2"></OutLine>
-        <TagBar v-if="isFile === 3"></TagBar>
-        <PropBar v-show="isFile === 4"></PropBar>
-        <ForestBar v-if="isFile === 5" :data="data"></ForestBar>
-        <GraphBar :data="data" v-if="isFile === 6"></GraphBar>
-        <PreBar v-if="isFile === 7"></PreBar>
+        <div v-if="loading">
+          <SpinLoading style="margin-left: 35%"></SpinLoading>
+        </div>
+        <FileNav :navItems="data" v-if="isFile === 0 && !loading" :selected="selected"></FileNav>
+        <SearchBar v-if="isFile === 1 && !loading"></SearchBar>
+        <OutLine :items="titles" v-if="isFile === 2 && !loading"></OutLine>
+        <TagBar v-if="isFile === 3 && !loading"></TagBar>
+        <PropBar v-show="isFile === 4 && !loading"></PropBar>
+        <ForestBar v-if="isFile === 5 && !loading" :data="data"></ForestBar>
+        <GraphBar :data="data" v-if="isFile === 6 && !loading"></GraphBar>
+        <PreBar v-if="isFile === 7 && !loading"></PreBar>
       </div>
     </div>
   </div>
@@ -193,6 +196,7 @@ import PropBar from '@/renderer/components/sideBar/PropBar'
 import ForestBar from '@/renderer/components/sideBar/ForestBar'
 import GraphBar from '@/renderer/components/sideBar/GraphBar'
 import PreBar from '@/renderer/components/sideBar/PreBar'
+import SpinLoading from '@/renderer/assets/SpinLoading'
 
 export default {
   name: 'SideBar',
@@ -200,6 +204,7 @@ export default {
     contextmenu: directive
   },
   components: {
+    SpinLoading,
     PreBar,
     GraphBar,
     ForestBar,
@@ -229,6 +234,11 @@ export default {
     const _this = proxy
     const mode = computed(() => {
       return store.getters.getMode
+    })
+    const loading = ref(false)
+
+    bus.on('changeLoading', (value) => {
+      loading.value = value
     })
 
     watch(() => store.state.xy, (newValue, oldValue) => {
@@ -502,6 +512,7 @@ export default {
       selected,
       textWords,
       mode,
+      loading,
       handleRightClick,
       handleNew,
       handlePaste,
