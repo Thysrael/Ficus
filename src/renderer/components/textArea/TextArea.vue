@@ -99,7 +99,7 @@ export default {
 ::-webkit-scrollbar {
   width: 8px;
   border-radius: 8px;
-  height: 10px;
+  height: 12px;
   min-height: 5px;
 }
 
