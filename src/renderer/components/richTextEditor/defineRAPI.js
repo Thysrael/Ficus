@@ -74,7 +74,7 @@ export default function defineRAPI (vditor, searchData) {
       if (type === 'plain') {
         content = content.replace(/(<([^>]+)>)/gi, '')
       }
-      vditor.insertValue(content)
+      document.execCommand('insertText', false, content)
     } catch (e) {
       console.log('粘贴失败')
       console.log(e)
