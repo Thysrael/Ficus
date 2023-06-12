@@ -105,8 +105,8 @@ export default {
     const replaceInputBox = ref(null)
 
     // 搜索
-    const search = () => {
-      if (searchData.searchText !== searchData.prevSearchText) {
+    const search = (force = false) => {
+      if (searchData.searchText !== searchData.prevSearchText || force) {
         vditor.vditor.search.run(vditor.vditor, searchData.searchText, true)
         const res = vditor.vditor.search.getSearchCounter()
         searchData.current = res.current
@@ -144,14 +144,16 @@ export default {
       searchData.total = res.total
     }
 
-    // 设置是否忽略大小写
+    // 设置是否忽略大小写, 并重新搜索
     const setIgnoreCase = () => {
       vditor.vditor.search.setIgnoreCase(searchData.ignoreCase)
+      search(true)
     }
 
-    // 设置是否全字匹配
+    // 设置是否全字匹配, 并重新搜索
     const setMatchWholeWord = () => {
       vditor.vditor.search.setMatchWholeWord(searchData.matchWholeWord)
+      search(true)
     }
 
     // 替换
@@ -278,7 +280,7 @@ export default {
     watch(
       () => searchData.ignoreCase,
       (value) => {
-        setIgnoreCase(value)
+        setIgnoreCase()
       }
     )
 
@@ -286,7 +288,7 @@ export default {
     watch(
       () => searchData.matchWholeWord,
       (value) => {
-        setMatchWholeWord(value)
+        setMatchWholeWord()
       }
     )
 
