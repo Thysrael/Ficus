@@ -31,7 +31,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="18" height="18" viewBox="0 0 10 10">
           <g style="mix-blend-mode:passthrough"><g style="mix-blend-mode:passthrough">
             <path d="M1,2L2,2L2,7L1,7L1,2ZM3.75,6.75L3.75,2.25C3.75,2.111929,3.86193,2,4,2C4.13807,2,4.25,2.111929,4.25,2.25L4.25,6.75C4.25,6.88807,4.13807,7,4,7C3.86193,7,3.75,6.88807,3.75,6.75ZM4.75,2.25C4.75,2.111929,4.86193,2,5,2C5.13807,2,5.25,2.111929,5.25,2.25L5.25,6.75C5.25,6.88807,5.13807,7,5,7C4.86193,7,4.75,6.88807,4.75,6.75L4.75,2.25ZM5.75,2.25C5.75,2.111929,5.86193,2,6,2C6.13807,2,6.25,2.111929,6.25,2.25L6.25,6.75C6.25,6.88807,6.13807,7,6,7C5.86193,7,5.75,6.88807,5.75,6.75L5.75,2.25ZM8,7L9,7L9,2L8,2L8,7ZM2.25,7L2.25,8.5L7.75,8.5L7.75,7L7.25,7L7.25,8L2.75,8L2.75,7L2.25,7Z" fill-rule="evenodd"
-                  :fill="searchData.matchWholeWord ? `#3d3d3d` : `#42b983`" fill-opacity="1"/></g></g>
+                  :fill="searchData.matchWholeWord ? `#42b983` : `#3d3d3d`" fill-opacity="1"/></g></g>
         </svg>
       </div>
       <!--<button @click="search" class="searchBtn p-2 rounded-md">搜索</button>-->
