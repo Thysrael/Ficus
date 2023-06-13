@@ -225,7 +225,7 @@ For specific contributions or ways to support us, please refer to [here](https:/
 <img src="https://github.com/Thysrael/Ficus/assets/72613958/504bc6aa-607c-417d-b6a5-87d18c7d8f9c" width="450px" />
 </p>
 
-gg=G is a software engineering team consisting of seven members from the Beijing University of Aeronautics and Astronautics, Department of Computer Science, Class of 2020. This is our [team blog](https://blog.csdn.net/gg_equal_G).
+gg=G is a software engineering team consisting of seven members from the BeiHang University, School of Computer Science and Engineering, Class of 2020. This is our [team blog](https://blog.csdn.net/gg_equal_G).
 
 ## License
 
