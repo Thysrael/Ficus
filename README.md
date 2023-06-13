@@ -212,6 +212,15 @@ We have also rewritten the software package repositories as follows:
 
 - Bug fixes based on user feedback
 
+### v0.2.0
+
+**Release Date**: June 13, 2023
+
+**Description**: Beta version release.
+
+**Features Overview**:
+
+- Bug fixes based on user feedback
 
 ## Contribution
 
