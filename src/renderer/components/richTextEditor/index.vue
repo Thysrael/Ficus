@@ -184,6 +184,7 @@ export default {
         cdn: '/ficus-editor',
         hint: {
           emojiPath: '/ficus-editor',
+          parse: false,
           // 根据用户输入的“链接url“或“图片url”生成提示列表
           genLinkHint: async (input) => {
             // ...
