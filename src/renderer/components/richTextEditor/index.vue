@@ -304,11 +304,11 @@ export default {
         }
       }
     )
-
+    const disabledAcceleratorId = ['edit.copy']
     const makeKeybingdingMap = (keybindingMap) => {
       const newKeybinding = []
       for (const [id, accelerator] of keybindingMap) {
-        if (accelerator) {
+        if (accelerator && disabledAcceleratorId.indexOf(id) === -1) {
           if (window.electronAPI.isOSx()) {
             newKeybinding.push({
               hotkey: viditorFormatAccelerator(accelerator),

@@ -27,7 +27,7 @@ export default function (keybindings) {
       id: 'edit.copy',
       accelerator: keybindings.getAccelerator('edit.copy'),
       click (menuItem, browserWindow) {
-        browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
+        // browserWindow.webContents.send('ficus::keyboard-event', { id: menuItem.id })
       }
     }, {
       label: '复制为Markdown',
