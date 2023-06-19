@@ -3,6 +3,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import path from 'path'
 import { isOsx, isDevelopment } from '../config'
 import BaseWindow from './base'
+import windowStateKeeper from 'electron-window-state'
 
 class WindowsManager {
   constructor (preferences, menu, keyBinding) {
@@ -66,10 +67,17 @@ class WindowsManager {
   }
 
   async _createWindow () {
+    const mainWindowState = windowStateKeeper({
+      defaultWidth: 1200,
+      defaultHeight: 800
+    })
+    const { x, y, width, height } = mainWindowState
     // Create the browser window.
     const win = new BrowserWindow({
-      width: 800,
-      height: 600,
+      x,
+      y,
+      width,
+      height,
       frame: false,
       titleBarStyle: 'hiddenInset',
       trafficLightPosition: { x: 5, y: 11 },
@@ -81,6 +89,7 @@ class WindowsManager {
         contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
       }
     })
+
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // Load the url of the dev server if in development mode
       await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -139,6 +148,8 @@ class WindowsManager {
         }
       }
     })
+
+    mainWindowState.manage(win)
     return win
   }
 

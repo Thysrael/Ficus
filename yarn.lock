@@ -6092,6 +6092,14 @@ electron-to-chromium@^1.4.284:
   resolved "https://mirrors.cloud.tencent.com/npm/electron-to-chromium/-/electron-to-chromium-1.4.371.tgz#393983ef087268a20c926a89be30e9f0bfc803b0"
   integrity sha512-jlBzY4tFcJaiUjzhRTCWAqRvTO/fWzjA3Bls0mykzGZ7zvcMP7h05W6UcgzfT9Ca1SW2xyKDOFRyI0pQeRNZGw==
 
+electron-window-state@^5.0.3:
+  version "5.0.3"
+  resolved "https://mirrors.cloud.tencent.com/npm/electron-window-state/-/electron-window-state-5.0.3.tgz#4f36d09e3f953d87aff103bf010f460056050aa8"
+  integrity sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg==
+  dependencies:
+    jsonfile "^4.0.0"
+    mkdirp "^0.5.1"
+
 electron@13.6.9:
   version "13.6.9"
   resolved "https://mirrors.cloud.tencent.com/npm/electron/-/electron-13.6.9.tgz#7bd83cc1662ceaaa09dcd132a7b507cec888b028"
@@ -6838,10 +6846,10 @@ fflate@^0.4.8:
   resolved "https://mirrors.cloud.tencent.com/npm/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
   integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
 
-ficus-editor@1.1.28:
-  version "1.1.28"
-  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.28.tgz#30e1a145c93407323bfff8704abf88d6b59b58f7"
-  integrity sha512-JVMRperz2HmKyKkAwHt/0DZe10/tcM5aGDmB8AmK0E9KnE8ahbTvxNOF1C9fgod70hRK/6fEyWOHvfhJuXodvg==
+ficus-editor@1.1.29:
+  version "1.1.29"
+  resolved "https://mirrors.cloud.tencent.com/npm/ficus-editor/-/ficus-editor-1.1.29.tgz#34703c5fad542f62ec2154b49b92cd3f717d0ca9"
+  integrity sha512-nTM/f8Re3eC6lUVhHNaxdJY+omIyukX/fsGFGN6ScIhCxUCko89Qxy3HLreEXsOZyVqYhnx/lEIMH56exPDaTg==
   dependencies:
     diff-match-patch "^1.0.5"
 
