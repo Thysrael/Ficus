@@ -22,6 +22,7 @@
         "dateformat": "^5.0.3",
         "electron-localshortcut": "^3.2.1",
         "electron-store": "^8.1.0",
+        "electron-window-state": "^5.0.3",
         "ficus": "^0.0.4",
         "force-graph": "1.35.1",
         "html2canvas": "^1.4.1",
@@ -132,33 +133,31 @@
     "mac": {
         "icon": "build/icon.png",
         "fileAssociations": [
-          {
-            "ext": [
-              "md"
-            ]
-          }
-        ],
-        "extendInfo": {
-          "CFBundleDocumentTypes": [
             {
-              "CFBundleTypeName": "Markdown Document",
-              "CFBundleTypeRole": "Editor",
-              "LSHandlerRank": "Owner",
-              "LSItemContentTypes":
-                [
-                  "com.apple.dt.document.markdown"
-                ]
-            },
-            {
-              "CFBundleTypeName": "Folder",
-              "CFBundleTypeRole": "Viewer",
-              "LSHandlerRank": "None",
-              "LSItemContentTypes":
-                [
-                  "public.folder"
+                "ext": [
+                    "md"
                 ]
             }
-          ]
+        ],
+        "extendInfo": {
+            "CFBundleDocumentTypes": [
+                {
+                    "CFBundleTypeName": "Markdown Document",
+                    "CFBundleTypeRole": "Editor",
+                    "LSHandlerRank": "Owner",
+                    "LSItemContentTypes": [
+                        "com.apple.dt.document.markdown"
+                    ]
+                },
+                {
+                    "CFBundleTypeName": "Folder",
+                    "CFBundleTypeRole": "Viewer",
+                    "LSHandlerRank": "None",
+                    "LSItemContentTypes": [
+                        "public.folder"
+                    ]
+                }
+            ]
         }
     }
 }
