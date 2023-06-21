@@ -66,8 +66,10 @@ class KeyBinding extends EventEmitter {
   registerKeyHandlers (win) {
     // macOS上菜单栏也会触发一次事件
     if (!isOsx) {
+      const disabledAcceleratorId = ['edit.copy']
       for (const [id, accelerator] of this._keys) {
-        if (accelerator && accelerator.length > 1) {
+        if (accelerator && accelerator.length > 1 &&
+          disabledAcceleratorId.indexOf(id) === -1) {
           electronLocalshortcut.register(win, accelerator, () => {
             win.webContents.send('ficus::keyboard-event', { id })
           })
