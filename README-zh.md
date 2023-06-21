@@ -229,6 +229,20 @@ yarn electron:serve
 - beta 阶段冲刺稳定版本
 - UI 细节调整
 
+### v0.2.1
+
+**发布时间：**2023.06.21
+
+**简介：** beta 版本迭代更新
+
+**功能速览：**
+
+- beta 阶段优化跳转
+- 支持记忆化窗口
+- 优化 Vditor 复制操作
+- 解决latex补全、链接路径补全bug
+- 在所见即所得模式下, 当生成新的代码块时，自动聚焦到lang输入框中
+
 ## 贡献
 
 如果您对我们的项目感兴趣，请随时加入！[提出一个 issue](https://github.com/Thysrael/Ficus/issues/new) 或者提交 PR。

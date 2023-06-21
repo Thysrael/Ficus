@@ -222,6 +222,16 @@ We have also rewritten the software package repositories as follows:
 
 - Bug fixes based on user feedback
 
+### v0.2.1
+
+**Release Date**: June 21, 2023
+
+**Description**: Beta version 2.
+
+**Features Overview**:
+
+- Bug fixes based on user feedback
+
 ## Contribution
 
 If you are interested in our project, please feel free to join us! You can [submit an issue](https://github.com/Thysrael/Ficus/issues/new) or submit a pull request.
