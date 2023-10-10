@@ -148,7 +148,7 @@ const commands = [
       if (mode === 0 || mode === 1) {
         bus.emit('exportHTML')
       } else {
-        bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出HTML' })
+        bus.emit('showAlertWith', { message: '当前不在文本模式或源码模式，不能导出HTML' })
       }
     }
   },
@@ -159,7 +159,7 @@ const commands = [
       if (mode === 0 || mode === 1) {
         bus.emit('exportPDF')
       } else {
-        bus.emit('showMyAlert', { message: '当前不在文本模式或源码模式，不能导出PDF' })
+        bus.emit('showAlertWith', { message: '当前不在文本模式或源码模式，不能导出PDF' })
       }
     }
   },
@@ -173,7 +173,7 @@ const commands = [
       } else if (mode === 3) {
         bus.emit('exportGraphPNG')
       } else {
-        bus.emit('showMyAlert', { message: '当前不在树视图或图视图，不能导出PNG' })
+        bus.emit('showAlertWith', { message: '当前不在树视图或图视图，不能导出PNG' })
       }
     }
   },

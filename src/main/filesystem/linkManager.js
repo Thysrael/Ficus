@@ -2,7 +2,7 @@ import path from 'path'
 import { addTagToDoc, getLinksInFile, removeTagFromDoc } from '../../common/parseLinks'
 import fs from 'fs-extra'
 import { isValidMarkdownFilePath } from '../helper/path'
-import { deleteFolder, move } from '@/main/filesystem/fileManipulate'
+import { deleteFolder, moveFileOrFolder } from '@/main/filesystem/fileManipulate'
 class LinkManager {
   /**
    * 管理tag和cites
@@ -227,7 +227,7 @@ class LinkManager {
     for (const filename of filepaths) {
       const filepath = path.resolve(dirPath, filename)
       this.removeFile(filepath)
-      const newPath = await move(filepath, targetPath)
+      const newPath = await moveFileOrFolder(filepath, targetPath)
       this.addFile(newPath)
       this.win.webContents.send('set-file-path-by-move', { oldPath: filepath, newPath })
       const doc = (await fs.promises.readFile(newPath)).toString()
@@ -249,7 +249,7 @@ class LinkManager {
       const subItemPath = path.resolve(folderPath, subItem)
       if (isValidMarkdownFilePath(subItemPath)) {
         this.removeFile(subItemPath)
-        const newPath = await move(subItemPath, targetPath)
+        const newPath = await moveFileOrFolder(subItemPath, targetPath)
         this.addFile(newPath)
         this.win.webContents.send('set-file-path-by-move', { subItemPath, newPath })
         const doc = (await fs.promises.readFile(newPath)).toString()

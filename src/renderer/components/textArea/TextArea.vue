@@ -79,7 +79,7 @@ export default {
         // 图视图
         bus.emit('exportGraphPNG')
       } else {
-        bus.emit('showMyAlert', { message: '当前不在树视图或图试图，不能导出PNG' })
+        bus.emit('showAlertWith', { message: '当前不在树视图或图试图，不能导出PNG' })
       }
     })
 

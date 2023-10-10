@@ -22,6 +22,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openFolder: () => ipcRenderer.send('open-folder'),
   openFolderByPath: (path) => ipcRenderer.send('open-folder-by-path', path),
 
+  moveFileOrFolder: (srcPath, dstPath) => ipcRenderer.send('move-file-or-folder', srcPath, dstPath), // TODO
+
   saveFile: (path, content) => ipcRenderer.send('save-file', path, content),
   saveToAnotherFile: (content) => ipcRenderer.send('save-as', content),
   exportPDF: (html) => ipcRenderer.invoke('exportPDF', html),
@@ -91,6 +93,7 @@ contextBridge.exposeInMainWorld('pathAPI', {
   join: path.join,
   relative: path.relative,
   basename: path.basename,
+  dirname: path.dirname,
   existSync: fs.pathExistsSync,
   isMarkdownExtname,
   sep: path.sep,

@@ -174,7 +174,7 @@ export const saveToPDFTarget = async (fileContent) => {
  * @param {string} srcPath 原文件/文件夹路径
  * @param {string} destDir 目标文件夹
  */
-export const move = async (srcPath, destDir) => {
+export const moveFileOrFolder = async (srcPath, destDir) => {
   try {
     const fname = path.basename(srcPath)
     const targetPath = makeValidFilePath(path.resolve(destDir, fname))

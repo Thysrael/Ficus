@@ -317,7 +317,7 @@ export default {
 
     function getSearch () {
       if (props.data.length === 0) {
-        bus.emit('showMyAlert', { message: '必须要打开文件夹才能使用全局搜索' })
+        bus.emit('showAlertWith', { message: '必须要打开文件夹才能使用全局搜索' })
       } else {
         isFile.value = 1
       }
@@ -325,7 +325,7 @@ export default {
 
     function getGraph () {
       if (props.data.length === 0) {
-        bus.emit('showMyAlert', { message: '必须要打开文件夹才能体验榕图模式' })
+        bus.emit('showAlertWith', { message: '必须要打开文件夹才能体验榕图模式' })
       } else {
         isFile.value = 6
         bus.emit('changeToGraph')
@@ -334,7 +334,7 @@ export default {
 
     function getForest () {
       if (props.data.length === 0) {
-        bus.emit('showMyAlert', { message: '必须要打开文件夹才能体验榕林模式' })
+        bus.emit('showAlertWith', { message: '必须要打开文件夹才能体验榕林模式' })
       } else {
         isFile.value = 5
         bus.emit('changeToForest')

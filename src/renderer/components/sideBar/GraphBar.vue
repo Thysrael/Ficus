@@ -115,7 +115,7 @@ export default {
     const showOpt = ref(true)
 
     function handleProcess () {
-      bus.emit('showMyAlert', { message: '敬请期待！' })
+      bus.emit('showAlertWith', { message: '敬请期待！' })
     }
 
     function quitGraph () {
