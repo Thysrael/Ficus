@@ -93,7 +93,7 @@ export default {
       dataOption.value = option
       if (option === 1) {
         if (props.data.length === 0) {
-          bus.emit('showMyAlert', { message: '请先打开文件夹' })
+          bus.emit('showAlertWith', { message: '请先打开文件夹' })
         } else {
           files.value.length = 0
           files.value = getDataByArray(props.data)

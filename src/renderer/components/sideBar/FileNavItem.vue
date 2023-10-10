@@ -6,7 +6,7 @@
       @dragover.stop="dragover($event)"
       @dragstart.stop="dragstart()"
       @dragend.stop="dragend($event)"
-      draggable="false"
+      draggable="true"
       class="my-1 w-full items-center content-center flex flex-wrap"
   >
     <div
@@ -80,8 +80,8 @@
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleCopyFileOrFolder">复制</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleDelete" v-if="item.path !== topItem.path">删除</v-contextmenu-item>
         <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" @click="handleRename" v-if="item.path !== topItem.path">重命名</v-contextmenu-item>
-        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type ==='file'" @click="handleCopyAbsolutePath">复制路径</v-contextmenu-item>
-<!--        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type==='file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>-->
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type === 'file'" @click="handleCopyAbsolutePath">复制路径</v-contextmenu-item>
+        <v-contextmenu-item class="hover:bg-gray-200 text-gray-700" v-if="item.type === 'file'" @click="handleCopyPartPath">复制相对路径</v-contextmenu-item>
       </v-contextmenu>
     </div>
     <ul v-if="(hasChildren && expanded)">
@@ -202,7 +202,7 @@ export default {
 
     function dragstart () {
       // 源对象
-      bus.emit('getSource', props.item)
+      bus.emit('setDragBeginPath', props.item)
     }
 
     function dragenter (e) {
@@ -212,12 +212,12 @@ export default {
 
     function dragover (e) {
       e.preventDefault()
-      bus.emit('getDst', props.item)
+      bus.emit('setDragEndPath', props.item)
     }
 
     function dragend (e) {
       e.preventDefault()
-      bus.emit('toDst')
+      bus.emit('moveByDrag')
     }
 
     function handleRightClick (e) {
@@ -238,7 +238,7 @@ export default {
     }
 
     function handleCopyPartPath () {
-      bus.emit('CopyPartPath', props.item)
+      bus.emit('setClipboardRelativePath', props.item)
     }
 
     function handleCopyFileOrFolder () {

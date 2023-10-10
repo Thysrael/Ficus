@@ -6,7 +6,7 @@ import {
   deleteFile, deleteFolder,
   getFileFromUser,
   linkToFile,
-  newFileFromSidebar, newFolder, renameFileOrFolder,
+  newFileFromSidebar, newFolder, renameFileOrFolder, moveFileOrFolder,
   saveFile,
   saveToTarget,
   saveToPDFTarget,
@@ -128,6 +128,9 @@ app.on('ready', async () => {
   })
   ipcMain.on('renameFileOrFolder', (e, newPath, oldPath) => {
     renameFileOrFolder(newPath, oldPath)
+  })
+  ipcMain.on('move-file-or-folder', (e, srcPath, dstPath) => {
+    moveFileOrFolder(srcPath, dstPath)
   })
   ipcMain.on('newFileFromSidebar', (e, filePath, fileName) => {
     newFileFromSidebar(filePath, fileName)
