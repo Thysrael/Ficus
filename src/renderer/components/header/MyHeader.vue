@@ -27,9 +27,10 @@
               class="theme-element z-50"
               style="-webkit-app-region: no-drag; right: 40px; position: fixed;">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="15" height="15" viewBox="0 0 15 15">
-          <g clip-path="url(#master_svg0_240_0876)"><g>
+          <g clip-path="url(#master_svg0_240_0876)">
           <path d="M2.683056,5.183056C2.9271380000000002,4.9389812,3.3228619999999998,4.9389812,3.5669399999999998,5.183056L7.5,9.11613L11.43306,5.183056C11.67712,4.9389812,12.07288,4.9389812,12.31694,5.183056C12.561,5.427138,12.561,5.822862,12.31694,6.06694L7.94194,10.441939999999999C7.69788,10.686,7.30212,10.686,7.05806,10.441939999999999L2.683056,6.06694C2.4389812,5.822862,2.4389812,5.427138,2.683056,5.183056Z"
                 fill-rule="evenodd" fill="#000000" fill-opacity="1"/>
+          </g>
         </svg>
       </button>
       <button @click="changeTheme"
