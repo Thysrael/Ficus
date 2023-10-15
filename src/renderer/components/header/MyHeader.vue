@@ -1,64 +1,25 @@
 <template>
-  <div class="flex flex-col area-header"
-  >
+  <div class="flex flex-col area-header">
     <div class="area-header-top flex flex-wrap content-center items-center" style="z-index: 10000;display: flex;-webkit-app-region: drag;">
       <img v-if="hiddenHeaderButton" alt="logo" src="../../assets/bg_trans.png"
            @click="showMenu"
            class="appIcon"
-           :title="'菜单'"
-           style="position: absolute; left: 5px; width: 40px; height: 40px; opacity: 1;-webkit-app-region: no-drag"/>
-      <MenuList :data="data"
+           :title="'菜单'"/>
+      <menu-list :data="data"
                 class="absolute"
                 style="z-index: 100;
                 ft-webkit-app-region: no-drag;
-                top: 10px; left: 40px"></MenuList>
-      <BreadCrumb :items="data" style="position: relative; margin-left: 60px;-webkit-app-region: no-drag" class="items-center content-center"></BreadCrumb>
-      <ModeChoose class="object-contain area-header-mode" style="-webkit-app-region: no-drag"></ModeChoose>
-      <button v-if="hiddenHeaderButton" @click="minimizeWindow" style="-webkit-app-region: no-drag" class="tr1-element">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-             width="40" height="40" viewBox="0 0 40 40">
-          <g style="mix-blend-mode:passthrough">
-            <rect x="0" y="0" width="40" height="40" rx="0"/>
-            <g clip-path="url(#master_svg0_71_2542)">
-              <g>
-                <g>
-                  <path
-                      d="M24.875,21.5L20.5,21.5L16.125,21.5Q16.0265086,21.5,15.92991,21.480785Q15.833311,21.461570000000002,15.742317,21.423879Q15.651322,21.386188,15.56943,21.33147Q15.487537,21.276751,15.417893,21.207107Q15.348249,21.137463,15.29353,21.05557Q15.238812,20.973678,15.201121,20.882683Q15.16343,20.791689,15.144214999999999,20.69509Q15.125,20.5984914,15.125,20.5Q15.125,20.4015086,15.144214999999999,20.30491Q15.16343,20.208311,15.201121,20.117317Q15.238812,20.026322,15.29353,19.94443Q15.348249,19.862537,15.417893,19.792893Q15.487537,19.723249,15.56943,19.66853Q15.651322,19.613812,15.742317,19.576121Q15.833311,19.538429999999998,15.92991,19.519215Q16.0265086,19.5,16.125,19.5L20.5,19.5L24.875,19.5Q24.973489999999998,19.5,25.07009,19.519215Q25.16669,19.538429999999998,25.25768,19.576121Q25.34868,19.613812,25.43057,19.66853Q25.51246,19.723249,25.58211,19.792893Q25.65175,19.862537,25.70647,19.94443Q25.76119,20.026322,25.79888,20.117317Q25.836570000000002,20.208311,25.85578,20.30491Q25.875,20.4015086,25.875,20.5Q25.875,20.5984914,25.85578,20.69509Q25.836570000000002,20.791689,25.79888,20.882683Q25.76119,20.973678,25.70647,21.05557Q25.65175,21.137463,25.58211,21.207107Q25.51246,21.276751,25.43057,21.33147Q25.34868,21.386188,25.25768,21.423879Q25.16669,21.461570000000002,25.07009,21.480785Q24.973489999999998,21.5,24.875,21.5ZM25.875,20.5Q25.875,20.5984914,25.85578,20.69509Q25.836570000000002,20.791689,25.79888,20.882683Q25.76119,20.973678,25.70647,21.05557Q25.65175,21.137463,25.58211,21.207107Q25.51246,21.276751,25.43057,21.33147Q25.34868,21.386188,25.25768,21.423879Q25.16669,21.461570000000002,25.07009,21.480785Q24.973489999999998,21.5,24.875,21.5Q24.776510000000002,21.5,24.67991,21.480785Q24.58331,21.461570000000002,24.49232,21.423879Q24.40132,21.386188,24.31943,21.33147Q24.23754,21.276751,24.16789,21.207107Q24.09825,21.137463,24.04353,21.05557Q23.98881,20.973678,23.95112,20.882683Q23.913429999999998,20.791689,23.89421,20.69509Q23.875,20.5984914,23.875,20.5Q23.875,20.4015086,23.89421,20.30491Q23.913429999999998,20.208311,23.95112,20.117317Q23.98881,20.026322,24.04353,19.94443Q24.09825,19.862537,24.16789,19.792893Q24.23754,19.723249,24.31943,19.66853Q24.40132,19.613812,24.49232,19.576121Q24.58331,19.538429999999998,24.67991,19.519215Q24.776510000000002,19.5,24.875,19.5Q24.973489999999998,19.5,25.07009,19.519215Q25.16669,19.538429999999998,25.25768,19.576121Q25.34868,19.613812,25.43057,19.66853Q25.51246,19.723249,25.58211,19.792893Q25.65175,19.862537,25.70647,19.94443Q25.76119,20.026322,25.79888,20.117317Q25.836570000000002,20.208311,25.85578,20.30491Q25.875,20.4015086,25.875,20.5ZM17.125,20.5Q17.125,20.5984914,17.105785,20.69509Q17.086570000000002,20.791689,17.048879,20.882683Q17.011188,20.973678,16.95647,21.05557Q16.901751,21.137463,16.832107,21.207107Q16.762463,21.276751,16.68057,21.33147Q16.598678,21.386188,16.507683,21.423879Q16.416689,21.461570000000002,16.32009,21.480785Q16.2234914,21.5,16.125,21.5Q16.0265086,21.5,15.92991,21.480785Q15.833311,21.461570000000002,15.742317,21.423879Q15.651322,21.386188,15.56943,21.33147Q15.487537,21.276751,15.417893,21.207107Q15.348249,21.137463,15.29353,21.05557Q15.238812,20.973678,15.201121,20.882683Q15.16343,20.791689,15.144214999999999,20.69509Q15.125,20.5984914,15.125,20.5Q15.125,20.4015086,15.144214999999999,20.30491Q15.16343,20.208311,15.201121,20.117317Q15.238812,20.026322,15.29353,19.94443Q15.348249,19.862537,15.417893,19.792893Q15.487537,19.723249,15.56943,19.66853Q15.651322,19.613812,15.742317,19.576121Q15.833311,19.538429999999998,15.92991,19.519215Q16.0265086,19.5,16.125,19.5Q16.2234914,19.5,16.32009,19.519215Q16.416689,19.538429999999998,16.507683,19.576121Q16.598678,19.613812,16.68057,19.66853Q16.762463,19.723249,16.832107,19.792893Q16.901751,19.862537,16.95647,19.94443Q17.011188,20.026322,17.048879,20.117317Q17.086570000000002,20.208311,17.105785,20.30491Q17.125,20.4015086,17.125,20.5Z"
-                      fill="#F4F4F3" fill-opacity="1"/>
-                </g>
-              </g>
-            </g>
-          </g>
-        </svg>
-      </button>
-      <button v-if="hiddenHeaderButton" @click="maximizeWindow" style="-webkit-app-region: no-drag" class="tr2-element">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"
-             width="40" height="40" viewBox="0 0 40 40">
-          <g style="mix-blend-mode:passthrough">
-            <rect x="0" y="0" width="40" height="40" rx="0"/>
-            <g clip-path="url(#master_svg0_71_507)">
-              <g>
-                <g>
-                  <path
-                      d="M15,23.130000000000003Q15,23.91,15.55,24.46Q16.1,25.009999999999998,16.88,25.009999999999998L21.25,25.009999999999998Q22.03,25.009999999999998,22.58,24.46Q23.130000000000003,23.91,23.130000000000003,23.130000000000003L23.130000000000003,18.75Q23.130000000000003,17.98,22.58,17.43Q22.03,16.88,21.25,16.88L16.88,16.88Q16.1,16.88,15.55,17.43Q14.9999999254942,17.98,14.9999999254942,18.75L15,23.130000000000003ZM16.25,23.130000000000003L16.25,19.38L21.88,19.38L21.88,23.130000000000003Q21.88,23.39,21.69,23.57Q21.5,23.75,21.25,23.75L16.88,23.75Q16.62,23.75,16.43,23.57Q16.24,23.39,16.25,23.130000000000003ZM16.25,18.13Q16.25,17.87,16.43,17.69Q16.61,17.509999999999998,16.88,17.5Q17.15,17.490000000000002,17.32,17.69Q17.490000000000002,17.89,17.5,18.13Q17.509999999999998,18.37,17.32,18.57Q17.13,18.77,16.88,18.759999999999998Q16.63,18.75,16.43,18.57Q16.23,18.39,16.25,18.13ZM16.99,16.25L21.88,16.25Q22.65,16.25,23.2,16.8Q23.75,17.35,23.75,18.13L23.75,23.02Q24.3,22.82,24.65,22.34Q25,21.86,25,21.25L25,16.88Q25,16.1,24.45,15.55Q23.9,14.9999999254942,23.130000000000003,14.9999999254942L18.75,14.9999999254942Q18.15,14.9999999254942,17.67,15.35Q17.19,15.7,16.99,16.25Z"
-                      fill="#F4F4F3" fill-opacity="1"/>
-                </g>
-              </g>
-            </g>
-          </g>
-        </svg>
-      </button>
-      <button v-if="hiddenHeaderButton" @click="closeWindow" style="-webkit-app-region: no-drag" class="tr3-element">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="40" height="40" viewBox="0 0 40 40"><defs><clipPath id="master_svg0_71_2735"><rect x="15" y="15" width="10" height="10.000000953674316" rx="0"/></clipPath></defs><g><rect x="0" y="0" width="40" height="40" rx="0" fill="#B13333" fill-opacity="1"/><g clip-path="url(#master_svg0_71_2735)"><g><g><g><g><path d="M21.10138,20L24.84024,16.26098C24.943089999999998,16.15805,24.99984,16.02073,25,15.874309C25,15.727805,24.94325,15.590325,24.84024,15.487561L24.5126,15.16C24.40959,15.0568293,24.272280000000002,15.000325203,24.12569,15.000325203C23.97935,15.000325203,23.84203,15.0568293,23.73903,15.16L20.00016,18.89878L16.26114,15.16C16.15829,15.0568293,16.02089,15.000325203,15.87439,15.000325203C15.728049,15.000325203,15.59065,15.0568293,15.487805,15.16L15.16,15.487561C14.9466667,15.700894,14.9466667,16.04789,15.16,16.26098L18.89894,20L15.16,23.738860000000003C15.0570732,23.84195,15.000406504,23.97927,15.000406504,24.12569C15.000406504,24.272109999999998,15.0570732,24.40943,15.16,24.512439999999998L15.487724,24.84C15.590569,24.943089999999998,15.728049,24.999679999999998,15.874309,24.999679999999998C16.02081,24.999679999999998,16.15821,24.943089999999998,16.26106,24.84L20.00008,21.10114L23.73894,24.84C23.84195,24.943089999999998,23.97927,24.999679999999998,24.12561,24.999679999999998L24.12577,24.999679999999998C24.272199999999998,24.999679999999998,24.409509999999997,24.943089999999998,24.512520000000002,24.84L24.840159999999997,24.512439999999998C24.94301,24.409509999999997,24.999760000000002,24.272109999999998,24.999760000000002,24.12569C24.999760000000002,23.97927,24.94301,23.84195,24.840159999999997,23.73894L21.10138,20Z" fill="#F4F4F3" fill-opacity="1"/></g></g></g></g></g></g></svg>
-      </button>
+                top: 10px; left: 40px" />
+      <bread-crumb :items="data" style="position: relative; margin-left: 60px;-webkit-app-region: no-drag" class="items-center content-center" />
+      <mode-choose class="object-contain area-header-mode" style="-webkit-app-region: no-drag" />
+      <window-controller v-if="hiddenHeaderButton" />
     </div>
     <div class="area-header-bot items-center content-center flex flex-wrap z-10">
-      <TabList :open-files="openFiles"
+      <tab-list :open-files="openFiles"
                :cur-obj="curObj"
                class="flex-shrink"
                ref="tabList"
-               @update:tabListOverflow="handleTabListOverflow">
-      </TabList>
+               @update:tabListOverflow="handleTabListOverflow" />
       <button @click="togglePopover"
               id="downtabRef"
               v-show="tabListOverflow"
@@ -67,9 +28,8 @@
               style="-webkit-app-region: no-drag; right: 40px; position: fixed;">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1" width="15" height="15" viewBox="0 0 15 15">
           <g clip-path="url(#master_svg0_240_0876)"><g>
-            <path d="M2.683056,5.183056C2.9271380000000002,4.9389812,3.3228619999999998,4.9389812,3.5669399999999998,5.183056L7.5,9.11613L11.43306,5.183056C11.67712,4.9389812,12.07288,4.9389812,12.31694,5.183056C12.561,5.427138,12.561,5.822862,12.31694,6.06694L7.94194,10.441939999999999C7.69788,10.686,7.30212,10.686,7.05806,10.441939999999999L2.683056,6.06694C2.4389812,5.822862,2.4389812,5.427138,2.683056,5.183056Z"
-                  fill-rule="evenodd" fill="#000000" fill-opacity="1"/>
-          </g></g>
+          <path d="M2.683056,5.183056C2.9271380000000002,4.9389812,3.3228619999999998,4.9389812,3.5669399999999998,5.183056L7.5,9.11613L11.43306,5.183056C11.67712,4.9389812,12.07288,4.9389812,12.31694,5.183056C12.561,5.427138,12.561,5.822862,12.31694,6.06694L7.94194,10.441939999999999C7.69788,10.686,7.30212,10.686,7.05806,10.441939999999999L2.683056,6.06694C2.4389812,5.822862,2.4389812,5.427138,2.683056,5.183056Z"
+                fill-rule="evenodd" fill="#000000" fill-opacity="1"/>
         </svg>
       </button>
       <button @click="changeTheme"
@@ -114,13 +74,14 @@ import bus from 'vue3-eventbus'
 import MenuList from '@/renderer/components/header/MenuList'
 import BreadCrumb from '@/renderer/components/header/BreadCrumb'
 import ModeChoose from '@/renderer/components/header/ModeChoose'
+import WindowController from './WindowController'
 import TabList from '@/renderer/components/header/TabList'
 import store from '@/renderer/store'
 import { getRenamePath } from '@/renderer/utils/pathHelpter'
 
 export default {
   name: 'MyHeader',
-  components: { TabList, ModeChoose, BreadCrumb, MenuList },
+  components: { TabList, ModeChoose, BreadCrumb, MenuList, WindowController },
   props: {
     data: {
       type: Array,
@@ -184,7 +145,6 @@ export default {
         bus.emit('sendToTextUI', obj)
         const index = getIndex(obj)
         if (index !== -1) {
-          console.log(index)
           scrollToElement(index)
         }
       }, () => {
@@ -195,7 +155,6 @@ export default {
     // 模式改变核心逻辑
     bus.on('changeMode', (value) => {
       const mode = store.getters.getMode
-      console.log('mode is ', mode)
       if (openFiles.value.length === 0 && value !== -1) {
         store.dispatch('updateMode', { value: -1 })
         return
@@ -371,18 +330,6 @@ export default {
 
     function showMenu () {
       bus.emit('showMenu')
-    }
-
-    function minimizeWindow () {
-      window.electronAPI.minWindow()
-    }
-
-    function maximizeWindow () {
-      window.electronAPI.maxWindow()
-    }
-
-    function closeWindow () {
-      window.electronAPI.closeWindow()
     }
 
     function changeTheme () {
@@ -628,9 +575,6 @@ export default {
       content,
       mode,
       showMenu,
-      minimizeWindow,
-      maximizeWindow,
-      closeWindow,
       changeTheme,
       hiddenHeaderButton,
       handleTabListOverflow,
@@ -649,67 +593,6 @@ export default {
 </script>
 
 <style scoped>
-
-.tr1-element {
-  position: fixed;
-  top: 0;
-  right: 75px;
-}
-
-.tr2-element {
-  position: fixed;
-  top: 0;
-  right: 35px;
-}
-
-.tr3-element {
-  position: fixed;
-  top: 0;
-  right: 0;
-}
-
-.tr1-element rect {
-  fill: none;
-}
-
-.tr1-element:hover rect {
-  fill: #666A70;
-  fill-opacity: 1;
-}
-
-.tr1-element:active rect {
-  fill: #3D3D3D;
-  fill-opacity: 1;
-}
-
-.tr2-element rect {
-  fill: none;
-}
-
-.tr2-element:hover rect {
-  fill: #666A70;
-  fill-opacity: 1;
-}
-
-.tr2-element:active rect {
-  fill: #3D3D3D;
-  fill-opacity: 1;
-}
-
-.tr3-element rect {
-  fill: none;
-}
-
-.tr3-element:hover rect {
-  fill: #B13333;
-  fill-opacity: 1;
-}
-
-.tr3-element:active rect {
-  fill: #6e1919;
-  fill-opacity: 1;
-}
-
 .theme-element:hover path {
   fill: #42b983;
   fill-opacity: 1;
@@ -727,6 +610,14 @@ export default {
 .theme-element path {
   fill: #474747;
   fill-opacity: 1;
+}
+.appIcon {
+  position: absolute;
+  left: 5px;
+  width: 40px;
+  height: 40px;
+  opacity: 1;
+  -webkit-app-region: no-drag;
 }
 
 .appIcon:hover {
