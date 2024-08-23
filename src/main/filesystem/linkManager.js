@@ -82,15 +82,15 @@ class LinkManager {
       children: [{
         name: '正向遍历',
         children: this._getFileAllCiting(filepath),
-        handle: '转变为tag'
+        handle: '转为tag'
       }, {
         name: '逆向遍历',
         children: this._getFileAllCited(filepath),
-        handle: '转变为tag'
+        handle: '转为tag'
       }, {
         name: '无向遍历',
         children: this._getFileAllUndirectedCites(filepath),
-        handle: '转变为tag'
+        handle: '转为tag'
       }]
     }
   }
